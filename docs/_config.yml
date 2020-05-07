@@ -1,7 +1,7 @@
-repository: arcus-azure/arcus.{Component}
+repository: arcus-azure/arcus.scripting
 theme: jekyll-theme-slate
 logo: https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png
-title: Arcus {Component}
-description: {Component} development in Azure with a breeze
+title: Arcus Scripting
+description: Scripting with Microsoft Azure in a breeze.
 plugins:
   - jemoji
