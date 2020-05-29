@@ -37,14 +37,25 @@ stages:
           - template: 'nuget/determine-pr-version.yml@templates'
             parameters:
               manualTriggerVersion: $(Package.Version.ManualTrigger)
-          - template: 'build/build-solution.yml@templates'
-            parameters:
-              dotnetSdkVersion: '$(DotNet.Sdk.Version)'
-              versionSuffix: '$(packageVersion)'
+              packageVersionVariableName: 'Package.Version'
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace package version tokens'
+            inputs:
+              rootDirectory: 'src/'
+              targetFiles: '**/*.psd1'
+              encoding: 'auto'
+              verbosity: 'detailed'
+              writeBOM: true
+              actionOnMissing: 'fail'
+              keepToken: false
+              tokenPrefix: '#{'
+              tokenSuffix: '}#'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
-              contents: '**/?(bin|obj)/**'
+              contents: |
+                **/*.psm1
+                **/*.psd1
               targetFolder: '$(Pipeline.Workspace)/build'
           - task: PublishPipelineArtifact@0
             displayName: 'Publish build artifacts'
@@ -67,37 +78,23 @@ stages:
             inputs:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
-          - template: test/run-unit-tests.yml@templates
-            parameters:
-              dotnetSdkVersion: '$(DotNet.Sdk.Version)'
-              projectName: '$(Project).Tests.Unit'
-
-  - stage: IntegrationTests
-    displayName: Integration Tests
-    dependsOn: Build
-    condition: succeeded()
-    jobs:
-      - job: IntegrationTests
-        displayName: 'Run integration tests'
-        pool:
-          vmImage: 'ubuntu-16.04'
-        steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download build artifacts'
+          - task: PowerShell@2
+            displayName: 'Run Pester unit tests'
             inputs:
-              artifact: 'Build'
-              path: '$(Build.SourcesDirectory)'
-          - template: test/run-integration-tests.yml@templates
-            parameters:
-              dotnetSdkVersion: '$(DotNet.Sdk.Version)'
-              projectName: '$(Project).Tests.Integration'
-              category: 'Integration'
+              targetType: 'inline'
+              script: |
+                 Install-Module -Name Pester -Force -SkipPublisherCheck
+                 Invoke-Pester -Script "./src/$(Project).Tests.Unit/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML'
+          - task: PublishTestResults@2
+            displayName: 'Publish test results'
+            inputs:
+              testResultsFormat: 'NUnit'
+              testResultsFiles: '**/pester.test.results*.xml'
+              failTaskOnFailedTests: true
 
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
-    dependsOn:
-      - UnitTests
-      - IntegrationTests
+    dependsOn: UnitTests
     condition: succeeded()
     jobs:
       - job: PushToMyGet
@@ -111,3 +108,5 @@ stages:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
           - template: nuget/publish-preview-package.yml@templates
+            parameters:
+              packagesToPush: 'src/**/*.psm1'
