@@ -96,7 +96,7 @@ stages:
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
     dependsOn: UnitTests
-    condition: succeeded()
+    condition: false
     jobs:
       - job: PushToMyGet
         displayName: 'Push to MyGet'
@@ -111,3 +111,18 @@ stages:
           - template: nuget/publish-preview-package.yml@templates
             parameters:
               packagesToPush: 'src/**/*.psm1'
+          - task: PowerShell@2
+            displayName: 'Publish PS module to MyGet'
+            inputs:
+              targetType: 'inline'
+              pwsh: true
+              inline: |
+                Import-Module PowerShellGet
+                $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
+                $PSGallerySourceUri = 'https://www.myget.org/F/arcus/api/v2'
+                $APIKey = '<api-key-for-MyGet-goes-here>'
+                
+                Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
+                Publish-Module -Path <path-to-module> -NuGetApiKey $APIKey -Repository MyGetFeed -Verbose
+                Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
+                Publish-Module -Path <path-to-module> -NuGetApiKey $APIKey -Repository MyGetFeed -Verbose
