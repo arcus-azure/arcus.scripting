@@ -1,7 +1,7 @@
 ﻿Describe "Arcus" {
     Context "Exists" {
         It "Runs" {
-            $true | Should Be $true
+            $true | Should -Be $true
         }
     }
 }
