@@ -82,6 +82,7 @@ stages:
             displayName: 'Run Pester unit tests'
             inputs:
               targetType: 'inline'
+              pwsh: true
               script: |
                  Install-Module -Name Pester -Force -SkipPublisherCheck
                  Invoke-Pester -Script "./src/$(Project).Tests.Unit/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML'
