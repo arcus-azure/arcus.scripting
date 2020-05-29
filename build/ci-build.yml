@@ -78,20 +78,9 @@ stages:
             inputs:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
-          - task: PowerShell@2
-            displayName: 'Run Pester unit tests'
-            inputs:
-              targetType: 'inline'
-              pwsh: true
-              script: |
-                 Install-Module -Name Pester -Force -SkipPublisherCheck
-                 Invoke-Pester -Script "./src/$(Project).Tests.Unit/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML'
-          - task: PublishTestResults@2
-            displayName: 'Publish test results'
-            inputs:
-              testResultsFormat: 'NUnit'
-              testResultsFiles: '**/pester.test.results*.xml'
-              failTaskOnFailedTests: true
+          - template: 'templates/run-pester-tests.yml'
+            parameters:
+              projectName: '$(Project).Tests.Unit'
 
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'

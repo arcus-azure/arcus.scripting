@@ -1,0 +1,25 @@
+parameters:
+  projectName: ''
+
+steps:
+  - bash: |
+      if [ -z "$PROJECT_NAME" ]; then
+        echo "##vso[task.logissue type=error;]Missing template parameter \"projectName\""
+        echo "##vso[task.complete result=Failed;]"
+      fi
+    env:
+      PROJECT_NAME: ${{ parameters.projectName }}
+  - task: PowerShell@2
+    displayName: 'Run Pester tests'
+    inputs:
+      targetType: 'inline'
+      pwsh: true
+      script: |
+         Install-Module -Name Pester -Force -SkipPublisherCheck
+         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML'
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      testResultsFormat: 'NUnit'
+      testResultsFiles: '**/pester.test.results*.xml'
+      failTaskOnFailedTests: true
