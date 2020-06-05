@@ -37,14 +37,25 @@ stages:
           - template: 'nuget/determine-pr-version.yml@templates'
             parameters:
               manualTriggerVersion: $(Package.Version.ManualTrigger)
-          - template: 'build/build-solution.yml@templates'
-            parameters:
-              dotnetSdkVersion: '$(DotNet.Sdk.Version)'
-              versionSuffix: '$(packageVersion)'
+              packageVersionVariableName: 'Package.Version'
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace package version tokens'
+            inputs:
+              rootDirectory: 'src/'
+              targetFiles: '**/*.psd1'
+              encoding: 'auto'
+              verbosity: 'detailed'
+              writeBOM: true
+              actionOnMissing: 'fail'
+              keepToken: false
+              tokenPrefix: '#{'
+              tokenSuffix: '}#'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
-              contents: '**/?(bin|obj)/**'
+              contents: |
+                **/*.psm1
+                **/*.psd1
               targetFolder: '$(Pipeline.Workspace)/build'
           - task: PublishPipelineArtifact@0
             displayName: 'Publish build artifacts'
@@ -67,38 +78,14 @@ stages:
             inputs:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
-          - template: test/run-unit-tests.yml@templates
+          - template: 'templates/run-pester-tests.yml'
             parameters:
-              dotnetSdkVersion: '$(DotNet.Sdk.Version)'
               projectName: '$(Project).Tests.Unit'
-
-  - stage: IntegrationTests
-    displayName: Integration Tests
-    dependsOn: Build
-    condition: succeeded()
-    jobs:
-      - job: IntegrationTests
-        displayName: 'Run integration tests'
-        pool:
-          vmImage: 'ubuntu-16.04'
-        steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download build artifacts'
-            inputs:
-              artifact: 'Build'
-              path: '$(Build.SourcesDirectory)'
-          - template: test/run-integration-tests.yml@templates
-            parameters:
-              dotnetSdkVersion: '$(DotNet.Sdk.Version)'
-              projectName: '$(Project).Tests.Integration'
-              category: 'Integration'
 
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
-    dependsOn:
-      - UnitTests
-      - IntegrationTests
-    condition: succeeded()
+    dependsOn: UnitTests
+    condition: false
     jobs:
       - job: PushToMyGet
         displayName: 'Push to MyGet'
@@ -111,3 +98,20 @@ stages:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
           - template: nuget/publish-preview-package.yml@templates
+            parameters:
+              packagesToPush: 'src/**/*.psm1'
+          - task: PowerShell@2
+            displayName: 'Publish PS module to MyGet'
+            inputs:
+              targetType: 'inline'
+              pwsh: true
+              inline: |
+                Import-Module PowerShellGet
+                $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
+                $PSGallerySourceUri = 'https://www.myget.org/F/arcus/api/v2'
+                $APIKey = '<api-key-for-MyGet-goes-here>'
+                
+                Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
+                Publish-Module -Path <path-to-module> -NuGetApiKey $APIKey -Repository MyGetFeed -Verbose
+                Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
+                Publish-Module -Path <path-to-module> -NuGetApiKey $APIKey -Repository MyGetFeed -Verbose
