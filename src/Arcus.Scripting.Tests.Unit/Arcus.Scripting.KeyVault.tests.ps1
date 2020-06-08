@@ -30,7 +30,7 @@ Describe "Arcus" {
         Get-KeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name" -OutputVariableName "accesspolicies"
         
         # Assert
-        Assert-VerifiableMocks
+        Assert-VerifiableMock
       }
     }
   }
