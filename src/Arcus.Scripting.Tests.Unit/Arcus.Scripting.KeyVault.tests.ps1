@@ -1,8 +1,7 @@
-﻿Describe "Arcus" {
-  BeforeAll {
-    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-    Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.PS.KeyVault -ErrorAction Stop
-  }
+﻿Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.PS.KeyVault -ErrorAction Stop
+
+Describe "Arcus" {
   Context "KeyVault" {
     InModuleScope Arcus.Scripting.PS.KeyVault {
       It "Get KeyVault access policies" {
