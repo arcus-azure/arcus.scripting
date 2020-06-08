@@ -10,8 +10,6 @@
     <PackageEntryPoint>Arcus.Scripting.Tests.tests.ps1</PackageEntryPoint>
     <DotNetVersion>v4.7.2</DotNetVersion>
     <PackageType>Console</PackageType>
-    <PreBuildScript>
-    </PreBuildScript>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
