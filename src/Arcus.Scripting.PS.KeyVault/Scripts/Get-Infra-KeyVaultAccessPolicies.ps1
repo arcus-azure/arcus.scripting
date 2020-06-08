@@ -7,12 +7,12 @@ param(
 $keyVault = $null
 if($resourceGroupName -eq '')
 {
-	#Write-Host "Looking for the Key Vault with name '$keyVaultName'."
+	Write-Host "Looking for the Key Vault with name '$keyVaultName'."
 	$keyVault = Get-AzKeyVault -VaultName $keyVaultName
 }
 else
 {
-	#Write-Host "Looking for the Key Vault with name '$keyVaultName' in resourcegroup '$resourceGroupName'"
+	Write-Host "Looking for the Key Vault with name '$keyVaultName' in resourcegroup '$resourceGroupName'"
 	$keyVault = Get-AzKeyVault -VaultName $keyVaultName -ResourceGroupName $resourceGroupName
 }
 
@@ -23,7 +23,7 @@ if($keyVault)
 
 	if($keyVaultAccessPolicies)
 	{
-	   #Write-Host "Key Vault '$keyVaultName' is found."
+	   Write-Host "Key Vault '$keyVaultName' is found."
 
 	   foreach($keyVaultAccessPolicy in $keyVaultAccessPolicies)
 	   {
@@ -53,7 +53,7 @@ if($keyVault)
 
 	Write-Host "Current access policies: $armAccessPoliciesParameter"
 
-	#Write-Host ("##vso[task.setvariable variable=$outputVariableName;]$armAccessPoliciesParameter")
+	Write-Host ("##vso[task.setvariable variable=$outputVariableName;]$armAccessPoliciesParameter")
 
 }
 else
