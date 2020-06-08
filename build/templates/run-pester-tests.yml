@@ -16,7 +16,8 @@ steps:
       pwsh: true
       failOnStderr: true
       script: |
-         Install-Module -Name Pester -Force -SkipPublisherCheck
+         Install-Module -Name Pester
+         Install-Module -Name Az
          Import-Module -Name ./src/Arcus.Scripting.PS.KeyVault -ErrorAction Stop
          Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML'
   - task: PublishTestResults@2
