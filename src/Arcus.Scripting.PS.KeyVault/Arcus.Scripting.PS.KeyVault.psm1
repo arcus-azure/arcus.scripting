@@ -25,5 +25,3 @@ function Get-KeyVaultAccessPolicies {
 }
 
 Export-ModuleMember -Function Get-KeyVaultAccessPolicies
-
-function Get-AzKeyvault ($VaultName) {  }
