@@ -3,7 +3,7 @@ title: "Scripts related to interacting with Azure Key Vault"
 layout: default
 ---
 
-# Azure Key Vault scripting
+# Azure Key Vault
 
 ## Installation
 
@@ -34,4 +34,3 @@ PS> Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault"
 PS> Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group" -OutputVariableName "My.KeyVault.AccessPolicies"
 # Output: #vso[task.setvariable variable=My.KeyVault.AccessPolicies]{list: [{tenantId: ...,permissions: ...}]}
 ```
-
