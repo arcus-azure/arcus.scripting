@@ -15,7 +15,7 @@ PS> Import-Module -Name Arcus.Scripting.PS.KeyVault
 
 ## Get all access policies of a key vault
 
-Lists the current available access policies of the Azure key vault resource into a new variable availble at runtime during a Azure DevOps build.
+Lists the current available access policies of the Azure key vault resource into a new variable available at runtime during automated processes such as an Azure DevOps build.
 
 | Parameter            | Mandatory                                     | Description                                                                  |
 | -------------------- | --------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -34,5 +34,4 @@ PS> Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault"
 PS> Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group" -OutputVariableName "My.KeyVault.AccessPolicies"
 # Output: #vso[task.setvariable variable=My.KeyVault.AccessPolicies]{list: [{tenantId: ...,permissions: ...}]}
 ```
-
 
