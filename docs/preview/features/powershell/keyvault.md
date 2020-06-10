@@ -3,7 +3,7 @@ title: "Scripts related to interacting with Azure Key Vault"
 layout: default
 ---
 
-# Azure Key Vault scripting
+# Azure Key Vault
 
 ## Installation
 
@@ -17,10 +17,10 @@ PS> Import-Module -Name Arcus.Scripting.PS.KeyVault
 
 Lists the current available access policies of the Azure key vault resource.
 
-| Parameter            | Mandatory                                     | Description                                                                  |
-| -------------------- | --------------------------------------------- | ---------------------------------------------------------------------------- |
-| `KeyVaultName`       | yes                                           | The name of the key vault from which the access policies are to be retrieved |
-| `ResourceGroupName`  | no                                            | The resource group containing the key vault                                  |
+| Parameter           | Mandatory | Description                                                                  |
+| ------------------- | --------- | ---------------------------------------------------------------------------- |
+| `KeyVaultName`      | yes       | The name of the key vault from which the access policies are to be retrieved |
+| `ResourceGroupName` | no        | The resource group containing the key vault                                  |
 
 **Example**
 
@@ -33,5 +33,3 @@ PS> $accessPolicies = Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault"
 PS> $accessPolicies = Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group"
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
-
-
