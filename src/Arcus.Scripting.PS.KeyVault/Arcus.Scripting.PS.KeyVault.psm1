@@ -10,18 +10,13 @@
 
  .Parameter ResourceGroupName
   The resource group containing the KeyVault.
-
- .Parameter OutputVariableName
-  Default value: Infra.KeyVault.AccessPolicies
-  The name of the variable to be added to DevOps-pipeline variables at runtime.
 #>
 function Get-KeyVaultAccessPolicies {
 	param(
 	   [parameter(Mandatory = $true)][string] $KeyVaultName,
-	   [parameter(Mandatory = $false)][string] $ResourceGroupName = "",
-	   [parameter(Mandatory = $false)][string] $OutputVariableName = "Infra.KeyVault.AccessPolicies"
+	   [parameter(Mandatory = $false)][string] $ResourceGroupName = ""
 	)
-	. $PSScriptRoot\Scripts\Get-Infra-KeyVaultAccessPolicies.ps1 -keyVaultName $KeyVaultName -resourceGroupName $ResourceGroupName -outputVariableName $OutputVariableName
+	. $PSScriptRoot\Scripts\Get-Infra-KeyVaultAccessPolicies.ps1 -keyVaultName $KeyVaultName -resourceGroupName $ResourceGroupName
 }
 
 Export-ModuleMember -Function Get-KeyVaultAccessPolicies

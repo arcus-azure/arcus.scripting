@@ -20,17 +20,20 @@ Describe "Arcus" {
           PermissionsToStorage = $storagePermissions }
         
         Mock Get-AzKeyVault { return [pscustomobject]@{ accessPolicies = @($accessPolicy) }  }
-        Mock Write-Host {
-          # Assert
-          $permissions = "{""keys"":""$keyPermissions"",""secrets"":""$secretPermissions"",""certificates"":""$certificatePermissions"",""storage"":""$storagePermissions""}"
-          $Object | Should -Be "Current access policies: {""list"":[{""tenantId"":""$tenantId"",""objectId"":""$objectId"",""permissions"":$permissions}]}"
-        } -Verifiable -ParameterFilter { $Object -match "Current access policies:" }
         
         # Act
-        Get-KeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name" -OutputVariableName "accesspolicies"
+        $accessPoliciesParameter = Get-KeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name" -OutputVariableName "accesspolicies"
         
         # Assert
-        Assert-VerifiableMock
+        $accessPolicies = $accessPoliciesParameter.list
+        $expected = $accessPolicies[0]
+
+        $expected.tenantId | Should -Be $tenantId
+        $expected.objectId | Should -Be $objectId
+        $expected.permissions.keys | Should -Be $keyPermissions
+        $expected.permissions.secrets | Should -Be $secretPermissions
+        $expected.permissions.certificates | Should -Be $certificatePermissions
+        $expected.permissions.storage | Should -Be $storagePermissions
       }
     }
   }

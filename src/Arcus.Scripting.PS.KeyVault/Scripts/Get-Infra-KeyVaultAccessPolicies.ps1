@@ -1,7 +1,6 @@
 param(
    [string][parameter(Mandatory = $true)] $keyVaultName,
-   [string][parameter(Mandatory = $false)] $resourceGroupName = "",
-   [string][parameter(Mandatory = $false)] $outputVariableName = "Infra.KeyVault.AccessPolicies"
+   [string][parameter(Mandatory = $false)] $resourceGroupName = ""
 )
 
 $keyVault = $null
@@ -53,7 +52,7 @@ if($keyVault)
 
 	Write-Host "Current access policies: $armAccessPoliciesParameter"
 
-	Write-Host ("##vso[task.setvariable variable=$outputVariableName;]$armAccessPoliciesParameter")
+	return $armAccessPoliciesParameter
 
 }
 else
