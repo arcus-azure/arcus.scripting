@@ -46,14 +46,10 @@ if($keyVault)
 
 	$armAccessPoliciesParameter = [pscustomobject]@{
 		list = $armAccessPolicies
-	} 
-
-	$armAccessPoliciesParameter = $armAccessPoliciesParameter | ConvertTo-Json -Depth 5 -Compress
+	}
 
 	Write-Host "Current access policies: $armAccessPoliciesParameter"
-
 	return $armAccessPoliciesParameter
-
 }
 else
 {
