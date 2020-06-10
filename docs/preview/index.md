@@ -6,14 +6,14 @@ redirect_from:
  - /index.html
 ---
 
-[![NuGet Badge](https://buildstats.info/nuget/Arcus.{Component}?includePreReleases=true)](https://www.nuget.org/packages/Arcus.{Component}/)
+![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.ARM)
 
 # Installation
 
-The Arcus.{Component} can be installed via NuGet:
+The Arcus.Scripting can be installed via NuGet:
 
-```shell
-PM > Install-Package Arcus.{Component}
+```powershell
+PS> Install-Module -Name Arcus.Scripting.ARM
 ```
 
 For more granular packages we recommend reading the documentation.
