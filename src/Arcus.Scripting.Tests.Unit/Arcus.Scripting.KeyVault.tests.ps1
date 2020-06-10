@@ -22,7 +22,7 @@ Describe "Arcus" {
         Mock Get-AzKeyVault { return [pscustomobject]@{ accessPolicies = @($accessPolicy) }  }
         
         # Act
-        $accessPoliciesParameter = Get-KeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name" -OutputVariableName "accesspolicies"
+        $accessPoliciesParameter = Get-KeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name"
         
         # Assert
         $accessPolicies = $accessPoliciesParameter.list
