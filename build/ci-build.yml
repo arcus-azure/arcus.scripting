@@ -107,7 +107,7 @@ stages:
                 Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
                 
                 Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
-                    % { Publish-Module -Path $_.FullName -NuGetApiKey $env:APIKEY -Repository MyGetFeed -Verbose }
+                    % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository MyGetFeed -Verbose }
             displayName: 'Publish PS module to MyGet'
             env:
               ApiKey: $(MyGet.ApiKey)
