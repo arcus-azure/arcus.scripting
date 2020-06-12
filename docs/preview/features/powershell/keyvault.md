@@ -10,7 +10,7 @@ layout: default
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Import-Module -Name Arcus.Scripting.PS.KeyVault
+PS> Import-Module -Name Arcus.Scripting.KeyVault
 ```
 
 ## Get all access policies of a key vault

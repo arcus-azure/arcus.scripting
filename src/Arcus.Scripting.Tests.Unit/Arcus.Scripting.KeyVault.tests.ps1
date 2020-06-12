@@ -1,8 +1,8 @@
-﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.PS.KeyVault -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
 
 Describe "Arcus" {
   Context "KeyVault" {
-    InModuleScope Arcus.Scripting.PS.KeyVault {
+    InModuleScope Arcus.Scripting.KeyVault {
       It "Get KeyVault access policies" {
         # Arrange
         $tenantId = "my tenant"
