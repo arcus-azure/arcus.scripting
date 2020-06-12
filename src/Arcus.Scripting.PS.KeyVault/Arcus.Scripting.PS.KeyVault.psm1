@@ -3,7 +3,7 @@
   Return the current access policies present in Azure Key Vault.
 
  .Description
-  List the current access policies present in KeyVault.
+  List the current access policies present in Azure Key Vault.
 
  .Parameter KeyVaultName
   The name of the Azure Key Vault from which the access policies are to be retrieved.
