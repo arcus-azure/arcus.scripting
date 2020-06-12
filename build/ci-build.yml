@@ -100,7 +100,7 @@ stages:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
           - powershell: |
-                Import-Module PowerShellGet -Force -SkipPublisherCheck
+                Import-Module PowerShellGet -Force
                 $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
                 $PSGallerySourceUri = 'https://www.myget.org/F/arcus/api/v2'
                 
