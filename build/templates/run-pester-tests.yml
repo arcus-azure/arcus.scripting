@@ -16,10 +16,10 @@ steps:
       pwsh: true
       failOnStderr: true
       script: |
-         Install-Module -Name Pester -Force -SkipPublisherCheck
-         Install-Module -Name Az -Force -SkipPublisherCheck
-         Import-Module -Name ./src/Arcus.Scripting.PS.KeyVault -ErrorAction Stop
-         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML'
+        Install-Module -Name Pester -Force -SkipPublisherCheck
+        Install-Module -Name Az -Force -SkipPublisherCheck
+        Import-Module -Name ./src/Arcus.Scripting.KeyVault -ErrorAction Stop
+        Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML'
   - task: PublishTestResults@2
     displayName: 'Publish test results'
     inputs:
