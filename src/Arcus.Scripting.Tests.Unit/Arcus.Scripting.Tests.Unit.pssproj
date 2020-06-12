@@ -29,18 +29,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Arcus.Scripting.PS.ApiManagement\Arcus.Scripting.PS.ApiManagement.pssproj">
-      <Name>Arcus.Scripting.PS.ApiManagement</Name>
+    <ProjectReference Include="..\Arcus.Scripting.ApiManagement\Arcus.Scripting.ApiManagement.pssproj">
+      <Name>Arcus.Scripting.ApiManagement</Name>
       <Project>{fc575a21-8edb-4fe4-aa02-6869d2f0d51a}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Arcus.Scripting.PS.ARM\Arcus.Scripting.PS.ARM.pssproj">
-      <Name>Arcus.Scripting.PS.ARM</Name>
+    <ProjectReference Include="..\Arcus.Scripting.ARM\Arcus.Scripting.ARM.pssproj">
+      <Name>Arcus.Scripting.ARM</Name>
       <Project>{5499ba14-07a1-40ff-b7b4-17b19e4c9dbe}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Arcus.Scripting.PS.KeyVault\Arcus.Scripting.PS.KeyVault.pssproj">
-      <Name>Arcus.Scripting.PS.KeyVault</Name>
+    <ProjectReference Include="..\Arcus.Scripting.KeyVault\Arcus.Scripting.KeyVault.pssproj">
+      <Name>Arcus.Scripting.KeyVault</Name>
       <Project>{ac784a55-cce0-402f-99d0-4eb9147b3566}</Project>
       <Private>True</Private>
     </ProjectReference>
