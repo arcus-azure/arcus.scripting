@@ -1,6 +1,6 @@
 <#
  .Synopsis
-  Return the current access policies present in KeyVault.
+  Return the current access policies present in Azure Key Vault.
 
  .Description
   List the current access policies present in KeyVault.
