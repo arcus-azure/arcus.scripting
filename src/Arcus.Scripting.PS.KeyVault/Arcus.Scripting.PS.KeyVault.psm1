@@ -9,7 +9,7 @@
   The name of the KeyVault from which the access policies are to be retrieved.
 
  .Parameter ResourceGroupName
-  The resource group containing the KeyVault.
+  The resource group containing the Azure Key Vault.
 #>
 function Get-KeyVaultAccessPolicies {
 	param(
