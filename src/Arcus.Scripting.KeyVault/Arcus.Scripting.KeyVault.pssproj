@@ -31,7 +31,7 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.KeyVault.psd1" />
     <Compile Include="Arcus.Scripting.KeyVault.psm1" />
-    <Compile Include="Scripts\Get-Infra-KeyVaultAccessPolicies.ps1" />
+    <Compile Include="Scripts\Get-AzKeyVaultAccessPolicies.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

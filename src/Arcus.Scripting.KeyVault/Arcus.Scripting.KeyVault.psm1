@@ -16,7 +16,7 @@ function Get-KeyVaultAccessPolicies {
 	   [parameter(Mandatory = $true)][string] $KeyVaultName,
 	   [parameter(Mandatory = $false)][string] $ResourceGroupName = ""
 	)
-	. $PSScriptRoot\Scripts\Get-Infra-KeyVaultAccessPolicies.ps1 -keyVaultName $KeyVaultName -resourceGroupName $ResourceGroupName
+	. $PSScriptRoot\Scripts\Get-AzKeyVaultAccessPolicies.ps1 -keyVaultName $KeyVaultName -resourceGroupName $ResourceGroupName
 }
 
 Export-ModuleMember -Function Get-KeyVaultAccessPolicies
