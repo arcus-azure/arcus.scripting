@@ -6,7 +6,7 @@
   List the current access policies present in KeyVault.
 
  .Parameter KeyVaultName
-  The name of the KeyVault from which the access policies are to be retrieved.
+  The name of the Azure Key Vault from which the access policies are to be retrieved.
 
  .Parameter ResourceGroupName
   The resource group containing the Azure Key Vault.
