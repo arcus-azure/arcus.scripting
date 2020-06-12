@@ -23,6 +23,7 @@ resources:
 
 variables:
   - group: 'Arcus - GitHub Package Registry'
+  - group: 'MyGet'
   - group: 'Build Configuration'
   - template: ./variables/build.yml
   - name: 'Package.Version'
@@ -86,7 +87,7 @@ stages:
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
     dependsOn: UnitTests
-    condition: false
+    condition: succeeded()
     jobs:
       - job: PushToMyGet
         displayName: 'Push to MyGet'
@@ -107,12 +108,11 @@ stages:
               targetType: 'inline'
               pwsh: true
               inline: |
-                Import-Module PowerShellGet
+                Import-Module PowerShellGet -Force -SkipPublisherCheck
                 $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
                 $PSGallerySourceUri = 'https://www.myget.org/F/arcus/api/v2'
-                $APIKey = '<api-key-for-MyGet-goes-here>'
                 
                 Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
-                Publish-Module -Path <path-to-module> -NuGetApiKey $APIKey -Repository MyGetFeed -Verbose
-                Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
-                Publish-Module -Path <path-to-module> -NuGetApiKey $APIKey -Repository MyGetFeed -Verbose
+                
+                Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
+                    % { Publish-Module -Path $_.FullName -NuGetApiKey $(MyGet.ApiKey) -Repository MyGetFeed -Verbose }
