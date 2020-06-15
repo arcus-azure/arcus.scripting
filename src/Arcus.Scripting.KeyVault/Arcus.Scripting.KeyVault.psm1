@@ -11,7 +11,7 @@
  .Parameter ResourceGroupName
   The resource group containing the Azure Key Vault.
 #>
-function Get-KeyVaultAccessPolicies {
+function Get-AzKeyVaultAccessPolicies {
 	param(
 	   [parameter(Mandatory = $true)][string] $KeyVaultName,
 	   [parameter(Mandatory = $false)][string] $ResourceGroupName = ""
@@ -19,4 +19,4 @@ function Get-KeyVaultAccessPolicies {
 	. $PSScriptRoot\Scripts\Get-AzKeyVaultAccessPolicies.ps1 -keyVaultName $KeyVaultName -resourceGroupName $ResourceGroupName
 }
 
-Export-ModuleMember -Function Get-KeyVaultAccessPolicies
+Export-ModuleMember -Function Get-AzKeyVaultAccessPolicies

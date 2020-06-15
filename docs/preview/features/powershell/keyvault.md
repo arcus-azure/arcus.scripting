@@ -25,11 +25,11 @@ Lists the current available access policies of the Azure key vault resource.
 **Example**
 
 ```powershell
-PS> $accessPolicies = Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault"
+PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault"
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
 
 ```powershell
-PS> $accessPolicies = Get-KeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group"
+PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group"
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
