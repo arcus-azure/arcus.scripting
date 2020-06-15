@@ -27,7 +27,7 @@ variables:
   - group: 'Build Configuration'
   - template: ./variables/build.yml
   - name: 'Package.Version'
-    value: '$(Build.BuildNumber).$[counter(1, 0)]'
+    value: '$(Build.BuildNumber).${{ counter(1, 0) }}'
     # 'Package.Version.ManualTrigger' is added as queue-time variable on build in Azure DevOps
 
 stages:
