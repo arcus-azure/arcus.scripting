@@ -27,8 +27,8 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.PS.ApiManagement.psd1" />
-    <Compile Include="Arcus.Scripting.PS.ApiManagement.psm1" />
+    <Compile Include="Arcus.Scripting.ApiManagement.psd1" />
+    <Compile Include="Arcus.Scripting.ApiManagement.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

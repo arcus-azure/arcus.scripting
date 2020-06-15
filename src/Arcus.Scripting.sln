@@ -7,9 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5C8B7391
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Tests.Unit", "Arcus.Scripting.Tests.Unit\Arcus.Scripting.Tests.Unit.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.PS.ApiManagement", "Arcus.Scripting.PS.ApiManagement\Arcus.Scripting.PS.ApiManagement.pssproj", "{FC575A21-8EDB-4FE4-AA02-6869D2F0D51A}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.ApiManagement", "Arcus.Scripting.ApiManagement\Arcus.Scripting.ApiManagement.pssproj", "{FC575A21-8EDB-4FE4-AA02-6869D2F0D51A}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.PS.ARM", "Arcus.Scripting.PS.ARM\Arcus.Scripting.PS.ARM.pssproj", "{5499BA14-07A1-40FF-B7B4-17B19E4C9DBE}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.ARM", "Arcus.Scripting.ARM\Arcus.Scripting.ARM.pssproj", "{5499BA14-07A1-40FF-B7B4-17B19E4C9DBE}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.KeyVault", "Arcus.Scripting.KeyVault\Arcus.Scripting.KeyVault.pssproj", "{AC784A55-CCE0-402F-99D0-4EB9147B3566}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{5499BA14-07A1-40FF-B7B4-17B19E4C9DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5499BA14-07A1-40FF-B7B4-17B19E4C9DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5499BA14-07A1-40FF-B7B4-17B19E4C9DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC784A55-CCE0-402F-99D0-4EB9147B3566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC784A55-CCE0-402F-99D0-4EB9147B3566}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC784A55-CCE0-402F-99D0-4EB9147B3566}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC784A55-CCE0-402F-99D0-4EB9147B3566}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
