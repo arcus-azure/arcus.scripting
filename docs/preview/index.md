@@ -7,7 +7,8 @@ layout: default
 
 # Installation
 
-The Arcus.Scripting can be installed via NuGet:
+The Arcus.Scripting modules can be found on the PowerShell gallery.
+Install the latest version of a module by executing the following command:
 
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.ARM
