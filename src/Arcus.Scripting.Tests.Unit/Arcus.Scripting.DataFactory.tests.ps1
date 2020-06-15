@@ -20,7 +20,7 @@ Describe "Arcus" {
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
 			Assert-MockCalled Stop-AzDataFactoryV2Trigger -Times 0
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
-			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
+			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
 		It "Stops Data Factory trigger" {
 			# Arrange
@@ -34,13 +34,13 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Set-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -Action Start
+			Set-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -Action Stop
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
 			Assert-MockCalled Stop-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
-			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
+			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
 		It "Skips actions when trigger was not found and 'FailWhenTriggerIsNotFound' is not set" {
 			# Arrange
@@ -60,7 +60,7 @@ Describe "Arcus" {
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
 			Assert-MockCalled Stop-AzDataFactoryV2Trigger -Times 0
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
-			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
+			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
 		It "Throw when trigger was not found and 'FailWhenTriggerIsNotFound' is set" {
 			# Arrange
@@ -82,7 +82,7 @@ Describe "Arcus" {
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
 			Assert-MockCalled Stop-AzDataFactoryV2Trigger -Times 0
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
-			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
+			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
 	}
 }
