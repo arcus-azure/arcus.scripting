@@ -53,5 +53,5 @@ if($keyVault)
 }
 else
 {
-	Write-Host "KeyVault '$keyVaultName' could not be found."
+	Write-Warning "KeyVault '$keyVaultName' could not be found."
 }
