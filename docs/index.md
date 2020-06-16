@@ -10,7 +10,7 @@ redirect_from:
 
 # Installation
 
-The Arcus.{Component} can be installed via PowerShell gallery::
+The Arcus Scripting can be installed via PowerShell gallery:
 
 ```shell
 PS> Install-Module -Name Arcus.Scripting.ARM
