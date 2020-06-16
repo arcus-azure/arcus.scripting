@@ -21,7 +21,7 @@ Start a Data Factory V2 Trigger.
 | --------------------------- | --------- | ---------------------------------------------------------------------------------------- |
 | `ResourceGroupName`         | yes       | The resource group containing the DataFactory V2									     |
 | `DataFactoryName`	          | yes       | The name of the DataFactory V2															 |
-| `DataFactoryTriggerName`    | yes       | The name of the trigger to be started/stopped										     |
+| `DataFactoryTriggerName`    | yes       | The name of the trigger to be started|
 | `FailWhenTriggerIsNotFound` | no        | Indicate whether to throw an exception if the trigger cannot be found (default: `false`) |
 
 **Example**
