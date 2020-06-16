@@ -55,7 +55,7 @@ Export-ModuleMember Start-AzDataFactoryTrigger
  .Parameter FailWhenTriggerIsNotFound
   Indicate whether to throw an exception if the trigger cannot be found.
 #>
-function Stop-AzDataFactoryTriggerState {
+function Stop-AzDataFactoryTrigger {
 	param(
 		[Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
 		[Parameter(Mandatory=$true)][string]$DataFactoryName = $(throw "The name of the data factory is required"),
