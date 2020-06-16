@@ -34,7 +34,7 @@ function Start-AzDataFactoryTrigger {
 	}
 }
 
-Export-ModuleMember Start-AzDataFactoryTriggerState
+Export-ModuleMember Start-AzDataFactoryTrigger
 
 <#
  .Synopsis
