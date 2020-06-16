@@ -3,7 +3,7 @@
   Change the state of a DataFactory V2 Trigger.
  
  .Description
-  Start a DataFactory V2 Trigger.
+  Enable a DataFactory V2 Trigger.
 
  .Parameter ResourceGroupName
   The resource group containing the DataFactory V2.
@@ -17,7 +17,7 @@
  .Parameter FailWhenTriggerIsNotFound
   Indicate whether to throw an exception if the trigger cannot be found.
 #>
-function Start-AzDataFactoryTrigger {
+function Enable-AzDataFactoryTrigger {
 	param(
 		[Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
 		[Parameter(Mandatory=$true)][string]$DataFactoryName = $(throw "The name of the data factory is required"),
@@ -34,14 +34,14 @@ function Start-AzDataFactoryTrigger {
 	}
 }
 
-Export-ModuleMember Start-AzDataFactoryTrigger
+Export-ModuleMember Enable-AzDataFactoryTrigger
 
 <#
  .Synopsis
   Change the state of a DataFactory V2 Trigger.
  
  .Description
-  Stop a DataFactory V2 Trigger.
+  Disable a DataFactory V2 Trigger.
 
  .Parameter ResourceGroupName
   The resource group containing the DataFactory V2.
@@ -55,7 +55,7 @@ Export-ModuleMember Start-AzDataFactoryTrigger
  .Parameter FailWhenTriggerIsNotFound
   Indicate whether to throw an exception if the trigger cannot be found.
 #>
-function Stop-AzDataFactoryTrigger {
+function Disable-AzDataFactoryTrigger {
 	param(
 		[Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
 		[Parameter(Mandatory=$true)][string]$DataFactoryName = $(throw "The name of the data factory is required"),
@@ -72,4 +72,4 @@ function Stop-AzDataFactoryTrigger {
 	}
 }
 
-Export-ModuleMember Stop-AzDataFactoryTrigger
+Export-ModuleMember Disable-AzDataFactoryTrigger

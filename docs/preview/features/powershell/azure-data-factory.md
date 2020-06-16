@@ -13,22 +13,22 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.DataFactory
 ```
 
-## Start the trigger of a Azure Data Factory
+## Enable the trigger of a Azure Data Factory
 
-Start a Data Factory V2 Trigger.
+Enable a Data Factory V2 Trigger.
 
-| Parameter                   | Mandatory | Description																			     |
+| Parameter                   | Mandatory | Description                                                                              |
 | --------------------------- | --------- | ---------------------------------------------------------------------------------------- |
-| `ResourceGroupName`         | yes       | The resource group containing the DataFactory V2									     |
-| `DataFactoryName`	          | yes       | The name of the DataFactory V2															 |
-| `DataFactoryTriggerName`    | yes       | The name of the trigger to be started|
+| `ResourceGroupName`         | yes       | The resource group containing the Azure Data Factory V2                                  |
+| `DataFactoryName`           | yes       | The name of the Azure Data Factory V2                                                    |
+| `DataFactoryTriggerName`    | yes       | The name of the trigger to be enabled                                                    |
 | `FailWhenTriggerIsNotFound` | no        | Indicate whether to throw an exception if the trigger cannot be found (default: `false`) |
 
 **Example**
 
 ```powershell
 PS> Start-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "my-data-factory-trigger-name"
-# The trigger 'my-data-factory-trigger-name' has been started.
+# The trigger 'my-data-factory-trigger-name' has been enabled.
 ```
 
 ```powershell
@@ -37,22 +37,22 @@ PS> Start-AzDataFactoryTrigger -ResourceGroupName "my-resouce-group" -DataFactor
 ```
 
 
-## Stop the trigger of a Azure Data Factory
+## Disable the trigger of a Azure Data Factory
 
-Stop a Data Factory V2 Trigger.
+Disable a Data Factory V2 Trigger.
 
-| Parameter                   | Mandatory | Description																			     |
+| Parameter                   | Mandatory | Description                                                                              |
 | --------------------------- | --------- | ---------------------------------------------------------------------------------------- |
-| `ResourceGroupName`         | yes       | The resource group containing the DataFactory V2									     |
-| `DataFactoryName`	          | yes       | The name of the DataFactory V2															 |
-| `DataFactoryTriggerName`    | yes       | The name of the trigger to be stopped										     |
+| `ResourceGroupName`         | yes       | The resource group containing the Azure Data Factory V2                                  |
+| `DataFactoryName`           | yes       | The name of the Azure Data Factory V2                                                    |
+| `DataFactoryTriggerName`    | yes       | The name of the trigger to be disabled                                                   |
 | `FailWhenTriggerIsNotFound` | no        | Indicate whether to throw an exception if the trigger cannot be found (default: `false`) |
 
 **Example**
 
 ```powershell
 PS> Stop-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "my-data-factory-trigger-name"
-# The trigger 'my-data-factory-trigger-name' has been started.
+# The trigger 'my-data-factory-trigger-name' has been disabled.
 ```
 
 ```powershell

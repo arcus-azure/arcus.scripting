@@ -2,7 +2,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DataFactory -ErrorAction St
 
 Describe "Arcus" {
 	Context "DataFactory" {
-		It "Starts Data Factory trigger" {
+		It "Enable Data Factory trigger" {
 			# Arrange
 			$resourceGroup = "my resource group"
 			$dataFactoryName = "my data factory"
@@ -14,7 +14,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Start-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Enable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
@@ -22,7 +22,7 @@ Describe "Arcus" {
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
 			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
-		It "Stops Data Factory trigger" {
+		It "Disable Data Factory trigger" {
 			# Arrange
 			$resourceGroup = "my resource group"
 			$dataFactoryName = "my data factory"
@@ -34,7 +34,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Stop-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Disable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
@@ -42,7 +42,7 @@ Describe "Arcus" {
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
 			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
-		It "Skips actions when trigger was not found and 'FailWhenTriggerIsNotFound' is not set during starting a trigger" {
+		It "Skips actions when trigger was not found and 'FailWhenTriggerIsNotFound' is not set during enabling a trigger" {
 			# Arrange
 			$resourceGroup = "my resource group"
 			$dataFactoryName = "my data factory"
@@ -54,7 +54,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Start-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Enable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
@@ -62,7 +62,7 @@ Describe "Arcus" {
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
 			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
-		It "Skips actions when trigger was not found and 'FailWhenTriggerIsNotFound' is not set during stopping a trigger" {
+		It "Skips actions when trigger was not found and 'FailWhenTriggerIsNotFound' is not set during disabling a trigger" {
 			# Arrange
 			$resourceGroup = "my resource group"
 			$dataFactoryName = "my data factory"
@@ -74,7 +74,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Stop-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Disable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
@@ -82,7 +82,7 @@ Describe "Arcus" {
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
 			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
-		It "Throw when trigger was not found and 'FailWhenTriggerIsNotFound' is set during starting a trigger" {
+		It "Throw when trigger was not found and 'FailWhenTriggerIsNotFound' is set during enabling a trigger" {
 			# Arrange
 			$resourceGroup = "my resource group"
 			$dataFactoryName = "my data factory"
@@ -94,7 +94,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			{ Start-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
+			{ Enable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
 				# Assert
 				Should -Throw
 
@@ -104,7 +104,7 @@ Describe "Arcus" {
 			Assert-MockCalled Get-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
 			Assert-MockCalled Get-AzDataFactoryV2 -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $Name -eq $dataFactoryName }
 		}
-		It "Throw when trigger was not found and 'FailWhenTriggerIsNotFound' is set during stopping a trigger" {
+		It "Throw when trigger was not found and 'FailWhenTriggerIsNotFound' is set during disabling a trigger" {
 			# Arrange
 			$resourceGroup = "my resource group"
 			$dataFactoryName = "my data factory"
@@ -116,7 +116,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			{ Stop-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
+			{ Disable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
 				# Assert
 				Should -Throw
 
