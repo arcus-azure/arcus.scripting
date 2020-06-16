@@ -14,7 +14,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Start-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Start-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $DataFactoryName -eq $dataFactoryName -and $Name -eq $dataFactoryTriggerName }
@@ -34,7 +34,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Stop-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Stop-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
@@ -54,7 +54,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Start-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Start-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
@@ -74,7 +74,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			Stop-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
+			Stop-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName
 
 			# Assert
 			Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
@@ -94,7 +94,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			{ Start-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
+			{ Start-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
 				# Assert
 				Should -Throw
 
@@ -116,7 +116,7 @@ Describe "Arcus" {
 			Mock Stop-AzDataFactoryV2Trigger { return $true }
 
 			# Act
-			{ Stop-AzDataFactoryTriggerState -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
+			{ Stop-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
 				# Assert
 				Should -Throw
 
