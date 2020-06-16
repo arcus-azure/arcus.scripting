@@ -72,4 +72,4 @@ function Stop-AzDataFactoryTrigger {
 	}
 }
 
-Export-ModuleMember Stop-AzDataFactoryTriggerState
+Export-ModuleMember Stop-AzDataFactoryTrigger
