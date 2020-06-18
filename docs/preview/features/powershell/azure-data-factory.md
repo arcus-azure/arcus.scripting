@@ -56,6 +56,6 @@ PS> Disable-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFac
 ```
 
 ```powershell
-PS> Stop-AzDataFactoryTrigger -ResourceGroupName "my-resouce-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "unknown-data-factory-trigger-name" -FailWhenTriggerIsNotFound
+PS> Disable-AzDataFactoryTrigger -ResourceGroupName "my-resouce-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "unknown-data-factory-trigger-name" -FailWhenTriggerIsNotFound
 # Error: Error retrieving trigger 'unknown-data-factory-trigger-name' in data factory 'my-data-factory'.
 ```
