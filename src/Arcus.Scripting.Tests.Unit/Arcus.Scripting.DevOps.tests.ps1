@@ -11,7 +11,7 @@ Describe "Arcus" {
 				Set-DevOpsVariable "test" "value"
 
 				# Assert
-				Assert-VerifiableMocks
+				Assert-VerifiableMock
 			}
 		}
 	}
