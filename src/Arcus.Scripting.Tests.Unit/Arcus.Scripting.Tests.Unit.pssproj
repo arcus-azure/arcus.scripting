@@ -39,7 +39,7 @@
       <Project>{5499ba14-07a1-40ff-b7b4-17b19e4c9dbe}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Arcus.Scripting.AzureDevOps\Arcus.Scripting.DevOps.pssproj">
+    <ProjectReference Include="..\Arcus.Scripting.DevOps\Arcus.Scripting.DevOps.pssproj">
       <Name>Arcus.Scripting.DevOps</Name>
       <Project>{e5c773fe-4b4a-41a0-b2e4-1379e35dd7d2}</Project>
       <Private>True</Private>
