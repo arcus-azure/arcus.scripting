@@ -4,8 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e5c773fe-4b4a-41a0-b2e4-1379e35dd7d2}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
+    <RootNamespace>Arcus.Scripting.DevOps</RootNamespace>
+    <AssemblyName>Arcus.Scripting.DevOps</AssemblyName>
     <Name>Arcus.Scripting.DevOps</Name>
     <ProjectHome />
   </PropertyGroup>
