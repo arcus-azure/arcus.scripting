@@ -5,7 +5,7 @@ Describe "Arcus" {
 		InModuleScope Arcus.Scripting.DevOps {
 			It "Set-DevOpsVariable" {
 				# Arrange
-				Mock Write-Host { $Object | Should -Match "#vso[task.setvariable variable=test] value" } -Verifiable
+				Mock Write-Host { $Object | Should -Be "#vso[task.setvariable variable=test] value" } -Verifiable
 
 				# Act
 				Set-DevOpsVariable "test" "value"
