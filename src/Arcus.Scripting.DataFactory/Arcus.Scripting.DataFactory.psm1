@@ -50,7 +50,7 @@ Export-ModuleMember Enable-AzDataFactoryTrigger
   The name of the DataFactory V2.
  
  .Parameter DataFactoryTriggerName
-  The name of the trigger to be started/stopped.
+  The name of the trigger to be disabled.
  
  .Parameter FailWhenTriggerIsNotFound
   Indicate whether to throw an exception if the trigger cannot be found.
