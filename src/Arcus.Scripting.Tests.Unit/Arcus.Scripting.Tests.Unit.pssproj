@@ -39,6 +39,11 @@
       <Project>{5499ba14-07a1-40ff-b7b4-17b19e4c9dbe}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Arcus.Scripting.AzureDevOps\Arcus.Scripting.DevOps.pssproj">
+      <Name>Arcus.Scripting.DevOps</Name>
+      <Project>{e5c773fe-4b4a-41a0-b2e4-1379e35dd7d2}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Arcus.Scripting.KeyVault\Arcus.Scripting.KeyVault.pssproj">
       <Name>Arcus.Scripting.KeyVault</Name>
       <Project>{ac784a55-cce0-402f-99d0-4eb9147b3566}</Project>
@@ -48,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.DataFactory.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
+    <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
