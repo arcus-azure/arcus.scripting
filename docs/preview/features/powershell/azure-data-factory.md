@@ -27,7 +27,7 @@ Enable a Data Factory V2 Trigger.
 **Example**
 
 ```powershell
-PS> Start-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "my-data-factory-trigger-name"
+PS> Enable-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "my-data-factory-trigger-name"
 # The trigger 'my-data-factory-trigger-name' has been enabled.
 ```
 
