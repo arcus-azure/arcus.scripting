@@ -32,7 +32,7 @@ PS> Enable-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFact
 ```
 
 ```powershell
-PS> Start-AzDataFactoryTrigger -ResourceGroupName "my-resouce-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "unknown-data-factory-trigger-name" -FailWhenTriggerIsNotFound
+PS> Enable-AzDataFactoryTrigger -ResourceGroupName "my-resouce-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "unknown-data-factory-trigger-name" -FailWhenTriggerIsNotFound
 # Error: Error retrieving trigger 'unknown-data-factory-trigger-name' in data factory 'my-data-factory'.
 ```
 
