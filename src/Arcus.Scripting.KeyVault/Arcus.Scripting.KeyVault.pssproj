@@ -4,9 +4,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ac784a55-cce0-402f-99d0-4eb9147b3566}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
-    <Name>Arcus.Scripting.PS.KeyVault</Name>
+    <RootNamespace>Arcus.Scripting.KeyVault</RootNamespace>
+    <AssemblyName>Arcus.Scripting.KeyVault</AssemblyName>
+    <Name>Arcus.Scripting.KeyVault</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

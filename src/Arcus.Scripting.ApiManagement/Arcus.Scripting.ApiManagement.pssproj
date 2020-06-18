@@ -4,9 +4,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{fc575a21-8edb-4fe4-aa02-6869d2f0d51a}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
-    <Name>Arcus.Scripting.PS.ApiManagement</Name>
+    <RootNamespace>Arcus.Sripting.ApiManagement</RootNamespace>
+    <AssemblyName>Arcus.Sripting.ApiManagement</AssemblyName>
+    <Name>Arcus.Scripting.ApiManagement</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

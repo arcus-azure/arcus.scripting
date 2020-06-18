@@ -4,8 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{87004bab-daac-4344-a719-2c8164da9b27}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
+    <RootNamespace>Arcus.Scripting.DataFactory</RootNamespace>
+    <AssemblyName>Arcus.Scripting.DataFactory</AssemblyName>
     <Name>Arcus.Scripting.DataFactory</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
