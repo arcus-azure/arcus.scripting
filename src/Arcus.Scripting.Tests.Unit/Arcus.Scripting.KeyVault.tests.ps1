@@ -43,7 +43,7 @@ Describe "Arcus" {
 
                 Mock Get-Content { return $contents }
                 Mock Set-AzKeyVaultSecret {
-                    ConvertFrom-SecureString -SecureString $SecretValue | Should -Be $contents
+                    ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
                     $KeyVault | Should -Be $keyVault
                     $SecretName | Should -Be $secretName } -Verifiable
 
