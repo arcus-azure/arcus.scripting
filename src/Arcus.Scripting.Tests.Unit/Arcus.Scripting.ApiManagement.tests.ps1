@@ -1,5 +1,4 @@
-
-﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking
 
 Describe "Arcus" {
 	Context "ApiManagement" {
