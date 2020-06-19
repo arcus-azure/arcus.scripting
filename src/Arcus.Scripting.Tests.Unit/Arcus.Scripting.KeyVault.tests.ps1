@@ -38,13 +38,12 @@ Describe "Arcus" {
             It "Set secret in Key Vault" {
                 # Arrange
                 $contents = "this is the raw secret certificate field contents"
-                $expectedSecretValue = ConvertTo-SecureString -AsPlainText -Force $contents
                 $keyVault = "key vault"
                 $secretName = "secret name"
 
                 Mock Get-Content { return $contents }
                 Mock Set-AzKeyVaultSecret {
-                    $SecretValue | Should -Be $expectedSecretValue 
+                    ConvertFrom-SecureString -SecureString $SecretValue | Should -Be $contents
                     $KeyVault | Should -Be $keyVault
                     $SecretName | Should -Be $secretName } -Verifiable
 
