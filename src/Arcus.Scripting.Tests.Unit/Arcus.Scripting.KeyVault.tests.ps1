@@ -35,6 +35,25 @@ Describe "Arcus" {
                 $expected.permissions.certificates | Should -Be $certificatePermissions
                 $expected.permissions.storage | Should -Be $storagePermissions
             }
+            It "Set secret in Key Vault" {
+                # Arrange
+                $contents = "this is the raw secret certificate field contents"
+                $expectedSecretValue = ConvertTo-SecureString $contents
+                $keyVault = "key vault"
+                $secretName = "secret name"
+
+                Mock Get-Content { return $contents }
+                Mock Set-AzKeyVaultSecret {
+                    $SecretValue | Should -Be $expectedSecretValue 
+                    $KeyVault | Should -Be $keyVault
+                    $SecretName | Should -Be $secretName } -Verifiable
+
+                # Act
+                Set-AzKeyVaultSecretFromFile -FilePath "/filepath" -KeyVaultName $keyVault -SecretName $secretName
+
+                # Assert
+                Assert-VerifiableMock
+            }
         }
     }
 }

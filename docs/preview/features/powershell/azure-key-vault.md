@@ -33,3 +33,19 @@ PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault"
 PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group"
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
+
+## Set secret value from file into key vault
+
+Sets a secret certificate from a file as plain text in Azure Key Vault.
+
+| Parameter      | Mandatory | Description                                                                          |
+| -------------- | --------- | ------------------------------------------------------------------------------------ |
+| `FilePath`	 | yes       | The path the to file containing the secret certificate to add in the Azure Key Vault |
+| `SecretName`   | yes       | The name of the secret to add in the Azure Key Vault                                 |
+| `KeyVaultName` | yes       | The name of the Azure Key Vault where the secret should be added                     |
+
+**Example**
+```powershell
+PS> Set-AzKeyVaultSecretFromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -KeyVaultName "my-key-vault"
+# Secret 'my-secret' has been created.
+```

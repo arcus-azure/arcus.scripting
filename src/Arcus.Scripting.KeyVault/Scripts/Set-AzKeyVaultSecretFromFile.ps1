@@ -1,16 +1,15 @@
-# Use this script to upload a certificate as plain text (multiline-support) into Azure KeyVault
+# Use this script to upload a certificate as plain text (multiline-support) into Azure Key Vault.
 
 param (
     [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
     [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
-    [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
-    [bool][parameter(Mandatory = $false)] $LoggedIn = $true,
-    [string][parameter(Mandatory = $false)] $SubscriptionId = ""
+    [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required.")
 )
 
-# Perform the deployment based on the provided ARM-template and parameter file, if provided.
-Write-Host("Creating KeyVault secret...")
+Write-Host "Creating KeyVault secret..."
 
-Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue (ConvertTo-SecureString (Get-Content $FilePath -Raw) -force -AsPlainText ) -ErrorAction Stop
+$rawContent = Get-Content $FilePath -Raw
+$secretValue = ConvertTo-SecureString $rawContent -force -AsPlainText
+Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue $secretValue -ErrorAction Stop
 
-Write-Host("Secret '$SecretName' has been created.")
+Write-Host "Secret '$SecretName' has been created."

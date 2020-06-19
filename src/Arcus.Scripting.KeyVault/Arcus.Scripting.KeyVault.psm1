@@ -28,32 +28,24 @@ Export-ModuleMember -Function Get-AzKeyVaultAccessPolicies
  .Description
   Sets a secret certificate from a file as plain text in Azure Key Vault.
 
- .Parameter KeyVaultName
-  The name of the Azure Key Vault where the secret should be added.
+ .Parameter FilePath
+  The path the to file containing the secret certificate to add in the Azure Key Vault.
 
- .Parameter ResourceGroupName
-  The resource group containing the Azure Key Vault.
-
- .Parameter
+ .Parameter SecretName
   The name of the secret to add in the Azure Key Vault.
 
- .Parameter
-  The ID of the Azure subscription that has access to the Azure Key Vault.
-
- .Parameter
-  The flag indicating whether the user is logged in.
+ .Parameter KeyVaultName
+  The name of the Azure Key Vault where the secret should be added.
 #>
 
 function Set-AzKeyVaultSecretFromFile {
     param (
         [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
-        [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
         [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
-        [string][parameter(Mandatory = $false)] $SubscriptionId = "",
-        [bool][parameter(Mandatory = $false)] $LoggedIn = $true,
+        [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required.")
     )
 
-    . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile -FilePath $FilePath -KeyVaultName $KeyVaultName -SecretName $SecretName -SubscriptionId $SubscriptionId -LoggedIn $LoggedIn
+    . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile.ps1 -FilePath $FilePath -KeyVaultName $KeyVaultName -SecretName $SecretName
 }
 
 Export-ModuleMember -Function Set-AzKeyVaultSecretFromFile
