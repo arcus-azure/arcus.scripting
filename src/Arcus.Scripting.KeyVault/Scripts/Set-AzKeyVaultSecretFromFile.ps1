@@ -9,7 +9,7 @@ param (
 Write-Host "Creating KeyVault secret..."
 
 $rawContent = Get-Content $FilePath -Raw
-$secretValue = ConvertTo-SecureString $rawContent -force -AsPlainText
+$secretValue = ConvertTo-SecureString $rawContent -Force -AsPlainText
 Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue $secretValue -ErrorAction Stop
 
 Write-Host "Secret '$SecretName' has been created."

@@ -38,7 +38,7 @@ Describe "Arcus" {
             It "Set secret in Key Vault" {
                 # Arrange
                 $contents = "this is the raw secret certificate field contents"
-                $expectedSecretValue = ConvertTo-SecureString $contents
+                $expectedSecretValue = ConvertTo-SecureString -AsPlainText -Force $contents
                 $keyVault = "key vault"
                 $secretName = "secret name"
 
