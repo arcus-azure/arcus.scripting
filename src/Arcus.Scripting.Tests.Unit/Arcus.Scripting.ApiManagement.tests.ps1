@@ -1,6 +1,5 @@
 
 ﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking -ErrorAction Stop
-Add-Type -AssemblyName Microsoft.Azure.Commands.ApiManagement.ServiceManagement
 
 Describe "Arcus" {
 	Context "ApiManagement" {
@@ -13,14 +12,11 @@ Describe "Arcus" {
 				$operationId = "orders"
 				$method = "POST"
 				$urlTemplate = "https://{host}.com/{path}{query}"
-				$context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
 				Mock New-AzApiManagementContext {
 					$ResourceGroup | Should -Be $resourceGroup
-					$ServiceName | Should -Be $serviceName
-					return $context } -Verifiable
-				Mock New-AzApiManagementOperation { 
-					$Context | Should -Be $context
+					$ServiceName | Should -Be $serviceName } -Verifiable
+				Mock New-AzApiManagementOperation {
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
 					$Method | Should -Be $method
@@ -44,24 +40,20 @@ Describe "Arcus" {
 				$operationId = "orders"
 				$method = "POST"
 				$urlTemplate = "https://{host}.com/{path}{query}"
-				$context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 				$operationName = "POSTing orders"
 				$description = "API that can process posted orders"
 				$policyFilePath = "/file-path/operation-policy"
 
 				Mock New-AzApiManagementContext {
 					$ResourceGroup | Should -Be $resourceGroup
-					$ServiceName | Should -Be $serviceName
-					return $context } -Verifiable
-				Mock New-AzApiManagementOperation { 
-					$Context | Should -Be $context
+					$ServiceName | Should -Be $serviceName } -Verifiable
+				Mock New-AzApiManagementOperation {
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
 					$Method | Should -Be $method
 					$UrlTemplate | Should -Be $urlTemplate
 					$Description | Should -Be $description } -Verifiable
 				Mock Set-AzApiManagementPolicy {
-					$Context | Should -Be $context
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
 					$PolicyFilePath | Should -Be $policyFilePath } -Verifiable
