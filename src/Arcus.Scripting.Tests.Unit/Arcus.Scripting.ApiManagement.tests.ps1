@@ -2,7 +2,7 @@
 
 Describe "Arcus" {
 	Context "ApiManagement" {
-		InModuleScope Arcus.Scripting.ApiMangement {
+		InModuleScope Arcus.Scripting.ApiManagement {
 			It "Calls new operation on API Management operation w/o policy" {
 				# Arrange
 				$resourceGroup = "shopping"
