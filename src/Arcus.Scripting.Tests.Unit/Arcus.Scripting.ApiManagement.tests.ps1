@@ -1,4 +1,6 @@
+
 ﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking -ErrorAction Stop
+Add-Type -AssemblyName Microsoft.Azure.Commands.ApiManagement.ServiceManagement
 
 Describe "Arcus" {
 	Context "ApiManagement" {
