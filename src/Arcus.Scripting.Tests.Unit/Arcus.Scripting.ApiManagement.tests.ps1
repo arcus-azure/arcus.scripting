@@ -11,7 +11,7 @@ Describe "Arcus" {
 				$operationId = "orders"
 				$method = "POST"
 				$urlTemplate = "https://{host}.com/{path}{query}"
-				$context = "API-management-context"
+				$context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
 				Mock New-AzApiManagementContext {
 					$ResourceGroup | Should -Be $resourceGroup
@@ -42,7 +42,7 @@ Describe "Arcus" {
 				$operationId = "orders"
 				$method = "POST"
 				$urlTemplate = "https://{host}.com/{path}{query}"
-				$context = "API-management-context"
+				$context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 				$operationName = "POSTing orders"
 				$description = "API that can process posted orders"
 				$policyFilePath = "/file-path/operation-policy"
