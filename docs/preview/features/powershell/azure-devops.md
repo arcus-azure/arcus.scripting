@@ -25,6 +25,6 @@ Assign a value to a DevOps pipeline variable during the execution of this pipeli
 **Example**
 
 ```powershell
-PS> Set-DevOpsVariable "my-variable" "my-variable-value"
+PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
 # #vso[task.setvariable variable=my-variable] my-variable-value
 ```
