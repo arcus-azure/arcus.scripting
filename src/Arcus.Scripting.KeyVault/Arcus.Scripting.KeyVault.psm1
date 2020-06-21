@@ -37,7 +37,7 @@ Export-ModuleMember -Function Get-AzKeyVaultAccessPolicies
  .Parameter KeyVaultName
   The name of the Azure Key Vault where the secret should be added.
 
- .Parameter
+ .Parameter Expires
   The optional expiration date of the secret to add in the Azure Key Vault.
 #>
 
