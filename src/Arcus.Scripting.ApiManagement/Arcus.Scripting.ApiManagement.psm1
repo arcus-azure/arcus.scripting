@@ -27,7 +27,7 @@
   The optional descriptive name to give to the to-be-created operation on the API.
 
  .Parameter Description
-  The optional explaination to describe the to-be-created operation on the API.
+  The optional explanation to describe the to-be-created operation on the API.
 
  .Parameter PolicyFilePath
   The path to the file containing the optional policy of the to-be-created operation on the API.
