@@ -13,7 +13,7 @@
 #>
 function Set-DevOpsVariable {
 	param(
-		[Parameter(Mandatory=$true)][string]$VariableName = $(throw "VariableName is required"),
+		[Parameter(Mandatory=$true)][string]$Name = $(throw "Name is required"),
 		[Parameter(Mandatory=$true)][string]$Value = $(throw "Value is required")
 	)
 
