@@ -17,5 +17,5 @@ function Set-DevOpsVariable {
 		[Parameter(Mandatory=$true)][string]$Value = $(throw "Value is required")
 	)
 
-	Write-Host "#vso[task.setvariable variable=$VariableName] $VariableValue"
+	Write-Host "#vso[task.setvariable variable=$Name] $Value"
 }
