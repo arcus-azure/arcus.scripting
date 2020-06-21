@@ -26,7 +26,7 @@ Create an operation on an existing API in Azure API Management.
 | `Method`            | yes	      | The method of the to-be-created operation on the API                                                     |
 | `UrlTemplate`       | yes       | The template of the URL of the to-be-created operation on the API                                        |
 | `OperationName`     | no        | The optional descriptive name to give to the to-be-created operation on the API (default: `OperationId`) |
-| `Description`       | no        | The optional explaination to describe the to-be-created operation on the API                             |
+| `Description`       | no        | The optional explanation to describe the to-be-created operation on the API                             |
 | `PolicyFilePath`    | no        | The path to the file containing the optional policy of the to-be-created operation on the API            |
 
 **Example**
