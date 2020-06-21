@@ -21,7 +21,7 @@
   The method of the to-be-created operation on the API.
 
  .Parameter UrlTemplate
-  The template of the URL of the to-be-created operation on the API.
+  The URL-template, or endpoint-URL, of the to-be-created operation on the API.
 
  .Parameter OperationName
   The optional descriptive name to give to the to-be-created operation on the API.
