@@ -17,7 +17,7 @@ PS> Import-Module -Name Arcus.Scripting.DevOps
 
 Assign a value to a DevOps pipeline variable during the execution of this pipeline.
 
-| Parameter       | Madatory | Desciption                                       |
+| Parameter       | Mandatory | Description                                       |
 | --------------- | -------- | ------------------------------------------------ |
 | `VariableName`  | yes      | The name of the variable to set in the pipeline  |
 | `VariableValue` | yes      | The value of the variable to set in the pipeline |
