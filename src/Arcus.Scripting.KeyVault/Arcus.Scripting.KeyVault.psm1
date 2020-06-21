@@ -36,16 +36,20 @@ Export-ModuleMember -Function Get-AzKeyVaultAccessPolicies
 
  .Parameter KeyVaultName
   The name of the Azure Key Vault where the secret should be added.
+
+ .Parameter
+  The optional expiration date of the secret to add in the Azure Key Vault.
 #>
 
 function Set-AzKeyVaultSecretFromFile {
     param (
         [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
         [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
-        [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required.")
+        [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
+        [System.DateTime][Parameter(Mandatory=$false)] $Expires
     )
 
-    . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile.ps1 -FilePath $FilePath -KeyVaultName $KeyVaultName -SecretName $SecretName
+    . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile.ps1 -FilePath $FilePath -KeyVaultName $KeyVaultName -SecretName $SecretName -Expires $Expires
 }
 
 Export-ModuleMember -Function Set-AzKeyVaultSecretFromFile
