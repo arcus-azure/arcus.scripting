@@ -19,7 +19,7 @@ Assign a value to a DevOps pipeline variable during the execution of this pipeli
 
 | Parameter       | Mandatory | Description                                       |
 | --------------- | -------- | ------------------------------------------------ |
-| `VariableName`  | yes      | The name of the variable to set in the pipeline  |
+| `Name`  | yes      | The name of the variable to set in the pipeline  |
 | `VariableValue` | yes      | The value of the variable to set in the pipeline |
 
 **Example**
