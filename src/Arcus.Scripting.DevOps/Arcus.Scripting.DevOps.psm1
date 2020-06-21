@@ -11,7 +11,7 @@
  .Parameter VariableValue
   The value of the variable to set in the pipeline.
 #>
-function Set-DevOpsVariable {
+function Set-AzDevOpsVariable {
 	param(
 		[Parameter(Mandatory=$true)][string]$Name = $(throw "Name is required"),
 		[Parameter(Mandatory=$true)][string]$Value = $(throw "Value is required")
