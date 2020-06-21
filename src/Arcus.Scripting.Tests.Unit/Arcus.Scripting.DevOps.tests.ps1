@@ -8,7 +8,7 @@ Describe "Arcus" {
 				Mock Write-Host { $Object | Should -Be "#vso[task.setvariable variable=test] value" } -Verifiable
 
 				# Act
-				Set-DevOpsVariable "test" "value"
+				Set-AzDevOpsVariable "test" "value"
 
 				# Assert
 				Assert-VerifiableMock
