@@ -2,7 +2,7 @@ using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.TableStorage -ErrorAction Stop
 
 class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
-	StubCloudTable ([string] $tableAddress) : this(New-Object -Type System.Uri -ArgumentList $tableAddress) {
+	StubCloudTable ([string] $tableAddress) : base({New-Object -Type System.Uri -ArgumentList $tableAddress}) {
 	}
 	StubCloudTable ([System.Uri] $tableAddress) : base($tableAddress) { 
 	}
