@@ -8,7 +8,7 @@ class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
 	}
 	StubCloudTable ([Microsoft.WindowsAzure.Storage.StorageUri] $storageUri, [Microsoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageUri, $storageCredentials) {
 	}
-	StubCloudTable ([System.Uri] $tableAbsoluteUri, [icrosoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageAbsoluteUri, $storageCredentials) {
+	StubCloudTable ([System.Uri] $tableAbsoluteUri, [Microsoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageAbsoluteUri, $storageCredentials) {
 	}
 	[System.Threading.Tasks.Task[Microsoft.WindowsAzure.Storage.Table.TableResult]] ExecuteAsync ([Microsoft.WindowsAzure.Storage.Table.TableOperation] $tableOperation) {
 		return $null
