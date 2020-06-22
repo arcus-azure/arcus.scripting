@@ -19,6 +19,7 @@ Describe "Arcus" {
 					$ServiceName | Should -Be $serviceName
 					return $context } -Verifiable
 				Mock New-AzApiManagementOperation {
+					$Context | Should -Be $context
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
 					$Method | Should -Be $method
@@ -52,6 +53,7 @@ Describe "Arcus" {
 					$ServiceName | Should -Be $serviceName
 					return $context } -Verifiable
 				Mock New-AzApiManagementOperation {
+					$Context | Should -Be $context
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
 					$Method | Should -Be $method
