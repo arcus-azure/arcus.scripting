@@ -2,6 +2,14 @@ using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.TableStorage -ErrorAction Stop
 
 class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
+	StubCloudTable ([string] $tableAddress) : this(New-Object -Type System.Uri -ArgumentList $tableAddress) {
+	}
+	StubCloudTable ([System.Uri] $tableAddress) : base($tableAddress) { 
+	}
+	StubCloudTable ([Microsoft.WindowsAzure.Storage.StorageUri] $storageUri, [Microsoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageUri, $storageCredentials) {
+	}
+	StubCloudTable ([System.Uri] $tableAbsoluteUri, [icrosoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageAbsoluteUri, $storageCredentials) {
+	}
 	[System.Threading.Tasks.Task[Microsoft.WindowsAzure.Storage.Table.TableResult]] ExecuteAsync ([Microsoft.WindowsAzure.Storage.Table.TableOperation] $tableOperation) {
 		return $null
 	}
@@ -49,7 +57,7 @@ Describe "Arcus" {
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
-				$cloudTable = New-Object StubCloudTable
+				$cloudTable = New-Object StubCloudTable -ArgumentList "https://some-table/"
 				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
 
 				Mock Get-AzStorageAccount {
@@ -82,7 +90,7 @@ Describe "Arcus" {
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
-				$cloudTable = New-Object StubCloudTable
+				$cloudTable = New-Object StubCloudTable -ArgumentList "https://some-table/"
 				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
 
 				Mock Get-AzStorageAccount {
