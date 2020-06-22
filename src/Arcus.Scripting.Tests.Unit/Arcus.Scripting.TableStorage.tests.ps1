@@ -15,6 +15,9 @@ class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
 	}
 }
 
+$cloudTable = New-Object -TypeName StubCloudTable -ArgumentList "https://some-table/"
+$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
+
 Describe "Arcus" {
 	Context "Table Storage" {
 		InModuleScope Arcus.Scripting.TableStorage {
@@ -57,8 +60,7 @@ Describe "Arcus" {
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
-				$cloudTable = New-Object -TypeName Arcus.Scripting.Tests.Unit.StubCloudTable -ArgumentList "https://some-table/"
-				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
+				
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
@@ -89,9 +91,6 @@ Describe "Arcus" {
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
-
-				$cloudTable = New-Object -TypeName Arcus.Scripting.Tests.Unit.StubCloudTable -ArgumentList "https://some-table/"
-				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
