@@ -5,11 +5,11 @@
  .Description
   Create an operation on an existing API in Azure API Management.
 
- .Parameter ServiceName
-  The name of the API Management service located in Azure.
-
  .Parameter ResourceGroupName
   The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
 
  .Parameter ApiId
   The ID to identify the API running in API Management.
@@ -35,7 +35,7 @@
 function Create-AzApiManagementApiOperation {
 	param(
         [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
-        [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
+        [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required"),
         [string][Parameter(Mandatory = $true)] $ApiId = $(throw "API ID is required"),
         [string][Parameter(Mandatory = $true)] $OperationId = $(throw "Operation ID is required"),
         [string][Parameter(Mandatory = $true)] $Method = $(throw "Method is required"),
@@ -48,3 +48,25 @@ function Create-AzApiManagementApiOperation {
 }
 
 Export-ModuleMember -Function Create-AzApiManagementApiOperation
+
+<#
+ .Synopsis
+  Remove all defaults from the API Management service.
+
+ .Description
+  Remove all default API's and products from the API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
+
+ .Parameter ResourceGroupName
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+#>
+function Remove-AzApiManagementDefaults {
+    param(
+        [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+        [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required")
+    )
+
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName 
+}
