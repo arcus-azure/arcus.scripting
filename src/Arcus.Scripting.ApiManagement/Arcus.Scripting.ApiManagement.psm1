@@ -70,3 +70,5 @@ function Remove-AzApiManagementDefaults {
 
     . $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName 
 }
+
+Export-ModuleMember -Function Remove-AzApiManagementDefaults
