@@ -4,8 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6CAFC0C6-A428-4d30-A9F9-700E829FEA51</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
+    <RootNamespace>Arcus.Scripting.Tests.Unit</RootNamespace>
+    <AssemblyName>Arcus.Scripting.Tests.Unit</AssemblyName>
     <Name>Arcus.Scripting.Tests.Unit</Name>
     <PackageEntryPoint>Arcus.Scripting.Tests.tests.ps1</PackageEntryPoint>
     <DotNetVersion>v4.7.2</DotNetVersion>

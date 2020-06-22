@@ -57,7 +57,7 @@ Describe "Arcus" {
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
-				$cloudTable = New-Object StubCloudTable -ArgumentList "https://some-table/"
+				$cloudTable = New-Object -TypeName Arcus.Scripting.Tests.Unit.StubCloudTable -ArgumentList "https://some-table/"
 				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
 
 				Mock Get-AzStorageAccount {
@@ -90,7 +90,7 @@ Describe "Arcus" {
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
-				$cloudTable = New-Object StubCloudTable -ArgumentList "https://some-table/"
+				$cloudTable = New-Object -TypeName Arcus.Scripting.Tests.Unit.StubCloudTable -ArgumentList "https://some-table/"
 				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
 
 				Mock Get-AzStorageAccount {
