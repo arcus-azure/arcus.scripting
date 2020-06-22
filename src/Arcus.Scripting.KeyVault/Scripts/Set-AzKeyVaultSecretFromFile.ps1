@@ -4,7 +4,7 @@ param (
     [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
     [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
     [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
-    [System.DateTime][Parameter(Mandatory=$false)] $Expires
+    [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires
 )
 
 Write-Host "Creating KeyVault secret..."
