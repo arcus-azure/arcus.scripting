@@ -46,7 +46,7 @@ function Set-AzKeyVaultSecretFromFile {
         [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
         [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
         [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
-        [System.DateTime][Parameter(Mandatory=$false)] $Expires
+        [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires
     )
 
     . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile.ps1 -FilePath $FilePath -KeyVaultName $KeyVaultName -SecretName $SecretName -Expires $Expires
