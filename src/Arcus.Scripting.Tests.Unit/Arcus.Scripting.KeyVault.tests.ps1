@@ -53,6 +53,26 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
+            It "Set secret in Key Vault with expiration date" {
+                # Arrange
+                $contents = "this is the raw secret certificate field contents"
+                $keyVault = "key vault"
+                $secretName = "secret name"
+                $expirationDate = (Get-Date).AddDays(7).ToUniversalTime()
+
+                Mock Get-Content { return $contents }
+                Mock Set-AzKeyVaultSecret {
+                    ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
+                    $KeyVault | Should -Be $keyVault
+                    $SecretName | Should -Be $secretName
+                    $expirationDate | Should -Be $expirationDate } -Verifiable
+
+                # Act
+                Set-AzKeyVaultSecretFromFile -FilePath "/filepath" -KeyVaultName $keyVault -SecretName $secretName -Expires $expirationDate
+
+                # Assert
+                Assert-VerifiableMock
+            }
         }
     }
 }
