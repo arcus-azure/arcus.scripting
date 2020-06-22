@@ -13,7 +13,7 @@ class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
 	}
 }
 
-$tableAddress = New-Object -Type System.Uri -ArgumentList "https://some-table/"
+$tableAddress = New-Object -Type System.Uri -ArgumentList "http://127.0.0.1:10002/devstoreaccount1/screenSettings"
 $cloudTable = New-Object -TypeName StubCloudTable -ArgumentList $tableAddress
 $azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
 
