@@ -1,4 +1,5 @@
-﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking
+﻿using module Az
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking
 
 Describe "Arcus" {
 	Context "ApiManagement" {
@@ -11,10 +12,12 @@ Describe "Arcus" {
 				$operationId = "orders"
 				$method = "POST"
 				$urlTemplate = "https://{host}.com/{path}{query}"
+				$context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
 				Mock New-AzApiManagementContext {
 					$ResourceGroup | Should -Be $resourceGroup
-					$ServiceName | Should -Be $serviceName } -Verifiable
+					$ServiceName | Should -Be $serviceName
+					return $context } -Verifiable
 				Mock New-AzApiManagementOperation {
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
@@ -42,10 +45,12 @@ Describe "Arcus" {
 				$operationName = "POSTing orders"
 				$description = "API that can process posted orders"
 				$policyFilePath = "/file-path/operation-policy"
+				$context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
 				Mock New-AzApiManagementContext {
 					$ResourceGroup | Should -Be $resourceGroup
-					$ServiceName | Should -Be $serviceName } -Verifiable
+					$ServiceName | Should -Be $serviceName
+					return $context } -Verifiable
 				Mock New-AzApiManagementOperation {
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
