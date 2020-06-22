@@ -17,6 +17,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.DataFactory
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.DevOps", "Arcus.Scripting.DevOps\Arcus.Scripting.DevOps.pssproj", "{E5C773FE-4B4A-41A0-B2E4-1379E35DD7D2}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.TableStorage", "Arcus.Scripting.TableStorage\Arcus.Scripting.TableStorage.pssproj", "{893FC428-7C18-40EF-81E8-244635579CC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{E5C773FE-4B4A-41A0-B2E4-1379E35DD7D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5C773FE-4B4A-41A0-B2E4-1379E35DD7D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5C773FE-4B4A-41A0-B2E4-1379E35DD7D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{893FC428-7C18-40EF-81E8-244635579CC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{893FC428-7C18-40EF-81E8-244635579CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{893FC428-7C18-40EF-81E8-244635579CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{893FC428-7C18-40EF-81E8-244635579CC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
