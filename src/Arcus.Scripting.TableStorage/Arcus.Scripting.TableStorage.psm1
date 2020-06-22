@@ -25,5 +25,9 @@ function Create-AzTableStorageAccountTable {
 		[switch][parameter()] $DeleteAndCreate = $false
 	)
 
-	. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -DeleteAndCreate $DeleteAndCreate
+	if ($DeleteAndCreate) {
+		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -DeleteAndCreate
+	} else {
+		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName
+	}
 }
