@@ -20,6 +20,7 @@ For more granular packages we recommend reading the documentation.
 
 * Automate Azure Data Factory tasks ([powershell](featues/powershell/azure-data-factory))
 * Automate Azure Key Vault tasks ([powershell](features/powershell/azure-key-vault))
+* Automate Azure API Management tasks ([powershell](features/powershell/azure-api-management))
 
 # License
 This is licensed under The MIT License (MIT). Which means that you can use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the web application. But you always need to state that Codit is the original author of this web application.
