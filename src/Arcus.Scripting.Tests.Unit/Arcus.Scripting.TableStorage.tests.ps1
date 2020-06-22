@@ -14,8 +14,7 @@ class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
 }
 
 $tableAddress = New-Object -Type System.Uri -ArgumentList "http://127.0.0.1:10002/devstoreaccount1/screenSettings"
-$cloudTable = New-Object -TypeName StubCloudTable -ArgumentList $tableAddress
-$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable -ArgumentList $cloudTable
+$azTable = New-MockObject -Type Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable
 
 Describe "Arcus" {
 	Context "Table Storage" {
@@ -58,8 +57,6 @@ Describe "Arcus" {
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
-
-				
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
