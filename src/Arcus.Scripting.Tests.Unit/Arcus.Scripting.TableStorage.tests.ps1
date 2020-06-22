@@ -2,8 +2,6 @@ using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.TableStorage -ErrorAction Stop
 
 class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
-	StubCloudTable ([string] $tableAddress) : base({New-Object -Type System.Uri -ArgumentList $tableAddress}) {
-	}
 	StubCloudTable ([System.Uri] $tableAddress) : base($tableAddress) { 
 	}
 	StubCloudTable ([Microsoft.WindowsAzure.Storage.StorageUri] $storageUri, [Microsoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageUri, $storageCredentials) {
@@ -15,7 +13,8 @@ class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
 	}
 }
 
-$cloudTable = New-Object -TypeName StubCloudTable -ArgumentList "https://some-table/"
+$tableAddress = New-Object -Type System.Uri -ArgumentList "https://some-table/"
+$cloudTable = New-Object -TypeName StubCloudTable -ArgumentList $tableAddress
 $azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
 
 Describe "Arcus" {
