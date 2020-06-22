@@ -24,7 +24,7 @@ Describe "Arcus" {
 				$storageAccountName = "admin"
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
-				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
@@ -55,7 +55,7 @@ Describe "Arcus" {
 				$storageAccountName = "admin"
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
-				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
 				$cloudTable = New-Object StubCloudTable -ArgumentList "https://some-table/"
 				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
@@ -88,7 +88,7 @@ Describe "Arcus" {
 				$storageAccountName = "admin"
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
-				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
 				$cloudTable = New-Object StubCloudTable -ArgumentList "https://some-table/"
 				$azTable = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable 
@@ -123,7 +123,7 @@ Describe "Arcus" {
 				$storageAccountName = "admin"
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
-				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
