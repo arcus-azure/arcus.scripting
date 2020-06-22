@@ -1,21 +1,6 @@
 using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.TableStorage -ErrorAction Stop
 
-class StubCloudTable : Microsoft.WindowsAzure.Storage.Table.CloudTable {
-	StubCloudTable ([System.Uri] $tableAddress) : base($tableAddress) { 
-	}
-	StubCloudTable ([Microsoft.WindowsAzure.Storage.StorageUri] $storageUri, [Microsoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageUri, $storageCredentials) {
-	}
-	StubCloudTable ([System.Uri] $tableAbsoluteUri, [Microsoft.WindowsAzure.Storage.Auth.StorageCredentials] $storageCredentials) : base($storageAbsoluteUri, $storageCredentials) {
-	}
-	[System.Threading.Tasks.Task[Microsoft.WindowsAzure.Storage.Table.TableResult]] ExecuteAsync ([Microsoft.WindowsAzure.Storage.Table.TableOperation] $tableOperation) {
-		return $null
-	}
-}
-
-$tableAddress = New-Object -Type System.Uri -ArgumentList "http://127.0.0.1:10002/devstoreaccount1/screenSettings"
-$azTable = New-MockObject -Type Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable
-
 Describe "Arcus" {
 	Context "Table Storage" {
 		InModuleScope Arcus.Scripting.TableStorage {
@@ -57,6 +42,7 @@ Describe "Arcus" {
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+				$azTable = New-MockObject -Type Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
@@ -119,6 +105,7 @@ Describe "Arcus" {
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+				$azTable = New-MockObject -Type Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup

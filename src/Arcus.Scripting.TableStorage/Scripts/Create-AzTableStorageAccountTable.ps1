@@ -26,7 +26,7 @@ function Create-StorageAccountTable()
         Write-Host "Checking if the table '$TableName' already exists..."
         $table = Get-AzStorageTable -Name $TableName -Context $storageAccount.Context -ErrorAction Ignore
 
-        if($table)
+        if($table -ne $null)
         {
             #Table already exists
             if($DeleteAndCreate)
@@ -51,6 +51,7 @@ function Create-StorageAccountTable()
         else
         {
             #Table does not exist
+            Write-Host "Table '$TableName' does not exist yet"
             Try-CreateTable -StorageAccount $storageAccount -TableName $TableName
         }
     }
