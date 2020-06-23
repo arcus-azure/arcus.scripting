@@ -12,10 +12,11 @@ Write-Host "Creating KeyVault secret..."
 $rawContent = Get-Content $FilePath -Raw
 $secretValue = ConvertTo-SecureString $rawContent -Force -AsPlainTex
 
+$secret = $null
 if ($Expires -ne $null) {
-    Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue $secretValue -Expires $Expires -ErrorAction Stop
+    $secret = Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue $secretValue -Expires $Expires -ErrorAction Stop
 } else {
-    Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue $secretValue -ErrorAction Stop
+    $secret = Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue $secretValue -ErrorAction Stop
 }
 
-Write-Host "Secret '$SecretName' has been created."
+Write-Host "Secret '$SecretName' (Version: '$secret.Version') has been created."
