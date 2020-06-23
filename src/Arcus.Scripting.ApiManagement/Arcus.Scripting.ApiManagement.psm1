@@ -69,7 +69,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   The ID to identify the operation for which to import the policy.
 
  .Parameter PolicyFilePath
-  The path to the file containing the optional policy of the to-be-imported policy operation on the API.
+  The path to the file containing the to-be-imported policy.
 #>
 function Import-AzApiManagementOperationPolicy {
     param(
