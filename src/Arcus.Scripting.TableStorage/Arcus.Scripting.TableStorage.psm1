@@ -3,7 +3,7 @@
   Create a Azure Table Storage based to an Storage Account.
  
  .Description
-  (Re)Create a Azure Table Storage based to an Storage Account.
+  (Re)Create a Table Storage within an Azure Storage Account.
 
  .Parameter ResourceGroupName
   The resource group where the Storage Account is located.
