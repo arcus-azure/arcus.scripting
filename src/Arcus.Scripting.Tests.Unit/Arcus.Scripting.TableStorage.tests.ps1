@@ -63,7 +63,7 @@ Describe "Arcus" {
 				Assert-VerifiableMock
 			        Assert-MockCalled Get-AzStorageAccount -Times 1
 				Assert-MockCalled Get-AzStorageTable -Times 1
-				Assert-MockCalled New-AzStorageTable -Times 1
+				Assert-MockCalled New-AzStorageTable -Times 0
 				Assert-MockCalled Remove-AzStorageTable -Times 0
 			}
 			It "Create w/ recreating existing table in Table Storage Storage Account" {
