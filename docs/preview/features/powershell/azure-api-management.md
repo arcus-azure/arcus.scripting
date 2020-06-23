@@ -54,7 +54,7 @@ Imports a policy from a file to an API operation in Azure API Management.
 | `ResourceGroupName` | yes       | The resource group containing the API Management service                                                 |
 | `ServiceName`       | yes       | The name of the API Management service located in Azure                                                  |
 | `ApiId`             | yes       | The ID to identify the API running in API Management                                                     |
-| `OperationId`       | yes       | The ID to identify the to-be-imported policy operation on the API                                        |
+| `OperationId`       | yes       | The ID to identify the operation for which to import the policy                                        |
 | `PolicyFilePath`    | no        | The path to the file containing the optional policy of the to-be-imported policy operation on the API    |
 
 ```powershell
