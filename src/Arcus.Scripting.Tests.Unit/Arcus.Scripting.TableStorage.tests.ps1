@@ -52,9 +52,7 @@ Describe "Arcus" {
 					$Context | Should -Be $psStorageAccount.Context
 					$Name | Should -Be $tableName
 					return [pscustomobject]@{} } -Verifiable
-				Mock New-AzStorageTable {
-					$Context | Should -Be $psStorageAccount.Context
-					$Name | Should -Be $tableName } -Verifiable
+				Mock New-AzStorageTable { }
 				Mock Remove-AzStorageTable { }
 
 				# Act
