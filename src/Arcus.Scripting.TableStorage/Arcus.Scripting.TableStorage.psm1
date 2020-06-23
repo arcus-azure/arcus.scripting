@@ -1,6 +1,6 @@
 <#
  .Synopsis
-  Create a Azure Table Storage based to an Storage Account.
+  Create a Table Storage within an Azure Storage Account.
  
  .Description
   (Re)Create a Table Storage within an Azure Storage Account.
