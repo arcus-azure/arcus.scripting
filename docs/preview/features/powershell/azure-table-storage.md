@@ -36,7 +36,7 @@ PS> Create-AzTableStorageAccountTable -ResourceGroupName "stock" -StorageAccount
 With existing table and re-create:
 
 ```powershell
-PS> Create-AzTableStorageAccountTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products"
+PS> Create-AzTableStorageAccountTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products" -DeleteAndCreate
 # Deleting existing table 'products' in the storage account 'admin'...
 # Creating table 'products' in the storage account 'admin'..
 ```
