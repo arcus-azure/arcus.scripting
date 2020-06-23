@@ -19,7 +19,7 @@ PS> Import-Module -Name Arcus.Scripting.TableStorage
 
 | Parameter            | Mandatory | Description                                                                                                     |
 | -------------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`  | yes       | The resource group where the Table Storage is located                                                           |
+| `ResourceGroupName`  | yes       | The resource group where the Storage Account is located                                                           |
 | `StorageAccountName` | yes       | The name of the Storage Account to add the table to                                                             |
 | `TableName`          | yes       | The name of the table to add on the Storage Account                                                             |
 | `DeleteAndCreate`    | no        | The optional flag to indicate whether or not a possible already existing table should be deleted and re-created |
