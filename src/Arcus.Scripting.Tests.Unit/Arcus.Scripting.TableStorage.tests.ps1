@@ -30,7 +30,7 @@ Describe "Arcus" {
 
 				# Assert
 				Assert-VerifiableMock
-			    Assert-MockCalled Get-AzStorageAccount -Times 1
+			        Assert-MockCalled Get-AzStorageAccount -Times 1
 				Assert-MockCalled Get-AzStorageTable -Times 1
 				Assert-MockCalled New-AzStorageTable -Times 1
 				Assert-MockCalled Remove-AzStorageTable -Times 0
@@ -61,7 +61,7 @@ Describe "Arcus" {
 				Create-AzTableStorageAccountTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
 
 				Assert-VerifiableMock
-			    Assert-MockCalled Get-AzStorageAccount -Times 1
+			        Assert-MockCalled Get-AzStorageAccount -Times 1
 				Assert-MockCalled Get-AzStorageTable -Times 1
 				Assert-MockCalled New-AzStorageTable -Times 1
 				Assert-MockCalled Remove-AzStorageTable -Times 0
@@ -93,7 +93,7 @@ Describe "Arcus" {
 				Create-AzTableStorageAccountTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -DeleteAndCreate
 
 				Assert-VerifiableMock
-			    Assert-MockCalled Get-AzStorageAccount -Times 1
+			        Assert-MockCalled Get-AzStorageAccount -Times 1
 				Assert-MockCalled Get-AzStorageTable -Times 1
 				Assert-MockCalled New-AzStorageTable -Times 1
 				Assert-MockCalled Remove-AzStorageTable -Times 1
@@ -125,7 +125,7 @@ Describe "Arcus" {
 
 				# Assert
 				Assert-VerifiableMock
-			    Assert-MockCalled Get-AzStorageAccount -Times 1
+			        Assert-MockCalled Get-AzStorageAccount -Times 1
 				Assert-MockCalled Get-AzStorageTable -Times 1
 				Assert-MockCalled New-AzStorageTable -Times 1
 				Assert-MockCalled Remove-AzStorageTable -Times 0
