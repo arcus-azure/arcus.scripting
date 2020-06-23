@@ -42,7 +42,6 @@ Describe "Arcus" {
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
-				$azTable = New-MockObject -Type Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
@@ -103,7 +102,6 @@ Describe "Arcus" {
 				$tableName = "products"
 				$storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
 				$psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
-				$azTable = New-MockObject -Type Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageTable
 
 				Mock Get-AzStorageAccount {
 					$ResourceGroupName | Should -Be $resourceGroup
