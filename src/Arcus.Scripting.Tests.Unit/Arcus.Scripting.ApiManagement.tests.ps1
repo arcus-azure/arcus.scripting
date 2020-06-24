@@ -90,7 +90,8 @@ Describe "Arcus" {
 					$Context | Should -Be $context
 					$ApiId | Should -Be $apiId
 					$OperationId | Should -Be $operationId
-					$PolicyFilePath | Should -Be $policyFilePath } -Verifiable
+					$PolicyFilePath | Should -Be $policyFilePath
+					return $true } -Verifiable
 
 				# Act
 				Import-AzApiManagementOperationPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath
