@@ -93,7 +93,7 @@ Describe "Arcus" {
 					return $true } -Verifiable
 
 				# Act
-				Import-AzApiManagementProductPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -Productid $productId -PolicyFilePath $policyFilePath
+				Import-AzApiManagementProductPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath
 
 				# Assert
 				Assert-VerifiableMock

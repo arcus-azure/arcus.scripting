@@ -70,10 +70,10 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
 #>
 function Import-AzApiManagementProductPolicy {
     param(
-        [string][parameter(Mandatory = $true)] $ResourceGroup,
-        [string][parameter(Mandatory = $true)] $ServiceName,
-        [string][parameter(Mandatory = $true)] $ProductId,
-        [string][parameter(Mandatory = $true)] $PolicyFilePath
+        [string][parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
+        [string][parameter(Mandatory = $true)] $ProductId = $(throw "Product ID is required"),
+        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
     )
 
     . $PSScriptRoot\Scripts\Import-AzApiManagementProductPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
