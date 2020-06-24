@@ -13,6 +13,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.ARM", "Arcu
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.KeyVault", "Arcus.Scripting.KeyVault\Arcus.Scripting.KeyVault.pssproj", "{AC784A55-CCE0-402F-99D0-4EB9147B3566}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Tests.Integration", "Arcus.Scripting.Tests.Integration\Arcus.Scripting.Tests.Integration.pssproj", "{BA3FF06C-CEFC-403D-BCCB-82AE90452B89}"
+EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.DataFactory", "Arcus.Scripting.DataFactory\Arcus.Scripting.DataFactory.pssproj", "{87004BAB-DAAC-4344-A719-2C8164DA9B27}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.DevOps", "Arcus.Scripting.DevOps\Arcus.Scripting.DevOps.pssproj", "{E5C773FE-4B4A-41A0-B2E4-1379E35DD7D2}"
@@ -39,6 +41,10 @@ Global
 		{AC784A55-CCE0-402F-99D0-4EB9147B3566}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC784A55-CCE0-402F-99D0-4EB9147B3566}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC784A55-CCE0-402F-99D0-4EB9147B3566}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA3FF06C-CEFC-403D-BCCB-82AE90452B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA3FF06C-CEFC-403D-BCCB-82AE90452B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA3FF06C-CEFC-403D-BCCB-82AE90452B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA3FF06C-CEFC-403D-BCCB-82AE90452B89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87004BAB-DAAC-4344-A719-2C8164DA9B27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{87004BAB-DAAC-4344-A719-2C8164DA9B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87004BAB-DAAC-4344-A719-2C8164DA9B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,6 +59,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51} = {5C8B7391-D202-4B09-8991-3EBAC09A585E}
+		{BA3FF06C-CEFC-403D-BCCB-82AE90452B89} = {5C8B7391-D202-4B09-8991-3EBAC09A585E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5382820-51FF-4B00-92BE-C78E80EA0841}
