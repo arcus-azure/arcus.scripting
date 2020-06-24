@@ -73,6 +73,31 @@ Describe "Arcus" {
 				Assert-MockCalled New-AzApiManagementOperation -Times 1
 				Assert-MockCalled Set-AzApiManagementPolicy -Times 1
 			}
+			It "Importing policy product sets API Management policy on operation" {
+				# Arrange
+				$resourceGroup = "shopping"
+				$serviceName = "shopping-API-management"
+				$productId = "shopping-API"
+				$policyFilePath = "/file-path/operation-policy"
+				$context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+				Mock New-AzApiManagementContext {
+					$ResourceGroup | Should -Be $resourceGroup
+					$ServiceName | Should -Be $serviceName
+					return $context } -Verifiable
+				Mock Set-AzApiManagementPolicy {
+					$Context | Should -Be $context
+					$ProductId | Should -Be $productId
+					$OperationId | Should -Be $operationId
+					$PolicyFilePath | Should -Be $policyFilePath
+					return $true } -Verifiable
+
+				# Act
+				Import-AzApiManagementProductPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -Productid $productId -PolicyFilePath $policyFilePath
+
+				# Assert
+				Assert-VerifiableMock
+			}
 		}
 	}
 }
