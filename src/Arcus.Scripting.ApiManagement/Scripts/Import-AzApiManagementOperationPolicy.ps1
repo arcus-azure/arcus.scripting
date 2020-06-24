@@ -6,7 +6,12 @@ param(
     [string][parameter(Mandatory = $true)] $PolicyFilePath
 )
 
+try {
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -ServiceName $ServiceName
 
 Write-Host "Updating policy of the operation '$OperationId' in API '$ApiId'"
-Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+$result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+if ($result) {
+    Write-Host 'Successfully updated the operation policy
+} else {
+    Write-Error 'Failed to update the operation policy, please check parameters' 
