@@ -11,7 +11,7 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -Ser
 Write-Host "Updating policy of the operation '$OperationId' in API '$ApiId'"
 $result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
 if ($result) {
-    Write-Host 'Successfully updated the operation policy
+    Write-Host "Successfully updated the operation policy"
 } else {
-    Write-Error 'Failed to update the operation policy, please check parameters' 
+    Write-Error "Failed to update the operation policy, please check parameters"
 }
