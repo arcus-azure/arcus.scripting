@@ -51,10 +51,10 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
 
 <#
  .Synopsis
-  Create an operation on an API in Azure API Management.
+  Import a policy to an API in Azure API Management.
 
  .Description
-  Create an operation on an existing API in Azure API Management.
+  Import a policy to an API scopde in a Azure API Management service.
 
  .Parameter ResourceGroupName
   The resource group containing the API Management service.
@@ -66,7 +66,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   The ID to identify the API running in API Management.
 
  .Parameter PolicyFilePath
-  The path to the file containing the optional policy of the to-be-created operation on the API.
+  The path to the file containing the optional policy of the to-be-imported policy on the API.
 #>
 function Import-AzApiManagementApiPolicy {
     param(
