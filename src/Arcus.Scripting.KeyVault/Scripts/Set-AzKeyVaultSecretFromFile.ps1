@@ -19,4 +19,4 @@ if ($Expires -ne $null) {
     $secret = Set-AzKeyVaultSecret -VaultName $KeyVaultName -SecretName $SecretName -SecretValue $secretValue -ErrorAction Stop
 }
 
-Write-Host "Secret '$SecretName' (Version: '$secret.Version') has been created."
+Write-Host "Secret '$SecretName' (Version: '$secret.Attributes.Version') has been created."
