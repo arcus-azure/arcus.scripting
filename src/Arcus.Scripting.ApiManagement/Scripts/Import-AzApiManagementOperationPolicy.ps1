@@ -14,3 +14,4 @@ if ($result) {
     Write-Host 'Successfully updated the operation policy
 } else {
     Write-Error 'Failed to update the operation policy, please check parameters' 
+}
