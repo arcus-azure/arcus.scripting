@@ -1,12 +1,12 @@
 param(
    [string][parameter(Mandatory = $true)] $ResourceGroup,
-   [string][parameter(Mandatory = $true)] $APIMServiceName,
+   [string][parameter(Mandatory = $true)] $ServiceName,
    [string][parameter(Mandatory = $true)] $ApiId,
    [string][parameter(Mandatory = $true)] $policyFilePath
 )
 
 # Retrieve the context of APIM
-$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -ServiceName $APIMServiceName
+$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -ServiceName $ServiceName
 
 # Check if an operationId has been specified, it not - import the base policy
 Write-Host "Updating policy of API '$ApiId'"
