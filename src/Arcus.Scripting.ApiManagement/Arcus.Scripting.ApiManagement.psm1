@@ -51,7 +51,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
 
 <#
  .Synopsis
-  Import a policy to an product in Azure API Management.
+  Import a policy to a product in Azure API Management.
 
  .Description
   Import a policy to an API scope in a Azure API Management service.
