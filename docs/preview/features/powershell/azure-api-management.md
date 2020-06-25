@@ -45,7 +45,7 @@ PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceNam
 # New API operation '$OperationName' on API Management service was added.
 ```	
 
-## Import policy to an product in the API Management service
+## Import policy to a product in the API Management service
 
 Imports a policy from a file to a product in Azure API Management.
 
