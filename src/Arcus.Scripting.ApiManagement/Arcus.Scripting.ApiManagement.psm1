@@ -63,7 +63,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   The name of the API Management service located in Azure.
 
  .Parameter ProductId
-  The ID to identify the product running in API Management.
+  The ID to identify the product in API Management.
 
  .Parameter PolicyFilePath
   The path to the file containing the optional policy of the to-be-imported policy on the API.
