@@ -47,7 +47,7 @@ PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceNam
 
 ## Import policy to an product in the API Management service
 
-Imports a policy from a file to an product in Azure API Management.
+Imports a policy from a file to a product in Azure API Management.
 
 | Parameter           | Mandatory | Description                                                                                              |
 | ------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
