@@ -54,7 +54,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   Import a policy to an API in Azure API Management.
 
  .Description
-  Import a policy to an API scope in a Azure API Management service.
+  Import a base-policy to an API hosted in Azure API Management.
 
  .Parameter ResourceGroupName
   The resource group containing the API Management service.
