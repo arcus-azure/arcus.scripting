@@ -53,7 +53,7 @@ Imports a policy from a file to a product in Azure API Management.
 | ------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
 | `ResourceGroupName` | yes       | The resource group containing the API Management service                                                 |
 | `ServiceName`       | yes       | The name of the API Management service located in Azure                                                  |
-| `ProductId`         | yes       | The ID to identify the product running in API Management                                                     |
+| `ProductId`         | yes       | The ID to identify the product in API Management                                                     |
 | `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy                                               |
 
 ```powershell
