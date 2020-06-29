@@ -89,8 +89,8 @@ Describe "Arcus" {
                     return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited"
-                    return $true }
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName
@@ -117,8 +117,8 @@ Describe "Arcus" {
                     return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited"
-                    return $true }
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
@@ -146,8 +146,8 @@ Describe "Arcus" {
                     return $false } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited"
-                    return $true }
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
@@ -175,8 +175,8 @@ Describe "Arcus" {
                     return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited"
-                    return $false }
+                    $DeleteSubscriptions | Should -Be $true
+                    return $false } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |

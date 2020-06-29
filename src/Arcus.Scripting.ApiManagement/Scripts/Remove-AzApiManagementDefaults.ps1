@@ -20,13 +20,13 @@ if ($apiResult -and $starterResult -and $unlimitedResult) {
 } else {
     $message = "Failed to remove API Management defaults"
     if (-not $apiResult) {
-        $message += [System.Environment]::NewLine + "- Failed to remove the 'echo' API"
+        $message += [System.Environment]::NewLine + "> Failed to remove the 'echo' API"
     }
     if (-not $starterResult) {
-        $message += [System.Environment]::NewLine + "- Failed to remove the 'starter' Product"
+        $message += [System.Environment]::NewLine + "> Failed to remove the 'starter' Product"
     }
     if (-not $unlimitedResult) {
-        $message += [System.Environment]::NewLine + "- Failed to remove the 'unlimited' Product"
+        $message += [System.Environment]::NewLine + "> Failed to remove the 'unlimited' Product"
     }
 
     Write-Error $message
