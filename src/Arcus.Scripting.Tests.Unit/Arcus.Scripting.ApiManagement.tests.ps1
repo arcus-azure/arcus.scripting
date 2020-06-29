@@ -111,8 +111,14 @@ Describe "Arcus" {
                     $Context | Should -Be $context
                     $ApiId | Should -Be "echo-api"
                     return $false } -Verifiable
-                Mock Remove-AzApiManagementProduct { }
-                Mock Remove-AzApiManagementProduct { }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited"
+                    return $true }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
@@ -121,8 +127,8 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 0 -ParameterFilter { $ProductId -eq "starter" }
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 0 -ParameterFilter { $ProductId -eq "unlimited" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
             It "Remove API Management defaults when starter product failed to remove, throws" {
                 # Arrange
@@ -138,7 +144,10 @@ Describe "Arcus" {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
                     return $false } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
-                Mock Remove-AzApiManagementProduct { }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited"
+                    return $true }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
@@ -148,7 +157,7 @@ Describe "Arcus" {
                 Assert-VerifiableMock
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 0 -ParameterFilter { $ProductId -eq "unlimited" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
             It "Remove API Management defaults when unlimited product failed to remove, throws" {
                 # Arrange

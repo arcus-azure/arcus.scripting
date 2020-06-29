@@ -8,26 +8,28 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -Ser
 
 Write-Host "Removing Echo Api..."
 $apiResult = Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api'
-if ($apiResult) {
-    Write-Host "Successfully removed the 'echo-api' API"
-} else {
-    Write-Error "Failed to remove the 'echo-api' API"
-}
 
 Write-Host "Removing Starter product..."
 $starterResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions
-if ($starterResult) {
-    Write-Host "Successfully removed the 'starter' product"
-} else {
-    Write-Error "Failed to remove the 'starter' product"
-}
 
 Write-Host "Removing Unlimited product..."
 $unlimitedResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions
-if ($unlimitedResult) {
-    Write-Host "Successfully removed 'unlimited' product"
+
+if ($apiResult -and $starterResult -and $unlimitedResult) {
+    Write-Host "Successfully removed the 'echo-api' API, 'starter' Product and 'unlimited' Product"
 } else {
-    Write-Error "Failed to remove the 'unlimited' product"
+    $message = "Failed to remove API Management defaults"
+    if (-not $apiResult) {
+        $message += [System.Environment]::NewLine + "- Failed to remove the 'echo' API"
+    }
+    if (-not $starterResult) {
+        $message += [System.Environment]::NewLine + "- Failed to remove the 'starter' Product"
+    }
+    if (-not $unlimitedResult) {
+        $message += [System.Environment]::NewLine + "- Failed to remove the 'unlimited' Product"
+    }
+
+    Write-Error $message
 }
 
 Write-Host "Done removing API Management defaults!"
