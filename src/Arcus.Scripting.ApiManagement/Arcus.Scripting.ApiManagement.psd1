@@ -66,7 +66,7 @@ RequiredModules = @('Az.ApiManagement')
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = @('Create-AzApiManagementApiOperation', 'Import-AzApiManagementApiPolicy')
+FunctionsToExport = @('Create-AzApiManagementApiOperation', 'Import-AzApiManagementApiPolicy', 'Import-AzApiManagementOperationPolicy')
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'
