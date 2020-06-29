@@ -35,7 +35,11 @@ Describe "Arcus" {
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 0
             }
+<<<<<<< HEAD
             It "Calls new operation on API Management operation w/ policy" {
+=======
+            It "Calls new operation on API management operation w/ policy" {
+>>>>>>> master
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -188,6 +192,58 @@ Describe "Arcus" {
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
+            It "Importing policy API sets API Management policy on operation" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $apiId = "shopping-API"
+                $policyFilePath = "/file-path/operation-policy"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock New-AzApiManagementContext {
+                    $ResourceGroup | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+                Mock Set-AzApiManagementPolicy {
+                    $Context | Should -Be $context
+                    $ApiId | Should -Be $apiId
+                    $PolicyFilePath | Should -Be $policyFilePath
+                    return $true } -Verifiable
+
+                # Act
+                Import-AzApiManagementApiPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -PolicyFilePath $policyFilePath
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Importing policy API fails API Management policy on operation" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $apiId = "shopping-API"
+                $policyFilePath = "/file-path/operation-policy"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock New-AzApiManagementContext {
+                    $ResourceGroup | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+                Mock Set-AzApiManagementPolicy {
+                    $Context | Should -Be $context
+                    $ApiId | Should -Be $apiId
+                    $PolicyFilePath | Should -Be $policyFilePath
+                    return $false } -Verifiable
+
+                # Act
+                { Import-AzApiManagementApiPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -PolicyFilePath $policyFilePath } |
+                    Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+            }
             It "Importing policy operation sets API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -236,8 +292,7 @@ Describe "Arcus" {
 
                 # Act
                 { Import-AzApiManagementOperationPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath } |
-                # Assert
-                Should -Throw
+                    Should -Throw
 
                 # Assert
                 Assert-VerifiableMock

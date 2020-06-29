@@ -5,8 +5,11 @@
  .Description
   Create an operation on an existing API in Azure API Management.
 
- .Parameter ResourceGroupName
+ .Parameter ResourceGroup
   The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
 
  .Parameter ServiceName
   The name of the API Management service located in Azure.
@@ -56,22 +59,54 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
  .Description
  Remove all default API's and products from the API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions. 
 
- .Parameter ResourceGroupName
+ .Parameter ResourceGroup
   The resource group containing the API Management service.
 
  .Parameter ServiceName
  The name of the API Management service located in Azure.
 #>
 function Remove-AzApiManagementDefaults {
-    param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
-        [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required")
-    )
+  param(
+      [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+      [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required")
+  )
 
-  . $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName 
+. $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName 
 }
 
 Export-ModuleMember -Function Remove-AzApiManagementDefaults
+
+<#
+ .Synopsis
+  Import a policy to an API in Azure API Management.
+
+ .Description
+  Import a base-policy to an API hosted in Azure API Management.
+
+ .Parameter ResourceGroup
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter ApiId
+  The ID to identify the API running in API Management.
+
+ .Parameter PolicyFilePath
+  The path to the file containing the optional policy of the to-be-imported policy on the API.
+#>
+function Import-AzApiManagementApiPolicy {
+    param(
+        [string][parameter(Mandatory = $true)] $ResourceGroup = $(throw = "Resource group is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
+        [string][parameter(Mandatory = $true)] $ApiId = $(throw = "API ID is required"),
+        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
+    )
+
+    . $PSScriptRoot\Scripts\Import-AzApiManagementApiPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
+}
+
+Export-ModuleMember -Function Import-AzApiManagementApiPolicy
 
 <#
  .Synopsis
