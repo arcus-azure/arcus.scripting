@@ -24,9 +24,9 @@ Create an operation on an existing API in Azure API Management.
 | `ApiId`             | yes       | The ID to identify the API running in API Management                                                     |
 | `OperationId`       | yes       | The ID to identify the to-be-created operation on the API                                                |
 | `Method`            | yes	      | The method of the to-be-created operation on the API                                                     |
-| `UrlTemplate`       | yes       | The URL-template, or endpoint-URL, of the to-be-created operation on the API                                        |
+| `UrlTemplate`       | yes       | The URL-template, or endpoint-URL, of the to-be-created operation on the API                             |
 | `OperationName`     | no        | The optional descriptive name to give to the to-be-created operation on the API (default: `OperationId`) |
-| `Description`       | no        | The optional explanation to describe the to-be-created operation on the API                             |
+| `Description`       | no        | The optional explanation to describe the to-be-created operation on the API                              |
 | `PolicyFilePath`    | no        | The path to the file containing the optional policy of the to-be-created operation on the API            |
 
 **Example**
@@ -54,7 +54,7 @@ Imports a base-policy from a file to an API in Azure API Management.
 | `ResourceGroupName` | yes       | The resource group containing the API Management service                                                 |
 | `ServiceName`       | yes       | The name of the API Management service located in Azure                                                  |
 | `ApiId`             | yes       | The ID to identify the API running in API Management                                                     |
-| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy                                               |
+| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy                                                |
 
 ```powershell
 PS> Import-AzApiManagementApiPolicy -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
