@@ -48,7 +48,7 @@ Description = 'Scripts related to Azure Key Vault'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-# RequiredModules = @()
+RequiredModules = @('Az.KeyVault')
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
