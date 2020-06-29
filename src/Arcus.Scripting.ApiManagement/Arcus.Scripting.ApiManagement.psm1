@@ -8,7 +8,7 @@
  .Parameter ServiceName
   The name of the API Management service located in Azure.
 
- .Parameter ResourceGroupName
+ .Parameter ResourceGroup
   The resource group containing the API Management service.
 
  .Parameter ApiId
@@ -80,3 +80,69 @@ function Import-AzApiManagementProductPolicy {
 }
 
 Export-ModuleMember -Function Import-AzApiManagementProductPolicy
+
+<#
+.Synopsis
+  Import a policy to an API in Azure API Management.
+
+ .Description
+  Import a base-policy to an API hosted in Azure API Management.
+
+ .Parameter ResourceGroup
+ The resource group containing the API Management service.
+ 
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter ApiId
+  The ID to identify the API running in API Management.
+
+ .Parameter PolicyFilePath
+  The path to the file containing the optional policy of the to-be-imported policy on the API.
+#>
+function Import-AzApiManagementApiPolicy {
+    param(
+        [string][parameter(Mandatory = $true)] $ResourceGroup = $(throw = "Resource group is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
+        [string][parameter(Mandatory = $true)] $ApiId = $(throw = "API ID is required"),
+        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
+    )
+
+    . $PSScriptRoot\Scripts\Import-AzApiManagementApiPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
+}
+
+Export-ModuleMember -Function Import-AzApiManagementApiPolicy
+
+<#
+ .Synopsis
+  Imports a policy to an operation in Azure API Management.
+
+ .Description
+  Imports a policy from a file to an API operation in Azure API Management.
+
+ .Parameter ResourceGroup
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter ApiId
+  The ID to identify the API running in API Management.
+
+ .Parameter OperationId
+  The ID to identify the operation for which to import the policy.
+
+ .Parameter PolicyFilePath
+  The path to the file containing the to-be-imported policy.
+#>
+function Import-AzApiManagementOperationPolicy {
+    param(
+        [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+        [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
+        [string][Parameter(Mandatory = $true)] $ApiId = $(throw "API ID is required"),
+        [string][Parameter(Mandatory = $true)] $OperationId = $(throw "Operation ID is required"),
+        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
+    )
+
+    . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+}

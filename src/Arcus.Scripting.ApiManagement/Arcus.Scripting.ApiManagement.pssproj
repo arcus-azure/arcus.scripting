@@ -33,6 +33,8 @@
     <Compile Include="Arcus.Scripting.ApiManagement.psm1" />
     <Compile Include="Scripts\Create-AzApiManagementApiOperation.ps1" />
     <Compile Include="Scripts\Import-AzApiManagementProductPolicy.ps1" />
+    <Compile Include="Scripts\Import-AzApiManagementApiPolicy.ps1" />
+    <Compile Include="Scripts\Import-AzApiManagementOperationPolicy.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

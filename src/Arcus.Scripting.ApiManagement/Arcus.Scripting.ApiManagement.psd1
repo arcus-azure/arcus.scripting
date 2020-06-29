@@ -48,7 +48,7 @@ Description = 'Scripts related to Azure API Management'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @('Az')
+RequiredModules = @('Az.ApiManagement')
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -66,7 +66,7 @@ RequiredModules = @('Az')
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = @('Create-AzApiManagementApiOperation', 'Import-AzApiManagementProductPolicy')
+FunctionsToExport = @('Create-AzApiManagementApiOperation', 'Import-AzApiManagementProductPolicy', 'Import-AzApiManagementApiPolicy', 'Import-AzApiManagementOperationPolicy')
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'
