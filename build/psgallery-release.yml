@@ -103,4 +103,4 @@ stages:
                   % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository PSGallery -Verbose -Force }
             displayName: 'Publish PS module to PowerShell Gallery'
             env:
-              ApiKey: $(PSGallery.ApiKey)
+              APIKEY: $(PSGallery.ApiKey)
