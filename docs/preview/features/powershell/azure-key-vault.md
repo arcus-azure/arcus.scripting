@@ -34,7 +34,7 @@ PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault" 
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
 
-## Set secret value from file into key vault
+## Set secret value from file into Azure Key Vault
 
 Sets a secret certificate from a file as plain text in Azure Key Vault.
 
