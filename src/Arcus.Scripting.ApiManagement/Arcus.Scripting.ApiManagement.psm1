@@ -12,7 +12,7 @@
   The name of the API Management service located in Azure.
 
  .Parameter ServiceName
-  The name of the API Management service located in Azure.
+  The name of the Azure API Management instance.
 
  .Parameter ApiId
   The ID to identify the API running in API Management.
