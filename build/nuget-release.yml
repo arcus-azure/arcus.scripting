@@ -16,6 +16,7 @@ resources:
 
 variables:
   - group: 'Build Configuration'
+  - group: 'PowerShell Gallery'
   - template: ./variables/build.yml
   - name: 'Repository'
     value: 'arcus-azure/arcus.template'
@@ -74,12 +75,12 @@ stages:
               projectName: '$(Project).Tests.Unit'
 
   - stage: Release
-    displayName: 'Release to NuGet.org'
+    displayName: 'Release to PowerShell Gallery'
     dependsOn: UnitTests
     condition: succeeded()
     jobs:
       - job: PushToNuGet
-        displayName: 'Push to NuGet.org'
+        displayName: 'Push to PowerShell Gallery'
         pool:
           vmImage: 'ubuntu-16.04'
         steps:
@@ -92,8 +93,14 @@ stages:
             parameters:
               repositoryName: '$(Repository)'
               releaseNotes: |
-                Install new version via [NuGet](https://www.nuget.org/packages/$(Project)/$(Build.BuildNumber))
+                Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project)
                 ```shell
-                PM > Install-Package $(Project) --Version $(Build.BuildNumber)
+                PS > Install-Module -Name $(Project).* --Version $(Build.BuildNumber)
                 ```
-          - template: nuget/publish-official-package.yml@templates
+          - powershell: |
+              Import-Module PowerShellGet -Force
+              Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
+                  % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository PSGallery -Verbose -Force }
+            displayName: 'Publish PS module to PowerShell Gallery'
+            env:
+              ApiKey: $(PSGallery.ApiKey)
