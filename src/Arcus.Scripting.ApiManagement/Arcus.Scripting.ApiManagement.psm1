@@ -89,7 +89,7 @@ Export-ModuleMember -Function Import-AzApiManagementProductPolicy
   Import a base-policy to an API hosted in Azure API Management.
 
  .Parameter ResourceGroup
- The resource group containing the API Management service.
+ The resource group containing the Azure API Management service.
 
  .Parameter ServiceName
   The name of the API Management service located in Azure.
