@@ -48,7 +48,7 @@ Description = 'Scripts related to Azure API Management'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @('Az.ApiManagement')
+RequiredModules = @({ ModuleName="Az.ApiManagement", ModuleVersion="2.0.0" })
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -93,4 +93,3 @@ AliasesToExport = '*'
 # DefaultCommandPrefix = ''
 
 }
-
