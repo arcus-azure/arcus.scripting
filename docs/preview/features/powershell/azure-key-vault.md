@@ -47,7 +47,7 @@ Sets a secret certificate from a file as plain text in Azure Key Vault.
 
 **Example**
 ```powershell
-PS> Set-AzKeyVaultSecretFromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -KeyVaultName "my-key-vault"
+PS> Set-AzKeyVaultSecretFromFile -KeyVaultName "my-key-vault" -SecretName "my-secret" -FilePath "/file-path/secret-certificate.pfx"
 # Secret 'my-secret' has been created.
 ```
 
