@@ -60,7 +60,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
  Remove all default API's and products from the API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions. 
 
  .Parameter ResourceGroup
-  The resource group containing the API Management service.
+  The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
  The name of the API Management service located in Azure.
