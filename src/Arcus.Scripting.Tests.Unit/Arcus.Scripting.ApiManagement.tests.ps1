@@ -35,11 +35,7 @@ Describe "Arcus" {
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 0
             }
-<<<<<<< HEAD
             It "Calls new operation on API Management operation w/ policy" {
-=======
-            It "Calls new operation on API management operation w/ policy" {
->>>>>>> master
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"

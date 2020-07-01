@@ -3,7 +3,7 @@ param(
     [string][parameter(Mandatory = $true)] $ServiceName
 )
 
-Write-Host "Start removing API Management defaults..."
+Write-Host "Start removing Azure API Management defaults..."
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -ServiceName $ServiceName 
 
 Write-Host "Removing Echo Api..."
@@ -32,4 +32,4 @@ if ($apiResult -and $starterResult -and $unlimitedResult) {
     Write-Error $message
 }
 
-Write-Host "Done removing API Management defaults!"
+Write-Host "Finished removing Azure API Management defaults!"

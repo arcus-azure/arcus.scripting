@@ -45,14 +45,14 @@ PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceNam
 # New API operation '$OperationName' on API Management service was added.
 ```	
 
-## Remove all API Management defaults from the service
+## Remove all Azure API Management defaults from the service
 
-Remove all default API's and products from the API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
+Remove all default API's and products from the Azure API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
 
 | Parameter       | Mandatory | Description                                              |
 | --------------- | --------- | -------------------------------------------------------- |
-| `ResourceGroup` | yes       | The resource group containing the API Management service |
-| `ServiceName`   | yes       | The name of the API Management service located in Azure  |
+| `ResourceGroup` | yes       | The resource group containing the Azure API Management service |
+| `ServiceName`   | yes       | The name of the Azure API Management service located in Azure  |
 
 ```powershell
 PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $ServiceName
@@ -61,15 +61,15 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 # Removing Unlimited product...
 ```
 
-## Import policy to an API in the API Management service
+## Import policy to an API in the Azure API Management service
 
 Imports a base-policy from a file to an API in Azure API Management.
 
 | Parameter        | Mandatory | Description                                               |
 | ---------------- | --------- | --------------------------------------------------------- |
-| `ResourceGroup`  | yes       | The resource group containing the API Management service  |
-| `ServiceName`    | yes       | The name of the API Management service located in Azure   |
-| `ApiId`          | yes       | The ID to identify the API running in API Management      |
+| `ResourceGroup`  | yes       | The resource group containing the Azure API Management service  |
+| `ServiceName`    | yes       | The name of the Azure API Management instance |
+| `ApiId`          | yes       | The ID to identify the API running in Azure API Management      |
 | `PolicyFilePath` | yes       | The path to the file containing the to-be-imported policy |
 
 ```powershell
@@ -82,9 +82,9 @@ Imports a policy from a file to an API operation in Azure API Management.
 
 | Parameter        | Mandatory | Description                                                     |
 | ---------------- | --------- | --------------------------------------------------------------- |
-| `ResourceGroup`  | yes       | The resource group containing the API Management service        |
-| `ServiceName`    | yes       | The name of the API Management service located in Azure         |
-| `ApiId`          | yes       | The ID to identify the API running in API Management            |
+| `ResourceGroup`  | yes       | The resource group containing the Azure API Management instance |
+| `ServiceName`    | yes       | The name of the Azure API Management service instance |
+| `ApiId`          | yes       | The ID to identify the API running in Azure API Management            |
 | `OperationId`    | yes       | The ID to identify the operation for which to import the policy |
 | `PolicyFilePath` | yes       | The path to the file containing the to-be-imported policy       |
 

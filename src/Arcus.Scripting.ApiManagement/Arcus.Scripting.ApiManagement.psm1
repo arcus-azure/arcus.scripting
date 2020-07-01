@@ -12,7 +12,7 @@
   The name of the API Management service located in Azure.
 
  .Parameter ServiceName
-  The name of the API Management service located in Azure.
+  The name of the Azure API Management instance.
 
  .Parameter ApiId
   The ID to identify the API running in API Management.
@@ -57,13 +57,13 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   Remove all defaults from the API Management service.
 
  .Description
- Remove all default API's and products from the API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions. 
+ Remove all default API's and products from an Azure API Management instance ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions. 
 
  .Parameter ResourceGroup
-  The resource group containing the API Management service.
+  The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
- The name of the API Management service located in Azure.
+ The name of the Azure API Management instance.
 #>
 function Remove-AzApiManagementDefaults {
   param(
