@@ -30,7 +30,7 @@ stages:
         pool:
           vmImage: 'ubuntu-16.04'
         steps:
-           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace package version tokens'
             inputs:
               rootDirectory: 'src/'
