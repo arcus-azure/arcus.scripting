@@ -32,4 +32,4 @@ if ($apiResult -and $starterResult -and $unlimitedResult) {
     Write-Error $message
 }
 
-Write-Host "Done removing API Management defaults!"
+Write-Host "Finished removing Azure API Management defaults!"
