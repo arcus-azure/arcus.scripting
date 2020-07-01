@@ -47,7 +47,7 @@ PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceNam
 
 ## Remove all API Management defaults from the service
 
-Remove all default API's and products from the API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
+Remove all default API's and products from the Azure API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
 
 | Parameter       | Mandatory | Description                                              |
 | --------------- | --------- | -------------------------------------------------------- |
