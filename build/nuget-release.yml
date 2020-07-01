@@ -89,14 +89,14 @@ stages:
             inputs:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
-          - template: github/create-release.yml@templates
-            parameters:
-              repositoryName: '$(Repository)'
-              releaseNotes: |
-                Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project)
-                ```shell
-                PS > Install-Module -Name $(Project).* --Version $(Build.BuildNumber)
-                ```
+          # - template: github/create-release.yml@templates
+          #   parameters:
+          #     repositoryName: '$(Repository)'
+          #     releaseNotes: |
+          #       Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project)
+          #       ```shell
+          #       PS > Install-Module -Name $(Project).* --Version $(Build.BuildNumber)
+          #       ```
           - powershell: |
               Import-Module PowerShellGet -Force
               Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
