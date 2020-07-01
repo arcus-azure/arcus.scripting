@@ -52,7 +52,7 @@ Remove all default API's and products from the Azure API Management service ('ec
 | Parameter       | Mandatory | Description                                              |
 | --------------- | --------- | -------------------------------------------------------- |
 | `ResourceGroup` | yes       | The resource group containing the Azure API Management service |
-| `ServiceName`   | yes       | The name of the API Management service located in Azure  |
+| `ServiceName`   | yes       | The name of the Azure API Management service located in Azure  |
 
 ```powershell
 PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $ServiceName
