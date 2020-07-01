@@ -69,7 +69,7 @@ Imports a base-policy from a file to an API in Azure API Management.
 | ---------------- | --------- | --------------------------------------------------------- |
 | `ResourceGroup`  | yes       | The resource group containing the Azure API Management service  |
 | `ServiceName`    | yes       | The name of the API Management service located in Azure   |
-| `ApiId`          | yes       | The ID to identify the API running in API Management      |
+| `ApiId`          | yes       | The ID to identify the API running in Azure API Management      |
 | `PolicyFilePath` | yes       | The path to the file containing the to-be-imported policy |
 
 ```powershell
