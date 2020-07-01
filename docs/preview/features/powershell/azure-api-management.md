@@ -83,7 +83,7 @@ Imports a policy from a file to an API operation in Azure API Management.
 | Parameter        | Mandatory | Description                                                     |
 | ---------------- | --------- | --------------------------------------------------------------- |
 | `ResourceGroup`  | yes       | The resource group containing the Azure API Management instance |
-| `ServiceName`    | yes       | The name of the API Management service located in Azure         |
+| `ServiceName`    | yes       | The name of the Azure API Management service instance |
 | `ApiId`          | yes       | The ID to identify the API running in API Management            |
 | `OperationId`    | yes       | The ID to identify the operation for which to import the policy |
 | `PolicyFilePath` | yes       | The path to the file containing the to-be-imported policy       |
