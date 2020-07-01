@@ -240,9 +240,8 @@ Describe "Arcus" {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+                Assert-MockCalled New-AzApiManagementContext -Times 1
+                Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
             It "Importing policy operation sets API Management policy on operation" {
                 # Arrange
