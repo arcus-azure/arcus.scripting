@@ -61,7 +61,7 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 # Removing Unlimited product...
 ```
 
-## Import policy to an API in the API Management service
+## Import policy to an API in the Azure API Management service
 
 Imports a base-policy from a file to an API in Azure API Management.
 
