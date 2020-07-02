@@ -7,7 +7,7 @@ param (
     [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires
 )
 
-if (Test-Path -Path $FilePath -PathType Leaf -eq $false) {
+if ($false -eq Test-Path -Path $FilePath -PathType Leaf) {
     Write-Error "No file could containing the secret certificate at '$FilePath'"
     return;
 }
