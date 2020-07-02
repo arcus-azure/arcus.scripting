@@ -4,7 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameC
 Describe "Arcus" {
     Context "ApiManagement" {
         InModuleScope Arcus.Scripting.ApiManagement {
-            It "Calls new operation on API Management operation w/o policy" {
+            It "Calls new operation on Azure API Management operation w/o policy" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -35,7 +35,7 @@ Describe "Arcus" {
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 0
             }
-            It "Calls new operation on API management operation w/ policy" {
+            It "Calls new operation on Azure API management operation w/ policy" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -73,7 +73,7 @@ Describe "Arcus" {
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
-            It "Importing policy product sets API Management policy on operation" {
+            It "Importing policy product sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -98,7 +98,7 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
-            It "Importing policy product fails sets API Management policy on operation" {
+            It "Importing policy product fails sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -124,7 +124,7 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
-            It "Importing policy API sets API Management policy on operation" {
+            It "Importing policy API sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -148,7 +148,7 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
-            It "Importing policy API fails API Management policy on operation" {
+            It "Importing policy API fails Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -173,7 +173,7 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
-            It "Importing policy operation sets API Management policy on operation" {
+            It "Importing policy operation sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -199,7 +199,7 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
-            It "Importing policy operation fails to set API Management policy on operation" {
+            It "Importing policy operation fails to set Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -228,5 +228,4 @@ Describe "Arcus" {
             }
         }
     }
->>>>>>> master
 }
