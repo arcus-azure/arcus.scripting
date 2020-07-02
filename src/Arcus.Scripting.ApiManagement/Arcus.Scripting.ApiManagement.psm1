@@ -12,7 +12,7 @@
   The resource group containing the API Management service.
 
  .Parameter ApiId
-  The ID to identify the API running in API Management.
+  The ID to identify the API running in Azure API Management.
 
  .Parameter OperationId
   The ID to identify the to-be-created operation on the API.
@@ -57,13 +57,13 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   Import a policy to a product in Azure API Management.
 
  .Parameter ResourceGroupName
-  The resource group containing the API Management service.
+  The resource group containing the Azure API Management service.
 
  .Parameter ServiceName
   The name of the API Management service located in Azure.
 
  .Parameter ProductId
-  The ID to identify the product in API Management.
+  The ID to identify the product in Azure API Management.
 
  .Parameter PolicyFilePath
   The path to the file containing the optional policy of the to-be-imported policy on the API.
@@ -92,7 +92,7 @@ Export-ModuleMember -Function Import-AzApiManagementProductPolicy
  The resource group containing the Azure API Management service.
 
  .Parameter ServiceName
-  The name of the API Management service located in Azure.
+  The name of the Azure API Management service located in Azure.
 
  .Parameter ApiId
   The ID to identify the API running in API Management.
@@ -121,13 +121,13 @@ Export-ModuleMember -Function Import-AzApiManagementApiPolicy
   Imports a policy from a file to an API operation in Azure API Management.
 
  .Parameter ResourceGroup
-  The resource group containing the API Management service.
+  The resource group containing the Azure API Management service.
 
  .Parameter ServiceName
   The name of the API Management service located in Azure.
 
  .Parameter ApiId
-  The ID to identify the API running in API Management.
+  The ID to identify the API running in Azure API Management.
 
  .Parameter OperationId
   The ID to identify the operation for which to import the policy.
