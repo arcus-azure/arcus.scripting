@@ -1,18 +1,18 @@
 <#
  .Synopsis
-  Create a Table Storage within an Azure Storage Account.
+  Create a Azure Table Storage within an Azure Storage Account.
  
  .Description
-  (Re)Create a Table Storage within an Azure Storage Account.
+  (Re)Create a Azure Table Storage within an Azure Storage Account.
 
  .Parameter ResourceGroupName
-  The resource group where the Storage Account is located.
+  The resource group where the Azure Storage Account is located.
 
  .Parameter StorageAccountName
-  The name of the Storage Account to add the table to.
+  The name of the Azure Storage Account to add the table to.
 
  .Parameter TableName
-  The name of the table to add on the Storage Account.
+  The name of the table to add on the Azure Storage Account.
 
  .Parameter DeleteAndCreate
   The optional flag to indicate whether or not a possible already existing table should be deleted and re-created.
