@@ -4,7 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.TableStorage -ErrorAction S
 Describe "Arcus" {
 	Context "Table Storage" {
 		InModuleScope Arcus.Scripting.TableStorage {
-			It "Create w/o recreating non-existing table in Table Storage on Storage Account" {
+			It "Create w/o recreating non-existing table in Azure Table Storage on Azure Storage Account" {
 				# Arrange
 				$resourceGroup = "stock"
 				$storageAccountName = "admin"
@@ -35,7 +35,7 @@ Describe "Arcus" {
 				Assert-MockCalled New-AzStorageTable -Times 1
 				Assert-MockCalled Remove-AzStorageTable -Times 0
 			}
-			It "Create w/o recreating existing table in Table Storage Storage Account" {
+			It "Create w/o recreating existing table in Azure Table Storage Azure Storage Account" {
 				# Arrange
 				$resourceGroup = "stock"
 				$storageAccountName = "admin"
@@ -63,7 +63,7 @@ Describe "Arcus" {
 				Assert-MockCalled New-AzStorageTable -Times 0
 				Assert-MockCalled Remove-AzStorageTable -Times 0
 			}
-			It "Create w/ recreating existing table in Table Storage Storage Account" {
+			It "Create w/ recreating existing table in Azure Table Storage Azure Storage Account" {
 				# Arrange
 				$resourceGroup = "stock"
 				$storageAccountName = "admin"
@@ -95,7 +95,7 @@ Describe "Arcus" {
 				Assert-MockCalled New-AzStorageTable -Times 1
 				Assert-MockCalled Remove-AzStorageTable -Times 1
 			}
-			It "Create w/ recreating non-existing table in Table Storage Storage Account" {
+			It "Create w/ recreating non-existing table in Azure Table Storage Azure Storage Account" {
 				# Arrange
 				$resourceGroup = "stock"
 				$storageAccountName = "admin"
