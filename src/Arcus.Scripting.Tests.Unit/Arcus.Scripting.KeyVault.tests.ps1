@@ -36,22 +36,26 @@ Describe "Arcus" {
                 $expected.permissions.storage | Should -Be $storagePermissions
             }
             It "Set secret in Key Vault" {
-                # Arrange
                 $contents = "this is the raw secret certificate field contents"
-                $keyVault = "key vault"
-                $secretName = "secret name"
+                $file = New-Item -Path "test-file.txt" -ItemType File -Value $contents
+                try {
+                    # Arrange
+                    $keyVault = "key vault"
+                    $secretName = "secret name"
+                
+                    Mock Set-AzKeyVaultSecret {
+                        ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
+                        $KeyVault | Should -Be $keyVault
+                        $SecretName | Should -Be $secretName } -Verifiable
 
-                Mock Get-Content { return $contents }
-                Mock Set-AzKeyVaultSecret {
-                    ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
-                    $KeyVault | Should -Be $keyVault
-                    $SecretName | Should -Be $secretName } -Verifiable
+                    # Act
+                    Set-AzKeyVaultSecretFromFile -FilePath $file.FullName -KeyVaultName $keyVault -SecretName $secretName
 
-                # Act
-                Set-AzKeyVaultSecretFromFile -FilePath "/filepath" -KeyVaultName $keyVault -SecretName $secretName
-
-                # Assert
-                Assert-VerifiableMock
+                    # Assert
+                    Assert-VerifiableMock
+                } catch {
+                    Remove-Item -Path $file.FullName    
+                }
             }
             It "Set secret in Key Vault with expiration date" {
                 # Arrange
@@ -59,7 +63,8 @@ Describe "Arcus" {
                 $keyVault = "key vault"
                 $secretName = "secret name"
                 $expirationDate = (Get-Date).AddDays(7).ToUniversalTime()
-
+                
+                Mock Test-Path { return $true }
                 Mock Get-Content { return $contents }
                 Mock Set-AzKeyVaultSecret {
                     ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
@@ -72,6 +77,22 @@ Describe "Arcus" {
 
                 # Assert
                 Assert-VerifiableMock
+            }
+            It "Set secret in Key Vault fails when file is not found" {
+                # Arrange
+                $contents = "this is the raw secret certificate field contents"
+                $keyVault = "key vault"
+                $secretName = "secret name"
+                
+                Mock Set-AzKeyVaultSecret { }
+                
+                # Act
+                { Set-AzKeyVaultSecretFromFile -FilePath "/not-existing-filepath" -KeyVaultName $keyVault -SecretName $secretName } |
+                    Should -Throw
+                
+                # Assert
+                Assert-VerifiableMock
+                Mock-Called Set-AzKeyVaultSecret -Times 0
             }
         }
     }
