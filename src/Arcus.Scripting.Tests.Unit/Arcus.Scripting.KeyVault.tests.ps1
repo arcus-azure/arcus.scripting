@@ -49,7 +49,7 @@ Describe "Arcus" {
                         $SecretName | Should -Be $secretName } -Verifiable
 
                     # Act
-                    Set-AzKeyVaultSecretFromFile -FilePath $file.FullName -KeyVaultName $keyVault -SecretName $secretName
+                    Set-AzKeyVaultSecretFromFile -KeyVaultName $keyVault -SecretName $secretName -FilePath $file.FullName
 
                     # Assert
                     Assert-VerifiableMock
@@ -73,7 +73,7 @@ Describe "Arcus" {
                     $expirationDate | Should -Be $expirationDate } -Verifiable
 
                 # Act
-                Set-AzKeyVaultSecretFromFile -FilePath "/filepath" -KeyVaultName $keyVault -SecretName $secretName -Expires $expirationDate
+                Set-AzKeyVaultSecretFromFile -KeyVaultName $keyVault -SecretName $secretName -Expires $expirationDate -FilePath "/filepath"
 
                 # Assert
                 Assert-VerifiableMock
@@ -87,7 +87,7 @@ Describe "Arcus" {
                 Mock Set-AzKeyVaultSecret { }
                 
                 # Act
-                { Set-AzKeyVaultSecretFromFile -FilePath "/not-existing-filepath" -KeyVaultName $keyVault -SecretName $secretName } |
+                { Set-AzKeyVaultSecretFromFile -KeyVaultName $keyVault -SecretName $secretName -FilePath "/not-existing-filepath" } |
                     Should -Throw
                 
                 # Assert
