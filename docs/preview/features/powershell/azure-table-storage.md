@@ -15,7 +15,7 @@ PS> Import-Module -Name Arcus.Scripting.TableStorage
 
 ## Create new table in Azure Table Storage on Azure Storage Account
 
-(Re)Create a Table Storage within an Azure Storage Account.
+(Re)Create a Azure Table Storage within an Azure Storage Account.
 
 | Parameter            | Mandatory | Description                                                                                                     |
 | -------------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
