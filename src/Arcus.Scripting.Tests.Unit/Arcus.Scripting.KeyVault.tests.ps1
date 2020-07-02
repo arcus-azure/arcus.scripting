@@ -92,7 +92,7 @@ Describe "Arcus" {
                 
                 # Assert
                 Assert-VerifiableMock
-                Mock-Called Set-AzKeyVaultSecret -Times 0
+                Assert-MockCalled Set-AzKeyVaultSecret -Times 0
             }
         }
     }
