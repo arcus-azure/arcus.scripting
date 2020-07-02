@@ -7,8 +7,9 @@ param (
     [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires
 )
 
-if (Test-Path -Path $FilePath -FileType Leaf -eq $false) {
+if (Test-Path -Path $FilePath -PathType Leaf -eq $false) {
     Write-Error "No file could containing the secret certificate at '$FilePath'"
+    return;
 }
 
 Write-Host "Creating KeyVault secret..."
