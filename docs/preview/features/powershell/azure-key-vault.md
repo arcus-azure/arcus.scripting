@@ -40,10 +40,10 @@ Sets a secret certificate from a file as plain text in Azure Key Vault.
 
 | Parameter      | Mandatory | Description                                                                          |
 | -------------- | --------- | ------------------------------------------------------------------------------------ |
-| `FilePath`	 | yes       | The path to the file containing the secret certificate to add in the Azure Key Vault |
-| `SecretName`   | yes       | The name of the secret to add in the Azure Key Vault                                 |
 | `KeyVaultName` | yes       | The name of the Azure Key Vault where the secret should be added                     |
-| `Expires`     | no        | The optional expiration date of the secret to add in the Azure Key Vault             |
+| `SecretName`   | yes       | The name of the secret to add in the Azure Key Vault                                 |
+| `FilePath`	 | yes       | The path to the file containing the secret certificate to add in the Azure Key Vault |
+| `Expires`      | no        | The optional expiration date of the secret to add in the Azure Key Vault             |
 
 **Example**
 ```powershell
