@@ -19,9 +19,9 @@ In certain scenarios, you have to embed content into an ARM template to deploy i
 However, the downside of it is that it's buried inside the template and tooling around it might be less ideal - An example of this is OpenAPI specifications you'd want to deploy.
 By using this script, you can inject external files inside your ARM template.
 
-| Parameter | Mandatory | Description                                                         |
-| --------- | --------- | ------------------------------------------------------------------- |
-| `Path`    | no        | The file path to the ARM template to inject the external files into |
+| Parameter | Mandatory | Description                                                                                     |
+| --------- | --------- | ----------------------------------------------------------------------------------------------- |
+| `Path`    | no        | The file path to the ARM template to inject the external files into  (default: `$PSScriptRoot`) |
 
 **Usage**
 Annotating content to inject:

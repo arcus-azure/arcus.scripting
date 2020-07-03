@@ -36,6 +36,10 @@ function InjectFile {
 
         $relativePathOfFileToInject = $fileMatch.Groups["File"];
         $fullPathOfFileToInject = Join-Path (Split-Path $filePath -Parent) $relativePathOfFileToInject
+        $fileToInjectIsFound = Test-Path -Path $fullPathOfFileToInject -PathType Leaf
+        if ($false -eq $fileToInjectIsFound) {
+            throw "No file can be found at '$fullPathofFileToInject'"
+        }
 
         # Inject content recursively first
         InjectFile($fullPathOfFileToInject)
@@ -50,7 +54,7 @@ function InjectFile {
         # By default: retain double quotes around content-to-inject, if present
         $surroundContentWithDoubleQuotes = $match.Value.StartsWith('"') -and $match.Value.EndsWith('"')
 
-        if ($instructionParts.Length -gt 1){
+        if ($instructionParts.Length -gt 1) {
             $optionParts = $instructionParts | select -Skip 1
 
             if ($optionParts.Contains("ReplaceSpecialChars")){
@@ -66,7 +70,7 @@ function InjectFile {
                 $newString = $newString -replace """", "\"""
             }
 
-            if ($optionParts.Contains("EscapeJson")){
+            if ($optionParts.Contains("EscapeJson")) {
                 Write-Host "`t JSON-escaping file content"
 
                 # Use regex negative lookbehind to replace double quotes not preceded by a backslash with escaped quotes
@@ -96,14 +100,20 @@ function InjectFile {
         return $newString;
     }
 
+    $rawContents = Get-Content $filePath -Raw
     $injectionInstructionRegex = [regex] '"?\${(.+)}\$"?';
-    $injectionInstructionRegex.Replace((Get-Content $filePath -Raw), $replaceContentDelegate) | Set-Content $filePath -Encoding UTF8
+    $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -Encoding UTF8
     
     Write-Host "Done checking file $filePath" 
 }
 
 
 $psScriptFileName = $MyInvocation.MyCommand.Name
+
+$PathIsFound = Test-Path -Path $Path
+if ($false -eq $PathIsFound) {
+    throw "Passed allong path '$Path' doesn't point to valid file path"
+}
 
 Write-Host "Starting $psScriptFileName script on path $Path"
 
