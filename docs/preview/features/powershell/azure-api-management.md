@@ -21,7 +21,7 @@ Create an operation on an existing API in Azure API Management.
 | ------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
 | `ResourceGroupName` | yes       | The resource group containing the API Management service                                                 |
 | `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure                                                  |
-| `ApiId`             | yes       | The ID to identify the API running in API Management                                                     |
+| `ApiId`             | yes       | The ID to identify the API running in Azure API Management                                                     |
 | `OperationId`       | yes       | The ID to identify the to-be-created operation on the API                                                |
 | `Method`            | yes       | The method of the to-be-created operation on the API                                                     |
 | `UrlTemplate`       | yes       | The URL-template, or endpoint-URL, of the to-be-created operation on the API                             |
