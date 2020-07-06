@@ -3,7 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage -DisableNameCheckin
 
 Describe "Arcus" {
 	Context "Table Storage" {
-		InModuleScope Arcus.Scripting.TableStorage {
+		InModuleScope Arcus.Scripting.Storage {
 			It "Create w/o recreating non-existing table in Azure Table Storage on Azure Storage Account" {
 				# Arrange
 				$resourceGroup = "stock"
