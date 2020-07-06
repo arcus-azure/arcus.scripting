@@ -1,5 +1,5 @@
 using module Az
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage -ErrorAction Stop
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage -DisableNameChecking
 
 Describe "Arcus" {
 	Context "Table Storage" {
