@@ -14,7 +14,7 @@
  .Parameter TableName
   The name of the table to add on the Azure Storage Account.
 
- .Parameter DeleteAndCreate
+ .Parameter Recreate
   The optional flag to indicate whether or not a possible already existing table should be deleted and re-created.
 #>
 function Create-AzTableStorage {
@@ -22,11 +22,11 @@ function Create-AzTableStorage {
 		[string][parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
 		[string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
 		[string][parameter(Mandatory = $true)] $TableName = $(throw = "Table Storage name is required"),
-		[switch][parameter()] $DeleteAndCreate = $false
+		[switch][parameter()] $Recreate = $false
 	)
 
-	if ($DeleteAndCreate) {
-		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -DeleteAndCreate
+	if ($Recreate) {
+		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -Recreate
 	} else {
 		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName
 	}

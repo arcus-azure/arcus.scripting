@@ -22,7 +22,7 @@ PS> Import-Module -Name Arcus.Scripting.Storage
 | `ResourceGroupName`  | yes       | The resource group where the Azure Storage Account is located                                                           |
 | `StorageAccountName` | yes       | The name of the Azure Storage Account to add the table to                                                             |
 | `TableName`          | yes       | The name of the table to add on the Azure Storage Account                                                             |
-| `DeleteAndCreate`    | no        | The optional flag to indicate whether or not a possible already existing table should be deleted and re-created |
+| `Recreate`    | no        | The optional flag to indicate whether or not a possible already existing table should be deleted and re-created |
 
 **Example**
 
@@ -36,7 +36,7 @@ PS> Create-AzTableStorageAccountTable -ResourceGroupName "stock" -StorageAccount
 With existing table and re-create:
 
 ```powershell
-PS> Create-AzTableStorageAccountTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products" -DeleteAndCreate
+PS> Create-AzTableStorageAccountTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products" -Recreate
 # Deleting existing table 'products' in the storage account 'admin'...
 # Creating table 'products' in the storage account 'admin'..
 ```

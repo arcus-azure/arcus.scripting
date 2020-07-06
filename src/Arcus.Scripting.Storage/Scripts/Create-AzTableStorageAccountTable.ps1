@@ -2,7 +2,7 @@ param(
    [string][parameter(Mandatory = $true)] $ResourceGroup,
    [string][parameter(Mandatory = $true)] $StorageAccountName,
    [string][parameter(Mandatory = $true)] $TableName,
-   [switch][parameter()] $DeleteAndCreate = $false
+   [switch][parameter()] $Recreate = $false
 )
 
 function Create-StorageAccountTable()
@@ -13,7 +13,7 @@ function Create-StorageAccountTable()
        [string][parameter(Mandatory = $true)] $ResourceGroup,
        [string][parameter(Mandatory = $true)] $StorageAccountName,
        [string][parameter(Mandatory = $true)] $TableName,
-       [bool][parameter()] $DeleteAndCreate = $false
+       [bool][parameter()] $Recreate = $false
     )
     BEGIN
     {
@@ -29,7 +29,7 @@ function Create-StorageAccountTable()
         if($table)
         {
             #Table already exists
-            if($DeleteAndCreate)
+            if($Recreate)
             {
                 #Delete the table before re-creating
                 Write-Host "Deleting existing table '$TableName' in the storage account '$StorageAccountName'..."
@@ -82,4 +82,4 @@ function Try-CreateTable()
     }
 }
 
-Create-StorageAccountTable -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -DeleteAndCreate $DeleteAndCreate
+Create-StorageAccountTable -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -Recreate $Recreate
