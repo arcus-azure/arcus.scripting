@@ -17,7 +17,7 @@
  .Parameter DeleteAndCreate
   The optional flag to indicate whether or not a possible already existing table should be deleted and re-created.
 #>
-function Create-AzTableStorageAccountTable {
+function Create-AzTableStorage {
 	param(
 		[string][parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
 		[string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),

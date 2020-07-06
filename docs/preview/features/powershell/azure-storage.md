@@ -1,16 +1,16 @@
 ---
-title: "Scripts related to interacting with Azure Table Storage"
+title: "Scripts related to interacting with Azure Storage"
 layout: default
 ---
 
-# Azure Table Storage
+# Azure Storage
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Import-Module -Name Arcus.Scripting.TableStorage
+PS> Import-Module -Name Arcus.Scripting.Storage
 ```
 
 ## Create new table in Azure Table Storage on Azure Storage Account

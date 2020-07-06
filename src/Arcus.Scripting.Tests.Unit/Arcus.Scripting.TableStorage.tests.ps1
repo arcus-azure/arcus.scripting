@@ -1,5 +1,5 @@
 using module Az
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.TableStorage -ErrorAction Stop
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage -ErrorAction Stop
 
 Describe "Arcus" {
 	Context "Table Storage" {
@@ -26,7 +26,7 @@ Describe "Arcus" {
 				Mock Remove-AzStorageTable { }
 
 				# Act
-				Create-AzTableStorageAccountTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
+				Create-AzTableStorage -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
 
 				# Assert
 				Assert-VerifiableMock
@@ -55,7 +55,7 @@ Describe "Arcus" {
 				Mock Remove-AzStorageTable { }
 
 				# Act
-				Create-AzTableStorageAccountTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
+				Create-AzTableStorage -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
 
 				Assert-VerifiableMock
 			        Assert-MockCalled Get-AzStorageAccount -Times 1
@@ -87,7 +87,7 @@ Describe "Arcus" {
 					$Name | Should -Be $tableName } -Verifiable
 
 				# Act
-				Create-AzTableStorageAccountTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -DeleteAndCreate
+				Create-AzTableStorage -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -DeleteAndCreate
 
 				Assert-VerifiableMock
 			        Assert-MockCalled Get-AzStorageAccount -Times 1
@@ -117,7 +117,7 @@ Describe "Arcus" {
 				Mock Remove-AzStorageTable { }
 
 				# Act
-				Create-AzTableStorageAccountTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -DeleteAndCreate
+				Create-AzTableStorage -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -DeleteAndCreate
 
 				# Assert
 				Assert-VerifiableMock
