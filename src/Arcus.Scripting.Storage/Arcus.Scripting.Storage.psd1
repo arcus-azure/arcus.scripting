@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'Arcus.Scripting.TableStorage.psm1'
+RootModule = 'Arcus.Scripting.Storage.psm1'
 
 # Version number of this module.
 ModuleVersion = '#{Package.Version}#'
