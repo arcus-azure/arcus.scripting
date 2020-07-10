@@ -89,19 +89,16 @@ stages:
             inputs:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
-          #- template: github/create-release.yml@templates
-          #  parameters:
-          #    repositoryName: '$(Repository)'
-          #    releaseNotes: |
-          #      Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project)
-          #      ```shell
-          #      PS > Install-Module -Name $(Project).* --Version $(Build.BuildNumber)
-          #      ```
+          - template: github/create-release.yml@templates
+            parameters:
+              repositoryName: '$(Repository)'
+              releaseNotes: |
+                Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project)
+                ```shell
+                PS > Install-Module -Name $(Project).* --Version $(Build.BuildNumber)
+                ```
           - powershell: |
               Import-Module PowerShellGet -Force
-              # Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
-              #   % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository PSGallery -Verbose -Force }
-
               Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
                 % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
             displayName: 'Generate .nuspec file for each PowerShell module'
