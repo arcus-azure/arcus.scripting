@@ -99,8 +99,23 @@ stages:
           #      ```
           - powershell: |
               Import-Module PowerShellGet -Force
+              # Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
+              #   % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository PSGallery -Verbose -Force }
+
               Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
-                  % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository PSGallery -Verbose -Force }
-            displayName: 'Publish PS module to PowerShell Gallery'
+                % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
+            displayName: 'Generate .nuspec file for each PowerShell module'
             env:
-              APIKEY: $(PSGallery.ApiKey)
+              SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
+          - task: NuGetCommand@2
+            inputs:
+              command: 'pack'
+              packagesToPack: '**/*.nuspec'
+              packDestination: '$(Build.ArtifactStagingDirectory)'
+          - task: NuGetCommand@2
+            displayName: 'Push to PowerShell Gallery'
+            inputs:
+              command: push
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+              nuGetFeedType: external
+              publishFeedCredentials: 'PowerShell Gallery'
