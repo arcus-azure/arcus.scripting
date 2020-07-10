@@ -102,7 +102,7 @@ stages:
               # Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
               #   % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository PSGallery -Verbose -Force }
 
-              Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
+              Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
                 % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
             displayName: 'Generate .nuspec file for each PowerShell module'
             env:
