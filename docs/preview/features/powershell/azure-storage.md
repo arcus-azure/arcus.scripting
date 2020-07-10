@@ -10,7 +10,7 @@ layout: default
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Import-Module -Name Arcus.Scripting.Storage
+PS> Import-Module -Name Arcus.Scripting.Storage.Table
 ```
 
 ## Create new table in Azure Table Storage on Azure Storage Account
