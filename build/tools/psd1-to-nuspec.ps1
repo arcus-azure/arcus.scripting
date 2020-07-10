@@ -237,7 +237,7 @@ function New-NuSpecFile
   $Copyright = $null
   $requireLicenseAcceptance = 'false'
  
-  $PSModuleInfo = Test-ModuleManifest -Path $ManifestPath
+  $PSModuleInfo = Test-ModuleManifest -Path $ManifestPath -ErrorAction SilentlyContinue
   If (-not $PSModuleInfo)
   {
     Throw "Failed to retrieve module information from manifest '$ManifestPath'"
