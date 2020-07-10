@@ -57,7 +57,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   Import a policy to a product in Azure API Management.
 
  .Parameter ResourceGroupName
-  The resource group containing the Azure API Management service.
+  The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
   The name of the Azure API Management instance located in Azure.
