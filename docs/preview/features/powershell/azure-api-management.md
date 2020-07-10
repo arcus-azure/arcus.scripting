@@ -38,7 +38,7 @@ PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceNam
 # New API operation '$OperationName' on Azure API Management service was added.
 ```
 
-Creates a new API operation on the API Management service with using a specific operation policy.
+Creates a new API operation on the Azure API Management instance with using a specific operation policy.
 
 ```powershell
 PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate -OperationName $OperationName -Description $Description -PolicyFilePath $PolicyFilePath
