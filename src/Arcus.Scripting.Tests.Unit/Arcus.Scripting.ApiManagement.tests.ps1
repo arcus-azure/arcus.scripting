@@ -119,12 +119,122 @@ Describe "Arcus" {
 
                 # Act
                 { Import-AzApiManagementProductPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath } |
+            It "Remove API Management defaults succeed" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock Remove-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    $ApiId | Should -Be "echo-api"
+                    return $true } -Verifiable
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+
+                # Act
+                Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+            }
+            It "Remove API Management defaults when echo-api API failed to remove, throws" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock Remove-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    $ApiId | Should -Be "echo-api"
+                    return $false } -Verifiable
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+
+                # Act
+                { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
                     Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
-            It "Importing policy API sets Azure API Management policy on operation" {
+            It "Remove API Management defaults when starter product failed to remove, throws" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock Remove-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    $ApiId | Should -Be "echo-api"
+                    return $true } -Verifiable
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $false } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+
+                # Act
+                { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
+                    Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+            }
+            It "Remove API Management defaults when unlimited product failed to remove, throws" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock Remove-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    $ApiId | Should -Be "echo-api"
+                    return $true } -Verifiable
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $false } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+
+                # Act
+                { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
+                    Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+            }
+            It "Importing policy API sets API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
@@ -172,6 +282,8 @@ Describe "Arcus" {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled New-AzApiManagementContext -Times 1
+                Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
             It "Importing policy operation sets Azure API Management policy on operation" {
                 # Arrange
@@ -179,7 +291,6 @@ Describe "Arcus" {
                 $serviceName = "shopping-API-management"
                 $apiId = "shopping-API"
                 $operationId = "orders"
-                
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
@@ -194,8 +305,9 @@ Describe "Arcus" {
                     $PolicyFilePath | Should -Be $policyFilePath
                     return $true } -Verifiable
 
+                # Act
                 Import-AzApiManagementOperationPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath
-
+                
                 # Assert
                 Assert-VerifiableMock
             }
