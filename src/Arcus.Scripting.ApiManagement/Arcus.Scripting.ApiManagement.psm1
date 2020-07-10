@@ -124,7 +124,7 @@ Export-ModuleMember -Function Import-AzApiManagementApiPolicy
   The resource group containing the Azure API Management service.
 
  .Parameter ServiceName
-  The name of the API Management service located in Azure.
+  The name of the Azure API Management instance located in Azure.
 
  .Parameter ApiId
   The ID to identify the API running in Azure API Management.
