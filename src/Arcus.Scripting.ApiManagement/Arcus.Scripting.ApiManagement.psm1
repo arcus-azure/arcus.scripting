@@ -60,7 +60,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   The resource group containing the Azure API Management service.
 
  .Parameter ServiceName
-  The name of the API Management service located in Azure.
+  The name of the Azure API Management instance located in Azure.
 
  .Parameter ProductId
   The ID to identify the product in Azure API Management.
