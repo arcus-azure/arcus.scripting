@@ -4,9 +4,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{893fc428-7c18-40ef-81e8-244635579cc7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
-    <Name>Arcus.Scripting.TableStorage</Name>
+    <RootNamespace>Arcus.Scripting.Storage</RootNamespace>
+    <AssemblyName>Arcus.Scripting.Storage</AssemblyName>
+    <Name>Arcus.Scripting.Storage</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
