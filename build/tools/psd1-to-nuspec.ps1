@@ -214,14 +214,15 @@ function Get-ManifestHashTable
 }
 
 function Toggle-RequiredModules ($Path) {
-    Get-Content -Path $Path | 
-      ForEach-Object { 
+    $content = Get-Content -Path $Path
+    $content = $content | ForEach-Object { 
           if ($_ -match "RequiredModules") {
             if ($_.StartsWith("#")) {
                 return $_.TrimStart('#')
             } else { return "# $_" }
         } else { return $_ } 
-      } | Out-File $Path
+      }
+    $content | Out-File -FilePath $Path
 }
 
 function New-NuSpecFile
