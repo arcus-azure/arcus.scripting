@@ -213,6 +213,17 @@ function Get-ManifestHashTable
   return $scriptBlock.InvokeReturnAsIs()
 }
 
+function Toggle-RequiredModules ($Path) {
+    Get-Content -Path $Path | 
+      ForEach-Object { 
+          if ($_ -match "RequiredModules") {
+            if ($_.StartsWith("#")) {
+                return $_.TrimStart('#')
+            } else { return "# $_" }
+        } else { return $_ } 
+      } | Out-File $Path
+}
+
 function New-NuSpecFile
 {
   [CmdletBinding(PositionalBinding = $false)]
@@ -237,7 +248,10 @@ function New-NuSpecFile
   $Copyright = $null
   $requireLicenseAcceptance = 'false'
  
-  $PSModuleInfo = Test-ModuleManifest -Path $ManifestPath -ErrorAction SilentlyContinue
+  Toggle-RequiredModules $ManifestPath
+  $PSModuleInfo = Test-ModuleManifest -Path $ManifestPath
+  Toggle-RequiredModules $ManifestPath
+
   If (-not $PSModuleInfo)
   {
     Throw "Failed to retrieve module information from manifest '$ManifestPath'"
