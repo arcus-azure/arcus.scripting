@@ -2,10 +2,11 @@
 #Requires -Version 5.0
 <#
     =======================================================================================================
-    AUTHOR:  Tao Yang 
+    AUTHOR:  Tao Yang
     DATE:    05/09/2018
     Version: 1.0
     Comment: generate nuget specification file (.nuspec) based on PowerShell module manifest (.psd1) file
+    Origin: https://gist.github.com/tyconsulting/c567e5cc66fc522d46743d744579be27
     =======================================================================================================
 #>
 [CmdletBinding(PositionalBinding = $false)]
