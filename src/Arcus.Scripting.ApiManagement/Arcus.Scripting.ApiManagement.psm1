@@ -15,7 +15,7 @@
   The name of the Azure API Management instance.
 
  .Parameter ApiId
-  The ID to identify the API running in API Management.
+  The ID to identify the API running in Azure API Management.
 
  .Parameter OperationId
   The ID to identify the to-be-created operation on the API.
@@ -54,6 +54,38 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
 
 <#
  .Synopsis
+  Import a policy to a product in Azure API Management.
+
+ .Description
+  Import a policy to a product in Azure API Management.
+
+ .Parameter ResourceGroupName
+  The resource group containing the Azure API Management instance.
+
+ .Parameter ServiceName
+  The name of the Azure API Management instance located in Azure.
+
+ .Parameter ProductId
+  The ID to identify the product in Azure API Management.
+
+ .Parameter PolicyFilePath
+  The path to the file containing the optional policy of the to-be-imported policy on the API.
+#>
+function Import-AzApiManagementProductPolicy {
+    param(
+        [string][parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
+        [string][parameter(Mandatory = $true)] $ProductId = $(throw "Product ID is required"),
+        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
+    )
+
+    . $PSScriptRoot\Scripts\Import-AzApiManagementProductPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
+}
+
+Export-ModuleMember -Function Import-AzApiManagementProductPolicy
+
+<#
+.Synopsis
   Remove all defaults from the API Management service.
 
  .Description
@@ -84,10 +116,10 @@ Export-ModuleMember -Function Remove-AzApiManagementDefaults
   Import a base-policy to an API hosted in Azure API Management.
 
  .Parameter ResourceGroup
-  The resource group containing the API Management service.
+ The resource group containing the Azure API Management service.
 
  .Parameter ServiceName
-  The name of the API Management service located in Azure.
+  The name of the Azure API Management service located in Azure.
 
  .Parameter ApiId
   The ID to identify the API running in API Management.
@@ -115,8 +147,14 @@ Export-ModuleMember -Function Import-AzApiManagementApiPolicy
  .Description
   Imports a policy from a file to an API operation in Azure API Management.
 
+ .Parameter ResourceGroup
+  The resource group containing the Azure API Management service.
+
+ .Parameter ServiceName
+  The name of the Azure API Management instance located in Azure.
+  
  .Parameter ApiId
-  The ID to identify the API running in API Management.
+  The ID to identify the API running in Azure API Management.
 
  .Parameter OperationId
   The ID to identify the operation for which to import the policy.
