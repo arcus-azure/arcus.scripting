@@ -26,7 +26,7 @@ Param
   [string]
   $DestinationFolder
 )
-#region functions
+
 function Get-EscapedString
 {
   [CmdletBinding()]
@@ -543,9 +543,7 @@ function New-NuSpecFile
     }
   }
 }
-#endregion
 
-#region main
 Write-Output -InputObject "Generating .nuspec file based on PowerShell Module Manifest '$ManifestPath'"
 $param = @{
   'ManifestPath' = $ManifestPath
@@ -562,4 +560,3 @@ If ($NuspecFile)
 } else {
   Write-Error "Failed to create Nuspec file."
 }
-#endregion
