@@ -13,13 +13,13 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.ApiManagement
 ```
 
-## Create a new API operation on the Azure API Management service
+## Create a new API operation on the Azure API Management instance
 
 Create an operation on an existing API in Azure API Management.
 
 | Parameter           | Mandatory | Description                                                                                              |
 | ------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure API Management service                                           |
+| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance                                          |
 | `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure                                           |
 | `ApiId`             | yes       | The ID to identify the API running in Azure API Management                                               |
 | `OperationId`       | yes       | The ID to identify the to-be-created operation on the API                                                |
@@ -31,39 +31,39 @@ Create an operation on an existing API in Azure API Management.
 
 **Example**
 
-Creates a new API operation on the Azure API Management service with using the default base operation policy.
+Creates a new API operation on the Azure API Management instancee with using the default base operation policy.
 
 ```powershell
 PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate
-# New API operation '$OperationName' on Azure API Management service was added.
+# New API operation '$OperationName' on Azure API Management instance was added.
 ```
 
 Creates a new API operation on the Azure API Management instance with using a specific operation policy.
 
 ```powershell
 PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate -OperationName $OperationName -Description $Description -PolicyFilePath $PolicyFilePath
-# New API operation '$OperationName' on API Management service was added.
+# New API operation '$OperationName' on API Management instance was added.
 ```	
 
-## Import policy to a product in the Azure API Management service
+## Import policy to a product in the Azure API Management instance
 
 Imports a policy from a file to a product in Azure API Management.
 
-| Parameter           | Mandatory | Description                                               |
-| ------------------- | --------- | --------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure API Management service  |
-| `ServiceName`       | yes       | The name of the Azure API Management service located in Azure   |
+| Parameter           | Mandatory | Description                                                     |
+| ------------------- | --------- | --------------------------------------------------------------- |
+| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance |
+| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure  |
 | `ProductId`         | yes       | The ID to identify the product in Azure API Management          |
-| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy |
+| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |
 
 ```powershell
 PS> Import-AzApiManagementProductPolicy -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
 # Updating policy of the product '$ProductId'
 ```
 
-## Remove all Azure API Management defaults from the service
+## Remove all Azure API Management defaults from the instance
 
-Remove all default API's and products from the Azure API Management service ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
+Remove all default API's and products from the Azure API Management instance ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
 
 | Parameter       | Mandatory | Description                                                     |
 | --------------- | --------- | --------------------------------------------------------------- |
@@ -77,7 +77,7 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 # Removing Unlimited product...
 ```
 
-## Import policy to an API in the Azure API Management service
+## Import policy to an API in the Azure API Management instance
 
 Imports a base-policy from a file to an API in Azure API Management.
 
@@ -93,7 +93,7 @@ PS> Import-AzApiManagementApiPolicy -ResourceGroup $ResourceGroup -ServiceName $
 # Updating policy of the API '$ApiId'
 ```
 
-## Import policy to an operation in the Azure API Management service
+## Import policy to an operation in the Azure API Management instance
 Imports a policy from a file to an API operation in Azure API Management.
 
 | Parameter           | Mandatory | Description                                                     |
