@@ -339,5 +339,6 @@ Describe "Arcus" {
                 Assert-VerifiableMock
             }
         }
+        }
     }
 }
