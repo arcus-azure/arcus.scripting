@@ -29,14 +29,14 @@ PS> Import-Module -Name Arcus.Scripting.Storage.Table
 With non-existing table:
 
 ```powershell
-PS> Create-AzTableStorageAccountTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products"
+PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products"
 # Creating table 'products' in the storage account 'admin'..."
 ```
 
 With existing table and re-create:
 
 ```powershell
-PS> Create-AzTableStorageAccountTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products" -Recreate
+PS> Create-AzStorageTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products" -Recreate
 # Deleting existing table 'products' in the storage account 'admin'...
 # Creating table 'products' in the storage account 'admin'..
 ```
