@@ -66,7 +66,7 @@ RequiredModules = @('Az.Storage')
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = @('Create-AzTableStorage')
+FunctionsToExport = @('Create-AzStorageTable')
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'
