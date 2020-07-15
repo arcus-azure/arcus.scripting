@@ -31,7 +31,7 @@ Create an operation on an existing API in Azure API Management.
 
 **Example**
 
-Creates a new API operation on the Azure API Management instancee with using the default base operation policy.
+Creates a new API operation on the Azure API Management instance with using the default base operation policy.
 
 ```powershell
 PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate
