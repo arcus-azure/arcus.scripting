@@ -89,7 +89,8 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Azure','Key Vault', 'Arcus'
+        Tags = 'Azure', 'Security', 'Key Vault', 'Arcus'
+
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/arcus-azure/arcus.scripting/blob/master/LICENSE'
@@ -125,4 +126,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-
