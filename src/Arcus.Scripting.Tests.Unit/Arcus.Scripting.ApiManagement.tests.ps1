@@ -119,6 +119,9 @@ Describe "Arcus" {
 
                 # Act
                 { Import-AzApiManagementProductPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath } |
+                    # Assert
+                    Should -Throw
+            }
             It "Remove API Management defaults succeed" {
                 # Arrange
                 $resourceGroup = "shopping"
