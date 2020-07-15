@@ -4,8 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6CAFC0C6-A428-4d30-A9F9-700E829FEA51</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
+    <RootNamespace>Arcus.Scripting.Tests.Unit</RootNamespace>
+    <AssemblyName>Arcus.Scripting.Tests.Unit</AssemblyName>
     <Name>Arcus.Scripting.Tests.Unit</Name>
     <PackageEntryPoint>Arcus.Scripting.Tests.tests.ps1</PackageEntryPoint>
     <DotNetVersion>v4.7.2</DotNetVersion>
@@ -49,12 +49,18 @@
       <Project>{ac784a55-cce0-402f-99d0-4eb9147b3566}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Arcus.Scripting.TableStorage\Arcus.Scripting.TableStorage.pssproj">
+      <Name>Arcus.Scripting.TableStorage</Name>
+      <Project>{893fc428-7c18-40ef-81e8-244635579cc7}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arcus.Scripting.ApiManagement.tests.ps1" />
     <Compile Include="Arcus.Scripting.DataFactory.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
     <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
+    <Compile Include="Arcus.Scripting.TableStorage.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
