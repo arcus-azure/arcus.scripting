@@ -101,7 +101,7 @@ PrivateData = @{
         IconUri = 'https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = ''
+        # ReleaseNotes = ''
 
         # Prerelease string of this module
         # Prerelease = ''
