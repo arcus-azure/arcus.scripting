@@ -86,7 +86,7 @@ Export-ModuleMember -Function Import-AzApiManagementProductPolicy
 
 <#
 .Synopsis
-  Remove all defaults from the API Management service.
+  Remove all defaults from the API Management instance.
 
  .Description
  Remove all default API's and products from an Azure API Management instance ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions. 
@@ -116,7 +116,7 @@ Export-ModuleMember -Function Remove-AzApiManagementDefaults
   Import a base-policy to an API hosted in Azure API Management.
 
  .Parameter ResourceGroup
- The resource group containing the Azure API Management service.
+ The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
   The name of the Azure API Management service located in Azure.
@@ -148,7 +148,7 @@ Export-ModuleMember -Function Import-AzApiManagementApiPolicy
   Imports a policy from a file to an API operation in Azure API Management.
 
  .Parameter ResourceGroup
-  The resource group containing the Azure API Management service.
+  The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
   The name of the Azure API Management instance located in Azure.

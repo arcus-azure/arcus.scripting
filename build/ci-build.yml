@@ -41,9 +41,6 @@ stages:
         pool:
           vmImage: 'ubuntu-16.04'
         steps:
-          - template: 'nuget/determine-pr-version.yml@templates'
-            parameters:
-              manualTriggerVersion: ${{ parameters['Package.Version.ManualTrigger'] }}
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace package version tokens'
             inputs:
