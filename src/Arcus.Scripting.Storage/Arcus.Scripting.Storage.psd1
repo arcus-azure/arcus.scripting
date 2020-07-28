@@ -30,7 +30,7 @@ Copyright = '(c) 2020 Arcus. All rights reserved.'
 Description = 'Scripts related to interacting with Azure Table Storage'
 
 # Minimum version of the Windows PowerShell engine required by this module
-# PowerShellVersion = ''
+PowerShellVersion = '5.1'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
@@ -84,7 +84,37 @@ AliasesToExport = '*'
 # FileList = @()
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess
-# PrivateData = ''
+PrivateData = @{
+
+    PSData = @{	
+
+        # Tags applied to this module. These help with module discovery in online galleries.	
+        Tags = 'Azure', 'Storage', 'Data', 'Table Storage', 'Arcus'	
+
+        # A URL to the license for this module.	
+        LicenseUri = 'https://github.com/arcus-azure/arcus.scripting/blob/master/LICENSE'	
+
+        # A URL to the main website for this project.	
+        ProjectUri = 'https://github.com/arcus-azure/arcus.scripting'	
+
+        # A URL to an icon representing this module.	
+        IconUri = 'https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png'	
+
+        # ReleaseNotes of this module	
+        ReleaseNotes = 'https://github.com/arcus-azure/arcus.scripting/releases/tag/v#{Package.Version}#'	
+
+        # Prerelease string of this module	
+        # Prerelease = ''	
+
+        # Flag to indicate whether the module requires explicit user acceptance for install/update/save	
+        # RequireLicenseAcceptance = $false	
+
+        # External dependent modules of this module	
+        # ExternalModuleDependencies = @()	
+
+    } # End of PSData hashtable	
+
+ } # End of PrivateData hashtable	
 
 # HelpInfo URI of this module
 # HelpInfoURI = ''
