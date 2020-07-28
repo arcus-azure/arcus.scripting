@@ -48,7 +48,7 @@ PowerShellVersion = '5.1'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @('Az.DataFactory')
+RequiredModules = @(@{ModuleName='Az.DataFactory'; ModuleVersion='1.9.0'})
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -88,11 +88,10 @@ PrivateData = @{
 
     PSData = @{
 
-        # Tags applied to this module. These help with module discovery in online galleries.
+        # Tags applied to this module. These help with module discovery in online galleries.	
         Tags = 'Azure', 'Data', 'Data Factory', 'Arcus'
 
-
-        # A URL to the license for this module.
+        # A URL to the license for this module.	
         LicenseUri = 'https://github.com/arcus-azure/arcus.scripting/blob/master/LICENSE'
 
         # A URL to the main website for this project.
@@ -117,8 +116,6 @@ PrivateData = @{
 
  } # End of PrivateData hashtable
 
-
-
 # HelpInfo URI of this module
 # HelpInfoURI = ''
 
@@ -126,3 +123,4 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+
