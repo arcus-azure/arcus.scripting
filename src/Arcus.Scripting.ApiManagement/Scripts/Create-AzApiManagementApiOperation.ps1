@@ -15,7 +15,7 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -Ser
 
 # Create a new operation on the previously created API
 New-AzApiManagementOperation -Context $apimContext -ApiId $ApiId -OperationId $OperationId -Name $OperationName -Method $Method -UrlTemplate $UrlTemplate -Description $Description
-Write-Host "New API operation '$OperationName' on API Management service was added."
+Write-Host "New API operation '$OperationName' on API Management instance was added."
 
 # Check if a policy-file has been specified, if not - the base policy is assigned by default
 if($OperationId -eq "" -or $PolicyFilePath -eq "")

@@ -2,11 +2,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{fc575a21-8edb-4fe4-aa02-6869d2f0d51a}</ProjectGuid>
+    <ProjectGuid>{893fc428-7c18-40ef-81e8-244635579cc7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Arcus.Sripting.ApiManagement</RootNamespace>
-    <AssemblyName>Arcus.Sripting.ApiManagement</AssemblyName>
-    <Name>Arcus.Scripting.ApiManagement</Name>
+    <RootNamespace>Arcus.Scripting.Storage</RootNamespace>
+    <AssemblyName>Arcus.Scripting.Storage</AssemblyName>
+    <Name>Arcus.Scripting.Storage</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,13 +29,9 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.ApiManagement.psd1" />
-    <Compile Include="Arcus.Scripting.ApiManagement.psm1" />
-    <Compile Include="Scripts\Create-AzApiManagementApiOperation.ps1" />
-    <Compile Include="Scripts\Import-AzApiManagementProductPolicy.ps1" />
-    <Compile Include="Scripts\Remove-AzApiManagementDefaults.ps1" />
-    <Compile Include="Scripts\Import-AzApiManagementApiPolicy.ps1" />
-    <Compile Include="Scripts\Import-AzApiManagementOperationPolicy.ps1" />
+    <Compile Include="Arcus.Scripting.Storage.psd1" />
+    <Compile Include="Arcus.Scripting.Storage.psm1" />
+    <Compile Include="Scripts\Create-AzTableStorageAccountTable.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

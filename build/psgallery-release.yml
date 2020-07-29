@@ -3,6 +3,10 @@ name: $(Package.Version)
 trigger: none
 pr: none
 
+parameters:
+  - name: 'Package.Version'
+    type: 'string'
+
 resources:
   repositories:
     - repository: templates
@@ -15,7 +19,8 @@ variables:
   - template: ./variables/build.yml
   - name: 'Repository'
     value: 'arcus-azure/arcus.template'
-  # 'Package.Version' is added as queue-time variable on build in Azure DevOps
+  - name: 'Package.Version'
+    value: ${{ parameters['Package.Version'] }}
 
 stages:
   - stage: Build
@@ -24,7 +29,7 @@ stages:
         pool:
           vmImage: 'ubuntu-16.04'
         steps:
-           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace package version tokens'
             inputs:
               rootDirectory: 'src/'
@@ -69,12 +74,12 @@ stages:
               projectName: '$(Project).Tests.Unit'
 
   - stage: Release
-    displayName: 'Release to NuGet.org'
+    displayName: 'Release to PowerShell Gallery'
     dependsOn: UnitTests
     condition: succeeded()
     jobs:
       - job: PushToNuGet
-        displayName: 'Push to NuGet.org'
+        displayName: 'Push to PowerShell Gallery'
         pool:
           vmImage: 'ubuntu-16.04'
         steps:
@@ -87,8 +92,26 @@ stages:
             parameters:
               repositoryName: '$(Repository)'
               releaseNotes: |
-                Install new version via [NuGet](https://www.nuget.org/packages/$(Project)/$(Build.BuildNumber))
+                Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project).ARM)
                 ```shell
-                PM > Install-Package $(Project) --Version $(Build.BuildNumber)
+                PS > Install-Module -Name $(Project).ARM --Version $(Build.BuildNumber)
                 ```
-          - template: nuget/publish-official-package.yml@templates
+          - powershell: |
+              Import-Module PowerShellGet -Force
+              Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+                % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
+            displayName: 'Generate .nuspec file for each PowerShell module'
+            env:
+              SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
+          - task: NuGetCommand@2
+            inputs:
+              command: 'pack'
+              packagesToPack: '**/*.nuspec'
+              packDestination: '$(Build.ArtifactStagingDirectory)'
+          - task: NuGetCommand@2
+            displayName: 'Push to PowerShell Gallery'
+            inputs:
+              command: push
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+              nuGetFeedType: external
+              publishFeedCredentials: 'PowerShell Gallery'
