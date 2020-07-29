@@ -39,9 +39,15 @@
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\arm-template.json" />
-    <Content Include="Files\sample-values.json" />
-    <Content Include="Files\arm-template-org.json" />
+    <Content Include="Files\arm-template-escape-value.xml" />
+    <Content Include="Files\arm-template-escape.json" />
+    <Content Include="Files\arm-template-escape-org.json" />
+    <Content Include="Files\arm-template-object-value.json" />
+    <Content Include="Files\arm-template-object.json" />
+    <Content Include="Files\arm-template-object-org.json" />
+    <Content Include="Files\arm-template-inline.json" />
+    <Content Include="Files\arm-template-inline-value.json" />
+    <Content Include="Files\arm-template-inline-org.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

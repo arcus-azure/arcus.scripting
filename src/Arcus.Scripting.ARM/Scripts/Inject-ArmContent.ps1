@@ -112,7 +112,7 @@ $psScriptFileName = $MyInvocation.MyCommand.Name
 
 $PathIsFound = Test-Path -Path $Path
 if ($false -eq $PathIsFound) {
-    throw "Provided path '$Path' doesn't point to valid file path"
+    throw "Passed allong path '$Path' doesn't point to valid file path"
 }
 
 Write-Host "Starting $psScriptFileName script on path $Path"
