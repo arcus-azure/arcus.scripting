@@ -63,7 +63,7 @@ RequiredModules = @(@{ModuleName='Az.Storage'; ModuleVersion='2.3.0'})
 # FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-NestedModules = @('Table\Arcus.Scripting.Storage.Table.psm1')
+# NestedModules = @()
 
 # Functions to export from this module
 FunctionsToExport = @('Create-AzStorageTable')

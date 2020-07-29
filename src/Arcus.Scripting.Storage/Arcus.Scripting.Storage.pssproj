@@ -26,16 +26,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Table\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arcus.Scripting.Storage.psd1" />
-    <Compile Include="Table\Arcus.Scripting.Storage.Table.psm1" />
+    <Compile Include="Arcus.Scripting.Storage.Table.psm1" />
     <Compile Include="Scripts\Create-AzTableStorageAccountTable.ps1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Arcus.Scripting.Storage.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
