@@ -19,7 +19,7 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.DataFactory
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.DevOps", "Arcus.Scripting.DevOps\Arcus.Scripting.DevOps.pssproj", "{E5C773FE-4B4A-41A0-B2E4-1379E35DD7D2}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage", "Arcus.Scripting.Storage\Arcus.Scripting.Storage.pssproj", "{893FC428-7C18-40EF-81E8-244635579CC7}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.Table", "Arcus.Scripting.Storage.Table\Arcus.Scripting.Storage.Table.pssproj", "{893FC428-7C18-40EF-81E8-244635579CC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
