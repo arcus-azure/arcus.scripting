@@ -6,7 +6,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Arcus.Scripting.Storage</RootNamespace>
     <AssemblyName>Arcus.Scripting.Storage</AssemblyName>
-    <Name>Arcus.Scripting.Storage</Name>
+    <Name>Arcus.Scripting.Storage.Table</Name>
+    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +30,7 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.Storage.psd1" />
+    <Compile Include="Arcus.Scripting.Storage.Table.psd1" />
     <Compile Include="Arcus.Scripting.Storage.Table.psm1" />
     <Compile Include="Scripts\Create-AzTableStorageAccountTable.ps1" />
   </ItemGroup>

@@ -60,7 +60,7 @@
     <Compile Include="Arcus.Scripting.DataFactory.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
     <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
-    <Compile Include="Arcus.Scripting.TableStorage.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
