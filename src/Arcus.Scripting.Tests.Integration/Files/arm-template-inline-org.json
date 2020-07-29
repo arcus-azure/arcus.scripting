@@ -1,0 +1,14 @@
+{
+  "type": "Microsoft.ApiManagement/service/apis",
+  "name": "[concat(parameters('ApiManagement.Name'),'/', parameters('ApiManagement.Api.Name'))]",
+  "apiVersion": "2019-01-01",
+  "properties": {
+    "subscriptionRequired": true,
+    "path": "demo",
+    "value": "${ ./../Files/arm-template-inline-value.json }$",
+    "format": "swagger-json"
+  },
+  "tags": "[variables('Tags')]",
+  "dependsOn": [
+  ]
+}
