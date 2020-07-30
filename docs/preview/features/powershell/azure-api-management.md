@@ -5,10 +5,12 @@ layout: default
 
 # Azure API Management
 
-- [Create a new API operation on the Azure API Management instance](#create-a-new-api-operation-on-the-azure-api-management-instance)
-- [Remove all Azure API Management defaults from the instance](#remove-all-azure-api-management-defaults-from-the-instance)
-- [Import policy to an API in the Azure API Management instance](#import-policy-to-an-api-in-the-azure-api-management-instance)
-- [Import policy to an operation in the Azure API Management instance](#import-policy-to-an-operation-in-the-azure-api-management-instance)]
+This module provides the following capabilities:
+- [Creating a new API operation on an Azure API Management instance](#create-a-new-api-operation-on-the-azure-api-management-instance)
+- [Importing a policy to a product in the Azure API Management instance](#import-policy-to-a-product-in-the-azure-api-management-instance)
+- [Importing a policy to an API in the Azure API Management instance](#import-policy-to-an-api-in-the-azure-api-management-instance)
+- [Importing a policy to an operation in the Azure API Management instance](#import-policy-to-an-operation-in-the-azure-api-management-instance)
+- [Removing all Azure API Management defaults from the instance](#remove-all-azure-api-management-defaults-from-the-instance)
 
 ## Installation
 
@@ -66,22 +68,6 @@ PS> Import-AzApiManagementProductPolicy -ResourceGroup $ResourceGroup -ServiceNa
 # Updating policy of the product '$ProductId'
 ```
 
-## Remove all Azure API Management defaults from the instance
-
-Remove all default API's and products from the Azure API Management instance ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
-
-| Parameter       | Mandatory | Description                                                     |
-| --------------- | --------- | --------------------------------------------------------------- |
-| `ResourceGroup` | yes       | The resource group containing the Azure API Management instance |
-| `ServiceName`   | yes       | The name of the Azure API Management instance located in Azure  |
-
-```powershell
-PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $ServiceName
-# Removing Echo Api...
-# Removing Starter product...
-# Removing Unlimited product...
-```
-
 ## Import policy to an API in the Azure API Management instance
 
 Imports a base-policy from a file to an API in Azure API Management.
@@ -112,4 +98,20 @@ Imports a policy from a file to an API operation in Azure API Management.
 ```powershell
 PS> Import-AzApiManagementOperationPolicy -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
 # Updating policy of the operation '$OperationId' in API '$ApiId'
+```
+
+## Remove all Azure API Management defaults from the instance
+
+Remove all default API's and products from the Azure API Management instance ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions.
+
+| Parameter       | Mandatory | Description                                                     |
+| --------------- | --------- | --------------------------------------------------------------- |
+| `ResourceGroup` | yes       | The resource group containing the Azure API Management instance |
+| `ServiceName`   | yes       | The name of the Azure API Management instance located in Azure  |
+
+```powershell
+PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $ServiceName
+# Removing Echo Api...
+# Removing Starter product...
+# Removing Unlimited product...
 ```

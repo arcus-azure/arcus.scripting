@@ -5,7 +5,8 @@ layout: default
 
 # Azure DevOps
 
-- [Set DevOps variable](#set-devops-variable)
+This module provides the following capabilities:
+- [Seting a variable in a DevOps pipeline](#set-devops-variable)
 
 ## Installation
 

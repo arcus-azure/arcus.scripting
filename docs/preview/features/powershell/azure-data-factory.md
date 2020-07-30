@@ -5,8 +5,9 @@ layout: default
 
 # Azure Data Factory
 
-- [Enable the trigger of a Azure Data Factory](#enable-the-trigger-of-a-azure-data-factory)
-- [Disable the trigger of a Azure Data Factory](#disable-the-trigger-of-a-azure-data-factory)
+This module provides the following capabilities:
+- [Enabling a trigger of a Azure Data Factory resource](#enable-the-trigger-of-a-azure-data-factory)
+- [Disabling a trigger of a Azure Data Factory resource](#disable-the-trigger-of-a-azure-data-factory)
 
 ## Installation
 
