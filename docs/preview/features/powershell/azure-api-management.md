@@ -5,6 +5,11 @@ layout: default
 
 # Azure API Management
 
+- [Create a new API operation on the Azure API Management instance](#create-a-new-api-operation-on-the-azure-api-management-instance)
+- [Remove all Azure API Management defaults from the instance](#remove-all-azure-api-management-defaults-from-the-instance)
+- [Import policy to an API in the Azure API Management instance](#import-policy-to-an-api-in-the-azure-api-management-instance)
+- [Import policy to an operation in the Azure API Management instance](#import-policy-to-an-operation-in-the-azure-api-management-instance)]
+
 ## Installation
 
 To have access to the following features, you have to import the module:

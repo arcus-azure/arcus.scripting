@@ -5,6 +5,8 @@ layout: default
 
 # ARM
 
+- [Inject content in ARM template](#inject-content-in-arm-template)
+
 ## Installation
 
 To have access to the following features, you have to import the module:

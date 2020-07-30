@@ -5,6 +5,8 @@ layout: default
 
 # Azure DevOps
 
+- [Set DevOps variable](#set-devops-variable)
+
 ## Installation
 
 To have access to the following features, you have to import the module:

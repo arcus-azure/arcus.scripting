@@ -5,6 +5,8 @@ layout: default
 
 # Azure Storage
 
+- [Create new table in Azure Table Storage on Azure Storage Account](#create-new-table-in-azure-table-storage-on-azure-storage-account)
+
 ## Installation
 
 To have access to the following features, you have to import the module:

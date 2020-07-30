@@ -5,6 +5,9 @@ layout: default
 
 # Azure Key Vault
 
+- [Get all access policies of a Azure Key Vault](#get-all-access-policies-of-a-azure-key-vault)
+- [Set secret value from file into Azure Key Vault](#set-secret-value-from-file-into-azure-key-vault)
+
 ## Installation
 
 To have access to the following features, you have to import the module:
@@ -13,9 +16,9 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.KeyVault
 ```
 
-## Get all access policies of a key vault
+## Get all access policies of a Azure Key Vault
 
-Lists the current available access policies of the Azure key vault resource.
+Lists the current available access policies of the Azure Key Vault resource.
 
 | Parameter           | Mandatory | Description                                                                  |
 | ------------------- | --------- | ---------------------------------------------------------------------------- |
