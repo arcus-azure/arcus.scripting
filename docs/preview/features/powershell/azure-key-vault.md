@@ -6,8 +6,8 @@ layout: default
 # Azure Key Vault
 
 This module provides the following capabilities:
-- [Getting all access policies for an Azure Key Vault](#get-all-access-policies-of-a-azure-key-vault)
-- [Setting a secret value from file into Azure Key Vault](#set-secret-value-from-file-into-azure-key-vault)
+- [Getting all access policies for an Azure Key Vault](#getting-all-access-policies-for-an-azure-key-vault)
+- [Setting a secret value from file into Azure Key Vault](#setting-a-secret-value-from-file-into-azure-key-vault)
 
 ## Installation
 
@@ -17,7 +17,7 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.KeyVault
 ```
 
-## Get all access policies of an Azure Key Vault
+## Getting all access policies for an Azure Key Vault
 
 Lists the current available access policies of the Azure Key Vault resource.
 
@@ -38,7 +38,7 @@ PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault" 
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
 
-## Set secret value from file into Azure Key Vault
+## Setting a secret value from file into Azure Key Vault
 
 Sets a secret certificate from a file as plain text in Azure Key Vault.
 
