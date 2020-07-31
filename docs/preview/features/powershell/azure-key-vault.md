@@ -6,7 +6,7 @@ layout: default
 # Azure Key Vault
 
 This module provides the following capabilities:
-- [Getting all access policies of a Azure Key Vault](#get-all-access-policies-of-a-azure-key-vault)
+- [Getting all access policies for an Azure Key Vault](#get-all-access-policies-of-a-azure-key-vault)
 - [Setting a secret value from file into Azure Key Vault](#set-secret-value-from-file-into-azure-key-vault)
 
 ## Installation
