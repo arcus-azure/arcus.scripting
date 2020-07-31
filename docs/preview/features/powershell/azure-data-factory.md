@@ -5,6 +5,10 @@ layout: default
 
 # Azure Data Factory
 
+This module provides the following capabilities:
+- [Enabling a trigger of an Azure Data Factory pipeline](#enabling-a-trigger-of-an-azure-data-factory-pipeline)
+- [Disabling a trigger of an Azure Data Factory pipeline](#disabling-a-trigger-of-an-azure-data-factory-pipeline)
+
 ## Installation
 
 To have access to the following features, you have to import the module:
@@ -13,7 +17,7 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.DataFactory
 ```
 
-## Enable the trigger of a Azure Data Factory
+## Enabling a trigger of an Azure Data Factory pipeline
 
 Enable a Data Factory V2 Trigger.
 
@@ -37,7 +41,7 @@ PS> Enable-AzDataFactoryTrigger -ResourceGroupName "my-resouce-group" -DataFacto
 ```
 
 
-## Disable the trigger of a Azure Data Factory
+## Disabling a trigger of an Azure Data Factory pipeline
 
 Disable a Data Factory V2 Trigger.
 

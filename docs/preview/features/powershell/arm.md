@@ -5,6 +5,9 @@ layout: default
 
 # ARM
 
+This module provides the following capabilities:
+- [Injecting content into an ARM template](#injecting-content-into-an-arm-template)
+
 ## Installation
 
 To have access to the following features, you have to import the module:
@@ -13,7 +16,7 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.ARM
 ```
 
-## Inject content in ARM template
+## Injecting content into an ARM template
 
 In certain scenarios, you have to embed content into an ARM template to deploy it.
 
