@@ -17,7 +17,7 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.KeyVault
 ```
 
-## Get all access policies of a Azure Key Vault
+## Get all access policies of an Azure Key Vault
 
 Lists the current available access policies of the Azure Key Vault resource.
 
