@@ -6,7 +6,7 @@ layout: default
 # ARM
 
 This module provides the following capabilities:
-- [Injecting content into a ARM template](#inject-content-in-arm-template)
+- [Injecting content into an ARM template](#inject-content-in-arm-template)
 
 ## Installation
 
