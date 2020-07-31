@@ -6,7 +6,7 @@ layout: default
 # Azure Storage
 
 This module provides the following capabilities:
-- [Creating a new table in a Azure Table Storage on Azure Storage Account](#create-new-table-in-azure-table-storage-on-azure-storage-account)
+- [Creating a new table in an Azure Storage Account](#create-new-table-in-azure-table-storage-on-azure-storage-account)
 
 ## Installation
 
