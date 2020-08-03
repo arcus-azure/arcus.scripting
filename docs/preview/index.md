@@ -18,9 +18,11 @@ For more granular packages we recommend reading the documentation.
 
 # Features
 
-* Automate Azure Data Factory tasks ([powershell](features/powershell/azure-data-factory))
-* Automate Azure Key Vault tasks ([powershell](features/powershell/azure-key-vault))
 * Automate Azure API Management tasks ([powershell](features/powershell/azure-api-management))
+* Automate Azure Data Factory tasks ([powershell](features/powershell/azure-data-factory))
+* Automate Azure DevOps tasks ([powershell](features/powershell/azure-devops))
+* Automate Azure Key Vault tasks ([powershell](features/powershell/azure-key-vault))
+* Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
 * Automate Azure Table Storage tasks ([powershell](features/powershell/azure-table-storage))
 
 # License
