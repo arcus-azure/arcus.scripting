@@ -89,7 +89,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.	
-        Tags = 'Azure', 'Data', 'Data Factory', 'Arcus'
+        Tags = 'Azure', 'Data', 'DataFactory', 'Arcus'
 
         # A URL to the license for this module.	
         LicenseUri = 'https://github.com/arcus-azure/arcus.scripting/blob/master/LICENSE'
