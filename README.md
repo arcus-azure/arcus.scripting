@@ -7,11 +7,33 @@ Scripting with Microsoft Azure in a breeze.
 ![Arcus](https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png)
 
 # Installation
-Soon you will be able to install it via PowerShell gallery:
+Easy to install it via PowerShell gallery:
+
+- **ARM**
 
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.ARM
 ```
+
+- **API Management**
+
+```powershell
+PS> Install-MOdule -Name Arcus.Scripting.ApiManagement
+```
+
+- **Key Vault**
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.KeyVault
+```
+
+- **Table Storage**
+
+```powershell
+PS> Install-Mmodule -Name Arcus.Scripting.Storage.Table
+```
+
+For a more thorough overview, we recommend reading our [documentation](#documentation).
 
 # Documentation
 All documentation can be found on [here](https://scripting.arcus-azure.net/).
