@@ -107,7 +107,7 @@ Describe "Arcus" {
                             [pscustomobject] { Status = "Waiting" }
                         )
                     } else {
-                        return @([pscustomobject]{ Status = "Running" })
+                        return @()
                     }
                 }
                 Mock Set-AzLogicApp { }
