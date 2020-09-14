@@ -1,3 +1,4 @@
+using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 
 Describe "Arcus" {
