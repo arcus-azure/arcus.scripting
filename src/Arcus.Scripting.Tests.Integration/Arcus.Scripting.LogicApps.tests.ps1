@@ -100,7 +100,7 @@ Describe "Arcus" {
                 $i = 0
                 Mock Get-AzLogicAppRunHistory {
                     $script:i++
-                    if ($script:i -ge 2) {
+                    if ($script:i -gt 2) {
                         Write-Host "Returning empty (no running, no waiting) runs"
                         return @()
                     } else {
