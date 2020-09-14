@@ -102,8 +102,10 @@ Describe "Arcus" {
                 Mock Get-AzLogicAppRunHistory {
                     $i = $i + 1
                     if ($i -ge 2) {
+                        Write-Host "Returning empty (no running, no waiting) runs"
                         return @()
                     } else {
+                        Write-Host "Returning 1 running & 1 waiting runs"
                         return @(
                             [pscustomobject]{ Status = "Running" },
                             [pscustomobject] { Status = "Waiting" }
