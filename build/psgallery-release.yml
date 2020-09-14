@@ -73,6 +73,25 @@ stages:
             parameters:
               projectName: '$(Project).Tests.Unit'
 
+  - stage: IntegrationTests
+    displayName: Integration Tests
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: RunIntegrationTests
+        displayName: 'Run integration tests'
+        pool:
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: 'Download build artifacts'
+            inputs:
+              artifact: 'Build'
+              path: '$(Build.SourcesDirectory)'
+          - template: 'templates/run-pester-tests.yml'
+            parameters:
+              projectName: '$(Project).Tests.Integration'
+
   - stage: Release
     displayName: 'Release to PowerShell Gallery'
     dependsOn: UnitTests
