@@ -118,7 +118,7 @@ Describe "Arcus" {
 
                 # Assert
                 Assert-MockCalled Get-AzLogicAppRunHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
-                Assert-MockCalled Set-AzLogicApp -Times 5 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
+                Assert-MockCalled Set-AzLogicApp -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
             }
         }
     }
