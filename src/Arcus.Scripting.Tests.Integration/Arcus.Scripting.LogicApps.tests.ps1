@@ -45,7 +45,7 @@ Describe "Arcus" {
                 Mock Set-AzLogicApp { }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroupName
 
                 # Assert
                 Assert-MockCalled Get-AzLogicAppRunHistory -Times 0
@@ -69,7 +69,7 @@ Describe "Arcus" {
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on an the waiting runs for stopType = None" {
                 # Arrange
                 $resourceGroupName = "my-resource-group"
-                Mock-Get-AzLogicAppRunHistory {
+                Mock Get-AzLogicAppRunHistory {
                     return @([pscustomobject]{ Status = "Running" })
                 }
                 Mock Set-AzLogicApp { }
@@ -98,7 +98,7 @@ Describe "Arcus" {
             It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and running runs for stopType = Immediate" {
                 # Arrange
                 $resourceGroupName = "my-resource-group"
-                $i = -1
+                $i = 0
                 Mock Get-AzLogicAppRunHistory {
                     $i = $i + 1
                     if ($i -lt 3) {
