@@ -90,7 +90,11 @@ function ExecuteCheckType() {
 }
 
 $json = Get-Content $DeployFileName | Out-String | ConvertFrom-Json
-[array]::Reverse($json);
+
+if ($json -is [array]) {
+    [array]::Reverse($json)
+}
+
 $json | ForEach-Object { 
     $batch = $_;    
     $batchDescription = $batch.description
