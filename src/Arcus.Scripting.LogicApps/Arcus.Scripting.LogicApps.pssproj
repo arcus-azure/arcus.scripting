@@ -4,8 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{f6875ce9-d6b8-4715-9a31-cbdfe1df85bc}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
+    <RootNamespace>Arcus.Scripting.LogicApps</RootNamespace>
+    <AssemblyName>Arcus.Scripting.LogicApps</AssemblyName>
     <Name>Arcus.Scripting.LogicApps</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
