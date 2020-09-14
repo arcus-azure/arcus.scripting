@@ -17,7 +17,7 @@ function Disable-AzLogicAppsFromConfig {
         [string][Parameter(Mandatory = $true)] $ResourceGroupName
     )
     
-    . $PSScriptRoot\Scripts\Disable-AzLogicAppsWithConfig.ps1 -DeployFileName $DeployFileName -ResourceGroupName $ResourceGroupName
+    . $PSScriptRoot\Scripts\Disable-AzLogicAppsFromConfig.ps1 -DeployFileName $DeployFileName -ResourceGroupName $ResourceGroupName
 }
 
 Export-ModuleMember -Function Disable-AzLogicAppsFromConfig
