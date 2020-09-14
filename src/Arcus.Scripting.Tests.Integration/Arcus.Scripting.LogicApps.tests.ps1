@@ -48,7 +48,7 @@ Describe "Arcus" {
 
                 # Assert
                 Assert-MockCalled Get-AzLogicAppHistory -Times 0
-                Assert-MockCalled Set-AzLogic -Times 1  -ParameterFilter { $ResourceGroupName -eq $resourceGroupName -and $State -eq "Disabled" -and -Name -eq "snd-async" }
+                Assert-MockCalled Set-AzLogic -Times 1  -ParameterFilter { $ResourceGroupName -eq $resourceGroupName -and $State -eq "Disabled" -and $Name -eq "snd-async" }
             }
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on the running runs for unknown stopType" {
                 # Arrange
