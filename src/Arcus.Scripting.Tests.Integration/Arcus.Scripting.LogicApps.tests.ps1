@@ -113,10 +113,10 @@ Describe "Arcus" {
                 Mock Set-AzLogicApp { }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" -ResourceGroupName $resourceGroupName
 
                 # Assert
-                Assert-MockCalled Get-AzLogicAppRunHistory -Times 12 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
+                Assert-MockCalled Get-AzLogicAppRunHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
                 Assert-MockCalled Set-AzLogicApp -Times 5 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
             }
         }

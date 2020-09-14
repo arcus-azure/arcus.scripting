@@ -40,6 +40,7 @@
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" />
