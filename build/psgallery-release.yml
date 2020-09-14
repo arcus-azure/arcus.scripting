@@ -94,7 +94,9 @@ stages:
 
   - stage: Release
     displayName: 'Release to PowerShell Gallery'
-    dependsOn: UnitTests
+    dependsOn: 
+      - UnitTests
+      - IntegrationTests
     condition: succeeded()
     jobs:
       - job: PushToNuGet
