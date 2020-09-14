@@ -55,7 +55,7 @@ Describe "Arcus" {
                 # Arrange
                 $resourceGroupName = "my-resource-group"
                 Mock Get-AzLogicAppRunHistory { 
-                    return @([pscustomobject]{ Status = "Waiting" })
+                    return @([pscustomobject]@{ Status = "Waiting" })
                 }
                 Mock Set-AzLogicApp { }
 
@@ -84,8 +84,7 @@ Describe "Arcus" {
             It "Disbales all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and no running runs for stopType = Immediate" {
                 # Arrange
                 $resourceGroupName = "my-resource-group"
-                Mock Get-AzLogicAppRunHistory {
-                    return @([pscustomobject]{ Status = "Waiting" }) }
+                Mock Get-AzLogicAppRunHistory { return @([pscustomobject]@{ Status = "Waiting" }) }
                 Mock Set-AzLogicApp { }
 
                 # Act
@@ -107,8 +106,8 @@ Describe "Arcus" {
                     } else {
                         Write-Host "Returning 1 running & 1 waiting runs"
                         return @(
-                            [pscustomobject]{ Status = "Running" },
-                            [pscustomobject] { Status = "Waiting" }
+                            [pscustomobject]@{ Status = "Running" },
+                            [pscustomobject]@{ Status = "Waiting" }
                         )
                     }
                 }

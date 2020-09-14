@@ -52,7 +52,7 @@ function ExecuteCheckType() {
                     $WaitingRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp | Where-Object Status -eq "Waiting" | Measure-Object | ForEach-Object { $_.Count }
                     if ($RunningRunsCount -ne 0 -and $WaitingRunsCount -ne 0) {
                         while ($RunningRunsCount -ne 0 -and $WaitingRunsCount -ne 0) {
-                            Write-Host "Logic App '$laName' has Running and/or Waiting Runs, waiting 10 seconds and checking again.."
+                            Write-Host "Logic App '$logicApp' has Running and/or Waiting Runs, waiting 10 seconds and checking again.."
                             Write-Host "Number of running runs: $RunningRunsCount"
                             Write-Host "Number of waiting runs: $WaitingRunsCount"
                             Start-Sleep -Second 10                               
@@ -64,7 +64,7 @@ function ExecuteCheckType() {
                             }
                         }
                     }else{
-                        Write-Host("Found no more waiting or running runs for '$laName', executing stopType for Logic App")
+                        Write-Host("Found no more waiting or running runs for '$logicApp', executing stopType for Logic App")
                         ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppName $logicApp -stopType $batch.stopType
                     }                    
                     Write-Host("> Check 'NoWaitingOrRunningRuns' executed successfully on '$logicApp'")   
