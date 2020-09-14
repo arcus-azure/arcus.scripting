@@ -99,7 +99,7 @@ Describe "Arcus" {
                 $resourceGroupName = "my-resource-group"
                 $i = 0
                 Mock Get-AzLogicAppRunHistory {
-                    $i = $i + 1
+                    $script:i++
                     if ($i -ge 2) {
                         Write-Host "Returning empty (no running, no waiting) runs"
                         return @()
