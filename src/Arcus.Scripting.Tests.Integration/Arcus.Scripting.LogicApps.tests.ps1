@@ -60,7 +60,7 @@ Describe "Arcus" {
                 Mock Set-AzLogicApp { }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" -ResourceGroupName $resourceGroupName
 
                 # Assert
                 Assert-MockCalled Get-AzLogicAppHistory -Times 6 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
@@ -75,7 +75,7 @@ Describe "Arcus" {
                 Mock Set-AzLogicApp { }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" -ResourceGroupName $resourceGroupName
 
                 # Assert
                 Assert-MockCalled Get-AzLogicAppHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
@@ -89,7 +89,7 @@ Describe "Arcus" {
                 Mock Set-AzLogicApp { }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroupName
 
                 # Assert
                 Assert-MockCalled Get-AzLogicAppHistory -Times 10 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
@@ -113,7 +113,7 @@ Describe "Arcus" {
                 Mock Set-AzLogicApp { }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroupName
 
                 # Assert
                 Assert-MockCalled Get-AzLogicAppHistory -Times 12 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
