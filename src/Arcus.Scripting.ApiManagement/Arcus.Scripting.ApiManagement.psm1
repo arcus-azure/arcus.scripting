@@ -40,11 +40,13 @@ function Backup-AzApiManagementService {
     )
 
     if ($PassThru) {
-        . $PScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
     } else {
-        . $PScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
     }
 }
+
+Export-ModuleMember -Function Backup-AzApiManagementService
 
 <#
  .Synopsis
