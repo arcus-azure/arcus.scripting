@@ -40,9 +40,9 @@ function Backup-AzApiManagementService {
     )
 
     if ($PassThru) {
-        . $PScriptRoot\Script\Backup-AzApiManagementService -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
+        . $PScriptRoot\Script\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
     } else {
-        . $PScriptRoot\Script\Backup-AzApiManagementService -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
+        . $PScriptRoot\Script\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
     }
 }
 
