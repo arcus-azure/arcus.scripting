@@ -31,8 +31,8 @@
 function Backup-AzApiManagementService {
     param(
         [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
-        [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required")
-        [string][parameter(Mandatory = $true)] $ServiceName = $(trhow "API managgement service name is required"),
+        [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
         [string][parametre(Mandatory = $true)] $TargetContainerName = $(throw "Name of the target blob container is required"),
         [string][parameter(Mandatory = $false)] $TargetBlobName = $null,
         [switch][parameter(Mandatory = $false)] $PassThru = $false,
