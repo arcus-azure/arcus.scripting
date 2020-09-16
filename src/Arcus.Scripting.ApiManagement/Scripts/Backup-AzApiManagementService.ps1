@@ -5,7 +5,7 @@ param(
     [string][parameter(Mandatory = $true)] $TargetContainerName = $(throw "Name of the target blob container is required"),
     [string][parameter(Mandatory = $false)] $TargetBlobName = $null,
     [switch][parameter(Mandatory = $false)] $PassThru = $false,
-    [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter($Mandatory = $false)] $DefaultProfile = $null
+    [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter(Mandatory = $false)] $DefaultProfile = $null
 )
 
 Write-Host "Getting Azure storage account key..."
