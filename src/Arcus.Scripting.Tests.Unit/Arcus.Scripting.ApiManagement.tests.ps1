@@ -12,7 +12,7 @@ Describe "Arcus" {
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext
+                $storageContext = [pscustomobject]@{ }
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $resourceGroupName
@@ -49,8 +49,8 @@ Describe "Arcus" {
                 $targetBlobName = "backup-storage-blob"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext
-
+                $storageContext = [pscustomobject]@{ }
+               
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $resourceGroupName
                     $StorageAccountName | Should -Be $storageAccountName
