@@ -20,7 +20,7 @@ Describe "Arcus" {
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
-                    StorageAccountKey | Should -Be $storageKeyValue
+                    $StorageAccountKey | Should -Be $storageKeyValue
                     return $storageContext }
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroupName
@@ -57,7 +57,7 @@ Describe "Arcus" {
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
-                    StorageAccountKey | Should -Be $storageKeyValue
+                    $StorageAccountKey | Should -Be $storageKeyValue
                     return $storageContext }
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroupName
@@ -93,7 +93,7 @@ Describe "Arcus" {
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
-                    StorageAccountKey | Should -Be $storageKeyValue
+                    $StorageAccountKey | Should -Be $storageKeyValue
                     return $storageContext }
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroupName
@@ -130,7 +130,7 @@ Describe "Arcus" {
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
-                    StorageAccountKey | Should -Be $storageKeyValue
+                    $StorageAccountKey | Should -Be $storageKeyValue
                     return $storageContext }
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroupName
