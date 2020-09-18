@@ -25,15 +25,15 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
     if ($TargetBlobName -ne $null) {
         if ($PassThru) {
             if ($DefaultProfile -ne $null) {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageAccount -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru -DefaultProfile $DefaultProfile
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru -DefaultProfile $DefaultProfile
             } else {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageAccount -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
             }
         } else {
-            Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageAccount -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
+            Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
         }
     } else {
-        Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageAccount -TargetContainerName $TargetContainerName
+        Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $TargetContainerName
     }
 
     Write-Host "API management service is backed-up!"
