@@ -1,7 +1,7 @@
 ﻿using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking
 
-function Create-TestStorageContext {
+function Create-TestStorageContext () {
     # Test values, not really pointing to anything
     $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
     $testEndpoint = "http://storageaccountname.blob.core.windows.net"
