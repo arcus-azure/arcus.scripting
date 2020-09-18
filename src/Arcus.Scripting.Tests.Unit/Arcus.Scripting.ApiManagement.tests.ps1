@@ -1,6 +1,17 @@
 ﻿using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking
 
+function Create-TestStorageContext {
+    # Test values, not really pointing to anything
+    $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
+    $testEndpoint = "http://storageaccountname.blob.core.windows.net"
+    $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
+    $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
+    $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+
+    return $storageContext
+}
+
 Describe "Arcus" {
     Context "ApiManagement" {
         InModuleScope Arcus.Scripting.ApiManagement {
@@ -12,13 +23,7 @@ Describe "Arcus" {
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                
-                # Test values, not really pointing to anything
-                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
-                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
-                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
-                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $storageContext = Create-TestStorageContext
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $resourceGroupName
@@ -55,8 +60,8 @@ Describe "Arcus" {
                 $targetBlobName = "backup-storage-blob"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                $storageContext = [pscustomobject]@{ }
-               
+                $storageContext = Create-TestStorageContext
+
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $resourceGroupName
                     $StorageAccountName | Should -Be $storageAccountName
@@ -91,7 +96,7 @@ Describe "Arcus" {
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext
+                $storageContext = Create-TestStorageContext
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $resourceGroupName
@@ -106,7 +111,7 @@ Describe "Arcus" {
                     $Name | Should -Be $serviceName
                     $StorageContext | Should -be $storageContext
                     $TargetContainerName | Should -Be $targetContainerName
-                    $TargetBlobName | Should -Be $null
+                    $TargetBlobName | Should -BeNullOrEmpty 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $null }
 
@@ -127,8 +132,8 @@ Describe "Arcus" {
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext
-                $defaultProfile = [pscustomobject]@{ }
+                $storageContext = Create-TestStorageContext
+                $defaultProfile = New-Object -TypeName Microsoft.Azure.Commands.Common.Authentication.Models.AzureRmProfile
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $resourceGroupName
@@ -143,7 +148,7 @@ Describe "Arcus" {
                     $Name | Should -Be $serviceName
                     $StorageContext | Should -be $storageContext
                     $TargetContainerName | Should -Be $targetContainerName
-                    $TargetBlobName | Should -Be $null
+                    $TargetBlobName | Should -BeNullOrEmpty 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $defaultProfile }
 
