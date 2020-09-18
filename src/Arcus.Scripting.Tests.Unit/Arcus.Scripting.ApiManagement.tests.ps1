@@ -41,7 +41,7 @@ Describe "Arcus" {
                 Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzStorageAccountKey -Times 1
                 Assert-MockCalled New-AzStorageContext -Times 1
                 Assert-MockCalled Backup-AzApiManagement -Times 1
@@ -78,7 +78,7 @@ Describe "Arcus" {
                 Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -TargetBlobName $targetBlobName
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzStorageAccountKey -Times 1
                 Assert-MockCalled New-AzStorageContext -Times 1
                 Assert-MockCalled Backup-AzApiManagement -Times 1
@@ -114,7 +114,7 @@ Describe "Arcus" {
                 Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -PassThru
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzStorageAccountKey -Times 1
                 Assert-MockCalled New-AzStorageContext -Times 1
                 Assert-MockCalled Backup-AzApiManagement -Times 1
@@ -151,7 +151,7 @@ Describe "Arcus" {
                 Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -PassThru -DefaultProfile $defaultProfile
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzStorageAccountKey -Times 1
                 Assert-MockCalled New-AzStorageContext -Times 1
                 Assert-MockCalled Backup-AzApiManagement -Times 1
