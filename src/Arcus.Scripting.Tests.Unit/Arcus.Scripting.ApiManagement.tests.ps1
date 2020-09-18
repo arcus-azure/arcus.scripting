@@ -33,7 +33,7 @@ Describe "Arcus" {
                     $Name | Should -Be $serviceName
                     $StorageContext | Should -be $storageContext
                     $TargetContainerName | Should -Be $targetContainerName
-                    $TargetBlobName | Should -Be $null
+                    $TargetBlobName | Should -BeNullOrEmpty 
                     $PassThru | Should -Be $false
                     $DefaultProfile | Should -Be $null }
 
