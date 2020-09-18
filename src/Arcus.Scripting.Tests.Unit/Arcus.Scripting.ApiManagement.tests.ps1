@@ -69,7 +69,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -TargetBlobName
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -TargetBlobName $targetBlobName
 
                 # Assert
                 Assert-VerifiableMocks
