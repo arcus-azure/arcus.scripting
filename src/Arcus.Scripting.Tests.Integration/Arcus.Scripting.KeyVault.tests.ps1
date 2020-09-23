@@ -126,6 +126,7 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Set-AzKeyVaultSecret -Times 0
+            }
         }
     }
 }
