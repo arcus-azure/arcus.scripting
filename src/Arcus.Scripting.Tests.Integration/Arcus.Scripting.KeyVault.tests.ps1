@@ -88,7 +88,6 @@ Describe "Arcus" {
                     $KeyVault | Should -Be $keyVault
                     $SecretName | Should -Be $secretName
                     $ExpirationDate | Should -Be $expirationDate } -Verifiable
-                }
 
                 # Act
                 Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $keyVault -SecretName $secretName -Expires $expirationDate -FilePath "/filepath"
@@ -127,7 +126,6 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Set-AzKeyVaultSecret -Times 0
-            }
         }
     }
 }
