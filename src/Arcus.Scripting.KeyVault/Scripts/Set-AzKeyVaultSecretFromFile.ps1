@@ -18,7 +18,7 @@ Write-Host "Creating KeyVault secret..."
 
 $secretValue = $null
 if ($Base64) {
-    $content = Get-Content $filePath -Encoding Byte
+    $content = Get-Content $filePath -AsByteStream -Raw
     $contentBase64 = [System.Convert]::ToBase64String($content)
     $secretValue = ConvertTo-SecureString -String $contentBase64 -Force -AsPlainText
 } else {
