@@ -21,12 +21,12 @@ Describe "Arcus" {
 
                     # Assert
                     Assert-VerifiableMock
-                } catch {
+                } finally {
                     Remove-Item -Path $file.FullName    
                 }
             }
             It "Set secret as BASE64 in Key Vault" {
-                $contents = "this is the base64 secret certificate field contents"
+                $contents = [System.Text.Encoding]::UTF8.GetBytes("this is the base64 secret certificate field contents")
                 $file = New-Item -Path "test-base64-file.txt" -ItemType File -Value $contents
                 try {
                     # Arrange
@@ -36,7 +36,6 @@ Describe "Arcus" {
                     Mock Set-AzKeyvaultSecret {
                         ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText |
                             % { [System.Convert]::FromBase64String($_) } |
-                            % { [System.Text.Encoding]::UTF8.GetString($_) } |
                             Should -Be $contents
                         $KeyVault | Should -Be $keyVault
                         $SecretName | Should -Be $secretName } -Verifiable
@@ -46,7 +45,7 @@ Describe "Arcus" {
 
                     # Assert
                     Assert-VerifiableMock
-                } catch {
+                } finally {
                     Remove-Item -Path $file.FullName
                 }
             }
@@ -73,7 +72,7 @@ Describe "Arcus" {
             }
             It "Set secret as BASE64 in Key Vault with expiration date" {
                 # Arrange
-                $contents = "this is the BASE64 secret certificate field contents"
+                $contents = [System.Text.Encoding]::UTF8.GetBytes("this is the BASE64 secret certificate field contents")
                 $keyVault = "key vault"
                 $secretName = "secret name"
                 $expirationDate = (Get-Date).AddDays(5).ToUniversalTime()
@@ -83,7 +82,6 @@ Describe "Arcus" {
                 Mock Set-AzKeyvaultSecret {
                     ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText |
                         % { [System.Convert]::FromBase64String($_) } |
-                        % { [System.Text.Encoding]::UTF8.GetString($_) } |
                         Should -Be $contents
                     $KeyVault | Should -Be $keyVault
                     $SecretName | Should -Be $secretName
