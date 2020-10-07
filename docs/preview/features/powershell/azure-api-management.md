@@ -24,17 +24,17 @@ PS> Import-Module -Name Arcus.Scripting.ApiManagement
 
 Create an operation on an existing API in Azure API Management.
 
-| Parameter           | Mandatory | Description                                                                                              |
-| ------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance                                          |
-| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure                                           |
-| `ApiId`             | yes       | The ID to identify the API running in Azure API Management                                               |
-| `OperationId`       | yes       | The ID to identify the to-be-created operation on the API                                                |
-| `Method`            | yes       | The method of the to-be-created operation on the API                                                     |
-| `UrlTemplate`       | yes       | The URL-template, or endpoint-URL, of the to-be-created operation on the API                             |
-| `OperationName`     | no        | The optional descriptive name to give to the to-be-created operation on the API (default: `OperationId`) |
-| `Description`       | no        | The optional explanation to describe the to-be-created operation on the API                              |
-| `PolicyFilePath`    | no        | The path to the file containing the optional policy of the to-be-created operation on the API            |
+| Parameter        | Mandatory | Description                                                                                              |
+| ---------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| `ResourceGroup`  | yes       | The resource group containing the Azure API Management instance                                          |
+| `ServiceName`    | yes       | The name of the Azure API Management instance located in Azure                                           |
+| `ApiId`          | yes       | The ID to identify the API running in Azure API Management                                               |
+| `OperationId`    | yes       | The ID to identify the to-be-created operation on the API                                                |
+| `Method`         | yes       | The method of the to-be-created operation on the API                                                     |
+| `UrlTemplate`    | yes       | The URL-template, or endpoint-URL, of the to-be-created operation on the API                             |
+| `OperationName`  | no        | The optional descriptive name to give to the to-be-created operation on the API (default: `OperationId`) |
+| `Description`    | no        | The optional explanation to describe the to-be-created operation on the API                              |
+| `PolicyFilePath` | no        | The path to the file containing the optional policy of the to-be-created operation on the API            |
 
 **Example**
 
@@ -56,12 +56,12 @@ PS> Create-AzApiManagementApiOperation -ResourceGroup $ResourceGroup -ServiceNam
 
 Imports a policy from a file to a product in Azure API Management.
 
-| Parameter           | Mandatory | Description                                                     |
-| ------------------- | --------- | --------------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance |
-| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure  |
-| `ProductId`         | yes       | The ID to identify the product in Azure API Management          |
-| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |
+| Parameter        | Mandatory | Description                                                     |
+| -----------------| --------- | --------------------------------------------------------------- |
+| `ResourceGroup`  | yes       | The resource group containing the Azure API Management instance |
+| `ServiceName`    | yes       | The name of the Azure API Management instance located in Azure  |
+| `ProductId`      | yes       | The ID to identify the product in Azure API Management          |
+| `PolicyFilePath` | yes       | The path to the file containing the to-be-imported policy       |
 
 ```powershell
 PS> Import-AzApiManagementProductPolicy -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
@@ -72,12 +72,12 @@ PS> Import-AzApiManagementProductPolicy -ResourceGroup $ResourceGroup -ServiceNa
 
 Imports a base-policy from a file to an API in Azure API Management.
 
-| Parameter           | Mandatory | Description                                                      |
-| ------------------- | --------- | ---------------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance  |
-| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure   |
-| `ApiId`             | yes       | The ID to identify the API running in Azure API Management       |
-| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy        |
+| Parameter        | Mandatory | Description                                                      |
+| ---------------- | --------- | ---------------------------------------------------------------- |
+| `ResourceGroup`  | yes       | The resource group containing the Azure API Management instance  |
+| `ServiceName`    | yes       | The name of the Azure API Management instance located in Azure   |
+| `ApiId`          | yes       | The ID to identify the API running in Azure API Management       |
+| `PolicyFilePath` | yes       | The path to the file containing the to-be-imported policy        |
 
 ```powershell
 PS> Import-AzApiManagementApiPolicy -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
@@ -87,13 +87,13 @@ PS> Import-AzApiManagementApiPolicy -ResourceGroup $ResourceGroup -ServiceName $
 ## Importing a policy to an operation in the Azure API Management instance
 Imports a policy from a file to an API operation in Azure API Management.
 
-| Parameter           | Mandatory | Description                                                     |
-| ------------------- | --------- | --------------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance |
-| `ServiceName`       | yes       | The name of the Azure API Management service located in Azure   |
-| `ApiId`             | yes       | The ID to identify the API running in Azure API Management      |
-| `OperationId`       | yes       | The ID to identify the operation for which to import the policy |
-| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |   
+| Parameter        | Mandatory | Description                                                     |
+| ---------------- | --------- | --------------------------------------------------------------- |
+| `ResourceGroup`  | yes       | The resource group containing the Azure API Management instance |
+| `ServiceName`    | yes       | The name of the Azure API Management service located in Azure   |
+| `ApiId`          | yes       | The ID to identify the API running in Azure API Management      |
+| `OperationId`    | yes       | The ID to identify the operation for which to import the policy |
+| `PolicyFilePath` | yes       | The path to the file containing the to-be-imported policy       |   
 
 ```powershell
 PS> Import-AzApiManagementOperationPolicy -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
@@ -114,4 +114,33 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 # Removing Echo Api...
 # Removing Starter product...
 # Removing Unlimited product...
+```
+
+## Setting authentication keys to an API in the Azure API Management instance
+Sets the subscription header/query paramenter name to an API in Azure API Management.
+
+| Parameter           | Mandatory | Description                                                                                   |
+| ------------------- | --------- | --------------------------------------------------------------------------------------------- |
+| `ResourceGroup`     | yes       | The resource group containing the Azure API Management instance                               |
+| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure                                |
+| `ApiId`             | yes       | The ID to identify the API running in Azure API Management                                    |
+| `ApiKeyHeaderName`  | no        | The name of the header where the subscription key should be set. (default: `x-api-key`)       |
+| `ApiQueryParamName` | no        | The name of the query parameter where the subscription key should be set. (default: `apiKey`) |
+
+** Using default**
+
+```powershell
+PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId
+Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroup'"
+Write-Host "Subscription key header 'x-api-key' was assigned"
+Write-Host "Subscription key query parameter 'apiKey' was assigned"
+```
+
+**Custom values**
+
+```powershell
+PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -ApiKeyHeaderName "my-api-key" -ApiQueryParamName "myApiKey"
+Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroup'"
+Write-Host "Subscription key header 'my-api-key' was assigned"
+Write-Host "Subscription key query parameter 'myApiKey' was assigned"
 ```
