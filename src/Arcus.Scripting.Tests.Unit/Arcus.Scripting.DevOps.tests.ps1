@@ -20,11 +20,11 @@ Describe "Arcus" {
                 $variableGroupName = "some-variable-group-name"
 
                 Mock Invoke-RestMethod {
-                    $Uri | Should -Contain $variableGroupName
+                    $Uri | Should -BeLike "*$variableGroupName*"
                     if ($Method -eq "Get") {
                         [pscustomobject]@{ value = @{ id = "some-id" } }
                     } else {
-                        $Uri | Should -Contain "some-id"
+                        $Uri | Should -BeLike "*some-id*"
                         return $null
                     }
                 } -Verifiable
