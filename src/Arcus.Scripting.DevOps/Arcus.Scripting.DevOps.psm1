@@ -20,6 +20,8 @@ function Set-AzDevOpsVariable {
     Write-Host "#vso[task.setvariable variable=$Name] $Value"
 }
 
+Export-ModuleMember -Function Set-AzDevOpsVariable
+
 <#
  .Synopsis
   Sets the ARM outputs as a variable group on Azure DevOps.
@@ -45,3 +47,5 @@ function Set-AzDevOpsArmOutputsToVariableGroup {
         . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $VariableGroupName
     }
 }
+
+Export-ModuleMember -Function Set-AzDevOpsArmOutputsToVariableGroup
