@@ -12,10 +12,36 @@
   The value of the variable to set in the pipeline.
 #>
 function Set-AzDevOpsVariable {
-	param(
-		[Parameter(Mandatory=$true)][string]$Name = $(throw "Name is required"),
-		[Parameter(Mandatory=$true)][string]$Value = $(throw "Value is required")
-	)
+    param(
+        [parameter(Mandatory=$true)][string] $Name = $(throw "Name is required"),
+        [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required")
+    )
+    
+    Write-Host "#vso[task.setvariable variable=$Name] $Value"
+}
 
-	Write-Host "#vso[task.setvariable variable=$Name] $Value"
+<#
+ .Synopsis
+  Sets the ARM outputs as a variable group on Azure DevOps.
+
+ .Description
+  Sets the Azure Resource Management (ARM) outputs as a variable group on Azure DevOps.
+
+ .Parameter
+  The name of the variable group on Azure DevOps where the ARM outputs should be set.
+
+ .Parameter
+  The switch to also set the variables in the ARM output as pipeline variables in the current running job.
+#>
+function Set-AzDevOpsArmOutputsToVariableGroup {
+    param(
+        [parameter(Mandatory=$true)][string] $VariableGroupName = $(throw "Name for variable group is required"),
+        [parameter(Mandatory=$false)][switch] $UpdateVariablesForCurrentJob = $false
+    )
+
+    if ($UpdateVariablesForCurrentJob) {
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $VariableGroupName -UpdateVariablesForCurrentJob
+    } else {
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $VariableGroupName
+    }
 }

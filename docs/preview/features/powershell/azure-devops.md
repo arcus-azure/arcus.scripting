@@ -21,13 +21,43 @@ PS> Import-Module -Name Arcus.Scripting.DevOps
 Assign a value to a DevOps pipeline variable during the execution of this pipeline.
 
 | Parameter       | Mandatory | Description                                       |
-| --------------- | -------- | ------------------------------------------------ |
-| `Name`  | yes      | The name of the variable to set in the pipeline  |
-| `Value` | yes      | The value of the variable to set in the pipeline |
+| --------------- | --------- | ------------------------------------------------- |
+| `Name`          | yes       | The name of the variable to set in the pipeline   |
+| `Value`         | yes       | The value of the variable to set in the pipeline  |
 
 **Example**
 
 ```powershell
 PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
 # #vso[task.setvariable variable=my-variable] my-variable-value
+```
+
+## Setting ARM outputs to Azure DevOps variable group
+
+Sets the Azure Resource Management (ARM) outputs as a variable group on Azure DevOps.
+
+| Parameter                      | Mandatory | Description                                                                                             |
+| ------------------------------ | --------- | ------------------------------------------------------------------------------------------------------- |
+| `VariableGroupName`            | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be set                      |
+| `UpdateVariablesForCurrentJob` | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
+
+**Example**
+Without updating the variables in the current job running the pipeline:
+
+```powershell
+PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
+# Adding variable $output.Name with value $variableValue to variable group my-variable-group
+# Retrieving project details
+# Set properties for update of existing variable group
+```
+
+With also updating the variables in the current job running the pipeline:
+
+```powershell
+PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
+# Adding variable $output.Name with value $variableValue to variable group my-variable-group
+# Retrieving project details
+# Set properties for update of existing variable group
+# The pipeline variable $variableName will be updated to value $variableValue as well, so it can be used in subsequent tasks of the current job. 
+# ##vso[task.setvariable variable=$variableName]$variableValue
 ```

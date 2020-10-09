@@ -1,18 +1,39 @@
 ﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
 
 Describe "Arcus" {
-	Context "Azure DevOps" {
-		InModuleScope Arcus.Scripting.DevOps {
-			It "Set-DevOpsVariable" {
-				# Arrange
-				Mock Write-Host { $Object | Should -Be "#vso[task.setvariable variable=test] value" } -Verifiable
+    Context "Azure DevOps" {
+        InModuleScope Arcus.Scripting.DevOps {
+            It "Seting DevOps variable should write to host" {
+                # Arrange
+                Mock Write-Host { $Object | Should -Be "#vso[task.setvariable variable=test] value" } -Verifiable
+                
+                # Act
+                Set-AzDevOpsVariable "test" "value"
+                
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Setting DevOps variable group from ARM outputs should send info to DevOps project" {
+                # Arrange
+                $env:SYSTEM_ACCESSTOKEN = "something to fill"
+                $variableGroupName = "some-variable-group-name"
 
-				# Act
-				Set-AzDevOpsVariable "test" "value"
+                Mock Invoke-RestMethod {
+                    $Uri | Should -Contain $variableGroupName
+                    if ($Method -eq "Get") {
+                        [pscustomobject]@{ value = @{ id = "some-id" } }
+                    } else {
+                        $Uri | Should -Contain "some-id"
+                        return $null
+                    }
+                } -Verifiable
 
-				# Assert
-				Assert-VerifiableMock
-			}
-		}
-	}
+                # Act
+                Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
+
+                # Assert
+                Assert-VerifiableMock
+            }
+        }
+    }
 }
