@@ -26,7 +26,7 @@ Export-ModuleMember -Function Set-AzDevOpsVariable
  .Synopsis
   Sets the ARM outputs as a variable group on Azure DevOps.
 
- .Description
+ .Description   
   Sets the Azure Resource Management (ARM) outputs as a variable group on Azure DevOps.
 
  .Parameter
@@ -42,9 +42,9 @@ function Set-AzDevOpsArmOutputsToVariableGroup {
     )
 
     if ($UpdateVariablesForCurrentJob) {
-        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $VariableGroupName -UpdateVariablesForCurrentJob
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName -UpdateVariablesForCurrentJob
     } else {
-        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $VariableGroupName
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName
     }
 }
 
