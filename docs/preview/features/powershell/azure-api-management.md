@@ -136,7 +136,7 @@ Write-Host "Subscription key header 'x-api-key' was assigned"
 Write-Host "Subscription key query parameter 'apiKey' was assigned"
 ```
 
-**Custom values**
+**User-defined values**
 
 ```powershell
 PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -ApiKeyHeaderName "my-api-key" -ApiQueryParamName "myApiKey"
