@@ -25,7 +25,7 @@ Describe "Arcus" {
                         $Body | Should -BeLike "*some-id*"
                         return $null
                     } else {
-                        [pscustomobject]@{ value = @( @{ id = "some-id" } ) }
+                        [pscustomobject]@{ value = @( @{ id = "some-id"; variables = @() } ) }
                     }
                 } -Verifiable
 
