@@ -38,7 +38,7 @@ Stores the Azure Resource Management (ARM) outputs in a variable group on Azure 
 
 | Parameter                      | Mandatory | Description                                                                                             |
 | ------------------------------ | --------- | ------------------------------------------------------------------------------------------------------- |
-| `VariableGroupName`            | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be set                      |
+| `VariableGroupName`            | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be stored                      |
 | `UpdateVariablesForCurrentJob` | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
 
 **Example**
