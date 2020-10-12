@@ -362,7 +362,7 @@ Describe "Arcus" {
                     $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
 
                 # Act
-                Set-AzApiManagementApiSubscriptionKey -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -KeyHeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
+                Set-AzApiManagementApiSubscriptionKey -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
 
                 # Assert
                 Assert-VerifiableMock
