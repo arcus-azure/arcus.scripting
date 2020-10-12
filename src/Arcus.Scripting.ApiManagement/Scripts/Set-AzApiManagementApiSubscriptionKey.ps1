@@ -9,6 +9,6 @@ param(
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -ServiceName $ServiceName
 Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroup'"
 
-Set-AzApiManagementApi -Context $apimContext -ApiId $ApiId -Protocols "https" -SubscriptionKeyHeaderName $KeyHeaderName -SubscriptionKeyQueryParamName $QueryParamName
+Set-AzApiManagementApi -Context $apimContext -ApiId $ApiId -SubscriptionKeyHeaderName $KeyHeaderName -SubscriptionKeyQueryParamName $QueryParamName
 Write-Host "Subscription key header '$KeyHeaderName' was assigned"
 Write-Host "Subscription key query parameter '$QueryParamName' was assigned"
