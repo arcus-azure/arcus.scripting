@@ -32,7 +32,7 @@ Export-ModuleMember -Function Set-AzDevOpsVariable
  .Parameter VariableGroupName 
   The name of the variable group on Azure DevOps where the ARM outputs should be set.
 
- .Parameter
+ .Parameter UpdateVariablesForCurrentJob
   The switch to also set the variables in the ARM output as pipeline variables in the current running job.
 #>
 function Set-AzDevOpsArmOutputsToVariableGroup {
