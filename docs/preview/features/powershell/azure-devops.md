@@ -34,7 +34,7 @@ PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
 
 ## Setting ARM outputs to Azure DevOps variable group
 
-Sets the Azure Resource Management (ARM) outputs as a variable group on Azure DevOps.
+Stores the Azure Resource Management (ARM) outputs in a variable group on Azure DevOps.
 
 | Parameter                      | Mandatory | Description                                                                                             |
 | ------------------------------ | --------- | ------------------------------------------------------------------------------------------------------- |
