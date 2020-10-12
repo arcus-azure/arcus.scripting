@@ -81,5 +81,5 @@ PS> Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName "my-key-vault" -SecretNam
 
 And with expiration date:
 ```powershell
-PS> Set-AzKeyVaultSecretAsBase64FromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -Expires [Datetime]::ParseExact('07/15/2019', 'MM/dd/yyyy', $null) -KeyVaultName "my-key-vault" -KeyVaultName "my-key-vault"
+PS> Set-AzKeyVaultSecretAsBase64FromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -Expires [Datetime]::ParseExact('07/15/2019', 'MM/dd/yyyy', $null) -KeyVaultName "my-key-vault"
 ```
