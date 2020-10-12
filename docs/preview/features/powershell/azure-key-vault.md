@@ -63,7 +63,8 @@ PS> Set-AzKeyVaultSecretFromFile -FilePath "/file-path/secret-certificate.pfx" -
 
 ## Setting a secret value with BASE64 encoded file-content into Azure Key Vault
 
-Sets a secret certificate with BASE64 encoding from a file as plain text in Azure Key Vault.
+Uploads the content of a file as a Base64 encoded string, as plain text, into an Azure Key Vault secret.
+Can be useful when having to refer to a certificate from within an ARM-template.
 
 | Parameter      | Mandatory | Description                                                                          |
 | -------------- | --------- | ------------------------------------------------------------------------------------ |
