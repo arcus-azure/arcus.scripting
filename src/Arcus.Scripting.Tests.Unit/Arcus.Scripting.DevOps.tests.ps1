@@ -15,7 +15,7 @@ Describe "Arcus" {
             }
             It "Setting DevOps variable group from ARM outputs should send info to DevOps project" {
                 # Arrange
-                $env:ArmOutputs = "[ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ]"
+                $env:ArmOutputs = "{ ""PSObject"": { ""Properties"": { [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] } }"
                 $env:SYSTEM_ACCESSTOKEN = "something to fill"
                 $variableGroupName = "some-variable-group-name"
                 $variableName = "some-id"
