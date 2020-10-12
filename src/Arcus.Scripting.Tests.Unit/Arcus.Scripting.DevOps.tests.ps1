@@ -18,14 +18,16 @@ Describe "Arcus" {
                 $env:ArmOutputs = "{ ""Properties"": [ { ""Name"": ""my-variable"", ""Value"": ""my-value"" } ] }"
                 $env:SYSTEM_ACCESSTOKEN = "something to fill"
                 $variableGroupName = "some-variable-group-name"
+                $variableName = "some-id"
 
                 Mock Invoke-RestMethod {
-                    $Uri | Should -BeLike "*$variableGroupName*"
                     if ($Method -eq "Post" -or $Method -eq "Put") {
-                        $Body | Should -BeLike "*some-id*"
+                        $Uri | Should -BeLike "*$variableGroupName*"
+                        $Body | Should -BeLike "*$variableName*"
                         return $null
                     } else {
-                        [pscustomobject]@{ value = @( @{ id = "some-id"; variables = @() } ) }
+                        $Uri | Should -BeLike "*$variableGroupName*"
+                        [pscustomobject]@{ value = @( @{ id = $variableName; variables = @() } ) }
                     }
                 } -Verifiable
 
