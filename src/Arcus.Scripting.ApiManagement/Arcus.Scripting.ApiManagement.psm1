@@ -205,5 +205,5 @@ function Set-AzApiManagementApiSubscriptionKey {
         [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
     )
 
-    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -KeyHeaderName $KeyHeaderName -QueryParamName $QueryParamName
+    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName $HeaderName -QueryParamName $QueryParamName
 }
