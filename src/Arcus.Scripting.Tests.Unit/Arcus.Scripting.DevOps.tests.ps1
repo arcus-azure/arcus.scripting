@@ -27,7 +27,7 @@ Describe "Arcus" {
                         return $null
                     } else {
                         $Uri | Should -BeLike "*$variableGroupName*"
-                        [pscustomobject]@{ value = @( [pscustomobject]@{ id = $variableName; variables = [pscustomobject]@{} } ) }
+                        return [pscustomobject]@{ value = @( [pscustomobject]@{ id = $variableName; variables = [pscustomobject]@{} } ) }
                     }
                 } -Verifiable
 
