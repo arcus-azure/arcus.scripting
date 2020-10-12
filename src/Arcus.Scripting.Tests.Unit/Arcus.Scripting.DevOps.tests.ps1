@@ -21,12 +21,11 @@ Describe "Arcus" {
 
                 Mock Invoke-RestMethod {
                     $Uri | Should -BeLike "*$variableGroupName*"
-                    if ($Method -eq "Get") {
-                        [pscustomobject]@{ value = @{ id = "some-id" } }
-                    } else {
-                        $Uri | Should -BeLike "*some-variable-group-name*"
+                    if ($Method -eq "Post" -or $Method -eq "Put") {
                         $Body | Should -BeLike "*some-id*"
                         return $null
+                    } else {
+                        [pscustomobject]@{ value = @{ id = "some-id" } }
                     }
                 } -Verifiable
 
