@@ -190,10 +190,10 @@ function Import-AzApiManagementOperationPolicy {
  .Parameter ApiId
   The ID to identify the API running in Azure API Management.
 
- .Parameter ApiKeyHeaderName
+ .Parameter KeyHeaderName
   The name of the header where the subscription key should be set.
 
- .Parameter ApiQueryParamName
+ .Parameter QueryParamName
   The name of the query parameter where the subscription key should be set.
 #>
 function Set-AzApiManagementApiSubscriptionKey {
@@ -201,9 +201,9 @@ function Set-AzApiManagementApiSubscriptionKey {
         [Parameter(Mandatory = $true)][string] $ResourceGroup,
         [Parameter(Mandatory = $true)][string] $ServiceName,
         [Parameter(Mandatory = $true)][string] $ApiId,
-        [Parameter(Mandatory = $false)][string] $ApiKeyHeaderName = "x-api-key",
-        [Parameter(Mandatory = $false)][string] $ApiQueryParamName = "apiKey"
+        [Parameter(Mandatory = $false)][string] $HeaderName = "x-api-key",
+        [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
     )
 
-    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -ApiKeyHeaderName $ApiKeyHeaderName -ApiQueryParamName $ApiQueryParamName
+    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -KeyHeaderName $KeyHeaderName -QueryParamName $QueryParamName
 }
