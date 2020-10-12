@@ -59,7 +59,7 @@ Describe "Arcus" {
                 } -Verifiable
                 Mock Write-Host {
                     if ($Object -like "##vso*") {
-                        $Object | Should -Be "##vso[task.setvariable variable=my-variable]my-value"
+                        $Object | Should -BeLike "##vso[task.setvariable *"
                         $setCurrentJobVariable = $true
                     }
                 } -Verifiable
