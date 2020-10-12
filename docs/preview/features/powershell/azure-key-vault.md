@@ -58,7 +58,7 @@ PS> Set-AzKeyVaultSecretFromFile -KeyVaultName "my-key-vault" -SecretName "my-se
 
 And with expiration date:
 ```powershell
-PS> Set-AzKeyVaultSecretFromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -Expires [Datetime]::ParseExact('07/15/2019', 'MM/dd/yyyy', $null) -KeyVaultName "my-key-vault" -KeyVaultName "my-key-vault"
+PS> Set-AzKeyVaultSecretFromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -Expires [Datetime]::ParseExact('07/15/2019', 'MM/dd/yyyy', $null) -KeyVaultName "my-key-vault"
 ```
 
 ## Setting a secret value with BASE64 encoding from file into Azure Key Vault
