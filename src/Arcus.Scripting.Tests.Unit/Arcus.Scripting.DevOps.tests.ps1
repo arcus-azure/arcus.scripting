@@ -15,9 +15,10 @@ Describe "Arcus" {
             }
             It "Setting DevOps variable group from ARM outputs should send info to DevOps project" {
                 # Arrange
-                $env:ArmOutputs = "{ ""Testing"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
-                $env:SYSTEM_ACCESSTOKEN = "something to fill"
                 $variableGroupName = "some-variable-group-name"
+                $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
+                $env:SYSTEM_ACCESSTOKEN = "something to fill"
+                
                 $variableName = "some-id"
 
                 Mock Invoke-RestMethod {
