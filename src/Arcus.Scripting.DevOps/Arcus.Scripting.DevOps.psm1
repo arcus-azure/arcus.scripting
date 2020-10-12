@@ -29,7 +29,7 @@ Export-ModuleMember -Function Set-AzDevOpsVariable
  .Description   
   Sets the Azure Resource Management (ARM) outputs as a variable group on Azure DevOps.
 
- .Parameter
+ .Parameter VariableGroupName 
   The name of the variable group on Azure DevOps where the ARM outputs should be set.
 
  .Parameter
