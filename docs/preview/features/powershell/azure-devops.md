@@ -51,7 +51,7 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 # Set properties for update of existing variable group
 ```
 
-With also updating the variables in the current job running the pipeline:
+Include updating the variables in the current job running the pipeline, to immediately make them available to the next pipeline tasks:
 
 ```powershell
 PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
