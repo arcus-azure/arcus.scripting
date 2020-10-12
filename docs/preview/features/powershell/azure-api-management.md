@@ -127,7 +127,7 @@ Sets the subscription header/query paramenter name to an API in Azure API Manage
 | `ApiKeyHeaderName`  | no        | The name of the header where the subscription key should be set. (default: `x-api-key`)       |
 | `ApiQueryParamName` | no        | The name of the query parameter where the subscription key should be set. (default: `apiKey`) |
 
-** Using default**
+**Using default**
 
 ```powershell
 PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId
