@@ -59,7 +59,7 @@ Export-ModuleMember -Function Set-AzKeyVaultSecretFromFile
   Sets a secret as a BASE64 format from a file in Azure Key Vault.
 
  .Description
-  Sets a secret certificate as a BASE64 format from a file as plain text in Azure Key Vault.
+  Uploads the content of a file as a Base64 encoded string, as plain text, into an Azure Key Vault secret.
 
  .Parameter KeyVaultName
   The name of the Azure Key Vault where the secret should be added.
