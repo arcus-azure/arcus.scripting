@@ -57,19 +57,14 @@ Describe "Arcus" {
                         return [pscustomobject]@{ value = @( [pscustomobject]@{ id = $variableName; variables = [pscustomobject]@{} } ) }
                     }
                 } -Verifiable
-                Mock Write-Host {
-                    if ($Object -like "##vso*") {
-                        $Object | Should -BeLike "##vso[task.setvariable *"
-                        $setCurrentJobVariable = $true
-                    }
-                } -Verifiable
+                Mock Write-Host { } -ParameterFilter { $Object -like "*vso[task.setvariable*" } -Verifiable
 
                 # Act
                 Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName -UpdateVariablesForCurrentJob
 
                 # Assert
                 Assert-VerifiableMock
-                $setCurrentJobVariable | Should -Be $true
+                Assert-MockCalled Write-Host
             }
         }
     }
