@@ -119,13 +119,13 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 ## Setting authentication keys to an API in the Azure API Management instance
 Sets the subscription header/query paramenter name to an API in Azure API Management.
 
-| Parameter           | Mandatory | Description                                                                                   |
-| ------------------- | --------- | --------------------------------------------------------------------------------------------- |
-| `ResourceGroup`     | yes       | The resource group containing the Azure API Management instance                               |
-| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure                                |
-| `ApiId`             | yes       | The ID to identify the API running in Azure API Management                                    |
-| `ApiKeyHeaderName`  | no        | The name of the header where the subscription key should be set. (default: `x-api-key`)       |
-| `ApiQueryParamName` | no        | The name of the query parameter where the subscription key should be set. (default: `apiKey`) |
+| Parameter        | Mandatory | Description                                                                                   |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------- |
+| `ResourceGroup`  | yes       | The resource group containing the Azure API Management instance                               |
+| `ServiceName`    | yes       | The name of the Azure API Management instance located in Azure                                |
+| `ApiId`          | yes       | The ID to identify the API running in Azure API Management                                    |
+| `HeaderName`     | no        | The name of the header where the subscription key should be set. (default: `x-api-key`)       |
+| `QueryParamName` | no        | The name of the query parameter where the subscription key should be set. (default: `apiKey`) |
 
 **Using default**
 
@@ -139,7 +139,7 @@ Write-Host "Subscription key query parameter 'apiKey' was assigned"
 **User-defined values**
 
 ```powershell
-PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -ApiKeyHeaderName "my-api-key" -ApiQueryParamName "myApiKey"
+PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName "my-api-key" -QueryParamName "myApiKey"
 Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroup'"
 Write-Host "Subscription key header 'my-api-key' was assigned"
 Write-Host "Subscription key query parameter 'myApiKey' was assigned"
