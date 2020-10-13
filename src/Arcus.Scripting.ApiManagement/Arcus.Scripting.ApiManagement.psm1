@@ -173,3 +173,37 @@ function Import-AzApiManagementOperationPolicy {
 
     . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
 }
+
+<#
+ .Synopsis
+  Sets the authentication keys in Azure API Management.
+
+ .Description
+  Sets the authentication header/query parameter on an API in Azure API Management.
+
+ .Parameter ResourceGroup
+  The resource group containing the Azure API Management instance.
+
+ .Parameter ServiceName
+  The name of the Azure API Management instance located in Azure.
+  
+ .Parameter ApiId
+  The ID to identify the API running in Azure API Management.
+
+ .Parameter KeyHeaderName
+  The name of the header where the subscription key should be set.
+
+ .Parameter QueryParamName
+  The name of the query parameter where the subscription key should be set.
+#>
+function Set-AzApiManagementApiSubscriptionKey {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroup,
+        [Parameter(Mandatory = $true)][string] $ServiceName,
+        [Parameter(Mandatory = $true)][string] $ApiId,
+        [Parameter(Mandatory = $false)][string] $HeaderName = "x-api-key",
+        [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
+    )
+
+    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName $HeaderName -QueryParamName $QueryParamName
+}
