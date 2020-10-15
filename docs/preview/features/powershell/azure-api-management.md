@@ -31,7 +31,7 @@ Backs up an API Management service (with built-in storage context retrieval).
 | `StorageAccountName`  | yes       | The name of the Storage account for which this cmdlet gets keys.                                                                                                 |
 | `ServiceName`         | yes       | The name of the API Management deployment that this cmdlet backs up.                                                                                             |
 | `TargetContainerName` | yes       | The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.                                                   |
-| `TargetBlobName`      | no        | The name of the blob for the backup. If the blob does not exist, this cmdlet creates it (default value based on pattern: `{Name}-{yyyy-MM-dd-HH-mm}.apimbackup`. |
+| `BlobName`      | no        | The name of the blob for the backup. If the blob does not exist, this cmdlet creates it (default value based on pattern: `{Name}-{yyyy-MM-dd-HH-mm}.apimbackup`. |
 | `PassThru`            | no        | Indicates that this cmdlet returns the backed up PsApiManagement object, if the operation succeeds.                                                              |
 | `DefaultProfile`      | no        | The credentials, account, tenant, and subscription used for communication with azure.                                                                            |
 
