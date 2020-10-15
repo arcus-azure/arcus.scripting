@@ -19,7 +19,8 @@ PS> Import-Module -Name Arcus.Scripting.LogicApps
 ## Disabling Azure Logic Apps from configuration file
 
 Typically done the first task of the release pipeline, right before the deployment of the Logic Apps, will disable all specified Logic Apps in a specific order. 
-The Logic Apps to be disabled and the order in which this will be done, will be defined in the passed-along configuration file.
+The Azure Logic Apps to be disabled and the order in which this will be done, will be defined in the provided configuration file.
+The order of the Azure Logic Apps in the configuration file (bottom to top) defines the order in which they will be disabled by the script. The counterpart of this script used to enable the Azure Logic Apps, will take the order as specified (top to bottom) in the file.
 
 | Parameter         | Mandatory | Description                                                                                                        |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
