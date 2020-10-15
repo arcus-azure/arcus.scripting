@@ -42,14 +42,38 @@ Taking an example in which a set of Azure Logic Apps (`"rcv-shopping-order-*"`) 
 
 ```json
 [
-    {
+  {
+    "description": "Sender(s)",
+    "checkType": "None",
+    "stopType": "Immediate",
+    "logicApps": [
+      "snd-shopping-order-confirmation-smtp"
+    ]
+  },
+  {
+    "description": "Orchestrator(s)",
+    "checkType": "None",
+    "stopType": "Immediate",
+    "logicApps": [
+      "orc-shopping-order-processing"
+    ]
+  },
+  {
+    "description": "Generic Receiver(s)",
+    "checkType": "None",
+    "stopType": "Immediate",
+    "logicApps": [
+      "rcv-shopping-order"
+    ]
+  },
+  {
     "description": "Protocol Receiver(s)",
     "checkType": "None",
     "stopType": "Immediate",
     "logicApps": [
-      "rcv-sthp-harvest-order-af-ftp",
-      "rcv-sthp-harvest-order-af-sft",
-      "rcv-sthp-harvest-order-af-file"
+      "rcv-shopping-order-ftp",
+      "rcv-shopping-order-sftp",
+      "rcv-shopping-order-file"
     ]
   }
 ]
