@@ -32,7 +32,8 @@ The schema of this configuration file is a JSON structure of an array with the f
 | Node        | Type            | Description                                                                                                           |
 | ----------- | --------------- | --------------------------------------------------------------------------------------------------------------------- |
 | Description | `string`        | Description of Azure Logic App set to disable.                                                                        |
-| CheckType   | `enum`          | Either `None` or `NoWaitingOrRunningRuns` which waits until there are no more waiting or running Logic App instances. |
+| CheckType   | `enum`          | `None`: don't perform any additional checks. |
+|             |                 | `NoWaitingOrRunningRuns`: waits until there are no more waiting or running Logic App instances. |
 | StopType    | `enum`          | Either `None` or `Immediate` which results in the disabling of the Logic App.                                         |
 | LogicApps   | `string array`  | Set of Logic App names to disable.                                                                                    |
 
