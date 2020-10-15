@@ -31,8 +31,8 @@ Backs up an API Management service (with built-in storage context retrieval).
 | `StorageAccountResourceGroupName` | yes       | The name of the resource group under which the storage account exists.                                                                                           |
 | `StorageAccountName`              | yes       | The name of the Storage account for which this cmdlet gets keys.                                                                                                 |
 | `ServiceName`                     | yes       | The name of the API Management deployment that this cmdlet backs up.                                                                                             |
-| `TargetContainerName`             | yes       | The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.                                                   |
-| `TargetBlobName`                  | no        | The name of the blob for the backup. If the blob does not exist, this cmdlet creates it (default value based on pattern: `{Name}-{yyyy-MM-dd-HH-mm}.apimbackup`. |
+| `ContainerName`                   | yes       | The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.                                                   |
+| `BlobName`                        | no        | The name of the blob for the backup. If the blob does not exist, this cmdlet creates it (default value based on pattern: `{Name}-{yyyy-MM-dd-HH-mm}.apimbackup`. |
 | `PassThru`                        | no        | Indicates that this cmdlet returns the backed up PsApiManagement object, if the operation succeeds.                                                              |
 | `DefaultProfile`                  | no        | The credentials, account, tenant, and subscription used for communication with azure.                                                                            |
 
@@ -41,7 +41,7 @@ Backs up an API Management service (with built-in storage context retrieval).
 Simplest way to back up an API Management service.
 
 ```powershell
-PS> Backup-AzApiManagementService -ResourceGroupName "my-resource-group" -StorageAccountResourceGroupName "my-storage-account-resource-group" -StorageAccountName "my-storage-account" -ServiceName "my-service" -TargetContainerName "my-target-blob-container"
+PS> Backup-AzApiManagementService -ResourceGroupName "my-resource-group" -StorageAccountResourceGroupName "my-storage-account-resource-group" -StorageAccountName "my-storage-account" -ServiceName "my-service" -ContainerName "my-target-blob-container"
 # Getting Azure storage account key..
 # Got Azure storage key!
 # Create new Azure storage context with storage key...

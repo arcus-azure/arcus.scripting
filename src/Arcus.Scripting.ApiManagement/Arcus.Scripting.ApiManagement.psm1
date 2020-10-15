@@ -18,10 +18,10 @@
  .Parameter ServiceName
   The name of the API Management deployment that this cmdlet backs up.
 
- .Parameter TargetContainerName
+ .Parameter ContainerName
   The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.
 
- .Parameter TargetBlobName
+ .Parameter BlobName
   The name of the blob for the backup. If the blob does not exist, this cmdlet creates it. 
   This cmdlet generates a default value based on the following pattern: {Name}-{yyyy-MM-dd-HH-mm}.apimbackup
 
@@ -37,16 +37,16 @@ function Backup-AzApiManagementService {
         [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required")
         [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
-        [string][parameter(Mandatory = $true)] $TargetContainerName = $(throw "Name of the target blob container is required"),
-        [string][parameter(Mandatory = $false)] $TargetBlobName = $null,
+        [string][parameter(Mandatory = $true)] $ContainerName = $(throw "Name of the target blob container is required"),
+        [string][parameter(Mandatory = $false)] $BlobName = $null,
         [switch][parameter(Mandatory = $false)] $PassThru = $false,
         [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter(Mandatory = $false)] $DefaultProfile = $null
     )
 
     if ($PassThru) {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName -PassThru
     } else {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
     }
 }
 
