@@ -1,12 +1,9 @@
 ---
 title: "Home"
 layout: default
-permalink: /
-redirect_from:
- - /index.html
 ---
 
-[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.ARM)](https://www.powershellgallery.com/packages/Arcus.Scripting.ARM/)
+[![PowerShell Gallery Version](https://img.shields.io/badge/powershell%20gallery-v0.1.3-orange)](https://www.powershellgallery.com/packages/Arcus.Scripting.ARM/0.1.3)
 
 # Installation
 

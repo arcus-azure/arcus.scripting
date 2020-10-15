@@ -511,6 +511,32 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
+            It "Sets subscription keys on an API in Azure API Management" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $apiId = "shopping-API"
+                $apiKeyHeaderName = "header-name"
+                $apiKeyQueryParamName = "query-param-name"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock New-AzApiManagementContext {
+                    $ResourceGroup | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+
+                Mock Set-AzApiManagementApi {
+                    $Context | Should -be $context
+                    $ApiId | Should -Be $apiId
+                    $SubscriptionKeyHeaderName | Should -Be $apiKeyHeaderName
+                    $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
+
+                # Act
+                Set-AzApiManagementApiSubscriptionKey -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
+
+                # Assert
+                Assert-VerifiableMock
+            }
         }
     }
 }
