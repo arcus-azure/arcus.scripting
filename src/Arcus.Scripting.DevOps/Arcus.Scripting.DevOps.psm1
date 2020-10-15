@@ -32,19 +32,23 @@ Export-ModuleMember -Function Set-AzDevOpsVariable
  .Parameter VariableGroupName 
   The name of the variable group on Azure DevOps where the ARM outputs should be set.
 
+ .Parameter ArmOutputsEnvironmentVariableName
+  The name of the environment variable where the ARM outputs are located.
+
  .Parameter UpdateVariablesForCurrentJob
   The switch to also set the variables in the ARM output as pipeline variables in the current running job.
 #>
 function Set-AzDevOpsArmOutputsToVariableGroup {
     param(
         [parameter(Mandatory=$true)][string] $VariableGroupName = $(throw "Name for variable group is required"),
+        [parameter(Mandatory = $false)][string] $ArmOutputsEnvironmentVariableName = "ArmOutputs",
         [parameter(Mandatory=$false)][switch] $UpdateVariablesForCurrentJob = $false
     )
 
     if ($UpdateVariablesForCurrentJob) {
-        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName -UpdateVariablesForCurrentJob
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName -ArmOutputsEnvironmentVariableName $ArmOutputsEnvironmentVariableName -UpdateVariablesForCurrentJob
     } else {
-        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName -ArmOutputsEnvironmentVariableName $ArmOutputsEnvironmentVariableName
     }
 }
 
