@@ -36,16 +36,18 @@ PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
 
 Stores the Azure Resource Management (ARM) outputs in a variable group on Azure DevOps.
 
-| Parameter                      | Mandatory | Description                                                                                             |
-| ------------------------------ | --------- | ------------------------------------------------------------------------------------------------------- |
-| `VariableGroupName`            | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be stored                      |
-| `UpdateVariablesForCurrentJob` | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
+| Parameter                          | Mandatory | Description                                                                                             |
+| ---------------------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| `VariableGroupName`                | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be stored                   |
+| `ArmOutputsEnvironmentVariableName | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`)          |
+| `UpdateVariablesForCurrentJob`     | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
 
 **Example**
 Without updating the variables in the current job running the pipeline:
 
 ```powershell
 PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
+# Get ARM outputs from 'ArmOutputs' environment variable
 # Adding variable $output.Name with value $variableValue to variable group my-variable-group
 # Retrieving project details
 # Set properties for update of existing variable group
@@ -55,9 +57,21 @@ Include updating the variables in the current job running the pipeline, to immed
 
 ```powershell
 PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group" -UpdateVariablesForCurrentJob
+# Get ARM outputs from 'ArmOutputs' environment variable
 # Adding variable $output.Name with value $variableValue to variable group my-variable-group
 # Retrieving project details
 # Set properties for update of existing variable group
 # The pipeline variable $variableName will be updated to value $variableValue as well, so it can be used in subsequent tasks of the current job. 
 # ##vso[task.setvariable variable=$variableName]$variableValue
+```
+
+Include custom environment variable for the ARM outputs:
+
+```powershell
+PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group" -ArmOutputsEnvironmentVariableName "MyArmOutputs"
+# Get ARM outputs from 'MyArmOutputs' environment variable
+# Adding variable $output.Name with value $variableValue to variable group my-variable-group
+# Retrieving project details
+# Set properties for update of existing variable group
+# The pipeline variable $variableName will be updated to value $variableValue as well, so it can be used in subsequent tasks of the current job. 
 ```

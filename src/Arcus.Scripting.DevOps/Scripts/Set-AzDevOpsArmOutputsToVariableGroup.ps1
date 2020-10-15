@@ -1,5 +1,6 @@
 param(
    [string][parameter(Mandatory = $true)] $VariableGroupName,
+   [string][parameter(Mandatory = $false)] $ArmOutputsEnvironmentVariableName = "ArmOutputs",
    [switch][parameter()] $UpdateVariablesForCurrentJob = $false
 )
 
@@ -68,7 +69,9 @@ function Add-VariableGroupVariable()
     }
 }
 
-$armOutputs = ConvertFrom-Json $env:ArmOutputs
+Write-Host "Get ARM outputs from '$ArmOutputsEnvironmentVariableName' environment variable"
+$json = [System.Environment]::GetEnvironmentVariable($ArmOutputsEnvironmentVariableName)
+$armOutputs = ConvertFrom-Json $json
 
 foreach ($output in $armOutputs.PSObject.Properties) {
   $variableName = ($output.Name.Substring(0,1).ToUpper() + $output.Name.Substring(1)).Trim()
