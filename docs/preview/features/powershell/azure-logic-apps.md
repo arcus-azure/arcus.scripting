@@ -38,7 +38,7 @@ The schema of this configuration file is a JSON structure of an array with the f
 
 **Example**
 
-With a 3 Azure Logic App (`"rcv-sthp-harvest-order-af-*"`), that doesn't looks for still-running Logic Apps (`checkType = None`) and t disables them (`stopType = Immediate`).
+Taking an example in which a set of Azure Logic Apps (`"rcv-shopping-order-*"`) need to be disabled, the following configuration will not take into account any active Logic Apps runs (`checkType = None`) and will immediately disable them (`stopType = Immediate`), starting with the _receive protocol_ instances and working its way up to the _sender_ Logic App.
 
 ```json
 [
