@@ -38,7 +38,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName
 
                 # Assert
                 Assert-VerifiableMock
@@ -81,7 +81,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -TargetBlobName $targetBlobName
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -BlobName $targetBlobName
 
                 # Assert
                 Assert-VerifiableMock
@@ -123,7 +123,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -PassThru
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru
 
                 # Assert
                 Assert-VerifiableMock
@@ -166,7 +166,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $defaultProfile }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -TargetContainerName $targetContainerName -PassThru -DefaultProfile $defaultProfile
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru -DefaultProfile $defaultProfile
 
                 # Assert
                 Assert-VerifiableMock
