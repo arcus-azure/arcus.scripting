@@ -65,7 +65,7 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 # ##vso[task.setvariable variable=$variableName]$variableValue
 ```
 
-Include custom environment variable for the ARM outputs:
+Include user-defined environment variable for the ARM outputs:
 
 ```powershell
 PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group" -ArmOutputsEnvironmentVariableName "MyArmOutputs"
