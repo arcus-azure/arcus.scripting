@@ -67,17 +67,29 @@ PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -Resou
 # > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
 # Executing Check 'None' => peforming no check and executing stopType
 
-# > Executing StopType 'None' for Logic App 'rcv-sthp-harvest-order-af-ftp' in resource group 'my-resource-group'
-# Attempting to disable rcv-sthp-harvest-order-af-ftp
-# Successfully disabled rcv-sthp-harvest-order-af-ftp
+# > Executing StopType 'None' for Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
+# Attempting to disable rcv-shopping-order-ftp
+# Successfully disabled rcv-shopping-order-ftp
 
-# > Executing StopType 'None' for Logic App 'rcv-sthp-harvest-order-af-sft' in resource group 'my-resource-group'
-# Attempting to disable rcv-sthp-harvest-order-af-sft
-# Successfully disabled rcv-sthp-harvest-order-af-sft
+# > Executing StopType 'None' for Logic App 'rcv-shopping-order-sftp' in resource group 'my-resource-group'
+# Attempting to disable rcv-shopping-order-sftp
+# Successfully disabled rcv-shopping-order-sftp
 
-# > Executing StopType 'None' for Logic App 'rcv-sthp-harvest-order-af-file' in resource group 'my-resource-group'
-# Attempting to disable rcv-sthp-harvest-order-af-file
-# Successfully disabled rcv-sthp-harvest-order-af-file
+# > Executing StopType 'None' for Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
+# Attempting to disable rcv-shopping-order-file
+# Successfully disabled rcv-shopping-order-file
+
+# > Executing StopType 'None' for Logic App 'rcv-shopping-order' in resource group 'my-resource-group'
+# Attempting to disable rcv-shopping-order
+# Successfully disabled rcv-shopping-order
+
+# > Executing StopType 'None' for Logic App 'orc-shopping-order-processing' in resource group 'my-resource-group'
+# Attempting to disable orc-shopping-order-processing
+# Successfully disabled orc-shopping-order-processing
+
+# > Executing StopType 'None' for Logic App 'snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Attempting to disable snd-shopping-order-confirmation-smtp
+# Successfully disabled snd-shopping-order-confirmation-smtp
 
 # -> Batch: 'Protocol Receiver(s)' has been executed
 ```
