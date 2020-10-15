@@ -9,6 +9,9 @@
  .Parameter ResourceGroupName
   The name of the of resource group under which the API Management deployment exists.
 
+ .Parameter StorageAccountResourceGroupName
+  The name of the resource group under which the Storage Account exists.
+
  .Parameter StorageAccountName
   The name of the Storage account for which this cmdlet gets keys.
 
@@ -31,6 +34,7 @@
 function Backup-AzApiManagementService {
     param(
         [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required")
         [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
         [string][parameter(Mandatory = $true)] $TargetContainerName = $(throw "Name of the target blob container is required"),
@@ -40,9 +44,9 @@ function Backup-AzApiManagementService {
     )
 
     if ($PassThru) {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName -PassThru
     } else {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -TargetContainerName $TargetContainerName -TargetBlobName $TargetBlobName
     }
 }
 

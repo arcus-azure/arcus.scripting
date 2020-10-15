@@ -1,5 +1,6 @@
 param(
     [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+    [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
     [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
     [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
     [string][parameter(Mandatory = $true)] $TargetContainerName = $(throw "Name of the target blob container is required"),
@@ -9,7 +10,7 @@ param(
 )
 
 Write-Host "Getting Azure storage account key..."
-$storageKeys = Get-AzStorageAccountKey -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName
+$storageKeys = Get-AzStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName
 
 if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
     Write-Error "Cannot backup API Management service because no access keys found for storage account '$StorageAccountName'"
