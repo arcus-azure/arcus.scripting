@@ -1,6 +1,6 @@
 param(
-    [string]$DeployFileName,
-    [string][Parameter(Mandatory = $true)]$ResourceGroupName
+    [string][Parameter(Mandatory = $true)]$ResourceGroupName,
+    [string]$DeployFileName
 )
 
 function ExecuteStopType() {
