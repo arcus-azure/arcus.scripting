@@ -22,10 +22,10 @@ Typically done the first task of the release pipeline, right before the deployme
 The Azure Logic Apps to be disabled and the order in which this will be done, will be defined in the provided configuration file.
 The order of the Azure Logic Apps in the configuration file (bottom to top) defines the order in which they will be disabled by the script. The counterpart of this script used to enable the Azure Logic Apps, will take the order as specified (top to bottom) in the file.
 
-| Parameter         | Mandatory | Description                                                                                                        |
-| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
+| Parameter         | Mandatory | Description                                                                                                         |
+| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
+| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
 | DeployFileName    | yes       | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
-| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
