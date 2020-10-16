@@ -13,8 +13,8 @@
 #>
 function Disable-AzLogicAppsFromConfig {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName
-        [string] $DeployFileName = "deploy-orderControl.json",
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
+        [string] $DeployFileName = "deploy-orderControl.json"
     )
     
     . $PSScriptRoot\Scripts\Disable-AzLogicAppsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -DeployFileName $DeployFileName
