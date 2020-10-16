@@ -25,7 +25,7 @@ The order of the Azure Logic Apps in the configuration file (bottom to top) defi
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
-| DeployFileName    | yes       | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
+| DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
