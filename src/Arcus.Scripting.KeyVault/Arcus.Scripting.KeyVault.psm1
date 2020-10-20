@@ -53,3 +53,36 @@ function Set-AzKeyVaultSecretFromFile {
 }
 
 Export-ModuleMember -Function Set-AzKeyVaultSecretFromFile
+
+<#
+ .Synopsis
+  Sets a secret as a BASE64 format from a file in Azure Key Vault.
+
+ .Description
+  Uploads the content of a file as a Base64 encoded string, as plain text, into an Azure Key Vault secret.
+
+ .Parameter KeyVaultName
+  The name of the Azure Key Vault where the secret should be added.
+
+ .Parameter SecretName
+  The name of the secret to add in the Azure Key Vault.
+
+ .Parameter FilePath
+  The path the to file containing the secret certificate to add in the Azure Key Vault.
+
+ .Parameter Expires
+  The optional expiration date of the secret to add in the Azure Key Vault.
+#>
+
+function Set-AzKeyVaultSecretAsBase64FromFile {
+    param (
+        [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
+        [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
+        [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
+        [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires
+    )
+
+    . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile.ps1 -KeyVaultName $KeyVaultName -SecretName $SecretName -FilePath $FilePath -Expires $Expires -Base64
+}
+
+Export-ModuleMember -Function Set-AzKeyVaultSecretAsBase64FromFile
