@@ -1,5 +1,59 @@
 <#
  .Synopsis
+  Backs up an API Management service.
+
+ .Description
+  The Backup-AzApiManagement cmdlet backs up an instance of an Azure API Management service by getting the account storage key and creating an new storage context. 
+  This cmdlet stores the backup as an Azure Storage blob.
+
+ .Parameter ResourceGroupName
+  The name of the of resource group under which the API Management deployment exists.
+
+ .Parameter StorageAccountResourceGroupName
+  The name of the resource group under which the Storage Account exists.
+
+ .Parameter StorageAccountName
+  The name of the Storage account for which this cmdlet gets keys.
+
+ .Parameter ServiceName
+  The name of the API Management deployment that this cmdlet backs up.
+
+ .Parameter ContainerName
+  The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.
+
+ .Parameter BlobName
+  The name of the blob for the backup. If the blob does not exist, this cmdlet creates it. 
+  This cmdlet generates a default value based on the following pattern: {Name}-{yyyy-MM-dd-HH-mm}.apimbackup
+
+ .Parameter PassThru
+  Indicates that this cmdlet returns the backed up PsApiManagement object, if the operation succeeds.
+
+ .Parameter DefaultProfile
+  The credentials, account, tenant, and subscription used for communication with azure.
+#>
+function Backup-AzApiManagementService {
+    param(
+        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
+        [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
+        [string][parameter(Mandatory = $true)] $ContainerName = $(throw "Name of the target blob container is required"),
+        [string][parameter(Mandatory = $false)] $BlobName = $null,
+        [switch][parameter(Mandatory = $false)] $PassThru = $false,
+        [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter(Mandatory = $false)] $DefaultProfile = $null
+    )
+
+    if ($PassThru) {
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName -PassThru
+    } else {
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
+    }
+}
+
+Export-ModuleMember -Function Backup-AzApiManagementService
+
+<#
+ .Synopsis
   Create an operation on an API in Azure API Management.
 
  .Description
@@ -172,4 +226,38 @@ function Import-AzApiManagementOperationPolicy {
     )
 
     . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+}
+
+<#
+ .Synopsis
+  Sets the authentication keys in Azure API Management.
+
+ .Description
+  Sets the authentication header/query parameter on an API in Azure API Management.
+
+ .Parameter ResourceGroup
+  The resource group containing the Azure API Management instance.
+
+ .Parameter ServiceName
+  The name of the Azure API Management instance located in Azure.
+  
+ .Parameter ApiId
+  The ID to identify the API running in Azure API Management.
+
+ .Parameter KeyHeaderName
+  The name of the header where the subscription key should be set.
+
+ .Parameter QueryParamName
+  The name of the query parameter where the subscription key should be set.
+#>
+function Set-AzApiManagementApiSubscriptionKey {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroup,
+        [Parameter(Mandatory = $true)][string] $ServiceName,
+        [Parameter(Mandatory = $true)][string] $ApiId,
+        [Parameter(Mandatory = $false)][string] $HeaderName = "x-api-key",
+        [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
+    )
+
+    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName $HeaderName -QueryParamName $QueryParamName
 }

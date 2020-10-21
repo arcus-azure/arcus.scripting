@@ -59,7 +59,7 @@ stages:
     dependsOn: Build
     condition: succeeded()
     jobs:
-      - job: UnitTests
+      - job: RunUnitTests
         displayName: 'Run unit tests'
         pool:
           vmImage: 'ubuntu-16.04'

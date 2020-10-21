@@ -4,6 +4,180 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameC
 Describe "Arcus" {
     Context "ApiManagement" {
         InModuleScope Arcus.Scripting.ApiManagement {
+            It "Creates storage context during API management backup" {
+                # Arrange
+                $resourceGroupName = "shopping"
+                $storageAccountResourceGroup = "stock"
+                $storageAccountName = "shopping-storage"
+                $serviceName = "shopping-API-management"
+                $targetContainerName = "backup-storage"
+                $storageKeyValue = "my-storage-key"
+                $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
+                
+                # Test values, not really pointing to anything
+                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
+                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
+                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
+                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
+                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccountKey {
+                    $ResourceGroupName | Should -Be $storageAccountResourceGroup
+                    $StorageAccountName | Should -Be $storageAccountName
+                    return $storageKey }
+                Mock New-AzStorageContext { 
+                    $StorageAccountName | Should -Be $StorageAccountName
+                    $StorageAccountKey | Should -Be $storageKeyValue
+                    return $storageContext }
+                Mock Backup-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $Name | Should -Be $serviceName
+                    $StorageContext | Should -be $storageContext
+                    $TargetContainerName | Should -Be $targetContainerName
+                    $TargetBlobName | Should -BeNullOrEmpty 
+                    $PassThru | Should -Be $false
+                    $DefaultProfile | Should -Be $null }
+
+                # Act
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccountKey -Times 1
+                Assert-MockCalled New-AzStorageContext -Times 1
+                Assert-MockCalled Backup-AzApiManagement -Times 1
+            }
+            It "Backs up API management with target blob name" {
+                # Arrange
+                $resourceGroupName = "shopping"
+                $storageAccountResourceGroup = "stock"
+                $storageAccountName = "shopping-storage"
+                $serviceName = "shopping-API-management"
+                $targetContainerName = "backup-storage"
+                $targetBlobName = "backup-storage-blob"
+                $storageKeyValue = "my-storage-key"
+                $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
+                
+                # Test values, not really pointing to anything
+                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
+                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
+                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
+                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
+                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccountKey {
+                    $ResourceGroupName | Should -Be $storageAccountResourceGroup
+                    $StorageAccountName | Should -Be $storageAccountName
+                    return $storageKey }
+                Mock New-AzStorageContext { 
+                    $StorageAccountName | Should -Be $StorageAccountName
+                    $StorageAccountKey | Should -Be $storageKeyValue
+                    return $storageContext }
+                Mock Backup-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $Name | Should -Be $serviceName
+                    $StorageContext | Should -be $storageContext
+                    $TargetContainerName | Should -Be $targetContainerName
+                    $TargetBlobName | Should -Be $targetBlobName
+                    $PassThru | Should -Be $false
+                    $DefaultProfile | Should -Be $null }
+
+                # Act
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -BlobName $targetBlobName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccountKey -Times 1
+                Assert-MockCalled New-AzStorageContext -Times 1
+                Assert-MockCalled Backup-AzApiManagement -Times 1
+            }
+            It "Backs up API management with pass thru" {
+                # Arrange
+                $resourceGroupName = "shopping"
+                $storageAccountResourceGroup = "stock"
+                $storageAccountName = "shopping-storage"
+                $serviceName = "shopping-API-management"
+                $targetContainerName = "backup-storage"
+                $storageKeyValue = "my-storage-key"
+                $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
+                
+                # Test values, not really pointing to anything
+                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
+                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
+                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
+                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
+                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccountKey {
+                    $ResourceGroupName | Should -Be $storageAccountResourceGroup
+                    $StorageAccountName | Should -Be $storageAccountName
+                    return $storageKey }
+                Mock New-AzStorageContext { 
+                    $StorageAccountName | Should -Be $StorageAccountName
+                    $StorageAccountKey | Should -Be $storageKeyValue
+                    return $storageContext }
+                Mock Backup-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $Name | Should -Be $serviceName
+                    $StorageContext | Should -be $storageContext
+                    $TargetContainerName | Should -Be $targetContainerName
+                    $TargetBlobName | Should -BeNullOrEmpty 
+                    $PassThru | Should -Be $true
+                    $DefaultProfile | Should -Be $null }
+
+                # Act
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccountKey -Times 1
+                Assert-MockCalled New-AzStorageContext -Times 1
+                Assert-MockCalled Backup-AzApiManagement -Times 1
+            }
+            It "Backs up API management with default profile" {
+                # Arrange
+                $resourceGroupName = "shopping"
+                $storageAccountResourceGroup = "stock"
+                $storageAccountName = "shopping-storage"
+                $serviceName = "shopping-API-management"
+                $targetContainerName = "backup-storage"
+                $storageKeyValue = "my-storage-key"
+                $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
+                $defaultProfile = New-Object -TypeName Microsoft.Azure.Commands.Common.Authentication.Models.AzureRmProfile
+
+                # Test values, not really pointing to anything
+                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
+                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
+                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
+                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
+                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccountKey {
+                    $ResourceGroupName | Should -Be $storageAccountResourceGroup
+                    $StorageAccountName | Should -Be $storageAccountName
+                    return $storageKey }
+                Mock New-AzStorageContext { 
+                    $StorageAccountName | Should -Be $StorageAccountName
+                    $StorageAccountKey | Should -Be $storageKeyValue
+                    return $storageContext }
+                Mock Backup-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $Name | Should -Be $serviceName
+                    $StorageContext | Should -be $storageContext
+                    $TargetContainerName | Should -Be $targetContainerName
+                    $TargetBlobName | Should -BeNullOrEmpty 
+                    $PassThru | Should -Be $true
+                    $DefaultProfile | Should -Be $defaultProfile }
+
+                # Act
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru -DefaultProfile $defaultProfile
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccountKey -Times 1
+                Assert-MockCalled New-AzStorageContext -Times 1
+                Assert-MockCalled Backup-AzApiManagement -Times 1
+            }
             It "Calls new operation on Azure API Management operation w/o policy" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -337,6 +511,32 @@ Describe "Arcus" {
                 # Act
                 { Import-AzApiManagementOperationPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath } |
                     Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Sets subscription keys on an API in Azure API Management" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $apiId = "shopping-API"
+                $apiKeyHeaderName = "header-name"
+                $apiKeyQueryParamName = "query-param-name"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock New-AzApiManagementContext {
+                    $ResourceGroup | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+
+                Mock Set-AzApiManagementApi {
+                    $Context | Should -be $context
+                    $ApiId | Should -Be $apiId
+                    $SubscriptionKeyHeaderName | Should -Be $apiKeyHeaderName
+                    $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
+
+                # Act
+                Set-AzApiManagementApiSubscriptionKey -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
 
                 # Assert
                 Assert-VerifiableMock

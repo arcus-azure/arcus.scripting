@@ -12,10 +12,44 @@
   The value of the variable to set in the pipeline.
 #>
 function Set-AzDevOpsVariable {
-	param(
-		[Parameter(Mandatory=$true)][string]$Name = $(throw "Name is required"),
-		[Parameter(Mandatory=$true)][string]$Value = $(throw "Value is required")
-	)
-
-	Write-Host "#vso[task.setvariable variable=$Name] $Value"
+    param(
+        [parameter(Mandatory=$true)][string] $Name = $(throw "Name is required"),
+        [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required")
+    )
+    
+    Write-Host "#vso[task.setvariable variable=$Name] $Value"
 }
+
+Export-ModuleMember -Function Set-AzDevOpsVariable
+
+<#
+ .Synopsis
+  Sets the ARM outputs as a variable group on Azure DevOps.
+
+ .Description   
+  Sets the Azure Resource Management (ARM) outputs as a variable group on Azure DevOps.
+
+ .Parameter VariableGroupName 
+  The name of the variable group on Azure DevOps where the ARM outputs should be set.
+
+ .Parameter ArmOutputsEnvironmentVariableName
+  The name of the environment variable where the ARM outputs are located.
+
+ .Parameter UpdateVariablesForCurrentJob
+  The switch to also set the variables in the ARM output as pipeline variables in the current running job.
+#>
+function Set-AzDevOpsArmOutputsToVariableGroup {
+    param(
+        [parameter(Mandatory=$true)][string] $VariableGroupName = $(throw "Name for variable group is required"),
+        [parameter(Mandatory = $false)][string] $ArmOutputsEnvironmentVariableName = "ArmOutputs",
+        [parameter(Mandatory=$false)][switch] $UpdateVariablesForCurrentJob = $false
+    )
+
+    if ($UpdateVariablesForCurrentJob) {
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName -ArmOutputsEnvironmentVariableName $ArmOutputsEnvironmentVariableName -UpdateVariablesForCurrentJob
+    } else {
+        . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputsToVariableGroup.ps1 -VariableGroupName $VariableGroupName -ArmOutputsEnvironmentVariableName $ArmOutputsEnvironmentVariableName
+    }
+}
+
+Export-ModuleMember -Function Set-AzDevOpsArmOutputsToVariableGroup
