@@ -1,16 +1,16 @@
 param (
     [Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
-    [Parameter(Mandatory=$false)][string]$LockName
+    [Parameter(Mandatory=$false)][string]$LockName = $null
 )
 
 $locks = $null
 
-if ($LockName -eq $null) {
-    Write-Host "Retrieving all locks in resourceGroup '$ResourceGroupName'"
-    $locks = Get-AzResourceLock -ResourceGroupName $ResourceGroupName
-} else {
+if ($LockName -ne $null) {
     Write-Host "Retrieving all locks in resourceGroup '$ResourceGroupName' with name '$LockName'"
     $locks = Get-AzResourceLock -LockName $LockName -ResourceGroupName $ResourceGroupName
+} else {
+    Write-Host "Retrieving all locks in resourceGroup '$ResourceGroupName'"
+    $locks = Get-AzResourceLock -ResourceGroupName $ResourceGroupName
 }
 
 if ($locks -ne $null -and $locks.Count -gt 0) {

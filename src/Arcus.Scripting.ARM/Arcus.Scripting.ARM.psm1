@@ -36,7 +36,7 @@ Export-ModuleMember -Function Inject-ArmContent
 function Remove-AzResourceGroupLocks {
     param(
         [Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
-        [Parameter(Mandatory=$false)][string]$LockName
+        [Parameter(Mandatory=$false)][string]$LockName = $null
     )
 
     . $PSScriptRoot\Scripts\Remove-AzResourceGroupLocks.ps1 -ResourceGroupName $ResourceGroupName -LockName $LockName
