@@ -5,7 +5,7 @@ param (
 
 $locks = $null
 
-if ($LockName -ne $null) {
+if ($LockName) {
     Write-Host "Retrieving all locks in resourceGroup '$ResourceGroupName' with name '$LockName'"
     $locks = Get-AzResourceLock -LockName $LockName -ResourceGroupName $ResourceGroupName
 } else {
