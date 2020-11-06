@@ -58,7 +58,7 @@ PS> Inject-ArmContent -Path deploy\arm-template.json
 **Recommendations**
 Always inject the content in your ARM template as soon as possible, preferably during release build that creates the artifact
 
-## Removing resource locks on Azure
+## Removing resource locks within an Azure Resource Group
 
 In some deployments resource-locks are being assigned. To help in removing these quickly, we have provided you with a function that removes all the existing locks on the resource group.
 
