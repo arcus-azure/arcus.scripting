@@ -62,7 +62,11 @@ Always inject the content in your ARM template as soon as possible, preferably d
 
 In some deployments resource-locks are being assigned. To help in removing these quickly, we have provided you with a function that removes all the existing locks on the resource group.
 
-While this seems dangerous, only users with sufficient access rights are allowed to delete locks.
+While this seems dangerous, only users with access to the following actions are allowed to delete locks:
+ - _Microsoft.Authorization/*_
+ - _Microsoft.Authorization/locks/*_
+ 
+ Of the built-in roles, only **Owner** and **Access Administrator** are granted those actions.
 
 | Parameter           | Mandatory | Description                                                                                       |
 | ------------------- | --------- | ------------------------------------------------------------------------------------------------- |
