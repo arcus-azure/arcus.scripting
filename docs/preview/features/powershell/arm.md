@@ -75,7 +75,7 @@ While this seems dangerous, only users with access to the following actions are 
 
 **Usage*
 
-When you want to remove all the resource locks, no matter what the name or the sub-location:
+When you want to remove all the resource locks within a specific resource group, no matter what the name or the sub-location:
 
 ```powershell
 PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name"
