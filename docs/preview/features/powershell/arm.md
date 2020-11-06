@@ -84,7 +84,7 @@ PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name"
 # All locks in resourceGroup 'your-resource-group-name' have been removed
 ```
 
-When you want to remove a specific resource lock, with a given name:
+When you want to remove a specific resource lock within a given resource group, with a given name:
 
 ```powershell
 PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name" -LockName "your-resource-lock-name"
