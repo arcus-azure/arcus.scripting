@@ -27,6 +27,12 @@ PS> Install-MOdule -Name Arcus.Scripting.ApiManagement
 PS> Install-Module -Name Arcus.Scripting.KeyVault
 ```
 
+- **SQL**
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.SQL
+```
+
 - **Table Storage**
 
 ```powershell
