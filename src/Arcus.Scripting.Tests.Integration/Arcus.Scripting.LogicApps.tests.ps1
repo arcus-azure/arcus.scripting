@@ -1,4 +1,4 @@
-using module Az
+
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 
 Describe "Arcus" {
@@ -14,6 +14,18 @@ Describe "Arcus" {
                 # Assert
                 Assert-MockCalled Get-AzLogicAppRunHistory -Times 0
             }
+            It "Doesn't enable anything when the stopType is not recognized" {
+                # Arrange
+                Mock Get-AzLogicAppRunHistory {}
+                Mock Set-AzLogicApp {}
+
+                # Act
+                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-unknownStopType.json" -ResourceGroupName "ignored-resource-group"
+
+                # Assert
+                Assert-MockCalled Get-AzLogicAppRunHistory -Times 0
+                Assert-MockCalled Get-AzLogicApp -Times 0
+            }
             It "Doesn't disable anything when the stopType is not recognized" {
                 # Arrange
                 Mock Get-AzLogicAppRunHistory {}
@@ -26,6 +38,18 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Times 0
                 Assert-MockCalled Get-AzLogicApp -Times 0
             }
+            It "Doesn't enable anything when both checkType & stopType is 'None'" {
+                # Arrange
+                Mock Get-AzLogicAppRunHistory {}
+                Mock Set-AzLogicApp {}
+
+                # Act
+                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-none.json" -ResourceGroupName "ignored-resource-group"
+
+                # Assert
+                Assert-MockCalled Get-AzLogicAppRunHistory -Times 0
+                Assert-MockCalled Set-AzLogicApp -Times 0
+            }
             It "Doesn't disable anything when both checkType & stopType is 'None'" {
                 # Arrange
                 Mock Get-AzLogicAppRunHistory {}
@@ -37,6 +61,19 @@ Describe "Arcus" {
                 # Assert
                 Assert-MockCalled Get-AzLogicAppRunHistory -Times 0
                 Assert-MockCalled Set-AzLogicApp -Times 0
+            }
+            It "Enable logic app when stopType = Immediate" {
+                # Arrange
+               $resourceGroupName = "my-resource-group"
+                Mock Get-AzLogicAppRunHistory {}
+                Mock Set-AzLogicApp { }
+
+                # Act
+                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroupName
+
+                # Assert
+                Assert-MockCalled Get-AzLogicAppRunHistory -Times 0
+                Assert-MockCalled Set-AzLogicApp -Times 1  -ParameterFilter { $ResourceGroupName -eq $resourceGroupName -and $State -eq "Enabled" -and $Name -eq "snd-async" }
             }
             It "Disable logic app when stopType = Immediate" {
                 # Arrange
