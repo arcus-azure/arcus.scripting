@@ -23,6 +23,7 @@ For more granular packages we recommend reading the documentation.
 * Automate Azure DevOps tasks ([powershell](features/powershell/azure-devops))
 * Automate Azure Key Vault tasks ([powershell](features/powershell/azure-key-vault))
 * Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
+* Automate Azure Security tasks ([powershell](features/powershell/azure-security))
 * Automate Azure Storage tasks ([powershell](features/powershell/azure-storage))
 
 # License
