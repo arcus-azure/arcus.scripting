@@ -26,7 +26,7 @@ function Disable-AzLogicApp {
         [string][Parameter(Mandatory = $false)] $AccessToken = ""
     )
     
-    . $PSScriptRoot\Scripts\Disable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -DeployFileName $DeployFileName -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Disable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $AccessToken
 }
 
 Export-ModuleMember -Function Disable-AzLogicApp
@@ -83,7 +83,7 @@ function Enable-AzLogicApp {
         [string][Parameter(Mandatory = $false)] $AccessToken = ""
     )
     
-    . $PSScriptRoot\Scripts\Enable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -DeployFileName $DeployFileName -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Enable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $AccessToken
 }
 
 Export-ModuleMember -Function Enable-AzLogicApp

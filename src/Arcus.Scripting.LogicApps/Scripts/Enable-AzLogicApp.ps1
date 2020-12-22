@@ -9,7 +9,7 @@ param
 try{
     if($SubscriptionId -eq "" -or $AccessToken -eq ""){
         # Request accessToken in case the script contains records
-        $token = .\Get-AzCachedAccessToken.ps1
+        $token = . $PSScriptRoot\Get-AzCachedAccessToken.ps1
 
         $Global:acces_token = $token.AccessToken
         $Global:subscriptionId = $token.SubscriptionId
@@ -28,7 +28,7 @@ try{
         URI = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/enable?api-version=2016-06-01"
     }
 
-    Invoke-RestMethod @params -ErrorAction Stop
+    $web = Invoke-WebRequest @params -ErrorAction Stop
     Write-Host "Successfully enabled $LogicAppName" 
 }
 catch {

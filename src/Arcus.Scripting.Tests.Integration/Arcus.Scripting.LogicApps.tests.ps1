@@ -157,6 +157,94 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
                 Assert-MockCalled Set-AzLogicApp -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
             }
+            It "Enables a specific Logic App"{
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-http-trigger"
+                Mock Write-Host {}
+                Mock Invoke-WebRequest -Verifiable -MockWith {
+                    return @{
+                        Content = ""
+                        StatusCode = "200"
+                    }
+                }
+
+                # Act
+                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+
+                # Assert
+                Assert-VerifiableMocks
+                Assert-MockCalled Write-Host -Exactly 1 -Scope It -ParameterFilter { $Object -eq "Successfully enabled arc-dev-we-rcv-http-trigger" }
+            }
+            It "Fails to enable an unknown Azure Logic App" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
+                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to enable $logicAppName"  }
+                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
+                Mock Invoke-WebRequest -Verifiable {
+                    $status = [System.Net.WebExceptionStatus]::ConnectionClosed
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 404 -force
+                    $exception = New-Object System.Net.WebException $errorContent , $null, $status, $response
+        
+                    Throw $exception
+                }
+
+                # Act
+                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+
+
+                # Assert
+                Assert-VerifiableMocks
+                Assert-MockCalled Write-Warning -Times 1 -Scope It -ParameterFilter { $Message -eq "Failed to enable $logicAppName" }
+                Assert-MockCalled Write-Warning -Times 1 -Scope It -ParameterFilter { $Message -eq "Error: $errorContent" }
+            }
+            It "Disables a specific Logic App"{
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-http-trigger"
+                Mock Write-Host {}
+                Mock Invoke-WebRequest -Verifiable -MockWith {
+                    return @{
+                        Content = ""
+                        StatusCode = "200"
+                    }
+                }
+
+                # Act
+                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+
+                # Assert
+                Assert-VerifiableMocks
+                Assert-MockCalled Write-Host -Exactly 1 -Scope It -ParameterFilter { $Object -eq "Successfully disabled arc-dev-we-rcv-http-trigger" }
+            }
+            It "Fails to disable an unknown Azure Logic App" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
+                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to disable $logicAppName"  }
+                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
+                Mock Invoke-WebRequest -Verifiable {
+                    $status = [System.Net.WebExceptionStatus]::ConnectionClosed
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 404 -force
+                    $exception = New-Object System.Net.WebException $errorContent , $null, $status, $response
+        
+                    Throw $exception
+                }
+
+                # Act
+                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+
+
+                # Assert
+                Assert-VerifiableMocks
+                Assert-MockCalled Write-Warning -Times 1 -Scope It -ParameterFilter { $Message -eq "Failed to disable $logicAppName" }
+                Assert-MockCalled Write-Warning -Times 1 -Scope It -ParameterFilter { $Message -eq "Error: $errorContent" }
+            }
         }
     }
 }
