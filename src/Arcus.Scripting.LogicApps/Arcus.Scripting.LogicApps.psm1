@@ -1,5 +1,38 @@
 <#
  .Synopsis
+  Disable a specific Logic App.
+  
+ .Description
+  Disables a specific Logic App.
+
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure Logic App. When not provided, it will be retrieved from the current context (Get-AzContext).
+  
+ .Parameter ResourceGroupName
+  The resource group containing the Azure Logic Apps.
+  
+ .Parameter LogicAppName
+  The name of the Azure Logic App to be enabled.
+  
+ .Parameter AccessToken
+  [Optional] The access token to be used to enable the Azure Logic App.
+
+#>
+function Disable-AzLogicApp {
+    param(
+        [string][Parameter(Mandatory = $false)] $SubscriptionId = "",
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
+        [string][Parameter(Mandatory = $true)] $LogicAppName,
+        [string][Parameter(Mandatory = $false)] $AccessToken = ""
+    )
+    
+    . $PSScriptRoot\Scripts\Disable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -DeployFileName $DeployFileName -AccessToken $AccessToken
+}
+
+Export-ModuleMember -Function Disable-AzLogicApp
+
+<#
+ .Synopsis
   Disable all specified Logic Apps described in the order control JSON file.
   
  .Description
@@ -21,6 +54,39 @@ function Disable-AzLogicAppsFromConfig {
 }
 
 Export-ModuleMember -Function Disable-AzLogicAppsFromConfig
+
+<#
+ .Synopsis
+  Enable a specific Logic App.
+  
+ .Description
+  Enables a specific Logic App.
+
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure Logic App. When not provided, it will be retrieved from the current context (Get-AzContext).
+  
+ .Parameter ResourceGroupName
+  The resource group containing the Azure Logic Apps.
+  
+ .Parameter LogicAppName
+  The name of the Azure Logic App to be enabled.
+  
+ .Parameter AccessToken
+  [Optional] The access token to be used to enable the Azure Logic App.
+
+#>
+function Enable-AzLogicApp {
+    param(
+        [string][Parameter(Mandatory = $false)] $SubscriptionId = "",
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
+        [string][Parameter(Mandatory = $true)] $LogicAppName,
+        [string][Parameter(Mandatory = $false)] $AccessToken = ""
+    )
+    
+    . $PSScriptRoot\Scripts\Enable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -DeployFileName $DeployFileName -AccessToken $AccessToken
+}
+
+Export-ModuleMember -Function Enable-AzLogicApp
 
 <#
  .Synopsis

@@ -6,6 +6,8 @@ layout: default
 # Azure Logic Apps
 
 This module provides the following capabilities:
+- [Disable an Azure Logic App](#disable-an-azure-logic-app)
+- [Enable an Azure Logic App](#enable-an-azure-logic-app)
 - [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
 - [Enabling Azure Logic Apps from configuration file](#enabling-azure-logic-apps-from-configuration-file)
 
@@ -15,6 +17,74 @@ To have access to the following features, you have to import the module:
 
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.LogicApps
+```
+
+## Disable an Azure Logic App
+
+Using this script to enabel a specific Azure Logic App.  
+
+| Parameter         | Mandatory | Description                                                                                                         |
+| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
+| SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
+| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
+| LogicAppName      | yes       | The name of the Azure Logic App to be disabled.                                                                     |
+| AccessToken       | no        | The access token to be used to disable the Azure Logic App.                                                          |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
+
+**Example**
+
+Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, without providing the subscriptionId or accesstoken.  
+
+```powershell
+PS> Disable-AzLogicApp.ps1 -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
+Access-token and subscriptionId retrieved
+Attempting to disable rcv-shopping-order-sftp
+
+Successfully disabled rcv-shopping-order-sftp
+```
+
+Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, with providing the subscriptionId or accesstoken.  
+
+```powershell
+PS> Disable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
+Attempting to disable rcv-shopping-order-sftp
+
+Successfully disabled rcv-shopping-order-sftp
+```
+
+## Enable an Azure Logic App
+
+Using this script to enable a specific Azure Logic App.  
+
+| Parameter         | Mandatory | Description                                                                                                         |
+| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
+| SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
+| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
+| LogicAppName      | yes       | The name of the Azure Logic App to be enabled.                                                                     |
+| AccessToken       | no        | The access token to be used to enable the Azure Logic App.                                                          |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
+
+**Example**
+
+Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, without providing the subscriptionId or accesstoken.  
+
+```powershell
+PS> Enable-AzLogicApp.ps1 -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
+Access-token and subscriptionId retrieved
+Attempting to enable rcv-shopping-order-sftp
+
+Successfully enabled rcv-shopping-order-sftp
+```
+
+Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, with providing the subscriptionId or accesstoken.  
+
+```powershell
+PS> Enable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
+Attempting to enable rcv-shopping-order-sftp
+
+Successfully enabled rcv-shopping-order-sftp
 ```
 
 ## Disabling Azure Logic Apps from configuration file
@@ -27,6 +97,8 @@ The order of the Azure Logic Apps in the configuration file (bottom to top) defi
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
 | DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
+| ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter     | 
+|                   |           | instead of updating the configuration-file.                                                                         |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
@@ -133,6 +205,54 @@ PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -Resou
 # -> Batch: 'Sender(s)' has been executed
 ```
 
+Disables all the Logic Apps based on the `./deploy-orderControl.json` configuration file with specifying a resource-prefix.
+Uses the sample configuration file here above.
+
+```powershell
+PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -ResourceGroupName "my-resource-group" -ResourcePrefix "la-cod-dev-we-"
+# Executing batch: Protocol Receiver(s)
+# ==========================
+# > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
+# Executing Check 'None' => peforming no check and executing stopType
+
+# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
+# Attempting to disable la-cod-dev-we-rcv-shopping-order-ftp
+# Successfully disabled la-cod-dev-we-rcv-shopping-order-ftp
+
+# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
+# Attempting to disable la-cod-dev-we-rcv-shopping-order-sftp
+# Successfully disabled la-cod-dev-we-rcv-shopping-order-sftp
+
+# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
+# Attempting to disable la-cod-dev-we-rcv-shopping-order-file
+# Successfully disabled la-cod-dev-we-rcv-shopping-order-file
+
+# -> Batch: 'Protocol Receiver(s)' has been executed
+
+# Executing batch: 'Generic Receiver(s)'
+# ==========================
+# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
+# Attempting to disable la-cod-dev-we-rcv-shopping-order
+# Successfully disabled la-cod-dev-we-rcv-shopping-order
+
+# -> Batch: 'Generic Receiver(s)' has been executed
+
+# Executing batch: 'Orchestrator(s)'
+# ==========================
+# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
+# Attempting to disable la-cod-dev-we-orc-shopping-order-processing
+# Successfully disabled la-cod-dev-we-orc-shopping-order-processing
+
+# -> Batch: 'Orchestrator(s)' has been executed
+
+# Executing batch: 'Sender(s)'
+# ==========================
+# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Attempting to disable la-cod-dev-we-snd-shopping-order-confirmation-smtp
+# Successfully disabled la-cod-dev-we-snd-shopping-order-confirmation-smtp
+
+# -> Batch: 'Sender(s)' has been executed
+```
 
 ## Enabling Azure Logic Apps from configuration file  
 
@@ -144,6 +264,8 @@ The order of the Azure Logic Apps in the configuration file (top to bottom) defi
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
 | DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
+| ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter     | 
+|                   |           | instead of updating the configuration-file.                                                                         |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
@@ -243,6 +365,52 @@ PS> Enable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -Resour
 # > Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
 # Attempting to enable rcv-shopping-order-file
 # Successfully enabled rcv-shopping-order-file
+
+# -> Batch: 'Protocol Receiver(s)' has been executed
+```
+
+Enables all the Logic Apps based on the `./deploy-orderControl.json` configuration file with specifying a resource-prefix.
+Uses the sample configuration file here above.
+
+```powershell
+PS> Enable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -ResourceGroupName "my-resource-group" -ResourcePrefix "la-cod-dev-we-"
+# Executing batch: 'Sender(s)'
+# ==========================
+# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Attempting to enable la-cod-dev-we-snd-shopping-order-confirmation-smtp
+# Successfully enabled la-cod-dev-we-snd-shopping-order-confirmation-smtp
+
+# -> Batch: 'Sender(s)' has been executed
+
+# Executing batch: 'Orchestrator(s)'
+# ==========================
+# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
+# Attempting to enable la-cod-dev-we-orc-shopping-order-processing
+# Successfully enabled la-cod-dev-we-orc-shopping-order-processing
+
+# -> Batch: 'Orchestrator(s)' has been executed
+
+# Executing batch: 'Generic Receiver(s)'
+# ==========================
+# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
+# Attempting to enable la-cod-dev-we-rcv-shopping-order
+# Successfully enabled la-cod-dev-we-rcv-shopping-order
+
+# -> Batch: 'Generic Receiver(s)' has been executed
+
+# Executing batch: Protocol Receiver(s)
+# ==========================
+# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
+# Attempting to enable la-cod-dev-we-rcv-shopping-order-ftp
+# Successfully enabled la-cod-dev-we-rcv-shopping-order-ftp
+
+# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
+# Attempting to enable la-cod-dev-we-rcv-shopping-order-sftp
+# Successfully enabled la-cod-dev-we-rcv-shopping-order-sftp
+
+# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
+# Attempting to enable la-cod-dev-we-rcv-shopping-order-file
+# Successfully enabled la-cod-dev-we-rcv-shopping-order-file
 
 # -> Batch: 'Protocol Receiver(s)' has been executed
 ```
