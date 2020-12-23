@@ -16,7 +16,7 @@ To have access to the following features, you have to import the module:
 PS> Import-Module -Name Arcus.Scripting.Security
 ```
 
-## Removing resource locks on Azure
+## Removing resource locks from an Azure resource group
 
 In some deployments resource-locks are being assigned. To help in removing these quickly, we have provided you with a function that removes all the existing locks on the resource group.
 
