@@ -24,7 +24,7 @@ function ReverseStopType() {
                         $LogicAppName = "$ResourcePrefix$_"
                     }
                     try {
-                        . $PSScriptRoot\Enable-AzLogicApp.ps1 -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:acces_token
+                        Enable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:acces_token
                     }
                     catch {
                         Write-Warning "Failed to enable $LogicAppName"
@@ -68,7 +68,7 @@ $json = Get-Content $DeployFileName | Out-String | ConvertFrom-Json
 
 if($json.Length -gt 0){
     # Request accessToken in case the script contains records
-    $token = . $PSScriptRoot\Get-AzCachedAccessToken.ps1
+    $token = Get-AzCachedAccessToken
     $Global:acces_token = $token.AccessToken
     $Global:subscriptionId = $token.SubscriptionId
 }

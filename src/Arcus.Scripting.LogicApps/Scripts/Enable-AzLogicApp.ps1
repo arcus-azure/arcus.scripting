@@ -9,7 +9,7 @@ param
 try{
     if($SubscriptionId -eq "" -or $AccessToken -eq ""){
         # Request accessToken in case the script contains records
-        $token = . $PSScriptRoot\Get-AzCachedAccessToken.ps1
+        $token = Get-AzCachedAccessToken
 
         $Global:acces_token = $token.AccessToken
         $Global:subscriptionId = $token.SubscriptionId

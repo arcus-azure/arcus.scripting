@@ -19,7 +19,7 @@ function ExecuteStopType() {
         Write-Host("> Executing StopType '$stopType' for Logic App '$LogicAppName' in resource group '$ResourceGroupName'")
         If ($stopType -Match "Immediate") {
             try {
-                . $PSScriptRoot\Disable-AzLogicApp.ps1 -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:acces_token
+                Disable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:acces_token
             }
             catch {
                 Write-Warning "Failed to disable $LogicAppName"
@@ -128,7 +128,7 @@ if ($json -is [array]) {
 
 if($json.Length -gt 0){
     # Request accessToken in case the script contains records
-    $token = . $PSScriptRoot\Get-AzCachedAccessToken.ps1
+    $token = Get-AzCachedAccessToken
     $Global:acces_token = $token.AccessToken
     $Global:subscriptionId = $token.SubscriptionId
 }
