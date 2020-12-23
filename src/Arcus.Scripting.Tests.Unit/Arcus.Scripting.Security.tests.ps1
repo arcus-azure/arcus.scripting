@@ -1,3 +1,4 @@
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security\Arcus.Scripting.Security.psm1
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 
 Describe "Arcus" {
@@ -9,7 +10,7 @@ Describe "Arcus" {
                 $resourceGroupName = "my-resource-group"
                 Mock Get-AzResourceLock { 
                     $ResourceGroupName | Should -Be $resourceGroupName
-                    return @([pscustomobject]@{ LockId = $lockId }) } -Verifiable
+                    return @([pscustomobject]@{ LockId = "my-lock-id" }) } -Verifiable
                 Mock Remove-AzResourceLock { 
                     $LockId | Should -Be $lockId } -Verifiable
 
