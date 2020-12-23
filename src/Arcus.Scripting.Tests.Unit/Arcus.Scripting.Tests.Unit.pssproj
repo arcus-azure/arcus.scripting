@@ -49,6 +49,11 @@
       <Project>{ac784a55-cce0-402f-99d0-4eb9147b3566}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Arcus.Scripting.Security\Arcus.Scripting.Security.pssproj">
+      <Name>Arcus.Scripting.Security</Name>
+      <Project>{fbe6e01f-0a36-4ad2-aa70-f1dfa8791b81}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Arcus.Scripting.Storage.Table\Arcus.Scripting.Storage.Table.pssproj">
       <Name>Arcus.Scripting.Storage.Table</Name>
       <Project>{893fc428-7c18-40ef-81e8-244635579cc7}</Project>
@@ -57,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arcus.Scripting.ApiManagement.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Security.tests.ps1" />
     <Compile Include="Arcus.Scripting.DataFactory.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
     <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
