@@ -1,4 +1,3 @@
-using module Az
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 
 Describe "Arcus" {
