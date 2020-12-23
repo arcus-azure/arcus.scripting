@@ -7,7 +7,6 @@ layout: default
 
 This module provides the following capabilities:
 - [Injecting content into an ARM template](#injecting-content-into-an-arm-template)
-- [Removing resource locks within an Azure Resource Group](#removing-resource-locks-within-an-azure-resource-group)
 
 ## Installation
 
