@@ -72,6 +72,7 @@ FunctionsToExport = @(
     'Import-AzApiManagementProductPolicy', 
     'Import-AzApiManagementApiPolicy', 
     'Import-AzApiManagementOperationPolicy',
+    'Backup-AzApiManagementService',
     'Set-AzApiManagementApiSubscriptionKey')
 
 # Cmdlets to export from this module

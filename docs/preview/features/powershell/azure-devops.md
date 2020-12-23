@@ -13,7 +13,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Import-Module -Name Arcus.Scripting.DevOps
+PS> Install-Module -Name Arcus.Scripting.DevOps
 ```
 
 ## Setting a variable in an Azure DevOps pipeline

@@ -2,11 +2,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{fc575a21-8edb-4fe4-aa02-6869d2f0d51a}</ProjectGuid>
+    <ProjectGuid>{f6875ce9-d6b8-4715-9a31-cbdfe1df85bc}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Arcus.Sripting.ApiManagement</RootNamespace>
-    <AssemblyName>Arcus.Sripting.ApiManagement</AssemblyName>
-    <Name>Arcus.Scripting.ApiManagement</Name>
+    <RootNamespace>Arcus.Scripting.LogicApps</RootNamespace>
+    <AssemblyName>Arcus.Scripting.LogicApps</AssemblyName>
+    <Name>Arcus.Scripting.LogicApps</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,15 +29,10 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.ApiManagement.psd1" />
-    <Compile Include="Arcus.Scripting.ApiManagement.psm1" />
-    <Compile Include="Scripts\Backup-AzApiManagementService.ps1" />
-    <Compile Include="Scripts\Create-AzApiManagementApiOperation.ps1" />
-    <Compile Include="Scripts\Import-AzApiManagementProductPolicy.ps1" />
-    <Compile Include="Scripts\Remove-AzApiManagementDefaults.ps1" />
-    <Compile Include="Scripts\Import-AzApiManagementApiPolicy.ps1" />
-    <Compile Include="Scripts\Import-AzApiManagementOperationPolicy.ps1" />
-    <Compile Include="Scripts\Set-AzApiManagementApiSubscriptionKey.ps1" />
+    <Compile Include="Arcus.Scripting.LogicApps.psd1" />
+    <Compile Include="Arcus.Scripting.LogicApps.psm1" />
+    <Compile Include="Scripts\Disable-AzLogicAppsFromConfig.ps1" />
+    <Compile Include="Scripts\Enable-AzLogicAppsFromConfig.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

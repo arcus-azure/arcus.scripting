@@ -6,6 +6,7 @@ layout: default
 # Azure API Management
 
 This module provides the following capabilities:
+- [Backing up an API Management service](#backing-up-an-api-management-service)
 - [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
 - [Importing a policy to a product in the Azure API Management instance](#importing-a-policy-to-a-product-in-the-azure-api-management-instance)
 - [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
@@ -17,7 +18,36 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Import-Module -Name Arcus.Scripting.ApiManagement
+PS> Install-Module -Name Arcus.Scripting.ApiManagement
+```
+
+## Backing up an API Management service
+
+Backs up an API Management service (with built-in storage context retrieval).
+
+| Parameter                         | Mandatory | Description                                                                                                                                                      |
+| --------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`               | yes       | The name of the of resource group under which the API Management deployment exists.                                                                              |
+| `StorageAccountResourceGroupName` | yes       | The name of the resource group under which the storage account exists.                                                                                           |
+| `StorageAccountName`              | yes       | The name of the Storage account for which this cmdlet gets keys.                                                                                                 |
+| `ServiceName`                     | yes       | The name of the API Management deployment that this cmdlet backs up.                                                                                             |
+| `ContainerName`                   | yes       | The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.                                                   |
+| `BlobName`                        | no        | The name of the blob for the backup. If the blob does not exist, this cmdlet creates it (default value based on pattern: `{Name}-{yyyy-MM-dd-HH-mm}.apimbackup`. |
+| `PassThru`                        | no        | Indicates that this cmdlet returns the backed up PsApiManagement object, if the operation succeeds.                                                              |
+| `DefaultProfile`                  | no        | The credentials, account, tenant, and subscription used for communication with azure.                                                                            |
+
+**Example**
+
+Simplest way to back up an API Management service.
+
+```powershell
+PS> Backup-AzApiManagementService -ResourceGroupName "my-resource-group" -StorageAccountResourceGroupName "my-storage-account-resource-group" -StorageAccountName "my-storage-account" -ServiceName "my-service" -ContainerName "my-target-blob-container"
+# Getting Azure storage account key..
+# Got Azure storage key!
+# Create new Azure storage context with storage key...
+# New Azure storage context with storage key created!
+# Start backing up API management service...
+# API management service is backed-up!
 ```
 
 ## Creating a new API operation in the Azure API Management instance

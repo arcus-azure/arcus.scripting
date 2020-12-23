@@ -11,7 +11,7 @@ The Arcus.Scripting modules can be found on the PowerShell gallery.
 Install the latest version of a module by executing the following command:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ARM
+PS> Install-Module -Name Arcus.Scripting.ARM -Version 0.1.3
 ```
 
 For more granular packages we recommend reading the documentation.

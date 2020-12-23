@@ -27,6 +27,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Arcus.Scripting.ARM.tests.ps1" />
+    <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
+    <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Arcus.Scripting.ARM\Arcus.Scripting.ARM.pssproj">
@@ -39,6 +41,15 @@
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
+    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
+    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
+    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" />
+    <Content Include="Files\deploy-orderControl-immediateWithoutCheck.json" />
+    <Content Include="Files\deploy-orderControl-unknownStopType.json" />
+    <Content Include="Files\deploy-orderControl-none.json" />
+    <Content Include="Files\deploy-orderControl-unknownCheckType.json" />
+    <Content Include="Files\deploy-orderControl.json" />
     <Content Include="Files\arm-template-escape-value.xml" />
     <Content Include="Files\arm-template-escape.json" />
     <Content Include="Files\arm-template-escape-org.json" />

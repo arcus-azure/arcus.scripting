@@ -66,7 +66,7 @@ RequiredModules = @(@{ModuleName='Az.KeyVault'; ModuleVersion='2.0.0'})
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = @('Get-AzKeyVaultAccessPolicies', 'Set-AzKeyVaultSecretFromFile')
+FunctionsToExport = @('Get-AzKeyVaultAccessPolicies', 'Set-AzKeyVaultSecretFromFile', 'Set-AzKeyVaultSecretAsBase64FromFile')
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'
