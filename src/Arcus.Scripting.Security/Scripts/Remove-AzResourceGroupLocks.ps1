@@ -14,7 +14,7 @@ if ($LockName) {
 }
 
 if ($locks -ne $null -and $locks.Count -gt 0) {
-    Write-Host "Start removing all locks in resourceGroup '$ResourceGroupName'"
+    Write-Host "Start removing all locks '$locks' in resourceGroup '$ResourceGroupName'"
     foreach ($lock in $locks) {
         $lockId = $lock.LockId
         Write-Host "Removing the lock with ID:" $lockId
