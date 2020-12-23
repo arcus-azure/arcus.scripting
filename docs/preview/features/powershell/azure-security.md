@@ -6,7 +6,7 @@ layout: default
 # Azure Security
 
 This module provides the following capabilities:
-- [Removing resource locks on azure](#removing-resource-locks-on-azure)
+- [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
 
 ## Installation
 
