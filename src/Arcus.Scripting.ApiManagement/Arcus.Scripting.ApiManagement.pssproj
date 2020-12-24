@@ -37,6 +37,7 @@
     <Compile Include="Scripts\Remove-AzApiManagementDefaults.ps1" />
     <Compile Include="Scripts\Import-AzApiManagementApiPolicy.ps1" />
     <Compile Include="Scripts\Import-AzApiManagementOperationPolicy.ps1" />
+    <Compile Include="Scripts\Restore-AzApiManagementService.ps1" />
     <Compile Include="Scripts\Set-AzApiManagementApiSubscriptionKey.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
