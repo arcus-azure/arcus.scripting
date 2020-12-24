@@ -22,7 +22,7 @@ function Create-AzFileShareStorageFolder {
         [string][Parameter(Mandatory = $true)] $ResourceGroupName,
         [string][Parameter(Mandatory = $true)] $StorageAccountName,
         [string][Parameter(Mandatory = $true)] $FileShareName,
-        [string][Parameter(Mandatory = $true)] $FolderName,
+        [string][Parameter(Mandatory = $true)] $FolderName
     )
     
     . $PSScriptRoot\Scripts\Create-AzFileShareStorageFolder.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -FileShareName $FileShareName -FolderName $FolderName
