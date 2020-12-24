@@ -11,10 +11,17 @@ Describe "Arcus" {
                 $fileShareName = "shipped-file"
                 $storageAccountName = "admin"
                 $tableName = "products"
+               
+                # Test values, not really pointing to anything
                 $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
-                $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
+                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
+                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
+                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
+                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                
                 $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
-                $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $psStorageAccount
+                $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $storageContext
 
                 Mock Get-AzStorageAccount {
                     $ResourceGroupName | Should -Be $resourceGroup
