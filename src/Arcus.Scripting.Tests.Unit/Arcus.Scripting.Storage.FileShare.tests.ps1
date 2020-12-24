@@ -32,7 +32,7 @@ Describe "Arcus" {
                     $Name | Should -Be $fileShareName
                     return $fileShare } -Verifiable
                 Mock New-AzStorageDirectory {
-                    $Directory | Should -Be $fileShare
+                    $Share | Should -Be $fileShare
                     $Path | Should -Be $folderName }
 
                 # Act
