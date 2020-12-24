@@ -25,7 +25,8 @@ For more granular packages we recommend reading the documentation.
 * Automate Azure Logic Apps tasks ([powershell](features/powershell/azure-logic-apps))
 * Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
 * Automate Azure Security tasks ([powershell](features/powershell/azure-security))
-* Automate Azure Storage tasks ([powershell](features/powershell/azure-storage))
+* Automate Azure Storage (File Share) tasks ([powershell](features/powershell/azure-storage-fileshare))
+* Automate Azure Storage (Table) tasks ([powershell](features/powershell/azure-storage-table))
 
 # License
 This is licensed under The MIT License (MIT). Which means that you can use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the web application. But you always need to state that Codit is the original author of this web application.

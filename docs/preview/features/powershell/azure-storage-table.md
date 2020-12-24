@@ -1,9 +1,9 @@
 ---
-title: "Scripts related to interacting with Azure Table Storage"
+title: "Scripts related to interacting with Azure Storage"
 layout: default
 ---
 
-# Azure Table Storage
+# Azure Storage
 
 This module provides the following capabilities:
 - [Creating a new table in an Azure Storage Account](#creating-a-new-table-in-an-azure-storage-account)
