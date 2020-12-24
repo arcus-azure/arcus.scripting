@@ -14,7 +14,7 @@ Describe "Arcus" {
                 $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
                 $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
                 $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
-                $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel -ArgumentList $cloudShare, $psStorageAccount
+                $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $psStorageAccount
 
                 Mock Get-AzStorageAccount {
                     $ResourceGroupName | Should -Be $resourceGroup
