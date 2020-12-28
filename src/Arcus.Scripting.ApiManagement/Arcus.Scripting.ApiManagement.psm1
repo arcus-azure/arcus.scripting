@@ -228,6 +228,8 @@ function Import-AzApiManagementOperationPolicy {
     . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
 }
 
+Export-ModuleMember -Function Import-AzApiManagementOperationPolicy
+
 <#
  .Synopsis
   Restores an API Management Service from the specified Azure storage blob.
@@ -278,6 +280,8 @@ function Restore-AzApiManagementService {
     }
 }
 
+Export-ModuleMember -Function Restore-AzApiManagementService
+
 <#
  .Synopsis
   Sets the authentication keys in Azure API Management.
@@ -311,3 +315,5 @@ function Set-AzApiManagementApiSubscriptionKey {
 
     . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName $HeaderName -QueryParamName $QueryParamName
 }
+
+Export-ModuleMember -Function Set-AzApiManagementApiSubscriptionKey
