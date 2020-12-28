@@ -546,7 +546,7 @@ Describe "Arcus" {
                     $Name | Should -Be $serviceName
                     $StorageContext | Should -be $storageContext
                     $SourceContainerName | Should -Be $containerName
-                    $SourceBlobName | Should -BeNullOrEmpty 
+                    $SourceBlobName | Should -Be $blobName
                     $PassThru | Should -Be $false
                     $DefaultProfile | Should -Be $null }
 
@@ -590,7 +590,7 @@ Describe "Arcus" {
                     $Name | Should -Be $serviceName
                     $StorageContext | Should -be $storageContext
                     $SourceContainerName | Should -Be $containerName
-                    $SourceBlobName | Should -BeNullOrEmpty 
+                    $SourceBlobName | Should -Be $blobName 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $null }
 
@@ -635,7 +635,7 @@ Describe "Arcus" {
                     $Name | Should -Be $serviceName
                     $StorageContext | Should -be $storageContext
                     $SourceContainerName | Should -Be $containerName
-                    $SourceBlobName | Should -BeNullOrEmpty 
+                    $SourceBlobName | Should -Be $blobName 
                     $PassThru | Should -Be $false
                     $DefaultProfile | Should -Be $defaultProfile }
 
@@ -680,7 +680,7 @@ Describe "Arcus" {
                     $Name | Should -Be $serviceName
                     $StorageContext | Should -be $storageContext
                     $SourceContainerName | Should -Be $containerName
-                    $SourceBlobName | Should -BeNullOrEmpty 
+                    $SourceBlobName | Should -Be $blobName 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $defaultProfile }
 
