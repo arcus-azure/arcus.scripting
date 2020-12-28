@@ -551,7 +551,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serivceName -ContainerName $containerName -BlobName $blobName
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName
 
                 # Assert
                 Assert-VerifiableMock
@@ -595,7 +595,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serivceName -ContainerName $containerName -BlobName $blobName -PassThru
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -PassThru
 
                 # Assert
                 Assert-VerifiableMock
@@ -640,7 +640,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $defaultProfile }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serivceName -ContainerName $containerName -BlobName $blobName -DefaultProfile $defaultProfile
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -DefaultProfile $defaultProfile
 
                 # Assert
                 Assert-VerifiableMock
@@ -685,7 +685,7 @@ Describe "Arcus" {
                     $DefaultProfile | Should -Be $defaultProfile }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serivceName -ContainerName $containerName -BlobName $blobName -PassThru -DefaultProfile $defaultProfile
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -PassThru -DefaultProfile $defaultProfile
 
                 # Assert
                 Assert-VerifiableMock
