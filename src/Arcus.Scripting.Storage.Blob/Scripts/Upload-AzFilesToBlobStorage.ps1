@@ -12,9 +12,10 @@ $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Na
 #Create the blob container if not yet made
 try{
     Get-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -ErrorAction Stop
+    Write-Host "Using existing Storage Container $ContainerName"
 }
-catch{
-    Write-Host "Creating Storage Container $ContainerName"
+catch ($exception) {
+    Write-Host "Creating Storage Container $ContainerName $exception"
     New-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -Permission $ContainerPermissions
 } 
 
