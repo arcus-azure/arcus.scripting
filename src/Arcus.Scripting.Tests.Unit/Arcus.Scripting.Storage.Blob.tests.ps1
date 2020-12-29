@@ -14,7 +14,6 @@ Describe "Arcus" {
                 $files = @( [pscustomobject]@{ Name = "Container 1"; FullName = "/Container 1" }, [pscustomobject]@{ Name = "Container 2"; FullName = "/Container 2" })
                 $resourceGroupName = "shipping"
                 $storageAccountName = "shipping-storage"
-                $azResource = [pscustomobject]@{ Name = $storageAccountName; ResourceGroupName = $resourceGroupName }
                 $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
                 $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
@@ -29,9 +28,6 @@ Describe "Arcus" {
                 Mock Get-ChildItem { 
                     $Path | Should -Be $targetFolderPath
                     return $files  } -Verifiable
-                Mock Get-AzResource {
-                    $ResourceId | Should -Be $resourceId
-                    return $azResource } -Verifiable
                 Mock Set-AzStorageBlobContent {
                     $File | Should -BeIn ($files | % { $_.FullName })
                     $Container | Should -Be $containerName
@@ -39,7 +35,7 @@ Describe "Arcus" {
                     $Context | Should -Be $psStorageAccount.Context } -Verifiable
 
                 # Act
-                Upload-AzFilesToBlobStorage -TargetFolderPath $targetFolderPath -ContainerName $containerName -StorageAccountResourceId $resourceId -ContainerPermissions $containerPermissions -FilePrefix $filePrefix
+                Upload-AzFilesToBlobStorage -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -TargetFolderPath $targetFolderPath -ContainerName $containerName -ContainerPermissions $containerPermissions -FilePrefix $filePrefix
                 
                 # Assert
                 Assert-VerifiableMock
@@ -47,7 +43,6 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzStorageContainer -Times 1
                 Assert-MockCalled New-AzStorageContainer -Times 0
                 Assert-MockCalled Get-ChildItem -Times 1
-                Assert-MockCalled Get-AzResource -Times 1
                 Assert-MockCalled Set-AzStorageBlobContent -Times 1
             }
             It "Upload the expected amount of files to a new Azure Blob Storage" {
@@ -60,7 +55,6 @@ Describe "Arcus" {
                 $files = @( [pscustomobject]@{ Name = "Container 1" }, [pscustomobject]@{ Name = "Container 2" })
                 $resourceGroupName = "shipping"
                 $storageAccountName = "shipping-storage"
-                $azResource = [pscustomobject]@{ Name = $storageAccountName; ResourceGroupName = $resourceGroupName }
                 $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
                 $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
@@ -79,9 +73,6 @@ Describe "Arcus" {
                 Mock Get-ChildItem { 
                     $Path | Should -Be $targetFolderPath
                     return $files  } -Verifiable
-                Mock Get-AzResource {
-                    $ResourceId | Should -Be $resourceId
-                    return $azResource } -Verifiable
                  Mock Set-AzStorageBlobContent {
                     $File | Should -BeIn ($files | % { $_.FullName })
                     $Container | Should -Be $containerName
@@ -89,7 +80,7 @@ Describe "Arcus" {
                     $Context | Should -Be $psStorageAccount.Context } -Verifiable
 
                 # Act
-                Upload-AzFilesToBlobStorage -TargetFolderPath $targetFolderPath -ContainerName $containerName -StorageAccountResourceId $resourceId -ContainerPermissions $containerPermissions -FilePrefix $filePrefix
+                Upload-AzFilesToBlobStorage -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -TargetFolderPath $targetFolderPath -ContainerName $containerName -ContainerPermissions $containerPermissions -FilePrefix $filePrefix
                 
                 # Assert
                 Assert-VerifiableMock
@@ -97,7 +88,6 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzStorageContainer -Times 1
                 Assert-MockCalled New-AzStorageContainer -Times 1
                 Assert-MockCalled Get-ChildItem -Times 1
-                Assert-MockCalled Get-AzResource -Times 1
                 Assert-MockCalled Set-AzStorageBlobContent -Times 1
             }
         }

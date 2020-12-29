@@ -20,30 +20,31 @@ PS> Install-Module -Name Arcus.Scripting.Storage.Blob
 
 Uploads a set of files located in a given directory to a container on a Azure Blob Storage resource.
 
-| Parameter                  | Mandatory | Description                                                                                                                                                                                                          |
-| -------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TargetFolderPath`         | yes       | The directory where the files are located to upload to Azure Blob Storage.                                                                                                                                           |
-| `ContainerName`            | yes       | The name of the container at Azure Blob Storage to upload the targetted files to.                                                                                                                                    |
-| `StorageAccountResourceId` | yes       | The ID of the Azure storage account resource to authenticate with the Azure Blob Storage.                                                                                                                            |
-| `ContainerPermissions`     | no        | The level of public access to this container. By default, the container and any blobs in it can be accessed only by the owner of the storage account. To grant anonymous users read permissions to a container and its blobs, you can set the container permissions to enable public access. Anonymous users can read blobs in a publicly available container without authenticating the request. The acceptable values for this parameter are:                                                                    |
-|                            |           |  Container: Provides full read access to a container and its blobs. Clients can enumerate blobs in the container through anonymous request, but cannot enumerate containers in the storage account.                   |
-|                            |           |  Blob: Provides read access to blob data throughout a container through anonymous request, but does not provide access to container data. Clients cannot enumerate blobs in the container by using anonymous request. |
-|                            |           |  Off: Which restricts access to only the storage account owner.                                                                                                                                                       |
-| `FilePrefix`               | no        | The optional prefix to append to the blob content when uploading the file in the targetted directory to Azure Blob Storage.                                                                                           |
+| Parameter              | Mandatory | Description                                                                                                                                                                                                          |
+| ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes       | The name of the Azure resource group where the Azure storage account is located.                                                                                                                                     |
+| `StorageAccountName`   | yes       | The name of the Azure storage account.                                                                                                                                                                               |
+| `TargetFolderPath`     | yes       | The directory where the files are located to upload to Azure Blob Storage.                                                                                                                                           |
+| `ContainerName`        | yes       | The name of the container at Azure Blob Storage to upload the targetted files to.                                                                                                                                    |
+| `ContainerPermissions` | no        | The level of public access to this container. By default, the container and any blobs in it can be accessed only by the owner of the storage account. To grant anonymous users read permissions to a container and its blobs, you can set the container permissions to enable public access. Anonymous users can read blobs in a publicly available container without authenticating the request. The acceptable values for this parameter are:                                                                    |
+|                        |           |  Container: Provides full read access to a container and its blobs. Clients can enumerate blobs in the container through anonymous request, but cannot enumerate containers in the storage account.                   |
+|                        |           |  Blob: Provides read access to blob data throughout a container through anonymous request, but does not provide access to container data. Clients cannot enumerate blobs in the container by using anonymous request. |
+|                        |           |  Off: Which restricts access to only the storage account owner.                                                                                                                                                       |
+| `FilePrefix`           | no        | The optional prefix to append to the blob content when uploading the file in the targetted directory to Azure Blob Storage.                                                                                           |
 
 **Example**
 
 With existing blob container:
 
 ```powershell
-PS> Upload-AzFilesToBlobStorage -TargetFolderPath "./directory" -ContainerName "blob-container" -StorageAccountResourceId "some-unique-ID"
+PS> Upload-AzFilesToBlobStorage -ResourceGroupName "resource-group" -StorageAccountName "account-name" -TargetFolderPath "./directory" -ContainerName "blob-container"
 # Uploaded the file to Blob Storage: [file]
 ```
 
 With non-existing blob container:
 
 ```powershell
-PS> Upload-AzFilesToBlobStorage -TargetFolderPath "./directory" -ContainerName "blob-container" -StorageAccountResourceId "some-unique-ID"
+PS> Upload-AzFilesToBlobStorage -ResourceGroupName "resource-group" -StorageAccountName "account-name" -TargetFolderPath "./directory" -ContainerName "blob-container"
 # Creating Storage Container blob-container
 # Uploaded the file to Blob Storage: [file]
 ```

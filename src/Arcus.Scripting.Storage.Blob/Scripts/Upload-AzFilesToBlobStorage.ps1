@@ -1,15 +1,14 @@
 param(
-   [string][parameter(Mandatory = $true)] $TargetFolderPath = $(throw "Requires a folder file path to locate the targetted the files to be uploaded to Azure Blob Storage"),
-   [string][parameter(Mandatory = $true)] $ContainerName = $(throw "Requires a name for the Azure Blob Storage container to where the targetted files should be uploaded"),
-   [string][parameter(Mandatory = $true)] $StorageAccountResourceId = $(throw "Requires a resource ID for the Azure Storage account to authenticate with the Azure Blob Storage resource"),
-   [string][parameter(Mandatory = $false)] $ContainerPermissions = "Off",
-   [string][parameter(Mandatory = $false)] $FilePrefix = ""
+    [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Requires a resource group name where the Azure storage account is located"),
+    [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Requires a name for the Azure sotrage account"),
+    [string][parameter(Mandatory = $true)] $TargetFolderPath = $(throw "Requires a folder file path to locate the targetted the files to be uploaded to Azure Blob Storage"),
+    [string][parameter(Mandatory = $true)] $ContainerName = $(throw "Requires a name for the Azure Blob Storage container to where the targetted files should be uploaded"),
+    [string][parameter(Mandatory = $true)] $StorageAccountResourceId = $(throw "Requires a resource ID for the Azure Storage account to authenticate with the Azure Blob Storage resource"),
+    [string][parameter(Mandatory = $false)] $ContainerPermissions = "Off",
+    [string][parameter(Mandatory = $false)] $FilePrefix = ""
 )
 
-#Storage Account details
-$storageAccountResource = Get-AzResource -ResourceId $StorageAccountResourceId
-$storageAccount = Get-AzStorageAccount -ResourceGroupName $storageAccountResource.ResourceGroupName -Name $storageAccountResource.Name
-
+$storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
 
 #Create the blob container if not yet made
 try{
