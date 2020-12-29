@@ -23,7 +23,7 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageContainer {
                     $Context | Should -Be $psStorageAccount.Context
-                    $Name | Shoud -Be $containerName } -Verifiable
+                    $Name | Should -Be $containerName } -Verifiable
                 Mock New-AzStorageContainer { }
                 Mock Get-ChildItem { 
                     $Path | Should -Be $targetFolderPath
@@ -64,7 +64,7 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageContainer {
                     $Context | Should -Be $psStorageAccount.Context
-                    $Name | Shoud -Be $containerName
+                    $Name | Should -Be $containerName
                     throw "Sabotage getting an existing Azure Storage container" } -Verifiable
                 Mock New-AzStorageContainer { 
                     $Context | Should -Be $psStorageAccount.Context

@@ -15,7 +15,7 @@ try{
     Write-Host "Using existing Storage Container $ContainerName"
 }
 catch {
-    Write-Host "Creating Storage Container $ContainerName $PSItem"
+    Write-Host "Creating Storage Container $ContainerName"
     New-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -Permission $ContainerPermissions
 } 
 
