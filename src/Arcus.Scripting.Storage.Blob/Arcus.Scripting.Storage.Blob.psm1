@@ -35,7 +35,7 @@ function Upload-AzFilesToBlobStorage {
         [string][parameter(Mandatory = $false)] $FilePrefix = ""
     )
 
-    . $PSScriptRoot\Scripts\Upload-AzFilesToBlobStorage.ps1 -TargetFolderPath $TargetFolderPath -ContainerName $ContainerName -StorageAccountResourceId $StorageResourceId -ContainerPermissions $ContainerPermissions -FilePrefix $FilePrefix
+    . $PSScriptRoot\Scripts\Upload-AzFilesToBlobStorage.ps1 -TargetFolderPath $TargetFolderPath -ContainerName $ContainerName -StorageAccountResourceId $StorageAccountResourceId -ContainerPermissions $ContainerPermissions -FilePrefix $FilePrefix
 }
 
 Export-ModuleMember -Function Upload-AzFilesToBlobStorage

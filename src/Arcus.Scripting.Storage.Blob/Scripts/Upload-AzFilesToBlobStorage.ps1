@@ -7,7 +7,7 @@ param(
 )
 
 #Storage Account details
-$storageAccountResource = Get-AzResource -ResourceId $storageAccountResourceId
+$storageAccountResource = Get-AzResource -ResourceId $StorageAccountResourceId
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $storageAccountResource.ResourceGroupName -Name $storageAccountResource.Name
 
 
