@@ -11,7 +11,7 @@ Describe "Arcus" {
                 $resourceId = "Unique shipping ID"
                 $containerPermissions = "Container"
                 $filePrefix = "prefix-"
-                $files = @( [pscustomobject]@{ Name = "Container 1"; FullName = "/Container 1" }, [pscustomobject]@{ Name = "Container 2"; FullName = "/Container 2" })
+                $files = @( [pscustomobject]@{ Name = "Container 1"; FullName = "Container 1-full" }, [pscustomobject]@{ Name = "Container 2"; FullName = "Container 2-full" })
                 $resourceGroupName = "shipping"
                 $storageAccountName = "shipping-storage"
                 $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
@@ -31,7 +31,7 @@ Describe "Arcus" {
                 Mock Set-AzStorageBlobContent {
                     $File | Should -BeIn ($files | % { $_.FullName })
                     $Container | Should -Be $containerName
-                    $Blob | Should -Be ($filePrefix + $File)
+                    $Blob | Should -Be ($filePrefix + ($File -replace "-full", ""))
                     $Context | Should -Be $psStorageAccount.Context } -Verifiable
 
                 # Act
@@ -52,7 +52,7 @@ Describe "Arcus" {
                 $resourceId = "Unique shipping ID"
                 $containerPermissions = "Container"
                 $filePrefix = "prefix-"
-                $files = @( [pscustomobject]@{ Name = "Container 1" }, [pscustomobject]@{ Name = "Container 2" })
+                $files = @( [pscustomobject]@{ Name = "Container 1"; FullName = "Container 1-full" }, [pscustomobject]@{ Name = "Container 2"; FullName = "Container 2-full" })
                 $resourceGroupName = "shipping"
                 $storageAccountName = "shipping-storage"
                 $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
@@ -76,7 +76,7 @@ Describe "Arcus" {
                  Mock Set-AzStorageBlobContent {
                     $File | Should -BeIn ($files | % { $_.FullName })
                     $Container | Should -Be $containerName
-                    $Blob | Should -Be ($filePrefix + $File)
+                    $Blob | Should -Be ($filePrefix + ($File -replace "-full", ""))
                     $Context | Should -Be $psStorageAccount.Context } -Verifiable
 
                 # Act
