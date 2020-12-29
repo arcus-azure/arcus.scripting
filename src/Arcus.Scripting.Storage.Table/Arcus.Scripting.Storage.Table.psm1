@@ -31,3 +31,5 @@ function Create-AzStorageTable {
 		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName
 	}
 }
+
+Export-ModuleMember -Function Create-AzStorageTable
