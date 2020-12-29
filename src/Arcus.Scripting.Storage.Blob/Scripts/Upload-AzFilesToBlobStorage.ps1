@@ -14,8 +14,8 @@ try{
     Get-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -ErrorAction Stop
     Write-Host "Using existing Storage Container $ContainerName"
 }
-catch ($exception) {
-    Write-Host "Creating Storage Container $ContainerName $exception"
+catch {
+    Write-Host "Creating Storage Container $ContainerName $PSItem"
     New-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -Permission $ContainerPermissions
 } 
 
