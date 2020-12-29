@@ -3,7 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -DisableNameCh
 
 Describe "Arcus" {
     Context "Blob Storage" {
-        InModuleScope Arcus.Scripting.Storage.Table {
+        InModuleScope Arcus.Scripting.Storage.Blob {
             It "Upload the expected amount of files to an existing Azure Blob Storage" {
                 # Arrange
                 $targetFolderPath = "/ships"
