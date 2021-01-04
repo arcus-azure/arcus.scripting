@@ -16,7 +16,7 @@ To have access to the following features, you have to import the module:
 PS> Install-Module -Name Arcus.Scripting.Storage.FileShare
 ```
 
-## Creating a folder on a file share
+## Creating a folder on an Azure file share
 
 Creates a new folder within the Azure Store File Share resource.
 
