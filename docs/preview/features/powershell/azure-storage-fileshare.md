@@ -6,7 +6,7 @@ layout: default
 # Azure Storage for file shares
 
 This module provides the following capabilities:
-- [Creating a new folder on a file share](#creating-a-folder-on-a-file-share)
+- [Creating a new folder on an Azure file share](#creating-a-folder-on-an-azure-file-share)
 
 ## Installation
 
