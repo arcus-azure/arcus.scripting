@@ -3,7 +3,7 @@
   Creates a folder within a Azure File Share.
   
  .Description
-  Creates a new folder within the Azure Store File Share resource.
+  Creates a new folder within the Azure File Share resource.
 
  .Parameter ResourceGroupName
   The resource group containing the Azure File Share.
