@@ -23,7 +23,7 @@ Creates a new folder within the Azure File Share resource.
 | Parameter            | Mandatory | Description                                                             |
 | -------------------- | --------- | ----------------------------------------------------------------------- |
 | `ResourceGroupName`  | yes       | The resource group containing the Azure File Share.                     |
-| `StorageAccountName` | yes       | The Azure Storage account name that has access to the Azure File Share. |
+| `StorageAccountName` | yes       | The Azure Storage Account name that hosting the Azure File Share. |
 | `FileShareName`      | yes       | The name of the Azure File Share.                                       |
 | `FolderName`         | yes       | The name of the folder to create in the Azure File Share.               |
 
