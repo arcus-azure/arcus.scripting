@@ -12,6 +12,8 @@ This module provides the following capabilities:
 - [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
 - [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
 - [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
+- [Restoring an API Management service](#restoring-an-api-management-service)
+- [Setting authentication keys to an API in the Azure API Management instance](#setting-authentication-keys-to-an-api-in-the-azure-api-management-instance)
 
 ## Installation
 
@@ -144,6 +146,31 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 # Removing Echo Api...
 # Removing Starter product...
 # Removing Unlimited product...
+```
+
+# Restoring an API Management service
+
+The Restore-AzApiManagement cmdlet restores an API Management Service from the specified backup residing in an Azure Storage blob.
+
+| Parameter                         | Mandatory | Description                                                                                                               |
+| --------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`               | yes       | The name of resource group under which API Management exists.                                                             |
+| `StorageAccountResourceGroupName` | yes       | The name of the resource group that contains the Storage account.                                                         |
+| `StorageAccountName`              | yes       | The name of the Storage account for which this cmdlet gets keys.                                                          |
+| `ServiceName`                     | yes       | The name of the API Management instance that will be restored with the backup.                                            |
+| `ContainerName`                   | yes       | The name of the Azure storage backup source container.                                                                    |
+| `BlobName`                        | yes       | The name of the Azure storage backup source blob.                                                                         |
+| `PassThru`                        | no        | Returns an object representing the item with which you are working. By default, this cmdlet does not generate any output. |
+| `DefaultProfile`                  | no        | The credentials, account, tenant, and subscription used for communication with azure.                                     |
+
+```powershell
+PS> Restore-AzApiManagementService -ResourceGroupName $ResourceGroupName -$StorageAcountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
+# Getting Azure storage account key...
+# Got Azure storage key!
+# Create new Azure storage context with storage key...
+# New Azure storage context with storage key created!
+# Start restoring up API management service...
+# API management service is restored!
 ```
 
 ## Setting authentication keys to an API in the Azure API Management instance
