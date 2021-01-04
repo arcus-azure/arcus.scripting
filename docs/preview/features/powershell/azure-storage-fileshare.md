@@ -18,7 +18,7 @@ PS> Install-Module -Name Arcus.Scripting.Storage.FileShare
 
 ## Creating a folder on an Azure file share
 
-Creates a new folder within the Azure Store File Share resource.
+Creates a new folder within the Azure File Share resource.
 
 | Parameter            | Mandatory | Description                                                             |
 | -------------------- | --------- | ----------------------------------------------------------------------- |
