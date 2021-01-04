@@ -235,7 +235,7 @@ Export-ModuleMember -Function Import-AzApiManagementOperationPolicy
   Restores an API Management Service from the specified Azure storage blob.
 
  .Description
-  The Restore-AzApiManagement cmdlet restores an API Management Service from the specified backup residing in an Azurestorage blob.
+  The Restore-AzApiManagement cmdlet restores an API Management Service from the specified backup residing in an Azure Storage blob.
 
  .Parameter ResourceGroupName
   The name of resource group under which API Management exists.
