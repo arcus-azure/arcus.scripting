@@ -9,7 +9,7 @@
   The resource group containing the Azure File Share.
   
  .Parameter StorageAccountName
-  The Azure Storage account name that has access to the Azure File Share.
+  The Azure Storage account name that is hosting the Azure File Share.
 
  .Parameter FileShareName
   The name of the Azure File Share.
