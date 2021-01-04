@@ -228,6 +228,60 @@ function Import-AzApiManagementOperationPolicy {
     . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
 }
 
+Export-ModuleMember -Function Import-AzApiManagementOperationPolicy
+
+<#
+ .Synopsis
+  Restores an API Management Service from the specified Azure storage blob.
+
+ .Description
+  The Restore-AzApiManagement cmdlet restores an API Management Service from the specified backup residing in an Azure Storage blob.
+
+ .Parameter ResourceGroupName
+  The name of resource group under which API Management exists.
+
+ .Parameter StorageAccountResourceGroupName
+  The name of the resource group that contains the Storage account.
+
+ .Parameter StorageAccountName
+  The name of the Storage account for which this cmdlet gets keys.
+
+ .Parameter ServiceName
+  The name of the API Management instance that will be restored with the backup.
+
+ .Parameter ContainerName
+  The name of the Azure storage backup source container.
+
+ .Parameter BlobName
+  The name of the Azure storage backup source blob.
+
+ .Parameter PassThru
+  Returns an object representing the item with which you are working. By default, this cmdlet does not generate any output.
+
+ .Parameter DefaultProfile
+  The credentials, account, tenant, and subscription used for communication with azure.
+#>
+function Restore-AzApiManagementService {
+    param(
+        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
+        [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
+        [string][parameter(Mandatory = $true)] $ContainerName =$(throw "Source container name is required"),
+        [string][parameter(Mandatory = $true)] $BlobName = $(throw "Source blob name is required"),
+        [switch][parameter(Mandatory = $false)] $PassThru = $false,
+        [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter(Mandatory = $false)] $DefaultProfile = $null
+    )
+
+    if ($PassThru) {
+        . $PSScriptRoot\Scripts\Restore-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName -PassThru
+    } else {
+        . $PSScriptRoot\Scripts\Restore-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
+    }
+}
+
+Export-ModuleMember -Function Restore-AzApiManagementService
+
 <#
  .Synopsis
   Sets the authentication keys in Azure API Management.
@@ -261,3 +315,5 @@ function Set-AzApiManagementApiSubscriptionKey {
 
     . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName $HeaderName -QueryParamName $QueryParamName
 }
+
+Export-ModuleMember -Function Set-AzApiManagementApiSubscriptionKey

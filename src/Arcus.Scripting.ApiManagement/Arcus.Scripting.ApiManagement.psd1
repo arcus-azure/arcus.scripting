@@ -68,11 +68,12 @@ RequiredModules = @(@{ModuleName='Az.ApiManagement'; ModuleVersion='2.0.0'})
 # Functions to export from this module
 FunctionsToExport = @(
     'Create-AzApiManagementApiOperation', 
-    'Remove-AzApiManagementDefaults', 
     'Import-AzApiManagementProductPolicy', 
     'Import-AzApiManagementApiPolicy', 
     'Import-AzApiManagementOperationPolicy',
     'Backup-AzApiManagementService',
+    'Remove-AzApiManagementDefaults',
+    'Restore-AzApiManagementService',
     'Set-AzApiManagementApiSubscriptionKey')
 
 # Cmdlets to export from this module
