@@ -26,7 +26,7 @@ Describe "Arcus" {
                 Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Write-Host -Scope It -Exactly 1 -ParameterFilter { $Object -eq "Successfully enabled arc-dev-we-rcv-http-trigger" }
             }
@@ -57,7 +57,7 @@ Describe "Arcus" {
 
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to enable $logicAppName" }
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
@@ -84,7 +84,7 @@ Describe "Arcus" {
                 Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Write-Host -Scope It -Exactly 1 -ParameterFilter { $Object -eq "Successfully disabled arc-dev-we-rcv-http-trigger" }
             }
@@ -115,7 +115,7 @@ Describe "Arcus" {
 
 
                 # Assert
-                Assert-VerifiableMocks
+                Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to disable $logicAppName" }
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
