@@ -182,7 +182,7 @@ Describe "Arcus" {
                 # Arrange
                 Mock Get-AzLogicAppRunHistory {}
                 Mock Enable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -201,7 +201,7 @@ Describe "Arcus" {
                 # Arrange
                 Mock Get-AzLogicAppRunHistory {}
                 Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -221,7 +221,7 @@ Describe "Arcus" {
                $resourceGroupName = "my-resource-group"
                 Mock Get-AzLogicAppRunHistory {}
                 Mock Enable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -241,7 +241,7 @@ Describe "Arcus" {
                $resourceGroupName = "my-resource-group"
                 Mock Get-AzLogicAppRunHistory {}
                 Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -263,7 +263,7 @@ Describe "Arcus" {
                     return @([pscustomobject]@{ Status = "Waiting" })
                 }
                 Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -285,7 +285,7 @@ Describe "Arcus" {
                     return @([pscustomobject]{ Status = "Running" })
                 }
                 Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -305,7 +305,7 @@ Describe "Arcus" {
                 $resourceGroupName = "my-resource-group"
                 Mock Get-AzLogicAppRunHistory { return @([pscustomobject]@{ Status = "Waiting" }) }
                 Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -338,7 +338,7 @@ Describe "Arcus" {
                     }
                 }
                 Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
