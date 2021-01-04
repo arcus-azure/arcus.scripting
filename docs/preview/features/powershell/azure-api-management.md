@@ -150,7 +150,7 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 
 # Restoring an API Management service
 
-The Restore-AzApiManagement cmdlet restores an API Management Service from the specified backup residing in an Azurestorage blob.
+The Restore-AzApiManagement cmdlet restores an API Management Service from the specified backup residing in an Azure Storage blob.
 
 | Parameter                         | Mandatory | Description                                                                                                               |
 | --------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
