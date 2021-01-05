@@ -46,24 +46,6 @@ function ReverseStopType() {
     }
 }
 
-function EnableLogicApp(){
-    param
-    (
-        [string][parameter(Mandatory = $true)]$ResourceGroupName,
-        [string][parameter(Mandatory = $true)]$LogicAppName
-    )
-    $params = @{
-        Method = 'Post'
-        Headers = @{ 
-		    'authorization'="Bearer $Global:accessToken"
-        }
-        URI = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/enable?api-version=2016-06-01"
-    }
-
-    Invoke-RestMethod @params -ErrorAction Stop
-}
-
-
 $json = Get-Content $DeployFileName | Out-String | ConvertFrom-Json
 
 if($json.Length -gt 0){

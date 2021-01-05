@@ -103,23 +103,6 @@ function ExecuteCheckType() {
     }
 }
 
-function DisableLogicApp(){
-    param
-    (
-        [string][parameter(Mandatory = $true)]$ResourceGroupName,
-        [string][parameter(Mandatory = $true)]$LogicAppName
-    )
-    $params = @{
-        Method = 'Post'
-        Headers = @{ 
-		    'authorization'="Bearer $Global:accessToken"
-        }
-        URI = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/disable?api-version=2016-06-01"
-    }
-
-    Invoke-RestMethod @params -ErrorAction Stop
-}
-
 $json = Get-Content $DeployFileName | Out-String | ConvertFrom-Json
 
 if ($json -is [array]) {

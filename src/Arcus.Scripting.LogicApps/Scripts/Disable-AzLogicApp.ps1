@@ -11,21 +11,17 @@ try{
         # Request accessToken in case the script contains records
         $token = Get-AzCachedAccessToken
 
-        $Global:accessToken = $token.AccessToken
-        $Global:subscriptionId = $token.SubscriptionId
-    }
-    else{
-        $Global:accessToken = $AccessToken
-        $Global:subscriptionId = $SubscriptionId
+        $AccessToken = $token.AccessToken
+        $SubscriptionId = $token.SubscriptionId
     }
     
     Write-Host "Attempting to disable $LogicAppName"
     $params = @{
         Method = 'Post'
         Headers = @{ 
-	        'authorization'="Bearer $Global:accessToken"
+	        'authorization'="Bearer $AccessToken"
         }
-        URI = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/disable?api-version=2016-06-01"
+        URI = "https://management.azure.com/subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/disable?api-version=2016-06-01"
     }
 
     $web = Invoke-WebRequest @params -ErrorAction Stop
