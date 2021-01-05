@@ -83,7 +83,7 @@ Describe "Arcus" {
         InModuleScope Arcus.Scripting.Security {
             It "Retrieves the subscriptionId and accessToken without assigning global variables" {
                 # Arrange
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -101,7 +101,7 @@ Describe "Arcus" {
             }
             It "Retrieves the subscriptionId and accessToken with assigning global variables" {
                 # Arrange
-                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
