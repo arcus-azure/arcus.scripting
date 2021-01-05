@@ -84,10 +84,7 @@ Describe "Arcus" {
             It "Retrieves the subscriptionId and accessToken without assigning global variables" {
                 # Arrange
                 Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
+                    return new-object psobject -Property @{ SubscriptionId = "123456"; AccessToken = "accessToken" }
                 } -Verifiable
 
                 # Act
@@ -102,11 +99,12 @@ Describe "Arcus" {
             It "Retrieves the subscriptionId and accessToken with assigning global variables" {
                 # Arrange
                 Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
+                    $Global:subscriptionId = "123456"
+                    $Global:accessToken = "accessToken"
+                    return new-object psobject -Property @{ SubscriptionId = "123456"; AccessToken = "accessToken" }
                 } -Verifiable
+                $Global:subscriptionId = ""
+                $Global:accessToken = ""
 
                 # Act
                 $token = Get-AzCachedAccessToken -AssignGlobalVariables
