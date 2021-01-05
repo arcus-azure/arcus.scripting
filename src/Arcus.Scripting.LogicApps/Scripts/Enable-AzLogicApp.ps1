@@ -23,7 +23,7 @@ try{
     $params = @{
         Method = 'Post'
         Headers = @{ 
-	        'authorization'="Bearer $Global:acces_token"
+	        'authorization'="Bearer $Global:accessToken"
         }
         URI = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/enable?api-version=2016-06-01"
     }
