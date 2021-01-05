@@ -4,7 +4,7 @@ param(
     [string][Parameter(Mandatory = $false)]$ResourcePrefix = ""
 )
 
-$Global:acces_token = "";
+$Global:accessToken = "";
 $Global:subscriptionId = "";
 
 function ExecuteStopType() {
@@ -19,7 +19,7 @@ function ExecuteStopType() {
         Write-Host("> Executing StopType '$stopType' for Logic App '$LogicAppName' in resource group '$ResourceGroupName'")
         If ($stopType -Match "Immediate") {
             try {
-                Disable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:acces_token
+                Disable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:accessToken
             }
             catch {
                 Write-Warning "Failed to disable $LogicAppName"
@@ -112,7 +112,7 @@ function DisableLogicApp(){
     $params = @{
         Method = 'Post'
         Headers = @{ 
-		    'authorization'="Bearer $Global:acces_token"
+		    'authorization'="Bearer $Global:accessToken"
         }
         URI = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/disable?api-version=2016-06-01"
     }
@@ -128,9 +128,7 @@ if ($json -is [array]) {
 
 if($json.Length -gt 0){
     # Request accessToken in case the script contains records
-    $token = Get-AzCachedAccessToken
-    $Global:acces_token = $token.AccessToken
-    $Global:subscriptionId = $token.SubscriptionId
+    $token = Get-AzCachedAccessToken -AssignGlobalVariables
 }
 
 $json | ForEach-Object { 

@@ -11,11 +11,11 @@ try{
         # Request accessToken in case the script contains records
         $token = Get-AzCachedAccessToken
 
-        $Global:acces_token = $token.AccessToken
+        $Global:accessToken = $token.AccessToken
         $Global:subscriptionId = $token.SubscriptionId
     }
     else{
-        $Global:acces_token = $AccessToken
+        $Global:accessToken = $AccessToken
         $Global:subscriptionId = $SubscriptionId
     }
     

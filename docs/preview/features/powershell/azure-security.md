@@ -7,6 +7,7 @@ layout: default
 
 This module provides the following capabilities:
 - [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
+- [Retrieve the current Az Access token](#retrieve-the-current-az-access-token)
 
 ## Installation
 
@@ -45,4 +46,38 @@ PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name" -L
 # Retrieving all locks in resourceGroup 'your-resource-group-name' with name 'your-resource-lock-name'
 # Start removing all locks in resourceGroup 'your-resource-group-name'
 # All locks in resourceGroup 'your-resource-group-name' have been removed
+```
+
+
+## Retrieve the current Az Access token  
+
+When you want to make use of the REST-API's made available to manage Azure Resources, you can use this command to easily retrieve the access-token which is stored in your cache after performing the `Connect-AzAccount` command.  
+
+| Parameter               | Mandatory | Description                                                                                       |
+| ----------------------- | --------- | ------------------------------------------------------------------------------------------------- |
+| `AssignGlobalVariables` | no        | Switch - default value: false                                                                     |
+|                         |           | When you want the global variables `access_token` and `subscriptionId` assigned for easy access.  |
+
+**Usage*
+
+When you want to retrieve the current access-token, after connecting to a specific subscription:
+
+```powershell
+PS> $token = Get-AzCachedAccessToken
+# AccessToken and subscriptionId retrieved
+PS> Write-Host "Current SubscriptionId:" $token.SubscriptionId
+# Current SubscriptionId: b1a8131b-35fb-4d49-b77b-11abd21c9dcb
+PS> Write-Host "Current AccessToken:" $token.AccessToken
+# Current AccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+When you want to retrieve the current access-token, after connecting to a specific subscription and assign them to global variables for easy access:
+
+```powershell
+PS> $token = Get-AzCachedAccessToken -AssignGlobalVariables
+# AccessToken and subscriptionId retrieved
+PS> Write-Host "Current SubscriptionId:" $Global:subscriptionId
+# Current SubscriptionId: b1a8131b-35fb-4d49-b77b-11abd21c9dcb
+PS> Write-Host "Current AccessToken:" $Global:accessToken
+# Current AccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 ```

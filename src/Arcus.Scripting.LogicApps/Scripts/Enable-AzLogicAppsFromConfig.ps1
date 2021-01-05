@@ -4,7 +4,7 @@ param(
     [string][Parameter(Mandatory = $false)]$ResourcePrefix = ""
 )
 
-$Global:acces_token = "";
+$Global:accessToken = "";
 $Global:subscriptionId = "";
 
 function ReverseStopType() {
@@ -24,7 +24,7 @@ function ReverseStopType() {
                         $LogicAppName = "$ResourcePrefix$_"
                     }
                     try {
-                        Enable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:acces_token
+                        Enable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:accessToken
                     }
                     catch {
                         Write-Warning "Failed to enable $LogicAppName"
@@ -55,7 +55,7 @@ function EnableLogicApp(){
     $params = @{
         Method = 'Post'
         Headers = @{ 
-		    'authorization'="Bearer $Global:acces_token"
+		    'authorization'="Bearer $Global:accessToken"
         }
         URI = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/enable?api-version=2016-06-01"
     }
@@ -68,9 +68,7 @@ $json = Get-Content $DeployFileName | Out-String | ConvertFrom-Json
 
 if($json.Length -gt 0){
     # Request accessToken in case the script contains records
-    $token = Get-AzCachedAccessToken
-    $Global:acces_token = $token.AccessToken
-    $Global:subscriptionId = $token.SubscriptionId
+    $token = Get-AzCachedAccessToken -AssignGlobalVariables
 }
 
 $json | ForEach-Object { 

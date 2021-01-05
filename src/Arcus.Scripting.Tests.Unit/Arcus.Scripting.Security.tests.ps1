@@ -79,4 +79,46 @@ Describe "Arcus" {
             }
         }
     }
+    Context "Get Az Cached Access Token" {
+        InModuleScope Arcus.Scripting.Security {
+            It "Retrieves the subscriptionId and accessToken without assigning global variables" {
+                # Arrange
+                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                } -Verifiable
+
+                # Act
+                $token = Get-AzCachedAccessToken
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Exactly 1
+                $token.SubscriptionId | Should -Be "123456"
+                $token.AccessToken | Should -Be "accessToken"
+            }
+            It "Retrieves the subscriptionId and accessToken with assigning global variables" {
+                # Arrange
+                Mock Get-AzCachedAccessToken -InScriptScope -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                } -Verifiable
+
+                # Act
+                $token = Get-AzCachedAccessToken -AssignGlobalVariables
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Exactly 1
+                $token.SubscriptionId | Should -Be "123456"
+                $token.AccessToken | Should -Be "accessToken"
+                $Global:subscriptionId | Should -Be $token.SubscriptionId
+                $Global:accessToken | Should -Be $token.AccessToken
+            }
+        }
+    }
 }
