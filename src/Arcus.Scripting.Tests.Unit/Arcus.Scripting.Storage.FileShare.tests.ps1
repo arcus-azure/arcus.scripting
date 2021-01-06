@@ -52,7 +52,7 @@ Describe "Arcus" {
             $fileShareName = "shipped-file"
             $sourceFolderPath = "shipped"
             $destinationFolderName = "shipped"
-            $fileMask "-suffix"
+            $fileMask "suffix"
 
             # Test values, not really pointing to anything
             $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
@@ -100,7 +100,7 @@ Describe "Arcus" {
             $fileShareName = "shipped-file"
             $sourceFolderPath = "shipped"
             $destinationFolderName = "shipped"
-            $fileMask "-suffix"
+            $fileMask "suffix"
 
             # Test values, not really pointing to anything
             $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
