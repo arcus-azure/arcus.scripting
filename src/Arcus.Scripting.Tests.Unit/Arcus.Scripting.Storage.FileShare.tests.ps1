@@ -44,8 +44,7 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzStorageShare -Times 1
                 Assert-MockCalled New-AzStorageDirectory -Times 1
             }
-        }
-        It "Copy files to Azure File Share" {
+            It "Copy files to Azure File Share" {
             # Arrange
             $resourceGroup = "stock"
             $storageAccountName = "admin"
@@ -133,6 +132,7 @@ Describe "Arcus" {
             Assert-MockCalled Get-AzStorageShare -Times 1
             Assert-MockCalled Get-ChildItem -Times 0
             Assert-MockCalled Set-AzStorageFileContent -Times 0
+        }
         }
     }
 }
