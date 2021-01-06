@@ -29,3 +29,38 @@ function Create-AzFileShareStorageFolder {
 }
 
 Export-ModuleMember -Function Create-AzFileShareStorageFolder
+
+<#
+ .Synopsis
+  Upload a series of files at a given folder to a Azure File Share.
+
+ .Description
+  Upload a series of files at a given folder, matching an optional file mask, to a Azure File Share.
+
+ .Parameter ResourceGroupName
+  The resource group containing the Azure File Share.
+
+ .Parameter FileShareName
+  The name of the Azure File Share.
+
+ .Parameter SourceFolderPath
+  The file directory where the targetted files are located.
+
+ .Parameter DestinationFolderName
+  The name of the destination folder on the Azure File Share where the targetted files will be uploaded.
+
+ .Parameter FileMask
+  The file mask that filters out the targetted files at the source folder that will be uploaded to the Azure File Share.
+#>
+function Copy-AzFileShareStorageFiles {
+    param(
+        [parameter(Mandatory = $true)][string] $ResourceGroupName,
+        [parameter(Mandatory = $true)][string] $StorageAccountName,
+        [parameter(Mandatory = $true)][string] $FileShareName,
+        [parameter(Mandatory = $true)][string] $SourceFolderPath,
+        [parameter(Mandatory = $true)][string] $DestinationFolderName,
+        [parameter(Mandatory = $false)][string] $FileMask = ""
+    )
+
+    . $PSScriptRoot\Script\Copy-AzFileShareStorageFiles.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -FileShareName $FileShareName -SourceFolderPath $SourceFolderPath -DestinationFolderName $DestinationFolderName -FileMask $FileMask
+}

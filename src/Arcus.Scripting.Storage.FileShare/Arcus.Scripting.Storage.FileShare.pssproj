@@ -31,6 +31,7 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.Storage.FileShare.psd1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.psm1" />
+    <Compile Include="Scripts\Copy-AzFileShareStorageFiles.ps1" />
     <Compile Include="Scripts\Create-AzFileShareStorageFolder.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
