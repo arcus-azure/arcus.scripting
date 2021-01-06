@@ -65,7 +65,7 @@ function Copy-AzFileShareStorageFiles {
         [parameter(Mandatory = $false)][string] $FileMask = ""
     )
 
-    . $PSScriptRoot\Script\Copy-AzFileShareStorageFiles.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -FileShareName $FileShareName -SourceFolderPath $SourceFolderPath -DestinationFolderName $DestinationFolderName -FileMask $FileMask
+    . $PSScriptRoot\Scripts\Copy-AzFileShareStorageFiles.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -FileShareName $FileShareName -SourceFolderPath $SourceFolderPath -DestinationFolderName $DestinationFolderName -FileMask $FileMask
 }
 
 Export-ModuleMember -Function Copy-AzFileShareStorageFiles
