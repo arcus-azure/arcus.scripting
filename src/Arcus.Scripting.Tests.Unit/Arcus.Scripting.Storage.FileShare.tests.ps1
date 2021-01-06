@@ -68,7 +68,7 @@ Describe "Arcus" {
             Mock Get-AzStorageAccount {
                 $ResourceGroupName | Should -Be $resourceGroup
                 $Name | Should -Be $storageAccountName
-                return $psStorageAccount } -Verifiable 
+                return $psStorageAccount } -Verifiable  
             Mock Get-AzStorageShare {
                 $Context | Should -Be $psStorageAccount
                 $Name | Should -Be $fileShareName
@@ -87,7 +87,7 @@ Describe "Arcus" {
             
             # Assert
             Assert-VerifiableMock
-            Assert-MockCalled Get-AzStorageAcount -Times 1
+            Assert-MockCalled Get-AzStorageAccount -Times 1
             Assert-MockCalled Get-AzStorageShare -Times 1
             Assert-MockCalled Get-ChildItem -Times 1
             Assert-MockCalled Set-AzStorageFileContent -Times 1
@@ -119,7 +119,7 @@ Describe "Arcus" {
             Mock Get-AzStorageShare {
                 $Context | Should -Be $psStorageAccount
                 $Name | Should -Be $fileShareName
-                throw [Microsoft.Azure.Storage.StorageException] "Sabotage getting file share" } -Verifiable
+                throw [Microsoft.Azure.Storage.StorageException] "Sabotage does not exist getting file share" } -Verifiable
             Mock Get-ChildItem { }
             Mock Set-AzStorageFileContent { }
 
@@ -128,7 +128,7 @@ Describe "Arcus" {
             
             # Assert
             Assert-VerifiableMock
-            Assert-MockCalled Get-AzStorageAcount -Times 1
+            Assert-MockCalled Get-AzStorageAccount -Times 1
             Assert-MockCalled Get-AzStorageShare -Times 1
             Assert-MockCalled Get-ChildItem -Times 0
             Assert-MockCalled Set-AzStorageFileContent -Times 0
