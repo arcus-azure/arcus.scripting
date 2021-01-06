@@ -5,41 +5,19 @@ layout: default
 
 # Azure Storage
 
-This module provides the following capabilities:
-- [Creating a new table in an Azure Storage Account](#creating-a-new-table-in-an-azure-storage-account)
+This module contains several sub-modules, all related to Azure Storage.
 
-## Installation
+## Azure Table Storage
 
-To have access to the following features, you have to import the module:
+This sub-module contains scripts related to interacting with Azure Table Storage.
+See the [dedicated docs](./azure-storage-table) for more information.
 
-```powershell
-PS> Install-Module -Name Arcus.Scripting.Storage.Table
-```
+## Azure Blob Storage
 
-## Creating a new table in an Azure Storage Account
+This sub-module contains scripts related to interacting with the Azure Blob Storage.
+See the [dedicated docs](./azure-storage-blob) for more information.
 
-(Re)Create a Azure Table Storage within an Azure Storage Account.
+## Azure File Share
 
-| Parameter            | Mandatory | Description                                                                                                     |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`  | yes       | The resource group where the Azure Storage Account is located                                                           |
-| `StorageAccountName` | yes       | The name of the Azure Storage Account to add the table to                                                             |
-| `TableName`          | yes       | The name of the table to add on the Azure Storage Account                                                             |
-| `Recreate`    | no        | The optional flag to indicate whether or not a possible already existing table should be deleted and re-created |
-
-**Example**
-
-With non-existing table:
-
-```powershell
-PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products"
-# Creating table 'products' in the storage account 'admin'..."
-```
-
-With existing table and re-create:
-
-```powershell
-PS> Create-AzStorageTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products" -Recreate
-# Deleting existing table 'products' in the storage account 'admin'...
-# Creating table 'products' in the storage account 'admin'..
-```
+This sub-module contains scripts related to interacting with the Azure File Share.
+See the [dedicated docs](./azure-storage-fileshare) for more information.

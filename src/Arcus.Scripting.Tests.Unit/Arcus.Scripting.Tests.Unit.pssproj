@@ -59,6 +59,11 @@
       <Project>{52cab8be-cf6c-4894-961e-3a4a9c662f2f}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Arcus.Scripting.Storage.FileShare\Arcus.Scripting.Storage.FileShare.pssproj">
+      <Name>Arcus.Scripting.Storage.FileShare</Name>
+      <Project>{c3c77dda-a729-499a-9138-745fb622212a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Arcus.Scripting.Storage.Table\Arcus.Scripting.Storage.Table.pssproj">
       <Name>Arcus.Scripting.Storage.Table</Name>
       <Project>{893fc428-7c18-40ef-81e8-244635579cc7}</Project>
@@ -72,6 +77,7 @@
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
     <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

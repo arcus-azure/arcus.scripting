@@ -27,6 +27,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.LogicApps",
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.Blob", "Arcus.Scripting.Storage.Blob\Arcus.Scripting.Storage.Blob.pssproj", "{52CAB8BE-CF6C-4894-961E-3A4A9C662F2F}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.FileShare", "Arcus.Scripting.Storage.FileShare\Arcus.Scripting.Storage.FileShare.pssproj", "{C3C77DDA-A729-499A-9138-745FB622212A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{52CAB8BE-CF6C-4894-961E-3A4A9C662F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52CAB8BE-CF6C-4894-961E-3A4A9C662F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52CAB8BE-CF6C-4894-961E-3A4A9C662F2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3C77DDA-A729-499A-9138-745FB622212A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3C77DDA-A729-499A-9138-745FB622212A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3C77DDA-A729-499A-9138-745FB622212A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3C77DDA-A729-499A-9138-745FB622212A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
