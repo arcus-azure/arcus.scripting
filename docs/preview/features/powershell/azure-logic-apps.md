@@ -25,11 +25,15 @@ Using this script to enabel a specific Azure Logic App.
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
+|                   |           | Default value: AzureCloud                                                                                           |
 | SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
 | LogicAppName      | yes       | The name of the Azure Logic App to be disabled.                                                                     |
-| AccessToken       | no        | The access token to be used to disable the Azure Logic App.                                                          |
+| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
+|                   |           | Default value: 2016-06-01                                                                                           |
+| AccessToken       | no        | The access token to be used to disable the Azure Logic App.                                                         |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 
 **Example**
@@ -59,10 +63,14 @@ Using this script to enable a specific Azure Logic App.
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
+|                   |           | Default value: AzureCloud                                                                                           |
 | SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
-| LogicAppName      | yes       | The name of the Azure Logic App to be enabled.                                                                     |
+| LogicAppName      | yes       | The name of the Azure Logic App to be enabled.                                                                      |
+| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
+|                   |           | Default value: 2016-06-01                                                                                           |
 | AccessToken       | no        | The access token to be used to enable the Azure Logic App.                                                          |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 
@@ -99,6 +107,10 @@ The order of the Azure Logic Apps in the configuration file (bottom to top) defi
 | DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
 | ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter     | 
 |                   |           | instead of updating the configuration-file.                                                                         |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
+|                   |           | Default value: AzureCloud                                                                                           |
+| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
+|                   |           | Default value: 2016-06-01                                                                                           |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
@@ -266,6 +278,10 @@ The order of the Azure Logic Apps in the configuration file (top to bottom) defi
 | DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
 | ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter     | 
 |                   |           | instead of updating the configuration-file.                                                                         |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
+|                   |           | Default value: AzureCloud                                                                                           |
+| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
+|                   |           | Default value: 2016-06-01                                                                                           |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 

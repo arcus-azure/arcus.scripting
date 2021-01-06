@@ -1,7 +1,9 @@
 param(
     [string][Parameter(Mandatory = $true)]$ResourceGroupName,
     [string][Parameter(Mandatory = $true)]$DeployFileName,
-    [string][Parameter(Mandatory = $false)]$ResourcePrefix = ""
+    [string][Parameter(Mandatory = $false)]$ResourcePrefix = "",
+    [string][Parameter(Mandatory = $false)]$EnvironmentName = "AzureCloud",
+    [string][Parameter(Mandatory = $false)]$ApiVersion = "2016-06-01"
 )
 
 $Global:accessToken = "";
@@ -19,7 +21,7 @@ function ExecuteStopType() {
         Write-Host("> Executing StopType '$stopType' for Logic App '$LogicAppName' in resource group '$ResourceGroupName'")
         If ($stopType -Match "Immediate") {
             try {
-                Disable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:accessToken
+                Disable-AzLogicApp -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $Global:accessToken
             }
             catch {
                 Write-Warning "Failed to disable $LogicAppName"

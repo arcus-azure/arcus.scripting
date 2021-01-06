@@ -1,7 +1,9 @@
 param(
     [string][Parameter(Mandatory = $true)]$ResourceGroupName,
     [string][Parameter(Mandatory = $true)]$DeployFileName,
-    [string][Parameter(Mandatory = $false)]$ResourcePrefix = ""
+    [string][Parameter(Mandatory = $false)]$ResourcePrefix = "",
+    [string][Parameter(Mandatory = $false)]$EnvironmentName = "AzureCloud",
+    [string][Parameter(Mandatory = $false)]$ApiVersion = "2016-06-01"
 )
 
 $Global:accessToken = "";
@@ -24,7 +26,7 @@ function ReverseStopType() {
                         $LogicAppName = "$ResourcePrefix$_"
                     }
                     try {
-                        Enable-AzLogicApp -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -AccessToken $Global:accessToken
+                        Enable-AzLogicApp -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $Global:accessToken
                     }
                     catch {
                         Write-Warning "Failed to enable $LogicAppName"

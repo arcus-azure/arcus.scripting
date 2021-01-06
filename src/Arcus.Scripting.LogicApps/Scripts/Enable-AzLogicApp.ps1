@@ -1,8 +1,10 @@
 param
 (
+    [string][Parameter(Mandatory = $false)]$EnvironmentName = "AzureCloud",
     [string][parameter(Mandatory = $false)]$SubscriptionId = "",
     [string][parameter(Mandatory = $true)]$ResourceGroupName,
     [string][parameter(Mandatory = $true)]$LogicAppName,
+    [string][Parameter(Mandatory = $false)]$ApiVersion = "2016-06-01",
     [string][parameter(Mandatory = $false)]$AccessToken = ""
 )
 
@@ -15,13 +17,15 @@ try{
         $SubscriptionId = $token.SubscriptionId
     }
     
+    $fullUrl = . $PSScriptRoot\Get-AzLogicAppResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -Action enable
+    
     Write-Host "Attempting to enable $LogicAppName"
     $params = @{
         Method = 'Post'
         Headers = @{ 
 	        'authorization'="Bearer $AccessToken"
         }
-        URI = "https://management.azure.com/subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/enable?api-version=2016-06-01"
+        URI = $fullUrl
     }
 
     $web = Invoke-WebRequest @params -ErrorAction Stop
