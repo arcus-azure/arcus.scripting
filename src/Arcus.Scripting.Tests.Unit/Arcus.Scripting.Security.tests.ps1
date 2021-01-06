@@ -79,4 +79,50 @@ Describe "Arcus" {
             }
         }
     }
+    Context "Get Az Cached Access Token" {
+        InModuleScope Arcus.Scripting.Security {
+            It "Retrieves the subscriptionId and accessToken without assigning global variables" {
+                # Arrange
+                $subscriptionId = "123456"
+                $accessToken = "accessToken"
+
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return new-object psobject -Property @{ SubscriptionId = $subscriptionId; AccessToken = $accessToken }
+                } -Verifiable
+
+                # Act
+                $token = Get-AzCachedAccessToken
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Exactly 1
+                $token.SubscriptionId | Should -Be $subscriptionId
+                $token.AccessToken | Should -Be $accessToken
+            }
+            It "Retrieves the subscriptionId and accessToken with assigning global variables" {
+                # Arrange
+                $subscriptionId = "123456"
+                $accessToken = "accessToken"
+
+                Mock Get-AzCachedAccessToken -MockWith {
+                    $Global:subscriptionId = $subscriptionId
+                    $Global:accessToken = $accessToken
+                    return new-object psobject -Property @{ SubscriptionId = $subscriptionId; AccessToken = $accessToken }
+                } -Verifiable
+                $Global:subscriptionId = ""
+                $Global:accessToken = ""
+
+                # Act
+                $token = Get-AzCachedAccessToken -AssignGlobalVariables
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Exactly 1
+                $token.SubscriptionId | Should -Be $subscriptionId
+                $token.AccessToken | Should -Be $accessToken
+                $Global:subscriptionId | Should -Be $token.SubscriptionId
+                $Global:accessToken | Should -Be $token.AccessToken
+            }
+        }
+    }
 }

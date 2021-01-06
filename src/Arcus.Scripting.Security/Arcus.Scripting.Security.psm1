@@ -21,3 +21,17 @@ function Remove-AzResourceGroupLocks {
 }
 
 Export-ModuleMember -Function Remove-AzResourceGroupLocks
+
+
+<#
+ .Synopsis
+  Retrieve the AccessToken and subscriptionId based on the current AzContext.
+  
+ .Description
+  Retrieve the AccessToken and subscriptionId based on the current AzContext. Ensure you have logged in (Connect-AzAccount) before calling this function.
+#>
+function Get-AzCachedAccessToken {
+    . $PSScriptRoot\Scripts\Get-AzCachedAccessToken.ps1
+}
+
+Export-ModuleMember -Function Get-AzCachedAccessToken
