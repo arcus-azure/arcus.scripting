@@ -88,7 +88,7 @@ Describe "Arcus" {
             
             # Assert
             Assert-VerifiableMock
-            Assert-MockCalled Get-AzStorageacount -Times 1
+            Assert-MockCalled Get-AzStorageAcount -Times 1
             Assert-MockCalled Get-AzStorageShare -Times 1
             Assert-MockCalled Get-ChildItem -Times 1
             Assert-MockCalled Set-AzStorageFileContent -Times 1
@@ -129,7 +129,7 @@ Describe "Arcus" {
             
             # Assert
             Assert-VerifiableMock
-            Assert-MockCalled Get-AzStorageacount -Times 1
+            Assert-MockCalled Get-AzStorageAcount -Times 1
             Assert-MockCalled Get-AzStorageShare -Times 1
             Assert-MockCalled Get-ChildItem -Times 0
             Assert-MockCalled Set-AzStorageFileContent -Times 0
