@@ -40,14 +40,17 @@ Export-ModuleMember -Function Create-AzFileShareStorageFolder
  .Parameter ResourceGroupName
   The resource group containing the Azure File Share.
 
+ .Parameter StorageAccountName
+  The Azure Storage account name that is hosting the Azure File Share.
+
  .Parameter FileShareName
   The name of the Azure File Share.
 
  .Parameter SourceFolderPath
-  The file directory where the targetted files are located.
+  The file directory where the targeted files are located.
 
  .Parameter DestinationFolderName
-  The name of the destination folder on the Azure File Share where the targetted files will be uploaded.
+  The name of the destination folder on the Azure File Share where the targeted files will be uploaded.
 
  .Parameter FileMask
   The file mask that filters out the targetted files at the source folder that will be uploaded to the Azure File Share.

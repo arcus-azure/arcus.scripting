@@ -45,8 +45,8 @@ Upload a series of files at a given folder, matching an optional file mask, to a
 | `ResourceGroupName`     | yes       | The resource group containing the Azure File Share.                                                                    |
 | `StorageAccountName`    | yes       | The Azure Storage account name that is hosting the Azure File Share.                                                   |
 | `FileShareName`         | yes       |  The name of the Azure File Share.                                                                                     |
-| `SourceFolderPath`      | yes       | The file directory where the targetted files are located.                                                              |
-| `DestinationFolderName` | yes       | The name of the destination folder on the Azure File Share where the targetted files will be uploaded.                 |
+| `SourceFolderPath`      | yes       | The file directory where the targeted files are located.                                                               |
+| `DestinationFolderName` | yes       | The name of the destination folder on the Azure File Share where the targeted files will be uploaded.                  |
 | `FileMask`              | no        | The file mask that filters out the targetted files at the source folder that will be uploaded to the Azure File Share. |
 
 **Example**
