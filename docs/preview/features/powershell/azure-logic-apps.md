@@ -25,14 +25,12 @@ Using this script to enabel a specific Azure Logic App.
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
-| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
-|                   |           | Default value: AzureCloud                                                                                           |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                        |
 | SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
 | LogicAppName      | yes       | The name of the Azure Logic App to be disabled.                                                                     |
-| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
-|                   |           | Default value: 2016-06-01                                                                                           |
+| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                              |
 | AccessToken       | no        | The access token to be used to disable the Azure Logic App.                                                         |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 
@@ -41,20 +39,20 @@ Using this script to enabel a specific Azure Logic App.
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, without providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Disable-AzLogicApp.ps1 -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
-Access-token and subscriptionId retrieved
-Attempting to disable rcv-shopping-order-sftp
+PS> Disable-AzLogicApp -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
+# Access-token and subscriptionId retrieved
+# Attempting to disable rcv-shopping-order-sftp
 
-Successfully disabled rcv-shopping-order-sftp
+# Successfully disabled rcv-shopping-order-sftp
 ```
 
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, with providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Disable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
-Attempting to disable rcv-shopping-order-sftp
+PS> Disable-AzLogicApp -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
+# Attempting to disable rcv-shopping-order-sftp
 
-Successfully disabled rcv-shopping-order-sftp
+# Successfully disabled rcv-shopping-order-sftp
 ```
 
 ## Enable an Azure Logic App
@@ -63,14 +61,12 @@ Using this script to enable a specific Azure Logic App.
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
-| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
-|                   |           | Default value: AzureCloud                                                                                           |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                        |
 | SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
 | LogicAppName      | yes       | The name of the Azure Logic App to be enabled.                                                                      |
-| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
-|                   |           | Default value: 2016-06-01                                                                                           |
+| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                              |
 | AccessToken       | no        | The access token to be used to enable the Azure Logic App.                                                          |
 |                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
 
@@ -79,20 +75,20 @@ Using this script to enable a specific Azure Logic App.
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, without providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Enable-AzLogicApp.ps1 -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
-Access-token and subscriptionId retrieved
-Attempting to enable rcv-shopping-order-sftp
+PS> Enable-AzLogicApp -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
+# Access-token and subscriptionId retrieved
+# Attempting to enable rcv-shopping-order-sftp
 
-Successfully enabled rcv-shopping-order-sftp
+# Successfully enabled rcv-shopping-order-sftp
 ```
 
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, with providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Enable-AzLogicApp.ps1 -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
-Attempting to enable rcv-shopping-order-sftp
+PS> Enable-AzLogicApp -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
+# Attempting to enable rcv-shopping-order-sftp
 
-Successfully enabled rcv-shopping-order-sftp
+# Successfully enabled rcv-shopping-order-sftp
 ```
 
 ## Disabling Azure Logic Apps from configuration file
@@ -107,10 +103,8 @@ The order of the Azure Logic Apps in the configuration file (bottom to top) defi
 | DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
 | ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter     | 
 |                   |           | instead of updating the configuration-file.                                                                         |
-| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
-|                   |           | Default value: AzureCloud                                                                                           |
-| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
-|                   |           | Default value: 2016-06-01                                                                                           |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                        |
+| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                              |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
@@ -278,10 +272,8 @@ The order of the Azure Logic Apps in the configuration file (top to bottom) defi
 | DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file. |
 | ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter     | 
 |                   |           | instead of updating the configuration-file.                                                                         |
-| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides.                                                |
-|                   |           | Default value: AzureCloud                                                                                           |
-| ApiVersion        | no        | The version of the management API to be used  .                                                                     |
-|                   |           | Default value: 2016-06-01                                                                                           |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                        |
+| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                              |
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
