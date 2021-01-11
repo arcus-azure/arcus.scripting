@@ -63,7 +63,7 @@ Describe "Arcus" {
                 
                 $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
                 $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $storageContext
-                $files = @( [pscustomobject]@{ Name = "Container 1"; FullName = "Container 1-full" }, [pscustomobject]@{ Name = "Container 2"; FullName = "Container 2-full" })
+                $files = @( [pscustomobject]@{ Name = "Container 1$fileMask"; FullName = "Container 1-full" }, [pscustomobject]@{ Name = "Container 2$fileMask"; FullName = "Container 2-full" })
 
                 Mock Get-AzStorageAccount {
                     $ResourceGroupName | Should -Be $resourceGroup
@@ -75,12 +75,12 @@ Describe "Arcus" {
                     return $fileShare } -Verifiable
                 Mock Get-ChildItem {
                     $Path | Should -Be $sourceFolderPath
-                    return $files }
+                    return $files } -Verifiable
                 Mock Set-AzStorageFileContent {
                     $Context | Should -Be $psStorageAccount
                     $ShareName | Should -Be $fileShareName
                     $Source | Should -BeIn ($files | % { $_.FullName })
-                    $Path | Should -Be $destinationFolderName }
+                    $Path | Should -Be $destinationFolderName } -Verifiable
 
                 # Act
                 Copy-AzFileShareStorageFiles -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -FileShareName $fileShareName -SourceFolderPath $sourceFolderPath -DestinationFolderName $destinationFolderName -FileMask $fileMask

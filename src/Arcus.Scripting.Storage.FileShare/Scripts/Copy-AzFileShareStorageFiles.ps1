@@ -16,6 +16,7 @@ function VerifyAzureFileShareExists
     }
     catch [Microsoft.Azure.Storage.StorageException]
     {
+        Write-Host $Error[0].Exception.Message
         if($Error[0].Exception.Message -like "*does not exist*")
         {
             Write-Host "The given file-share '$FileShareName' does not seem to exist in storage account '$StorageAccountName'."
@@ -47,7 +48,8 @@ try
             {
                 ## Upload the file  
                 Set-AzStorageFileContent -Context $context -ShareName $FileShareName -Source $file.FullName -Path $DestinationFolderName -Force 
-                Write-Host "Uploaded the file to File Share: " $($file.Name)
+                $fileName = $file.Name
+                Write-Host "Uploaded the file to File Share: $fileName"
             }
         }
 
