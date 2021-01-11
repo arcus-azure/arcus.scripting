@@ -119,12 +119,12 @@ Describe "Arcus" {
                 Mock Get-AzStorageShare {
                     $Context | Should -Be $psStorageAccount
                     $Name | Should -Be $fileShareName
-                    throw [Microsoft.Azure.Storage.StorageException]::new("Sabotage does not exist getting file share") } -Verifiable
+                    throw [Microsoft.Azure.Storage.StorageException] "Sabotage does not exist getting file share" }
                 Mock Get-ChildItem { }
                 Mock Set-AzStorageFileContent { }
 
                 # Act
-                Copy-AzFileShareStorageFiles -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -FileShareName $fileShareName -SourceFolderPath $sourceFolderPath -DestinationFolderName $destinationFolderName -FileMask $fileMask
+                { Copy-AzFileShareStorageFiles -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -FileShareName $fileShareName -SourceFolderPath $sourceFolderPath -DestinationFolderName $destinationFolderName -FileMask $fileMask }
                 
                 # Assert
                 Assert-VerifiableMock

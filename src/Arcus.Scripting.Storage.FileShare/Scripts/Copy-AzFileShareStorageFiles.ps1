@@ -16,7 +16,6 @@ function VerifyAzureFileShareExists
     }
     catch [Microsoft.Azure.Storage.StorageException]
     {
-        Write-Host $Error[0].Exception.Message
         if($Error[0].Exception.Message -like "*does not exist*")
         {
             Write-Host "The given file-share '$FileShareName' does not seem to exist in storage account '$StorageAccountName'."
