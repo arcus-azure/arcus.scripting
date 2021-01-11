@@ -124,7 +124,8 @@ Describe "Arcus" {
                 Mock Set-AzStorageFileContent { }
 
                 # Act
-                { Copy-AzFileShareStorageFiles -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -FileShareName $fileShareName -SourceFolderPath $sourceFolderPath -DestinationFolderName $destinationFolderName -FileMask $fileMask }
+                { Copy-AzFileShareStorageFiles -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -FileShareName $fileShareName -SourceFolderPath $sourceFolderPath -DestinationFolderName $destinationFolderName -FileMask $fileMask } |
+                    Should -Throw
                 
                 # Assert
                 Assert-VerifiableMock
