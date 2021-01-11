@@ -63,7 +63,7 @@ Describe "Arcus" {
                 
                 $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
                 $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $storageContext
-                $files = @( [pscustomobject]@{ Name = "Container 1$fileMask"; FullName = "Container 1-full" }, [pscustomobject]@{ Name = "Container 2$fileMask"; FullName = "Container 2-full" })
+                $files = @( [pscustomobject]@{ Name = "Container 1$fileMask"; FullName = "Container 1-full" }, [pscustomobject]@{ Name = "Container 2"; FullName = "Container 2-full" })
 
                 Mock Get-AzStorageAccount {
                     $ResourceGroupName | Should -Be $resourceGroup
@@ -119,7 +119,7 @@ Describe "Arcus" {
                 Mock Get-AzStorageShare {
                     $Context | Should -Be $psStorageAccount
                     $Name | Should -Be $fileShareName
-                    throw [Microsoft.Azure.Storage.StorageException] "Sabotage does not exist getting file share" }
+                    throw [Microsoft.Azure.Storage.StorageException]::new("Sabotage does not exist getting file share") } -Verifiable
                 Mock Get-ChildItem { }
                 Mock Set-AzStorageFileContent { }
 
