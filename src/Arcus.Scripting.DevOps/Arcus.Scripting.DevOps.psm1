@@ -64,7 +64,7 @@ Export-ModuleMember -Function Set-AzDevOpsArmOutputsToVariableGroup
  .Parameter ArmOutputsEnvironmentVariableName
   The name of the environment variable where the ARM outputs are located.
 #>
-function Set-AzDevopsArmOutputsToPipelineVariables {
+function Set-AzDevOpsArmOutputsToPipelineVariables {
     param(
         [parameter(Mandatory = $false)][string] $ArmOutputsEnvironmentVariableName = "ArmOutputs"
     )

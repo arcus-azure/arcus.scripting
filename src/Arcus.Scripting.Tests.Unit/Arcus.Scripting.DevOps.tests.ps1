@@ -102,7 +102,7 @@ Describe "Arcus" {
                 Mock Write-Host { } -ParameterFilter { $Object -eq "##vso[task.setvariable variable=my-variable]my-value" } -Verifiable
 
                 # Act
-                Set-AzDevOpsOutputsToPipelineVariables
+                Set-AzDevOpsArmOutputsToPipelineVariables
 
                 # Assert
                 Assert-VerifiableMock
@@ -116,7 +116,7 @@ Describe "Arcus" {
                 Mock Write-Host { } -ParameterFilter { $Object -eq "##vso[task.setvariable variable=my-variable]my-value" } -Verifiable
 
                 # Act
-                Set-AzDevOpsOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName "MyArmOutputs"
+                Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName "MyArmOutputs"
 
                 # Assert
                 Assert-VerifiableMock
