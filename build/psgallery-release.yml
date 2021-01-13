@@ -134,7 +134,7 @@ stages:
             displayName: 'Install NuGet'
           - powershell: |
               Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
-                % { & "nuget" "push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate" }
+                % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate }
             displayName: 'Push to PowerShell Gallery'
             env:
               ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
