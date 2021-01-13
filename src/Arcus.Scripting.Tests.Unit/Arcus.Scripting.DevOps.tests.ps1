@@ -94,6 +94,34 @@ Describe "Arcus" {
                 Assert-VerifiableMock
                 Assert-MockCalled Write-Host
             }
+            It "Setting pipeline variables from default ARM outputs variable writes to output" {
+                # Arrange
+                $variableGroupName = "some-variable-group-name"
+                $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
+
+                Mock Write-Host { } -ParameterFilter { $Object -eq "##vso[task.setvariable variable=my-variable]my-value" } -Verifiable
+
+                # Act
+                Set-AzDevOpsOutputsToPipelineVariables
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Write-Host
+            }
+            It "Setting pipeline variables from custom ARM outputs variable writes to output" {
+                # Arrange
+                $variableGroupName = "some-variable-group-name"
+                $env:MyArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
+
+                Mock Write-Host { } -ParameterFilter { $Object -eq "##vso[task.setvariable variable=my-variable]my-value" } -Verifiable
+
+                # Act
+                Set-AzDevOpsOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName "MyArmOutputs"
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Write-Host
+            }
         }
     }
 }
