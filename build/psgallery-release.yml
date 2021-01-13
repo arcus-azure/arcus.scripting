@@ -132,5 +132,9 @@ stages:
               packDestination: '$(Build.ArtifactStagingDirectory)'
           - task: NuGetToolInstaller@1
             displayName: 'Install NuGet'
-          - script: nuget push $(Build.ArtifactStagingDirectory)/$(Project).*.nupkg -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate
+          - powershell: |
+              Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
+                % { & "nuget" "push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate" }
             displayName: 'Push to PowerShell Gallery'
+            env:
+              ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
