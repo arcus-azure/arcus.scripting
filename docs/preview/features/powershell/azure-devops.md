@@ -80,7 +80,7 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 
 ## Setting ARM outputs to Azure DevOps pipeline variables
 
-Sets the ARM outputs as variables to a Azure DevOps pipeline during the execution of the pipeline.
+Sets the ARM outputs as variables to an Azure DevOps pipeline during the execution of the pipeline.
 
 | Parameter                          | Mandatory | Description                                                                                    |
 | ---------------------------------- | --------- | ---------------------------------------------------------------------------------------------- |
