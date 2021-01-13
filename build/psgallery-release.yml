@@ -136,3 +136,4 @@ stages:
               packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
               nuGetFeedType: external
               publishFeedCredentials: 'PowerShell Gallery'
+              allowPackageConflicts: true
