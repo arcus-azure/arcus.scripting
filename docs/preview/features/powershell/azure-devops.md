@@ -99,7 +99,7 @@ PS> Set-AzDevOpsArmOutputsToPipelineVariables
 With custom `MyArmOutputs` environment variable containing: `"my-variable": "my-value"`:
 
 ```powershell
-PS> Set-AzDevOpsArmOutputsToPipelineVariabels -ArmOutputsEnvironmentVariableName "MyArmOutputs"
+PS> Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName "MyArmOutputs"
 # Get ARM outputs from 'MyArmOutputs' environment variable
 # The pipeline variable my-variable will be updated to value my-value, so it can be used in subsequent tasks of the current job. 
 # ##vso[task.setvariable variable=my-variable]my-value
