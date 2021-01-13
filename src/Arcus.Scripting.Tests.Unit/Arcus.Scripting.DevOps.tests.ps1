@@ -99,7 +99,7 @@ Describe "Arcus" {
                 $variableGroupName = "some-variable-group-name"
                 $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
 
-                Mock Write-Host { } -ParameterFilter { $Object -eq "##vso[task.setvariable variable=my-variable]my-value" } -Verifiable
+                Mock Write-Host { } -ParameterFilter { $Object -like "*task.setvariable*" } -Verifiable
 
                 # Act
                 Set-AzDevOpsArmOutputsToPipelineVariables
@@ -113,7 +113,7 @@ Describe "Arcus" {
                 $variableGroupName = "some-variable-group-name"
                 $env:MyArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
 
-                Mock Write-Host { } -ParameterFilter { $Object -eq "##vso[task.setvariable variable=my-variable]my-value" } -Verifiable
+                Mock Write-Host { } -ParameterFilter { $Object -like "*task.setvariable*" } -Verifiable
 
                 # Act
                 Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName "MyArmOutputs"
