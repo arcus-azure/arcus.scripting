@@ -69,7 +69,7 @@ function Set-AzDevOpsArmOutputsToPipelineVariables {
         [parameter(Mandatory = $false)][string] $ArmOutputsEnvironmentVariableName = "ArmOutputs"
     )
 
-    . $PSScriptRoot\Scripts\Set-AzDevOpsOutputs.ps1 -ArmOutputsEnvironmentVariableName $ArmOutputsEnvironmentVariableName -UpdateVariablesForCurrentJob
+    . $PSScriptRoot\Scripts\Set-AzDevOpsArmOutputs.ps1 -ArmOutputsEnvironmentVariableName $ArmOutputsEnvironmentVariableName -UpdateVariablesForCurrentJob
 }
 
 Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
