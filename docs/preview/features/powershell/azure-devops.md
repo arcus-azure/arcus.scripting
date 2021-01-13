@@ -90,7 +90,7 @@ Sets the ARM outputs as variables to an Azure DevOps pipeline during the executi
 With default `ArmOutputs` environment variable containing: `"my-variable": "my-value"`:
 
 ```powershell
-PS> Set-AzDevOpsArmOutputsToPipelineVariabels
+PS> Set-AzDevOpsArmOutputsToPipelineVariables
 # Get ARM outputs from 'ArmOutputs' environment variable
 # The pipeline variable my-variable will be updated to value my-value, so it can be used in subsequent tasks of the current job. 
 # ##vso[task.setvariable variable=my-variable]my-value
