@@ -43,7 +43,7 @@ Upload a set of files from a given folder, optionally matching a specific file m
 | Parameter               | Mandatory | Description                                                                                                            |
 | ----------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `ResourceGroupName`     | yes       | The resource group containing the Azure File Share.                                                                    |
-| `StorageAccountName`    | yes       | The Azure Storage account name that is hosting the Azure File Share.                                                   |
+| `StorageAccountName`    | yes       | The name of the Azure Storage account that is hosting the Azure File Share.                                                   |
 | `FileShareName`         | yes       |  The name of the Azure File Share.                                                                                     |
 | `SourceFolderPath`      | yes       | The file directory where the targeted files are located.                                                               |
 | `DestinationFolderName` | yes       | The name of the destination folder on the Azure File Share where the targeted files will be uploaded.                  |
