@@ -9,7 +9,7 @@
   The resource group containing the Azure File Share.
   
  .Parameter StorageAccountName
-  The Azure Storage account name that is hosting the Azure File Share.
+  The name of the Azure Storage account that is hosting the Azure File Share.
 
  .Parameter FileShareName
   The name of the Azure File Share.
@@ -41,7 +41,7 @@ Export-ModuleMember -Function Create-AzFileShareStorageFolder
   The resource group containing the Azure File Share.
 
  .Parameter StorageAccountName
-  The Azure Storage account name that is hosting the Azure File Share.
+  The name of the Azure Storage account that is hosting the Azure File Share.
 
  .Parameter FileShareName
   The name of the Azure File Share.
