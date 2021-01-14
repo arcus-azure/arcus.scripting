@@ -38,7 +38,7 @@ PS> Create-AzFileShareStorageFolder -ResourceGroupName "shipping-resources" -Sto
 
 ## Copying files to a folder on an Azure file share
 
-Upload a series of files at a given folder, matching an optional file mask, to a Azure File Share.
+Upload a set of files from a given folder, optionally matching a specific file mask, to an Azure File Share.
 
 | Parameter               | Mandatory | Description                                                                                                            |
 | ----------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------- |
