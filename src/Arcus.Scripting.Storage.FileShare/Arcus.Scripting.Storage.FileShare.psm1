@@ -35,7 +35,7 @@ Export-ModuleMember -Function Create-AzFileShareStorageFolder
   Upload a set of files from a given folder to an Azure File Share.
 
  .Description
-  Upload a series of files at a given folder, matching an optional file mask, to a Azure File Share.
+  Upload a set of files from a given folder, optionally matching a specific file mask, to an Azure File Share.
 
  .Parameter ResourceGroupName
   The resource group containing the Azure File Share.
