@@ -1,25 +1,32 @@
 param(
     [string][Parameter(Mandatory = $true)]$ResourceGroupName,
-    [string]$DeployFileName
+    [string][Parameter(Mandatory = $true)]$DeployFileName,
+    [string][Parameter(Mandatory = $false)]$ResourcePrefix = "",
+    [string][Parameter(Mandatory = $false)]$EnvironmentName = "AzureCloud",
+    [string][Parameter(Mandatory = $false)]$ApiVersion = "2016-06-01"
 )
+
+$Global:accessToken = "";
+$Global:subscriptionId = "";
 
 function ReverseStopType() {
     [CmdletBinding()]
     param
     (
-        [string][parameter(Mandatory = $true)]$resourceGroupName,
+        [string][parameter(Mandatory = $true)]$ResourceGroupName,
         [System.Array][parameter(Mandatory = $true)]$batch
     )
     BEGIN {
-        Write-Host("> Reverting stopType '$($batch.stopType)' for batch '$($batch.description)' in resource group '$resourceGroupName'")
+        Write-Host("> Reverting stopType '$($batch.stopType)' for batch '$($batch.description)' in resource group '$ResourceGroupName'")
         If ($batch.stopType -Match "Immediate") {
             If ($batch.logicApps.Length -gt 0 ) {
                 $batch.logicApps | ForEach-Object {
                     $LogicAppName = $_;
+                    if($ResourcePrefix.Length -gt 0){
+                        $LogicAppName = "$ResourcePrefix$_"
+                    }
                     try {
-                        Write-Host "Attempting to enable $LogicAppName"
-                        Set-AzLogicApp -ResourceGroupName $resourceGroupName -Name $LogicAppName -State Enabled -Force -ErrorAction Stop
-                        Write-Host "Successfully enabled $LogicAppName" 
+                        Enable-AzLogicApp -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $Global:accessToken
                     }
                     catch {
                         Write-Warning "Failed to enable $LogicAppName"
@@ -42,6 +49,12 @@ function ReverseStopType() {
 }
 
 $json = Get-Content $DeployFileName | Out-String | ConvertFrom-Json
+
+if($json.Length -gt 0){
+    # Request accessToken in case the script contains records
+    $token = Get-AzCachedAccessToken -AssignGlobalVariables
+}
+
 $json | ForEach-Object { 
     $batch = $_;    
     $batchDescription = $batch.description

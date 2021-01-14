@@ -1,7 +1,8 @@
 param(
-   [string][parameter(Mandatory = $true)] $VariableGroupName,
+   [string][parameter(Mandatory = $false)] $VariableGroupName,
    [string][parameter(Mandatory = $false)] $ArmOutputsEnvironmentVariableName = "ArmOutputs",
-   [switch][parameter()] $UpdateVariablesForCurrentJob = $false
+   [switch][parameter(Mandatory = $false)] $UpdateVariableGroup = $false,
+   [switch][parameter(Mandatory = $false)] $UpdateVariablesForCurrentJob = $false
 )
 
 function Add-VariableGroupVariable()
@@ -77,11 +78,13 @@ foreach ($output in $armOutputs.PSObject.Properties) {
   $variableName = ($output.Name.Substring(0,1).ToUpper() + $output.Name.Substring(1)).Trim()
   $variableValue = $output.Value.value
   
-  Write-Host Adding variable $output.Name with value $variableValue to variable group $VariableGroupName
-  Add-VariableGroupVariable -VariableGroupName $VariableGroupName -variableName $variableName -variableValue $variableValue
-  
+  if ($UpdateVariableGroup) {
+    Write-Host Adding variable $output.Name with value $variableValue to variable group $VariableGroupName
+    Add-VariableGroupVariable -VariableGroupName $VariableGroupName -variableName $variableName -variableValue $variableValue
+  }
+
   if ($UpdateVariablesForCurrentJob) {
-	Write-Host The pipeline variable $variableName will be updated to value $variableValue as well, so it can be used in subsequent tasks of the current job. 
+	Write-Host The pipeline variable $variableName will be updated to value $variableValue, so it can be used in subsequent tasks of the current job. 
 	Write-Host "##vso[task.setvariable variable=$variableName]$variableValue"
   }
 }

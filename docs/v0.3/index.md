@@ -1,12 +1,9 @@
 ---
 title: "Home"
 layout: default
-permalink: /
-redirect_from:
- - /index.html
 ---
 
-![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.ARM)
+[![PowerShell Gallery Version](https://img.shields.io/badge/powershell%20gallery-v0.3.0-orange)](https://www.powershellgallery.com/packages/Arcus.Scripting.ARM/0.3.0)
 
 # Installation
 
@@ -14,7 +11,7 @@ The Arcus.Scripting modules can be found on the PowerShell gallery.
 Install the latest version of a module by executing the following command:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ARM
+PS> Install-Module -Name Arcus.Scripting.ARM -Version 0.3.0
 ```
 
 For more granular packages we recommend reading the documentation.
@@ -32,11 +29,6 @@ For more granular packages we recommend reading the documentation.
     * Azure Table Storage tasks ([powershell](features/powershell/azure-storage-table))
     * Azure Blob Storage tasks ([powershell](features/powershell/azure-storage-blob))
     * Azure File Share Storage tasks ([powershell](features/powershell/azure-storage-fileshare))
-
-# Older versions
-
-- [v0.2](v0.2)
-* [v0.1.3](v0.1.3)
 
 # License
 This is licensed under The MIT License (MIT). Which means that you can use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the web application. But you always need to state that Codit is the original author of this web application.
