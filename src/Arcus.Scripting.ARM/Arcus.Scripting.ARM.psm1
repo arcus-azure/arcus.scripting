@@ -12,10 +12,10 @@
   The file path to the ARM template to inject the external files into.
 #>
 function Inject-ArmContent {
-	param (
-		[string] $Path = $PSScriptRoot
-	)
-	. $PSScriptRoot\Scripts\Inject-ArmContent.ps1 -Path $Path
+    param (
+        [string] $Path = $PSScriptRoot
+    )
+    . $PSScriptRoot\Scripts\Inject-ArmContent.ps1 -Path $Path
 }
 
 Export-ModuleMember -Function Inject-ArmContent

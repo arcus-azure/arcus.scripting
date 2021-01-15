@@ -15,28 +15,46 @@ Easy to install it via PowerShell gallery:
 PS> Install-Module -Name Arcus.Scripting.ARM
 ```
 
-- **API Management**
+- **Azure API Management**
 
 ```powershell
-PS> Install-MOdule -Name Arcus.Scripting.ApiManagement
+PS> Install-Module -Name Arcus.Scripting.ApiManagement
 ```
 
-- **Key Vault**
+- **Azure Data Factory**
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.DataFactory
+```
+
+- **Azure DevOps**
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.DevOps
+```
+
+- **Azure Key Vault**
 
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.KeyVault
 ```
 
-- **SQL**
+- **Azure Logic Apps**
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.LogicApps
+```
+
+- **Azure SQL**
 
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.SQL
 ```
 
-- **Table Storage**
+- **Azure Table Storage**
 
 ```powershell
-PS> Install-Mmodule -Name Arcus.Scripting.Storage.Table
+PS> Install-Module -Name Arcus.Scripting.Storage.Table
 ```
 
 For a more thorough overview, we recommend reading our [documentation](#documentation).
