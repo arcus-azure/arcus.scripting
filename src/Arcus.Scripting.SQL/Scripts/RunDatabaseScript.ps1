@@ -36,9 +36,9 @@ function QueryDatabaseWithResult($params, [String]$query)
 
 function CreateDbParams([String]$DatabaseName, [String]$serverInstance, [String]$UserName, [String]$Password)
 {
-    Write-Host "databasename = $DatabaseName"
-    Write-Host "serverinstance = $serverInstance"
-    Write-Host "username = $UserName"
+    Write-Host "Database = $DatabaseName"
+    Write-Host "ServerInstance = $serverInstance"
+    Write-Host "UserName = $UserName"
     
     return $params = @{
       'Database' = $DatabaseName
