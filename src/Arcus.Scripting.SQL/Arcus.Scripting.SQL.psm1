@@ -6,7 +6,7 @@
   Upgrades the version of the database to a newer version defined in the sqlScript folder.
 
  .Parameter ServerName
-  The name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'.
+  The name of the Azure SQL Server that hosts the SQL Database. (Do not include the suffix 'database.windows.net'.)
 
  .Parameter DatabaseName
   The name of the SQL Database.
