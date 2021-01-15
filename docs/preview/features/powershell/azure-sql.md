@@ -11,6 +11,9 @@ Once a new version number is detected it will incrementally execute this.
 While doing so it will create a table "DatabaseVersion".
 If the DatabaseVersion table doesn't exist it will automatically create it.
 
+This module provides the following capabilities:
+- [Invoke a database migration](#invoke-a-database-migration)
+
 ## Installation
 
 To have access to the following features, you have to import the module:
@@ -19,7 +22,7 @@ To have access to the following features, you have to import the module:
 PS> Install-Module -Name Arcus.Scripting.SQL
 ```
 
-## Run the database migration script
+## Invoke a database migration
 
 | Parameter         | Mandatory | Description                                                                         |
 | ----------------- | --------- | ----------------------------------------------------------------------------------- |
@@ -37,7 +40,7 @@ Make sure that the credentials that you provide are able to write tables to the 
 PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password"
 ```
 
-## Adding SQL scripts so they can be picked up by the script
+### Adding SQL scripts so they can be picked up by the script
 
 In the location where you want to run the script add the folder "sqlScripts".
 
