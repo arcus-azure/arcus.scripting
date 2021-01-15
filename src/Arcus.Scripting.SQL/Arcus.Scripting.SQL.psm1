@@ -36,7 +36,7 @@ function RunDatabaseScript {
         $Password=$(throw "Please provide the Password of the SQL Database")
     )
 
-    $PSScriptRoot\Scripts\RunDatabaseScript.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -Username $UserName -Password $Password
+    . $PSScriptRoot\Scripts\RunDatabaseScript.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -Username $UserName -Password $Password
 }
 
 Export-ModuleMember -Function RunDatabaseScript
