@@ -38,3 +38,5 @@ function RunDatabaseScript {
 
     $PSScriptRoot\Scripts\RunDatabaseScript.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -Username $UserName -Password $Password
 }
+
+Export-ModuleMember -Function RunDatabaseScript

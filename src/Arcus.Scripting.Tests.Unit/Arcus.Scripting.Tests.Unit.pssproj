@@ -54,6 +54,11 @@
       <Project>{fbe6e01f-0a36-4ad2-aa70-f1dfa8791b81}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Arcus.Scripting.SQL\Arcus.Scripting.SQL.pssproj">
+      <Name>Arcus.Scripting.SQL</Name>
+      <Project>{d55e5794-cf04-4a91-b6ea-ca59a2e92797}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Arcus.Scripting.Storage.Blob\Arcus.Scripting.Storage.Blob.pssproj">
       <Name>Arcus.Scripting.Storage.Blob</Name>
       <Project>{52cab8be-cf6c-4894-961e-3a4a9c662f2f}</Project>
