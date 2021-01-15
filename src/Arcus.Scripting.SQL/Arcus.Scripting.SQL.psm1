@@ -1,6 +1,6 @@
 <#
  .Synopsis
-  Upgrades the version of the database to a newer version defined in the sqlScript folder.
+  Upgrades the version of the database to a newer version defined in the 'sqlScript'-folder.
  
  .Description
   Upgrades the version of the database to a newer version defined in the sqlScript folder.
