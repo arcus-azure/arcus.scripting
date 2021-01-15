@@ -12,7 +12,7 @@
   The name of the SQL Database.
 
  .Parameter UserName
-  The name of the table to add on the Azure Storage Account.
+  The name of the user to be used to connect to the Azure SQL Database.
 
  .Parameter Password
   The Password of the SQL Database.
