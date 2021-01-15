@@ -15,7 +15,7 @@
   The name of the user to be used to connect to the Azure SQL Database.
 
  .Parameter Password
-  The Password of the SQL Database.
+  The password to be used to connect to the Azure SQL Database.
 #>
 function RunDatabaseScript {
 	param(
