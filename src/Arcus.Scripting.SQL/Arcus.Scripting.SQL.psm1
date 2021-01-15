@@ -17,7 +17,7 @@
  .Parameter Password
   The password to be used to connect to the Azure SQL Database.
 #>
-function RunDatabaseScript {
+function Invoke-AzSqlDatabaseMigration {
 	param(
         [Parameter(Mandatory=$True)]
         [String]
@@ -39,4 +39,4 @@ function RunDatabaseScript {
     . $PSScriptRoot\Scripts\RunDatabaseScript.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -Username $UserName -Password $Password
 }
 
-Export-ModuleMember -Function RunDatabaseScript
+Export-ModuleMember -Function Invoke-AzSqlDatabaseMigration

@@ -32,7 +32,7 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.SQL.psd1" />
     <Compile Include="Arcus.Scripting.SQL.psm1" />
-    <Compile Include="Scripts\RunDatabaseScript.ps1" />
+    <Compile Include="Scripts\Invoke-AzSqlDatabaseMigration.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\sqlScripts\CreateDatabaseVersionTable.sql" />
