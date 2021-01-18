@@ -41,7 +41,7 @@ Describe "Arcus" {
                 $baseName = "Arcus_2_SampleMigration"
                 $files = @( [pscustomobject]@{ BaseName = $baseName; FullName = "Container 1-full" } )
                 Mock Get-ChildItem { 
-                    $Path | Should -Be "$PSScriptRoot/sqlScripts"
+                    $Path | Should -BeLike "*sqlScripts"
                     $Filter | Should -Be  ".sql"
                     return $files 
                 } -Verifiable
