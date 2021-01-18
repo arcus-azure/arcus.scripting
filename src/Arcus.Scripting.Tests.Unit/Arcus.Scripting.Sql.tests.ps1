@@ -10,7 +10,7 @@ Describe "Arcus" {
                 $username = "my-user"
                 $password = "my-pass"
                 Mock Invoke-Sqlcmd { 
-                    $ServerInstance | Should -Be $serverName
+                    $ServerInstance | Should -Be "$serverName.database.windows.net"
                     $Database | Should -Be $databaseName
                     $Username | Should -Be $username
                     $Password | Should -Be $password
