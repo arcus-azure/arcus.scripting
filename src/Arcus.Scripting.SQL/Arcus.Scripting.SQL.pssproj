@@ -6,7 +6,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Arcus.Scripting.Sql</RootNamespace>
     <AssemblyName>Arcus.Scripting.Sql</AssemblyName>
-    <Name>Arcus.Scripting.SQL</Name>
+    <Name>Arcus.Scripting.Sql</Name>
+    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,8 @@
     <Folder Include="Scripts\sqlScripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.SQL.psd1" />
-    <Compile Include="Arcus.Scripting.SQL.psm1" />
+    <Compile Include="Arcus.Scripting.Sql.psd1" />
+    <Compile Include="Arcus.Scripting.Sql.psm1" />
     <Compile Include="Scripts\Invoke-AzSqlDatabaseMigration.ps1" />
   </ItemGroup>
   <ItemGroup>

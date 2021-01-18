@@ -25,7 +25,7 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Security", 
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.LogicApps", "Arcus.Scripting.LogicApps\Arcus.Scripting.LogicApps.pssproj", "{F6875CE9-D6B8-4715-9A31-CBDFE1DF85BC}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.SQL", "Arcus.Scripting.SQL\Arcus.Scripting.SQL.pssproj", "{D55E5794-CF04-4A91-B6EA-CA59A2E92797}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Sql", "Arcus.Scripting.Sql\Arcus.Scripting.Sql.pssproj", "{D55E5794-CF04-4A91-B6EA-CA59A2E92797}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.Blob", "Arcus.Scripting.Storage.Blob\Arcus.Scripting.Storage.Blob.pssproj", "{52CAB8BE-CF6C-4894-961E-3A4A9C662F2F}"
 EndProject

@@ -1,38 +1,29 @@
 param(
-    [Parameter(Mandatory=$True)]
-    [String]
-    $ServerName=$(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
-    
-    [Parameter(Mandatory=$True)]
-    [String]
-    $DatabaseName=$(throw "Please provide the name of the SQL Database"),
-    
-    [Parameter(Mandatory=$True)]
-    [String]
-    $UserName=$(throw "Please provide the UserName of the SQL Database"),
-    
-    [Parameter(Mandatory=$True)]
-    [String]
-    $Password=$(throw "Please provide the Password of the SQL Database")
+    [parameter(Mandatory=$true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
+    [parameter(Mandatory=$true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
+    [parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
+    [parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
+    [parameter(Mandatory=$true)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
+    [parameter(Mandatory=$true)][string] $ScriptsFileFilter = ".sql",
+    [parameter(Mandatory=$true)][string] $DatabaseSchema = "dbo"
 )
 
-Write-Host $PSScriptRoot
-$scriptpath = "$PSScriptRoot/sqlScripts"
+Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
 
 #Functions for repeated use
-function QueryDatabase($params, [String]$query)
+function Execute-DbCommand($params, [string]$query)
 {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -QueryTimeout 180
     Write-Host "Result from querying $($result)"
 }
 
-function QueryDatabaseWithResult($params, [String]$query)
+function Execute-DbCommandWithResult($params, [string] $query)
 {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose
     return $result
 }
 
-function CreateDbParams([String]$DatabaseName, [String]$serverInstance, [String]$UserName, [String]$Password)
+function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName, [string] $Password)
 {
     Write-Host "databasename = $DatabaseName"
     Write-Host "serverinstance = $serverInstance"
@@ -48,18 +39,37 @@ function CreateDbParams([String]$DatabaseName, [String]$serverInstance, [String]
     }
 }
 
-function GetScriptFileText([String]$scriptPath, [String]$fileName)
+function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName)
 {
     $currentfilepath = "$scriptPath/$fileName.sql"
     return $query = [IO.File]::ReadAllText($currentfilepath)
 }
 
+function Get-CurrentDbVersionNumber () {
+    $selectDbVersionScript = 'SELECT TOP 1 CurrentVersionNumber FROM DatabaseVersion ORDER BY CurrentVersionNumber DESC'
+    $params = Create-DbParams $DatabaseName $ServerName $UserName $Password
+
+     Write-Host 'Getting Current Database Version Number...'
+    $databaseVersionNumberDataRow = Execute-DbCommandWithResult $params $selectDbVersionScript
+
+     if ($databaseVersionNumberDataRow.ItemArray.Count -eq 0)
+    {
+        $databaseVersionNumber = 0;
+    }
+    else
+    {
+        $databaseVersionNumber = [Convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0])
+    }
+
+    return $databaseVersionNumber
+}
+
 #Group params needed to connect to database for ease of use
-$params = CreateDbParams $DatabaseName $ServerName $UserName $Password
+$params = Create-DbParams $DatabaseName $ServerName $UserName $Password
 
 #Get all tables on the database
 $query = 'SELECT TABLE_NAME FROM information_schema.tables'
-$tables = QueryDatabaseWithResult $params $query
+$tables = Execute-DbCommandWithResult $params $query
 
 # Get script to determine DB version
 $selectDbVersionScript = 'SELECT TOP 1 CurrentVersionNumber FROM DatabaseVersion ORDER BY CurrentVersionNumber DESC'
@@ -69,8 +79,8 @@ if(!$tables.ItemArray.Contains('DatabaseVersion'))
 {
     Write-Host 'DatabaseVersion does not exist yet in this database.'
     Write-Host 'Creating DatabaseVersion Table...'
-    $createDbQuery = GetScriptFileText $scriptpath 'CreateDatabaseVersionTable'
-    QueryDatabase $params $createDbQuery
+    $createDbCommand = Get-SqlScriptFileText $ScriptsFolder 'CreateDatabaseVersionTable'
+    Execute-DbCommand $params $createDbCommand
     Write-Host 'DatabaseVersion Table Created'
 
     $databaseVersionNumber = 0
@@ -78,24 +88,14 @@ if(!$tables.ItemArray.Contains('DatabaseVersion'))
 else
 {
     # Get database versionnumber
-    Write-Host 'Getting Current Database Version Number...'
-    $databaseVersionNumberDataRow = QueryDatabaseWithResult $params $selectDbVersionScript
-
-    if ($databaseVersionNumberDataRow.ItemArray.Count -eq 0)
-    {
-        $databaseVersionNumber = 0;
-    }
-    else
-    {
-        $databaseVersionNumber = [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0])
-    }
+    $databaseVersionNumber = Get-CurrentDbVersionNumber
 }
 
 
 Write-Host "Current databaseVersionNumber : $databaseVersionNumber"
 
 #Run all necessary scripts
-$files = Get-ChildItem -Path $scriptPath -Filter "ITSME-Enroll_*.sql" | Sort-Object {$_.BaseName -replace "\D+" -as [Int]}
+$files = Get-ChildItem -Path $ScriptsFolder -Filter $ScriptsFileFilter | Sort-Object {$_.BaseName -replace "\D+" -as [Int]}
 
 for ($i=0; $i -lt $files.Count; $i++) 
 {
@@ -118,7 +118,7 @@ for ($i=0; $i -lt $files.Count; $i++)
         continue;
     }
 
-    [string] $scriptVersionDescription = [convert]::ToString($fileNameSections[2])
+    [string] $scriptVersionDescription = [convert]::Tostring($fileNameSections[2])
     if($scriptVersionDescription.Length -gt 256)
     {
         Write-Host "Need to truncate the migration description because its size is" $scriptVersionDescription.Length "while the maximum size is 256"
@@ -132,13 +132,12 @@ for ($i=0; $i -lt $files.Count; $i++)
         Write-Host "Running script #$scriptVersionNumber"
 
         # Perform migration
-        $currentfilepath = "$scriptPath/$fileName.sql"
-        $query = [IO.File]::ReadAllText($currentfilepath)
-        QueryDatabase $params $query
+        $text = Get-SqlScriptFileText $ScriptsFolder $fileName
+        Execute-DbCommand $params $text
 
         # Append the new version and description in version table
-        $updateVersionQuery = "INSERT INTO [dbo].[DatabaseVersion] ([CurrentVersionNumber], [MigrationDescription]) VALUES ($scriptVersionNumber, '$scriptVersionDescription')"
-        QueryDatabase $params $updateVersionQuery
+        $updateVersionQuery = "INSERT INTO [$DatabaseSchema].[DatabaseVersion] ([CurrentVersionNumber], [MigrationDescription]) VALUES ($scriptVersionNumber, '$scriptVersionDescription')"
+        Execute-DbCommand $params $updateVersionQuery
 
         # Update DB version to new version
         $databaseVersionNumber = $scriptVersionNumber
@@ -151,6 +150,5 @@ for ($i=0; $i -lt $files.Count; $i++)
 }
 
 #Get New Database Version Number
-$databaseVersionNumberDataRow = QueryDatabaseWithResult $params $selectDbVersionScript  
-$databaseVersionNumber = [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0])
+$databaseVersionNumber = Get-CurrentDbVersionNumber
 Write-Host "Done looping over scripts. Current Database version is $databaseVersionNumber."

@@ -54,8 +54,8 @@
       <Project>{fbe6e01f-0a36-4ad2-aa70-f1dfa8791b81}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Arcus.Scripting.SQL\Arcus.Scripting.SQL.pssproj">
-      <Name>Arcus.Scripting.SQL</Name>
+    <ProjectReference Include="..\Arcus.Scripting.Sql\Arcus.Scripting.Sql.pssproj">
+      <Name>Arcus.Scripting.Sql</Name>
       <Project>{d55e5794-cf04-4a91-b6ea-ca59a2e92797}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -84,6 +84,9 @@
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Arcus.Scripting.Sql.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
