@@ -77,7 +77,7 @@ $selectDbVersionScript = 'SELECT TOP 1 CurrentVersionNumber FROM DatabaseVersion
 #Create a DatabaseVersion table if it doesn't exist
 if(!$tables.ItemArray.Contains('DatabaseVersion'))
 {
-    Write-Host 'DatabaseVersion does not exist yet in this database.'
+    Write-Host "The table 'DatabaseVersion' does not exist yet in this database."
     Write-Host 'Creating DatabaseVersion Table...'
     $createDbCommand = Get-SqlScriptFileText $ScriptsFolder 'CreateDatabaseVersionTable'
     Execute-DbCommand $params $createDbCommand
