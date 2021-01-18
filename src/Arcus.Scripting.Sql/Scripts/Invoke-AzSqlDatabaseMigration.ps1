@@ -3,9 +3,9 @@ param(
     [parameter(Mandatory=$true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
     [parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
     [parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
-    [parameter(Mandatory=$true)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
-    [parameter(Mandatory=$true)][string] $ScriptsFileFilter = ".sql",
-    [parameter(Mandatory=$true)][string] $DatabaseSchema = "dbo"
+    [parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
+    [parameter(Mandatory=$false)][string] $ScriptsFileFilter = ".sql",
+    [parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
 )
 
 Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
