@@ -48,7 +48,7 @@ Describe "Arcus" {
 
                 $sampleMigration = "Some sample migration"
                 Mock Get-Content {
-                    $Path | Should -Be "$PSScriptRoot/sqlScripts/$baseName.sql"
+                    $Path | Should -Be "*sqlScripts/$baseName.sql"
                     return $sampleMigration
                 } -Verifiable
 
