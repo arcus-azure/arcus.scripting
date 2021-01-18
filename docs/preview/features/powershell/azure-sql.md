@@ -42,11 +42,24 @@ PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-na
 
 ### Adding SQL scripts so they can be picked up by the script
 
-In the location where you want to run the script add the folder "sqlScripts".
+1. In the location where you want to run the script add the folder "sqlScripts".
 
-Within this folder there should be by default the "CreateDatabaseVersionTable.sql" file.
+2. Within this folder there should be by default the "CreateDatabaseVersionTable.sql" file, containing the script to create the initial version table:
 
-Next to that you can add your own scripts. In order to make sure the scripts are red by the database script, make sure it has the following filename:
+```sql
+CREATE TABLE [dbo].[DatabaseVersion]
+(
+    [CurrentVersionNumber] INT NOT NULL,
+    [MigrationDescription] [nvarchar](256) NOT NULL,
+    CONSTRAINT [PKDatabaseVersion] PRIMARY KEY CLUSTERED
+    ( 	
+        [CurrentVersionNumber] ASC
+    )
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+)
+```
+
+3. Next to that you can add your own scripts. In order to make sure the scripts are red by the database script, make sure it has the following filename:
 [Prefix]_[VersionNumber]_[DescriptionOfMigration].sql
 
 In practice this can look like this:
