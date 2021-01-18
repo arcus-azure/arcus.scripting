@@ -42,7 +42,7 @@ function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [stri
 function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName)
 {
     $currentfilepath = "$scriptPath/$fileName.sql"
-    return $query = [IO.File]::ReadAllText($currentfilepath)
+    return $query = Get-Content $currentfilepath
 }
 
 function Get-CurrentDbVersionNumber () {

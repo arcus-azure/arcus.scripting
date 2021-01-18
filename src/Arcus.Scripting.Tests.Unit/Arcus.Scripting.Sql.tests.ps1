@@ -9,11 +9,11 @@ Describe "Arcus" {
                 $databaseName = "my-database"
                 $username = "my-user"
                 $password = "my-pass"
-                Mock Execute-DbCommandWithResult { 
-                    $params.ServerInstance | Should -Be $serverName
-                    $params.Database | Should -Be $databaseName
-                    $params.Username | Should -Be $username
-                    $params.Password | Should -Be $password
+                Mock Invoke-Sqlcmd { 
+                    $ServerInstance | Should -Be $serverName
+                    $Database | Should -Be $databaseName
+                    $Username | Should -Be $username
+                    $Password | Should -Be $password
 
                     if ($query -eq 'SELECT TABLE_NAME FROM information_schema.tables') {
                         $tableNamesDataTable = New-Object System.Data.DataTable
@@ -47,18 +47,9 @@ Describe "Arcus" {
                 } -Verifiable
 
                 $sampleMigration = "Some sample migration"
-                Mock Get-SqlScriptFileText {
-                    $scriptPath | Should -Be "$PSScriptRoot/sqlScripts"
-                    if ($fileName -eq $baseName) {
-                        return $sampleMigration
-                    }
-                } -Verifiable
-
-                Mock Execute-DbCommand {
-                    $params.ServerInstance | Should -Be $serverName
-                    $params.Database | Should -Be $databaseName
-                    $params.Username | Should -Be $username
-                    $params.Password | Should -Be $password
+                Mock Get-Content {
+                    $Path | Should -Be "$PSScriptRoot/sqlScripts/$baseName.sql"
+                    return $sampleMigration
                 } -Verifiable
 
                 # Act
@@ -66,9 +57,8 @@ Describe "Arcus" {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Execute-DbCommandWithResult
-                Assert-MockCalled Execute-DbCommand
-                Assert-MockCalled Get-SqlScriptFileText
+                Assert-MockCalled Invoke-SqlCmd
+                Assert-MockCalled Get-Content
                 Assert-MockCalled Get-ChildItem
             }
         }
