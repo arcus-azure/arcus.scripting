@@ -31,7 +31,7 @@
     <Folder Include="Scripts\sqlScripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.Sql.psd1" />
+    <Compile Include="Arcus.Scripting.Sqll.psd1" />
     <Compile Include="Arcus.Scripting.Sql.psm1" />
     <Compile Include="Scripts\Invoke-AzSqlDatabaseMigration.ps1" />
   </ItemGroup>
