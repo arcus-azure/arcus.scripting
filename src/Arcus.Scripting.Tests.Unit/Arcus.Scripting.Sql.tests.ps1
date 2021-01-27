@@ -3,7 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Sql -DisableNameChecking
 Describe "Arcus" {
     Context "Sql" {
         InModuleScope Arcus.Scripting.Sql {
-            It "Invoking SQL migration with defaults" {
+            It "Invoking SQL migration using defaults with new found migration" {
                 # Arrange
                 $serverName = "my-server"
                 $databaseName = "my-database"
