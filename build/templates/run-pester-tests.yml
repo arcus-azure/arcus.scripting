@@ -20,7 +20,7 @@ steps:
         Install-Module -Name Az -Force -SkipPublisherCheck
         Import-Module ./src/Arcus.Scripting.Security
         
-        Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*" |
+        Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*Arcus.Scripting.Storage.psm1" |
             % { Import-Module -Name $_.DirectoryName -ErrorAction Stop }
         
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
