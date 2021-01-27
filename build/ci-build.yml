@@ -123,7 +123,14 @@ stages:
               path: '$(Build.SourcesDirectory)'
           - powershell: |
               Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
-                % { Write-Host "Validate PowerShell module '$($_.FullName)'"
+                % { $data = Import-PowerShellDataFile $_.FullName
+                    $requiredModules = $data.RequiredModules.ModuleName
+                    if ($requiredModules) {
+                        $requiredModules |
+                          where { $_ -notlike "Arcus.Scripting.*" } |
+                          % { Install-Module $_ -Force - SkipPublisherCheck }
+                    }
+                    Write-Host "Validate PowerShell module '$($_.FullName)'"
                     Test-ModuleManifest -Path $_.FullName }
             displayName: 'Validate PS module'
           - powershell: |
