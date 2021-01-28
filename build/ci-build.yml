@@ -121,14 +121,14 @@ stages:
             inputs:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
-           - powershell: |
+          - powershell: |
               Import-Module PowerShellGet -Force
               Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
                 % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
             displayName: 'Generate .nuspec file for each PowerShell module'
             env:
               SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
-           - task: NuGetCommand@2
+          - task: NuGetCommand@2
             inputs:
               command: 'pack'
               packagesToPack: '**/*.nuspec'
