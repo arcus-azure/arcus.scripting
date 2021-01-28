@@ -147,7 +147,7 @@ Describe "Arcus" {
                 } -Verifiable
 
                 # Act
-                New-AzResourceGroupRoleAssignment -TargetResourceGroupName $targetResourceGroup -ResourceGroupName $resourceGroup -ResourceName $resourceGroup -RoleDefinitionName $roleDefinitionName
+                New-AzResourceGroupRoleAssignment -TargetResourceGroupName $targetResourceGroup -ResourceGroupName $resourceGroup -ResourceName $resource -RoleDefinitionName $roleDefinitionName
 
                 # Assert
                 Assert-VerifiableMock
