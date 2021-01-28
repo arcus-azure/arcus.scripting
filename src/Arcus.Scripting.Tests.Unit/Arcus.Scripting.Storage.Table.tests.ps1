@@ -26,7 +26,7 @@ Describe "Arcus" {
                 Mock Remove-AzStorageTable { }
 
                 # Act
-                Create-AzStorageTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
+                Create-AzStorageTable -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
 
                 # Assert
                 Assert-VerifiableMock
@@ -55,7 +55,7 @@ Describe "Arcus" {
                 Mock Remove-AzStorageTable { }
 
                 # Act
-                Create-AzStorageTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
+                Create-AzStorageTable -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName
 
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzStorageAccount -Times 1
@@ -87,10 +87,10 @@ Describe "Arcus" {
                     $Name | Should -Be $tableName } -Verifiable
 
                 # Act
-                Create-AzStorageTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -Recreate
+                Create-AzStorageTable -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -Recreate
 
                 Assert-VerifiableMock
-                    Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-AzStorageAccount -Times 1
                 Assert-MockCalled Get-AzStorageTable -Times 1
                 Assert-MockCalled New-AzStorageTable -Times 1
                 Assert-MockCalled Remove-AzStorageTable -Times 1
@@ -117,11 +117,11 @@ Describe "Arcus" {
                 Mock Remove-AzStorageTable { }
 
                 # Act
-                Create-AzStorageTable -ResourceGroup $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -Recreate
+                Create-AzStorageTable -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -Recreate
 
                 # Assert
                 Assert-VerifiableMock
-                    Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-AzStorageAccount -Times 1
                 Assert-MockCalled Get-AzStorageTable -Times 1
                 Assert-MockCalled New-AzStorageTable -Times 1
                 Assert-MockCalled Remove-AzStorageTable -Times 0

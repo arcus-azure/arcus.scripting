@@ -59,7 +59,7 @@ Export-ModuleMember -Function Backup-AzApiManagementService
  .Description
   Create an operation on an existing API in Azure API Management.
 
- .Parameter ResourceGroup
+ .Parameter ResourceGroupName
   The resource group containing the API Management service.
 
  .Parameter ServiceName
@@ -91,7 +91,7 @@ Export-ModuleMember -Function Backup-AzApiManagementService
 #>
 function Create-AzApiManagementApiOperation {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
         [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required"),
         [string][Parameter(Mandatory = $true)] $ApiId = $(throw "API ID is required"),
         [string][Parameter(Mandatory = $true)] $OperationId = $(throw "Operation ID is required"),
@@ -101,7 +101,7 @@ function Create-AzApiManagementApiOperation {
         [string][Parameter(Mandatory = $false)] $Description = "",
         [string][Parameter(Mandatory = $false)] $PolicyFilePath = ""
     )
-    . $PSScriptRoot\Scripts\Create-AzApiManagementApiOperation.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate -OperationName $OperationName -Description $Description -PolicyFilePath $PolicyFilePath
+    . $PSScriptRoot\Scripts\Create-AzApiManagementApiOperation.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate -OperationName $OperationName -Description $Description -PolicyFilePath $PolicyFilePath
 }
 
 Export-ModuleMember -Function Create-AzApiManagementApiOperation
@@ -127,13 +127,13 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
 #>
 function Import-AzApiManagementProductPolicy {
     param(
-        [string][parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
         [string][parameter(Mandatory = $true)] $ProductId = $(throw "Product ID is required"),
         [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
     )
 
-    . $PSScriptRoot\Scripts\Import-AzApiManagementProductPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
+    . $PSScriptRoot\Scripts\Import-AzApiManagementProductPolicy.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
 }
 
 Export-ModuleMember -Function Import-AzApiManagementProductPolicy
@@ -145,7 +145,7 @@ Export-ModuleMember -Function Import-AzApiManagementProductPolicy
  .Description
  Remove all default API's and products from an Azure API Management instance ('echo-api' API, 'starter' & 'unlimited' products), including the subscriptions. 
 
- .Parameter ResourceGroup
+ .Parameter ResourceGroupName
   The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
@@ -153,11 +153,11 @@ Export-ModuleMember -Function Import-AzApiManagementProductPolicy
 #>
 function Remove-AzApiManagementDefaults {
   param(
-      [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+      [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
       [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required")
   )
 
-. $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName 
+. $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
 }
 
 Export-ModuleMember -Function Remove-AzApiManagementDefaults
@@ -169,7 +169,7 @@ Export-ModuleMember -Function Remove-AzApiManagementDefaults
  .Description
   Import a base-policy to an API hosted in Azure API Management.
 
- .Parameter ResourceGroup
+ .Parameter ResourceGroupName
  The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
@@ -183,13 +183,13 @@ Export-ModuleMember -Function Remove-AzApiManagementDefaults
 #>
 function Import-AzApiManagementApiPolicy {
     param(
-        [string][parameter(Mandatory = $true)] $ResourceGroup = $(throw = "Resource group is required"),
+        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw = "Resource group is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
         [string][parameter(Mandatory = $true)] $ApiId = $(throw = "API ID is required"),
         [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
     )
 
-    . $PSScriptRoot\Scripts\Import-AzApiManagementApiPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
+    . $PSScriptRoot\Scripts\Import-AzApiManagementApiPolicy.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
 }
 
 Export-ModuleMember -Function Import-AzApiManagementApiPolicy
@@ -201,7 +201,7 @@ Export-ModuleMember -Function Import-AzApiManagementApiPolicy
  .Description
   Imports a policy from a file to an API operation in Azure API Management.
 
- .Parameter ResourceGroup
+ .Parameter ResourceGroupName
   The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
@@ -218,14 +218,14 @@ Export-ModuleMember -Function Import-AzApiManagementApiPolicy
 #>
 function Import-AzApiManagementOperationPolicy {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
         [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
         [string][Parameter(Mandatory = $true)] $ApiId = $(throw "API ID is required"),
         [string][Parameter(Mandatory = $true)] $OperationId = $(throw "Operation ID is required"),
         [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
     )
 
-    . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+    . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
 }
 
 Export-ModuleMember -Function Import-AzApiManagementOperationPolicy
@@ -289,7 +289,7 @@ Export-ModuleMember -Function Restore-AzApiManagementService
  .Description
   Sets the authentication header/query parameter on an API in Azure API Management.
 
- .Parameter ResourceGroup
+ .Parameter ResourceGroupName
   The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
@@ -306,14 +306,14 @@ Export-ModuleMember -Function Restore-AzApiManagementService
 #>
 function Set-AzApiManagementApiSubscriptionKey {
     param(
-        [Parameter(Mandatory = $true)][string] $ResourceGroup,
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName,
         [Parameter(Mandatory = $true)][string] $ServiceName,
         [Parameter(Mandatory = $true)][string] $ApiId,
         [Parameter(Mandatory = $false)][string] $HeaderName = "x-api-key",
         [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
     )
 
-    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroup $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName $HeaderName -QueryParamName $QueryParamName
+    . $PSScriptRoot\Scripts\Set-AzApiManagementApiSubscriptionKey.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ApiId $ApiId -HeaderName $HeaderName -QueryParamName $QueryParamName
 }
 
 Export-ModuleMember -Function Set-AzApiManagementApiSubscriptionKey
