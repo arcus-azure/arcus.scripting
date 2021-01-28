@@ -7,7 +7,8 @@ layout: default
 
 This module provides the following capabilities:
 - [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
-- [Retrieve the current Az Access token](#retrieve-the-current-az-access-token)
+- [Retrieving the current Az Access token](#retrieving-the-current-az-access-token)
+- [Granting a resource access to all resources within a specific resource group](#granting-a-resource-access-to-all-resources-within-a-specific-resource-group)
 
 ## Installation
 
@@ -28,7 +29,7 @@ While this seems dangerous, only users with sufficient access rights are allowed
 | `ResourceGroupName` | yes       | The name of the resource group where the locks should be removed                                  |
 | `LockName`          | no        | The optional name of the lock to remove. When this is not provided, all the locks will be removed |
 
-**Usage*
+**Usage**
 
 When you want to remove all the resource locks, no matter what the name or the sub-location:
 
@@ -48,8 +49,7 @@ PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name" -L
 # All locks in resourceGroup 'your-resource-group-name' have been removed
 ```
 
-
-## Retrieve the current Az Access token  
+## Retrieving the current Az Access token  
 
 When you want to make use of the REST-API's made available to manage Azure Resources, you can use this command to easily retrieve the access-token which is stored in your cache after performing the `Connect-AzAccount` command.  
 
@@ -58,7 +58,7 @@ When you want to make use of the REST-API's made available to manage Azure Resou
 | `AssignGlobalVariables` | no        | Switch - default value: false                                                                     |
 |                         |           | When you want the global variables `access_token` and `subscriptionId` assigned for easy access.  |
 
-**Usage*
+**Usage**
 
 When you want to retrieve the current access-token, after connecting to a specific subscription:
 
@@ -80,4 +80,23 @@ PS> Write-Host "Current SubscriptionId:" $Global:subscriptionId
 # Current SubscriptionId: b1a8131b-35fb-4d49-b77b-11abd21c9dcb
 PS> Write-Host "Current AccessToken:" $Global:accessToken
 # Current AccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+## Granting a resource access to all resources within a specific resource group
+
+In some cases a resource needs to be granted access to all resources present within a specific resource group.
+
+| Parameter                 | Mandatory  | Description                                                                                  |
+| ------------------------- | ---------- | -------------------------------------------------------------------------------------------- |
+| `TargetResourceGroupName` | yes        | The name of the resource group to which access should be granted.                            |
+| `ResourceGroupName`       | yes        | The name of the resource which should be granted access.                                     |
+| `ResourceName`            | yes        | The name of the resource group where the resource is located which should be granted access. |
+| `RoleDefinitionName`      | yes        | The name of the role to assign.                                                              |
+
+**Usage**
+
+```powershell
+PS> New-AzResourceGroupRoleAssignment -TargetResourceGroupName "to-gain-access-resource-group" -ResourceGroupName "to-assign-role-resource-group" -ResourceName "to-assign-resource" -RoleAssignmentDefinition "Contributer"
+# Assigning Contributer-rights to the 'to-assign-role-resource' in the resource group 'to-assign-resource-group to gain access to the 'to-gain-access-resource-group'
+# Contributer access granted!
 ```
