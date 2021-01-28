@@ -143,7 +143,7 @@ Describe "Arcus" {
                 Mock New-AzRoleAssignment {
                     $ObjectId | Should -Be $principalId
                     $RoleDefinitionName | Should -Be $roleDefinitionName
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $targetResourceGroup
                 } -Verifiable
 
                 # Act
