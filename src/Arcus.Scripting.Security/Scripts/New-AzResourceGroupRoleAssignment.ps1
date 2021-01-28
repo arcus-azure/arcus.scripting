@@ -19,6 +19,6 @@ try {
         Write-Host "Access has already been granted"
     } else {
         Write-Warning "Failed to grant access!"
-        Write-Warning $Error[0]
+        Write-Warning $ErrorMessage
     }
 }
