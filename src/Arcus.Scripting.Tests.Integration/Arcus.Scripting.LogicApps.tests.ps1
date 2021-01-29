@@ -238,9 +238,12 @@ Describe "Arcus" {
             }
             It "Disable logic app when stopType = Immediate" {
                 # Arrange
-               $resourceGroupName = "my-resource-group"
+               $resourceGroup = "my-resource-group"
                 Mock Get-AzLogicAppRunHistory {}
-                Mock Disable-AzLogicApp {}
+                Mock Disable-AzLogicApp {
+                    $LogicAppName | Should -Be "snd-async"
+                    $ResourceGroupName | Should -Be $resourceGroup
+                }
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
@@ -249,17 +252,20 @@ Describe "Arcus" {
                 }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName -and $LogicAppName -eq "snd-async" }
+                Assert-MockCalled Disable-AzLogicApp -Scope It -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
             }
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on the running runs for unknown stopType" {
                 # Arrange
-                $resourceGroupName = "my-resource-group"
+                $resourceGroup = "my-resource-group"
+                $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker", "ord-sthp-harvest-order-doublechecker")
                 Mock Get-AzLogicAppRunHistory { 
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -BeIn $logicAppNames
                     return @([pscustomobject]@{ Status = "Waiting" })
                 }
                 Mock Disable-AzLogicApp {}
@@ -271,17 +277,20 @@ Describe "Arcus" {
                 }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 6 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 6 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
             }
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on an the waiting runs for stopType = None" {
                 # Arrange
-                $resourceGroupName = "my-resource-group"
+                $resourceGroup = "my-resource-group"
+                $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker")
                 Mock Get-AzLogicAppRunHistory {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -BeIn $logicAppNames
                     return @([pscustomobject]{ Status = "Running" })
                 }
                 Mock Disable-AzLogicApp {}
@@ -293,18 +302,26 @@ Describe "Arcus" {
                 }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
+                Assert-MockCalled Get-AzLogicAppRunHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
             }
             It "Disbales all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and no running runs for stopType = Immediate" {
                 # Arrange
-                $resourceGroupName = "my-resource-group"
-                Mock Get-AzLogicAppRunHistory { return @([pscustomobject]@{ Status = "Waiting" }) }
-                Mock Disable-AzLogicApp {}
+                $resourceGroup = "my-resource-group"
+                $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker", "rcv-sthp-harvest-order-af-ftp", "rcv-sthp-harvest-order-af-sft", "rcv-sthp-harvest-order-af-file")
+                Mock Get-AzLogicAppRunHistory { 
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -BeIn $logicAppNames
+                    return @([pscustomobject]@{ Status = "Waiting" }) 
+                }
+                Mock Disable-AzLogicApp {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $LogicAppName | Should -BeIn $logicAppNames
+                }
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
@@ -313,18 +330,20 @@ Describe "Arcus" {
                 }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 10 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 5 -ParameterFilter {$resourceGroupName -eq $resourceGroupName}
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 10 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
+                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 5 -ParameterFilter { $resourceGroupName -eq $resourceGroup }
             }
             It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and running runs for stopType = Immediate" {
                 # Arrange
-                $resourceGroupName = "my-resource-group"
+                $resourceGroup = "my-resource-group"
                 $i = 0
                 Mock Get-AzLogicAppRunHistory {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be "snd-async"
                     $script:i++
                     if ($script:i -gt 2) {
                         Write-Host "Returning empty (no running, no waiting) runs"
@@ -337,7 +356,10 @@ Describe "Arcus" {
                         )
                     }
                 }
-                Mock Disable-AzLogicApp {}
+                Mock Disable-AzLogicApp {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $LogicAppName | Should -Be "snd-async"
+                }
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
@@ -346,12 +368,12 @@ Describe "Arcus" {
                 }
 
                 # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" -ResourceGroupName $resourceGroupName
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName }
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter {$resourceGroupName -eq $resourceGroupName}
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
+                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $resourceGroupName -eq $resourceGroup }
             }
         }
     }
