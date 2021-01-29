@@ -218,9 +218,12 @@ Describe "Arcus" {
             }
             It "Enable logic app when stopType = Immediate" {
                 # Arrange
-               $resourceGroupName = "my-resource-group"
+               $resourceGroup = "my-resource-group"
                 Mock Get-AzLogicAppRunHistory {}
-                Mock Enable-AzLogicApp {}
+                Mock Enable-AzLogicApp {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $LogicAppName | Should -Be "snd-async"
+                }
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
@@ -229,12 +232,12 @@ Describe "Arcus" {
                 }
 
                 # Act
-                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroupName
+                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Enable-AzLogicApp -Scope It -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroupName -and $LogicAppName -eq "snd-async" }
+                Assert-MockCalled Enable-AzLogicApp -Scope It -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
             }
             It "Disable logic app when stopType = Immediate" {
                 # Arrange
