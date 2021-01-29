@@ -6,16 +6,16 @@ Describe "Arcus" {
         InModuleScope Arcus.Scripting.Security {
             It "Removes all resource group locks without providing lock name" {
                 # Arrange
-                $lockId = "my-lock-id"
-                $resourceGroupName = "my-resource-group"
+                $expectedLockId = "my-lock-id"
+                $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock { 
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     return @([pscustomobject]@{ LockId = "my-lock-id" }) } -Verifiable
                 Mock Remove-AzResourceLock { 
-                    $LockId | Should -Be $lockId } -Verifiable
+                    $LockId | Should -Be $expectedLockId } -Verifiable
 
                 # Act
-                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroupName
+                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-VerifiableMock
@@ -24,14 +24,14 @@ Describe "Arcus" {
             }
             It "Can't remove all resource group locks without returning locks" {
                 # Arrange
-                $resourceGroupName = "my-resource-group"
+                $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     return @() } -Verifiable
                 Mock Remove-AzResourceLock { }
 
                 # Act
-                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroupName
+                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroup
 
                 # Assert
                 Assert-VerifiableMock
@@ -40,18 +40,18 @@ Describe "Arcus" {
             }
             It "Remove resource group lock with a specific lock name" {
                 # Arrange
-                $lockId = "my-lock-id"
-                $lockName = "my-lock-name"
-                $resourceGroupName = "my-resource-group"
+                $expectedLockId = "my-lock-id"
+                $expectedLockName = "my-lock-name"
+                $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
-                    $ResourceGroupName | Should -Be $resourceGroupName
-                    $LockName | Should -Be $LockName
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $LockName | Should -Be $expectedLockName
                     return @([pscustomobject]@{ LockId = "my-lock-id" }) } -Verifiable
                 Mock Remove-AzResourceLock {
-                    $LockId | Should -Be $lockId } -Verifiable
+                    $LockId | Should -Be $expectedLockId } -Verifiable
 
                 # Act
-                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroupName -LockName $lockName
+                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroup -LockName $expectedLockName
 
                 # Assert
                 Assert-VerifiableMock
@@ -60,17 +60,17 @@ Describe "Arcus" {
             }
             It "Can't remove specific resource lock without returning locks" {
                 # Arrange
-                $lockId = "my-lock-id"
-                $lockName = "my-lock-name"
-                $resourceGroupName = "my-resource-group"
+                $expectedLockId = "my-lock-id"
+                $expectedLockName = "my-lock-name"
+                $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
-                    $ResourceGroupName | Should -Be $resourceGroupName
-                    $LockName | Should -Be $lockName
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $LockName | Should -Be $expectedLockName
                     return @() } -Verifiable
                 Mock Remove-AzResourceLock { }
 
                 # Act
-                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroupName -LockName $lockName
+                Remove-AzResourceGroupLocks -ResourceGroupName $resourceGroup -LockName $expectedLockName
 
                 # Assert
                 Assert-VerifiableMock
