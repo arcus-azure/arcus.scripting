@@ -84,7 +84,8 @@ PS> Write-Host "Current AccessToken:" $Global:accessToken
 
 ## Granting a resource access to all resources within a specific resource group
 
-In some cases a resource needs to be granted access to all resources present within a specific resource group.
+In some cases, a resource needs to be granted access to all resources present within a specific resource group.  
+This function allows you to assign an Azure built-in role to a resource upon a resource group.
 
 | Parameter                 | Mandatory  | Description                                                                                  |
 | ------------------------- | ---------- | -------------------------------------------------------------------------------------------- |
