@@ -90,8 +90,8 @@ This function allows you to assign an Azure built-in role to a resource upon a r
 | Parameter                 | Mandatory  | Description                                                                                  |
 | ------------------------- | ---------- | -------------------------------------------------------------------------------------------- |
 | `TargetResourceGroupName` | yes        | The name of the resource group to which access should be granted.                            |
-| `ResourceGroupName`       | yes        | The name of the resource which should be granted access.                                     |
-| `ResourceName`            | yes        | The name of the resource group where the resource is located which should be granted access. |
+| `ResourceGroupName`       | yes        | The name of the resource group where the resource is located which should be granted access. |
+| `ResourceName`            | yes        | The name of the resource which should be granted access.                                     |
 | `RoleDefinitionName`      | yes        | The name of the role to assign.                                                              |
 
 **Usage**

@@ -46,11 +46,11 @@ Export-ModuleMember -Function Get-AzCachedAccessToken
  .Parameter TargetResourceGroupName
   The name of the resource group to which access should be granted.
 
- .Parameter ResourceName
-  The name of the resource which should be granted access.
-
  .Parameter ResourceGroupName
   The name of the resource group where the resource is located which should be granted access.
+
+ .Parameter ResourceName
+  The name of the resource which should be granted access.
 
  .Parameter RoleDefinition
   The name of the role to assign.
