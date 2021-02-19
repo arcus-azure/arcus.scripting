@@ -29,7 +29,7 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.Blo
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.FileShare", "Arcus.Scripting.Storage.FileShare\Arcus.Scripting.Storage.FileShare.pssproj", "{C3C77DDA-A729-499A-9138-745FB622212A}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage", "Arcus.Scripting.Storage\Arcus.Scripting.Storage.pssproj", "{40345308-5871-4BDC-8D77-07E7B702F169}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.All", "Arcus.Scripting.Storage.All\Arcus.Scripting.Storage.All.pssproj", "{40345308-5871-4BDC-8D77-07E7B702F169}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

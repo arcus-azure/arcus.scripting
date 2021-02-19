@@ -12,7 +12,7 @@ This module contains several sub-modules, all related to Azure Storage.
 To have access to the following sub-modules, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.Storage
+PS> Install-Module -Name Arcus.Scripting.Storage.All
 ```
 
 ## Azure Table Storage
