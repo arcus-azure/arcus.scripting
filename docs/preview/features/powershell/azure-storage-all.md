@@ -9,7 +9,7 @@ This module contains several sub-modules, all related to Azure Storage.
 
 ## Installation
 
-To have access to the following sub-modules, you have to import the module:
+Install all Azure Storage-related modules at once via:
 
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.Storage.All
