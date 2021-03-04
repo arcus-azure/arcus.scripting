@@ -29,6 +29,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.Blo
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.FileShare", "Arcus.Scripting.Storage.FileShare\Arcus.Scripting.Storage.FileShare.pssproj", "{C3C77DDA-A729-499A-9138-745FB622212A}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.All", "Arcus.Scripting.Storage.All\Arcus.Scripting.Storage.All.pssproj", "{40345308-5871-4BDC-8D77-07E7B702F169}"
+EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.All", "Arcus.Scripting.All\Arcus.Scripting.All.pssproj", "{A3FD9C88-5283-40BB-81D0-44708C8313D8}"
 EndProject
 Global
@@ -85,6 +87,10 @@ Global
 		{C3C77DDA-A729-499A-9138-745FB622212A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3C77DDA-A729-499A-9138-745FB622212A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3C77DDA-A729-499A-9138-745FB622212A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40345308-5871-4BDC-8D77-07E7B702F169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40345308-5871-4BDC-8D77-07E7B702F169}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40345308-5871-4BDC-8D77-07E7B702F169}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40345308-5871-4BDC-8D77-07E7B702F169}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3FD9C88-5283-40BB-81D0-44708C8313D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3FD9C88-5283-40BB-81D0-44708C8313D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3FD9C88-5283-40BB-81D0-44708C8313D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
