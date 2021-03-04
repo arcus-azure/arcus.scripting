@@ -19,16 +19,16 @@
 #>
 function Create-AzStorageTable {
 	param(
-		[string][parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+		[string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
 		[string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
 		[string][parameter(Mandatory = $true)] $TableName = $(throw = "Table Storage name is required"),
 		[switch][parameter()] $Recreate = $false
 	)
 
 	if ($Recreate) {
-		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -Recreate
+		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName -Recreate
 	} else {
-		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName
+		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName
 	}
 }
 

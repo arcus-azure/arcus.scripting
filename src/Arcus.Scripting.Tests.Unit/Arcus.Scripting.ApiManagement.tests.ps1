@@ -189,7 +189,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock New-AzApiManagementOperation {
@@ -201,7 +201,7 @@ Describe "Arcus" {
                 Mock Set-AzApiManagementPolicy { }
 
                 # Act
-                Create-AzApiManagementApiOperation -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -Method $method -UrlTemplate $urlTemplate
+                Create-AzApiManagementApiOperation -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -Method $method -UrlTemplate $urlTemplate
 
                 # Assert
                 Assert-VerifiableMock
@@ -223,7 +223,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock New-AzApiManagementOperation {
@@ -239,7 +239,7 @@ Describe "Arcus" {
                     $PolicyFilePath | Should -Be $policyFilePath } -Verifiable
 
                 # Act
-                Create-AzApiManagementApiOperation -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -Method $method -UrlTemplate $urlTemplate -OperationName $operationName -Description $Description -PolicyFilePath $policyFilePath
+                Create-AzApiManagementApiOperation -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -Method $method -UrlTemplate $urlTemplate -OperationName $operationName -Description $Description -PolicyFilePath $policyFilePath
 
                 # Assert
                 Assert-VerifiableMock
@@ -256,7 +256,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock Set-AzApiManagementPolicy {
@@ -267,7 +267,7 @@ Describe "Arcus" {
                     return $true } -Verifiable
 
                 # Act
-                Import-AzApiManagementProductPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath
+                Import-AzApiManagementProductPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath
 
                 # Assert
                 Assert-VerifiableMock
@@ -281,7 +281,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock Set-AzApiManagementPolicy {
@@ -292,7 +292,7 @@ Describe "Arcus" {
                     return $false } -Verifiable
 
                 # Act
-                { Import-AzApiManagementProductPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath } |
+                { Import-AzApiManagementProductPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath } |
                     # Assert
                     Should -Throw
             }
@@ -316,7 +316,7 @@ Describe "Arcus" {
                     return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
-                Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName
+                Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName
 
                 # Assert
                 Assert-VerifiableMock
@@ -344,7 +344,7 @@ Describe "Arcus" {
                     return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
-                { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
+                { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
                     Should -Throw
 
                 # Assert
@@ -373,7 +373,7 @@ Describe "Arcus" {
                     return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
-                { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
+                { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
                     Should -Throw
 
                 # Assert
@@ -402,7 +402,7 @@ Describe "Arcus" {
                     return $false } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
-                { Remove-AzApiManagementDefaults -ResourceGroup $resourceGroup -ServiceName $serviceName } |
+                { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
                     Should -Throw
 
                 # Assert
@@ -420,7 +420,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock Set-AzApiManagementPolicy {
@@ -430,7 +430,7 @@ Describe "Arcus" {
                     return $true } -Verifiable
 
                 # Act
-                Import-AzApiManagementApiPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -PolicyFilePath $policyFilePath
+                Import-AzApiManagementApiPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -PolicyFilePath $policyFilePath
 
                 # Assert
                 Assert-VerifiableMock
@@ -444,7 +444,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock Set-AzApiManagementPolicy {
@@ -454,7 +454,7 @@ Describe "Arcus" {
                     return $false } -Verifiable
 
                 # Act
-                { Import-AzApiManagementApiPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -PolicyFilePath $policyFilePath } |
+                { Import-AzApiManagementApiPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -PolicyFilePath $policyFilePath } |
                     Should -Throw
 
                 # Assert
@@ -472,7 +472,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock Set-AzApiManagementPolicy {
@@ -483,7 +483,7 @@ Describe "Arcus" {
                     return $true } -Verifiable
 
                 # Act
-                Import-AzApiManagementOperationPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath
+                Import-AzApiManagementOperationPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath
                 
                 # Assert
                 Assert-VerifiableMock
@@ -498,7 +498,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
                 Mock Set-AzApiManagementPolicy {
@@ -509,7 +509,7 @@ Describe "Arcus" {
                     return $false } -Verifiable
 
                 # Act
-                { Import-AzApiManagementOperationPolicy -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath } |
+                { Import-AzApiManagementOperationPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath } |
                     Should -Throw
 
                 # Assert
@@ -703,7 +703,7 @@ Describe "Arcus" {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
                 Mock New-AzApiManagementContext {
-                    $ResourceGroup | Should -Be $resourceGroup
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
                     return $context } -Verifiable
 
@@ -714,7 +714,7 @@ Describe "Arcus" {
                     $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
 
                 # Act
-                Set-AzApiManagementApiSubscriptionKey -ResourceGroup $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
+                Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
 
                 # Assert
                 Assert-VerifiableMock

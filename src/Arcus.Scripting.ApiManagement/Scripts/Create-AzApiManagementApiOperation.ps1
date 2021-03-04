@@ -1,5 +1,5 @@
 param(
-   [string][Parameter(Mandatory = $true)] $ResourceGroup = $(throw "Resource group is required"),
+   [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
    [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
    [string][Parameter(Mandatory = $true)] $ApiId = $(throw "API ID is required"),
    [string][Parameter(Mandatory = $true)] $OperationId = $(throw "Operation ID is required"),
@@ -11,7 +11,7 @@ param(
 )
 
 # Retrieve the context of APIM
-$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroup -ServiceName $ServiceName
+$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 
 # Create a new operation on the previously created API
 New-AzApiManagementOperation -Context $apimContext -ApiId $ApiId -OperationId $OperationId -Name $OperationName -Method $Method -UrlTemplate $UrlTemplate -Description $Description

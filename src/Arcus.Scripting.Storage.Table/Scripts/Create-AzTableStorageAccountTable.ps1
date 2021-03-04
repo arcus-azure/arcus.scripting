@@ -1,5 +1,5 @@
 param(
-   [string][parameter(Mandatory = $true)] $ResourceGroup,
+   [string][parameter(Mandatory = $true)] $ResourceGroupName,
    [string][parameter(Mandatory = $true)] $StorageAccountName,
    [string][parameter(Mandatory = $true)] $TableName,
    [switch][parameter()] $Recreate = $false
@@ -10,7 +10,7 @@ function Create-StorageAccountTable()
     [CmdletBinding()]
     param
     (
-       [string][parameter(Mandatory = $true)] $ResourceGroup,
+       [string][parameter(Mandatory = $true)] $ResourceGroupName,
        [string][parameter(Mandatory = $true)] $StorageAccountName,
        [string][parameter(Mandatory = $true)] $TableName,
        [bool][parameter()] $Recreate = $false
@@ -19,7 +19,7 @@ function Create-StorageAccountTable()
     {
         #Retrieve the storage account to which the table should be added
         Write-Host "Retrieving storage account ('$StorageAccountName') context..."
-        $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroup -Name $StorageAccountName
+        $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
         Write-Host "Storage account context has been retrieved."
         
         #Check if the table already exists
@@ -82,4 +82,4 @@ function Try-CreateTable()
     }
 }
 
-Create-StorageAccountTable -ResourceGroup $ResourceGroup -StorageAccountName $StorageAccountName -TableName $TableName -Recreate $Recreate
+Create-StorageAccountTable -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName -Recreate $Recreate
