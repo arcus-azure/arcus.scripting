@@ -5,7 +5,7 @@
  .Description
   In some deployments, resource-locks are assigned. This function removes all these locks.
 
- .Parameter ResourceGroupnName
+ .Parameter ResourceGroupName
   The name of the resource group where the locks should be removed.
 
  .Parameter LockName
