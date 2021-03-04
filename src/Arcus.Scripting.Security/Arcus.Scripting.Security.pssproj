@@ -32,6 +32,7 @@
     <Compile Include="Arcus.Scripting.Security.psd1" />
     <Compile Include="Arcus.Scripting.Security.psm1" />
     <Compile Include="Scripts\Get-AzCachedAccessToken.ps1" />
+    <Compile Include="Scripts\New-AzResourceGroupRoleAssignment.ps1" />
     <Compile Include="Scripts\Remove-AzResourceGroupLocks.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
