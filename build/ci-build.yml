@@ -122,6 +122,20 @@ stages:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
           - powershell: |
+              Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+                % { 
+                  $content = Get-Content $_.FullName
+                  $content -replace "^RequiredModules", "#RequiredModules" | Out-File $_.FullName
+                  try {
+                    Write-Host "Validate PowerShell module '$($_.FullName)'"
+                    Test-ModuleManifest -Path $_.FullName
+                  } finally {
+                    $content = Get-Content $_.FullName
+                    $content -replace "^#RequiredModules = @\(@", "RequiredModules = @(@" | Out-File $_.FullName
+                  } 
+                }
+            displayName: 'Validate PS module'
+          - powershell: |
               Import-Module PowerShellGet -Force
               $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
               $PSGallerySourceUri = 'https://www.myget.org/F/arcus/api/v2'
