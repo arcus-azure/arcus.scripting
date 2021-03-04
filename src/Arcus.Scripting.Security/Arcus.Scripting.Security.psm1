@@ -35,3 +35,35 @@ function Get-AzCachedAccessToken {
 }
 
 Export-ModuleMember -Function Get-AzCachedAccessToken
+
+<#
+ .Synopsis
+  Grant a resource access to all resources within a resource group.
+
+ .Description
+  Grant a resource access to all resources present within a specific resource group.
+
+ .Parameter TargetResourceGroupName
+  The name of the resource group to which access should be granted.
+
+ .Parameter ResourceGroupName
+  The name of the resource group where the resource is located which should be granted access.
+
+ .Parameter ResourceName
+  The name of the resource which should be granted access.
+
+ .Parameter RoleDefinition
+  The name of the role to assign.
+#>
+function New-AzResourceGroupRoleAssignment {
+    param (
+        [Parameter(Mandatory = $true)][string] $TargetResourceGroupName = $(throw "Target resource group name to which access should be granted is required"),
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name where the resource is located which should be granted access is required"),
+        [Parameter(Mandatory = $true)][string] $ResourceName = $(throw "Name of the resource which should be granted access is required"),
+        [Parameter(Mandatory = $true)][string] $RoleDefinitionName = $(throw "Name of the role definition is required")
+    )
+
+    . $PSScriptRoot\Scripts\New-AzResourceGroupRoleAssignment.ps1 -TargetResourceGroupName $TargetResourceGroupName -ResourceGroupName $ResourceGroupName -ResourceName $ResourceName -RoleDefinitionName $RoleDefinitionName
+}
+
+Export-ModuleMember -Function New-AzResourceGroupRoleAssignment

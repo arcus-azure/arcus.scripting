@@ -122,14 +122,38 @@ stages:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
           - powershell: |
+              Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+                % { 
+                  $content = Get-Content $_.FullName
+                  $content -replace "^RequiredModules", "#RequiredModules" | Out-File $_.FullName
+                  try {
+                    Write-Host "Validate PowerShell module '$($_.FullName)'"
+                    Test-ModuleManifest -Path $_.FullName
+                  } finally {
+                    $content = Get-Content $_.FullName
+                    $content -replace "^#RequiredModules = @\(@", "RequiredModules = @(@" | Out-File $_.FullName
+                  } 
+                }
+            displayName: 'Validate PS module'
+          - powershell: |
               Import-Module PowerShellGet -Force
-              $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
-              $PSGallerySourceUri = 'https://www.myget.org/F/arcus/api/v2'
-
-              Register-PSRepository -Name MyGetFeed -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri
-
-              Get-ChildItem -Path ./src -Filter *.psm1 -Recurse |
-                  % { Publish-Module -Path $_.DirectoryName -NuGetApiKey $env:APIKEY -Repository MyGetFeed -Verbose -Force }
-            displayName: 'Publish PS module to MyGet'
+              Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+                % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
+            displayName: 'Generate .nuspec file for each PowerShell module'
             env:
-              ApiKey: $(MyGet.ApiKey)
+              SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
+          - task: NuGetCommand@2
+            inputs:
+              command: 'pack'
+              packagesToPack: '**/*.nuspec'
+              packDestination: '$(Build.ArtifactStagingDirectory)'
+          - task: NuGetToolInstaller@1
+            displayName: 'Install NuGet'
+          - powershell: |
+              $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
+              Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
+                  % { & "nuget" push $_.FullName -Source $PSGalleryPublishUri -ApiKey $env:APIKEY }
+            displayName: 'Push to MyGet'
+            env:
+              ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
+              APIKEY: $(MyGet.ApiKey)

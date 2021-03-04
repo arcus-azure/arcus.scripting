@@ -125,4 +125,35 @@ Describe "Arcus" {
             }
         }
     }
+    Context "New Az resource group role assignment" {
+        InModuleScope Arcus.Scripting.Security {
+            It "Gets resource to grant specific access to the targetted resource group" {
+                # Arrange
+                $targetResourceGroup = "to-be-accessed-resources"
+                $resourceGroup = "my-resources"
+                $resource = "my-resource"
+                $roleDefinitionName = "Contributer"
+                $principalId = [System.Guid]::NewGuid()
+
+                Mock Get-AzResource {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $resource
+                    return [pscustomobject]@{ identity = [pscustomobject]@{ PrincipalId = $principalId } }
+                } -Verifiable
+                Mock New-AzRoleAssignment {
+                    $ObjectId | Should -Be $principalId
+                    $RoleDefinitionName | Should -Be $roleDefinitionName
+                    $ResourceGroupName | Should -Be $targetResourceGroup
+                } -Verifiable
+
+                # Act
+                New-AzResourceGroupRoleAssignment -TargetResourceGroupName $targetResourceGroup -ResourceGroupName $resourceGroup -ResourceName $resource -RoleDefinitionName $roleDefinitionName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzResource -Times 1
+                Assert-MockCalled New-AzRoleAssignment -Times 1
+            }
+        }
+    }
 }

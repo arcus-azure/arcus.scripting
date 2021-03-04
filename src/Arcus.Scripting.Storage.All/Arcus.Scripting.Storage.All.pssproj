@@ -2,11 +2,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{fbe6e01f-0a36-4ad2-aa70-f1dfa8791b81}</ProjectGuid>
+    <ProjectGuid>{40345308-5871-4bdc-8d77-07e7b702f169}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Arcus.Scripting.Security</RootNamespace>
-    <AssemblyName>Arcus.Scripting.Security</AssemblyName>
-    <Name>Arcus.Scripting.Security</Name>
+    <RootNamespace>Arcus.Scripting.Storage.All</RootNamespace>
+    <AssemblyName>Arcus.Scripting.Storage.All</AssemblyName>
+    <Name>Arcus.Scripting.Storage.All</Name>
+    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,15 +26,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Arcus.Scripting.Security.psd1" />
-    <Compile Include="Arcus.Scripting.Security.psm1" />
-    <Compile Include="Scripts\Get-AzCachedAccessToken.ps1" />
-    <Compile Include="Scripts\New-AzResourceGroupRoleAssignment.ps1" />
-    <Compile Include="Scripts\Remove-AzResourceGroupLocks.ps1" />
+    <Compile Include="Arcus.Scripting.Storage.All.psd1" />
+    <Compile Include="Arcus.Scripting.Storage.All.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
