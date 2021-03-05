@@ -4,7 +4,7 @@ param(
     [parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
     [parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
     [parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
-    [parameter(Mandatory=$false)][string] $ScriptsFileFilter = ".sql",
+    [parameter(Mandatory=$false)][string] $ScriptsFileFilter = "*.sql",
     [parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
 )
 
@@ -14,7 +14,7 @@ Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
 function Execute-DbCommand($params, [string]$query)
 {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -QueryTimeout 180
-    Write-Host "Result from querying $($result)"
+    Write-Host "Result from querying $result"
 }
 
 function Execute-DbCommandWithResult($params, [string] $query)

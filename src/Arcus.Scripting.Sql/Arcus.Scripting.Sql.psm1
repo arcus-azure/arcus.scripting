@@ -37,7 +37,7 @@ function Invoke-AzSqlDatabaseMigration {
         [parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
     )
 
-    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -Username $UserName -Password $Password
+    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
 }
 
 Export-ModuleMember -Function Invoke-AzSqlDatabaseMigration

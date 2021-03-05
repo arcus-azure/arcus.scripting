@@ -25,20 +25,30 @@ PS> Install-Module -Name Arcus.Scripting.SQL
 ## Invoke a database migration
 This function allows you to trigger a database migration, which will only execute the newly provided SQL scripts, based on the provided version number in each of the scripts. 
 The current version is stored in a table "DatabaseVersion", which will be created if it doesn't exist yet.
-| Parameter         | Mandatory | Description                                                                         |
-| ----------------- | --------- | ----------------------------------------------------------------------------------- |
-| `ServerName`      | yes       | The SQL Server that hosts the SQL Database. (Do not include 'database.windows.net') |
-| `DatabaseName`    | yes       | The name of the SQL Database                                                        |
-| `UserName`        | yes       | The UserName of the SQL Database                                                    |
-| `Password`        | yes       | The Password of the SQL Database                                                    |
-
+| Parameter           | Mandatory                               | Description                                                                         |
+| ------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
+| `ServerName`        | yes                                     | The SQL Server that hosts the SQL Database. (Do not include 'database.windows.net') |
+| `DatabaseName`      | yes                                     | The name of the SQL Database                                                        |
+| `UserName`          | yes                                     | The UserName of the SQL Database                                                    |
+| `Password`          | yes                                     | The Password of the SQL Database                                                    |
+| `ScriptsFolder`     | no (default: `$PSScriptRoot/sqlScripts` | The directory folder where the SQL migration scripts are located on the file system |
+| `ScriptsFileFolder` | no (default: `*sql`)                    | The file filter to limited the SQL script files to use during the migrations        |
+| `DatabaseSchema`    | no (default: `dbo`)                     | The database schema to use when running SQL commands on the target database         |
 
 Make sure that the credentials that you provide are able to write tables to the database + any action that you specify in the sql scripts.
 
-**Example**
+**Example with defaults**
 
 ```powershell
 PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password"
+# Looking for SQL scripts in folder: ./sqlScripts
+```
+
+**Example wiht custom values**
+
+```powershell
+PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password" -ScriptsFolder "$PSScriptRoot/sql-scripts" -ScriptsFileFilter "*.MyScript.sql" -DatabaseSchema "custom"
+# Looking for SQL scripts in folder: ./sql-scripts
 ```
 
 ### Adding SQL scripts so they can be picked up by the script
