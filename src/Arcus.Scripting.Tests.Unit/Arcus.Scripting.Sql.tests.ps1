@@ -79,7 +79,7 @@ Describe "Arcus" {
                     $Password | Should -Be $password
                     $dataTable = Get-TestSqlDataTable $Query
                     if ($Query -like "INSERT *") {
-                        $Query | Should -BeMatch "INSERT INTO \[$databaseSchema\]*"
+                        $Query | Should -Match "INSERT INTO \[$databaseSchema\]*"
                     }
                     return $dataTable
                 } -Verifiable
