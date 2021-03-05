@@ -6,9 +6,9 @@ Describe "Arcus" {
         InModuleScope Arcus.Scripting.ApiManagement {
             It "Creates storage context during API management backup" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
@@ -19,27 +19,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
-                    $StorageAccountName | Should -Be $StorageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Backup-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -BeNullOrEmpty 
                     $PassThru | Should -Be $false
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName
 
                 # Assert
                 Assert-VerifiableMock
@@ -49,9 +49,9 @@ Describe "Arcus" {
             }
             It "Backs up API management with target blob name" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
                 $targetBlobName = "backup-storage-blob"
@@ -63,27 +63,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Backup-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -Be $targetBlobName
                     $PassThru | Should -Be $false
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -BlobName $targetBlobName
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -BlobName $targetBlobName
 
                 # Assert
                 Assert-VerifiableMock
@@ -93,9 +93,9 @@ Describe "Arcus" {
             }
             It "Backs up API management with pass thru" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
@@ -106,27 +106,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Backup-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -BeNullOrEmpty 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru
 
                 # Assert
                 Assert-VerifiableMock
@@ -136,9 +136,9 @@ Describe "Arcus" {
             }
             It "Backs up API management with default profile" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
@@ -150,27 +150,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Backup-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -BeNullOrEmpty 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $defaultProfile }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru -DefaultProfile $defaultProfile
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru -DefaultProfile $defaultProfile
 
                 # Assert
                 Assert-VerifiableMock
@@ -517,9 +517,9 @@ Describe "Arcus" {
             }
             It "Restores API management service w/o pass thru and profile" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
@@ -531,27 +531,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                  Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Restore-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $SourceContainerName | Should -Be $containerName
                     $SourceBlobName | Should -Be $blobName
                     $PassThru | Should -Be $false
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName
 
                 # Assert
                 Assert-VerifiableMock
@@ -561,9 +561,9 @@ Describe "Arcus" {
             }
             It "Restores API management service w/ pass thru and w/o profile" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
@@ -575,27 +575,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                  Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Restore-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $SourceContainerName | Should -Be $containerName
                     $SourceBlobName | Should -Be $blobName 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -PassThru
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -PassThru
 
                 # Assert
                 Assert-VerifiableMock
@@ -605,9 +605,9 @@ Describe "Arcus" {
             }
             It "Restores API management service w/o pass thru and w/ profile" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
@@ -620,27 +620,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                  Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Restore-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $SourceContainerName | Should -Be $containerName
                     $SourceBlobName | Should -Be $blobName 
                     $PassThru | Should -Be $false
                     $DefaultProfile | Should -Be $defaultProfile }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -DefaultProfile $defaultProfile
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -DefaultProfile $defaultProfile
 
                 # Assert
                 Assert-VerifiableMock
@@ -650,9 +650,9 @@ Describe "Arcus" {
             }
             It "Restores API management service w/ pass thru and profile" {
                 # Arrange
-                $resourceGroupName = "shopping"
+                $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $storageAccountName = "shopping-storage"
+                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
@@ -665,27 +665,27 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                  Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
-                    $StorageAccountName | Should -Be $storageAccountName
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
                 Mock New-AzStorageContext { 
                     $StorageAccountName | Should -Be $StorageAccountName
                     $StorageAccountKey | Should -Be $storageKeyValue
-                    return $storageContext }
+                    return $expectedStorageContext }
                 Mock Restore-AzApiManagement {
-                    $ResourceGroupName | Should -Be $resourceGroupName
+                    $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
-                    $StorageContext | Should -be $storageContext
+                    $StorageContext | Should -be $expectedStorageContext
                     $SourceContainerName | Should -Be $containerName
                     $SourceBlobName | Should -Be $blobName 
                     $PassThru | Should -Be $true
                     $DefaultProfile | Should -Be $defaultProfile }
 
                 # Act
-                Restore-AzApiManagementService -ResourceGroupName $resourceGroupName -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $storageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -PassThru -DefaultProfile $defaultProfile
+                Restore-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroupName $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $containerName -BlobName $blobName -PassThru -DefaultProfile $defaultProfile
 
                 # Assert
                 Assert-VerifiableMock
