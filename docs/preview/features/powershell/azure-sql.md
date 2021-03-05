@@ -23,7 +23,8 @@ PS> Install-Module -Name Arcus.Scripting.SQL
 ```
 
 ## Invoke a database migration
-
+This function allows you to trigger a database migration, which will only execute the newly provided SQL scripts, based on the provided version number in each of the scripts. 
+The current version is stored in a table "DatabaseVersion", which will be created if it doesn't exist yet.
 | Parameter         | Mandatory | Description                                                                         |
 | ----------------- | --------- | ----------------------------------------------------------------------------------- |
 | `ServerName`      | yes       | The SQL Server that hosts the SQL Database. (Do not include 'database.windows.net') |
