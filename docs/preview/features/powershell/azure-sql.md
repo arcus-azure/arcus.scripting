@@ -59,8 +59,8 @@ CREATE TABLE [dbo].[DatabaseVersion]
 )
 ```
 
-3. Next to that you can add your own scripts. In order to make sure the scripts are red by the database script, make sure it has the following filename:
-[Prefix]_[VersionNumber]_[DescriptionOfMigration].sql
+3. Next to that you can add your own scripts which, in order to be recognized by the module, need to match the following naming convention:
+`[Prefix]_[VersionNumber]_[DescriptionOfMigration].sql`
 
 In practice this can look like this:
 Arcus_001_AddIndexes.sql
