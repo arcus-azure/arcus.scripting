@@ -33,7 +33,7 @@ function Invoke-AzSqlDatabaseMigration {
         [parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
         [parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
         [parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
-        [parameter(Mandatory=$false)][string] $ScriptsFileFilter = ".sql",
+        [parameter(Mandatory=$false)][string] $ScriptsFileFilter = "*.sql",
         [parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
     )
 
