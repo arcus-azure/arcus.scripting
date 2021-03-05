@@ -5,12 +5,6 @@ layout: default
 
 # Azure SQL
 
-With these scripts you can perform database upgrades by providing/adding specific sqlscripts with the right version number.
-Once a new version number is detected it will incrementally execute this.
-
-While doing so it will create a table "DatabaseVersion".
-If the DatabaseVersion table doesn't exist it will automatically create it.
-
 This module provides the following capabilities:
 - [Invoke a database migration](#invoke-a-database-migration)
 
@@ -23,8 +17,16 @@ PS> Install-Module -Name Arcus.Scripting.SQL
 ```
 
 ## Invoke a database migration
+
+With this script you can perform database upgrades by providing/adding specific sqlscripts with the right version number.
+Once a new version number is detected it will incrementally execute this.
+
+While doing so it will create a table "DatabaseVersion".
+If the DatabaseVersion table doesn't exist it will automatically create it.
+
 This function allows you to trigger a database migration, which will only execute the newly provided SQL scripts, based on the provided version number in each of the scripts. 
 The current version is stored in a table "DatabaseVersion", which will be created if it doesn't exist yet.
+
 | Parameter           | Mandatory                               | Description                                                                         |
 | ------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
 | `ServerName`        | yes                                     | The SQL Server that hosts the SQL Database. (Do not include 'database.windows.net') |
