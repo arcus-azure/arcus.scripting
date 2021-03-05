@@ -63,6 +63,6 @@ CREATE TABLE [dbo].[DatabaseVersion]
 [Prefix]_[VersionNumber]_[DescriptionOfMigration].sql
 
 In practice this can look like this:
-Arcus_001_AddIndexes.ps1
+Arcus_001_AddIndexes.sql
 
 When a new migration comes along, just create the new sql script with a version number one number higher than the previous one.
