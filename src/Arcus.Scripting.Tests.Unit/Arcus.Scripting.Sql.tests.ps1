@@ -46,7 +46,7 @@ Describe "Arcus" {
                 $files = @( [pscustomobject]@{ BaseName = $baseName; FullName = "Container 1-full" } )
                 Mock Get-ChildItem { 
                     $Path | Should -BeLike "*sqlScripts"
-                    $Filter | Should -Be  ".sql"
+                    $Filter | Should -Be  "*.sql"
                     return $files 
                 } -Verifiable
 
@@ -79,7 +79,7 @@ Describe "Arcus" {
                     $Password | Should -Be $password
                     $dataTable = Get-TestSqlDataTable $Query
                     if ($Query -like "INSERT *") {
-                        $Query | Should -BeLike "INSERT INTO [$databaseSchema]*"
+                        $Query | Should -BeMatch "INSERT INTO \[$databaseSchema\]*"
                     }
                     return $dataTable
                 } -Verifiable
