@@ -44,7 +44,7 @@ PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-na
 
 1. In the location where you want to run the script add the folder "sqlScripts".
 
-2. Within this folder there should be by default the "CreateDatabaseVersionTable.sql" file, containing the script to create the initial version table:
+2. Within this folder there should be by default the `CreateDatabaseVersionTable.sql`-file, containing the script to create the initial version table:
 
 ```sql
 CREATE TABLE [dbo].[DatabaseVersion]
