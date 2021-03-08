@@ -78,7 +78,7 @@ Describe "Arcus" {
                     $Database | Should -Be $databaseName
                     $Username | Should -Be $username
                     $Password | Should -Be $password
-                    $dataTable = Get-TestSqlDataTable $Query "dbo" -existing $false
+                    $dataTable = Get-TestSqlDataTable $Query "dbo" $false
                     return $dataTable
                 }
 
