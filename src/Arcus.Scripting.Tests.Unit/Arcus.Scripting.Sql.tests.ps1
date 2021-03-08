@@ -90,7 +90,7 @@ Describe "Arcus" {
 
                 $sampleMigration = "Some sample migration"
                 Mock Get-Content {
-                    $Path | Should -BeLike "*sqlScripts/$baseName.sql"
+                    $Path | Should -Match "[*sqlScripts/$baseName\.sql|*sqlScripts/CreateDatabaseVersionTable\.sql]"
                     return $sampleMigration
                 } -Verifiable
 
