@@ -1,6 +1,6 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Sql -DisableNameChecking
 
-function global:Get-TestSqlDataTable ($query, $schema, $existing = $true) {
+function global:Get-TestSqlDataTable ($query, $schema, $DatabaseVersionTableName = "DatabaseVersion") {
     if ($query -eq 'SELECT TABLE_NAME FROM information_schema.tables') {
         $tableNamesDataTable = New-Object System.Data.DataTable
         $databaseTableNameColumn = New-Object System.Data.DataColumn
@@ -8,10 +8,8 @@ function global:Get-TestSqlDataTable ($query, $schema, $existing = $true) {
         $databaseTableNameColumn.DataType = [System.Type]::GetType("System.String")
         $tableNamesDataTable.Columns.Add($databaseTableNameColumn)
         $databaseVersionRow = $tableNamesDataTable.NewRow()
-        if ($existing) {
-            $databaseVersionRow["TableName"] = "DatabaseVersion"
-            $tableNamesDataTable.Rows.Add($databaseVersionRow)
-        }
+        $databaseVersionRow["TableName"] = $DatabaseVersionTableName
+        $tableNamesDataTable.Rows.Add($databaseVersionRow)
         return $tableNamesDataTable
     } elseif ($query -eq "SELECT TOP 1 CurrentVersionNumber FROM [$schema].[DatabaseVersion] ORDER BY CurrentVersionNumber DESC") {
         $databaseVersionDataTable = New-Object System.Data.DataTable
@@ -78,7 +76,7 @@ Describe "Arcus" {
                     $Database | Should -Be $databaseName
                     $Username | Should -Be $username
                     $Password | Should -Be $password
-                    $dataTable = Get-TestSqlDataTable $Query "dbo" $false
+                    $dataTable = Get-TestSqlDataTable $Query "dbo" "NOT_DatabaseVersion"
                     return $dataTable
                 }
 
