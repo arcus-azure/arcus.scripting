@@ -72,7 +72,7 @@ $query = 'SELECT TABLE_NAME FROM information_schema.tables'
 $tables = Execute-DbCommandWithResult $params $query
 
 # Get script to determine DB version
-$selectDbVersionScript = 'SELECT TOP 1 CurrentVersionNumber FROM DatabaseVersion ORDER BY CurrentVersionNumber DESC'
+$selectDbVersionScript = "SELECT TOP 1 CurrentVersionNumber FROM [$DatabaseSchema].[DatabaseVersion] ORDER BY CurrentVersionNumber DESC"
 
 #Create a DatabaseVersion table if it doesn't exist
 if(!$tables.ItemArray.Contains('DatabaseVersion'))
