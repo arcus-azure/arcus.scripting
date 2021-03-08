@@ -46,7 +46,7 @@ function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName)
 }
 
 function Get-CurrentDbVersionNumber () {
-    $selectDbVersionScript = 'SELECT TOP 1 CurrentVersionNumber FROM DatabaseVersion ORDER BY CurrentVersionNumber DESC'
+    $selectDbVersionScript = "SELECT TOP 1 CurrentVersionNumber FROM [$DatabaseSchema].[DatabaseVersion] ORDER BY CurrentVersionNumber DESC"
     $params = Create-DbParams $DatabaseName $ServerName $UserName $Password
 
      Write-Host 'Getting Current Database Version Number...'
