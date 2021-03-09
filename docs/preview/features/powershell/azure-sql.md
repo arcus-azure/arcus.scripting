@@ -18,7 +18,7 @@ PS> Install-Module -Name Arcus.Scripting.SQL
 
 ## Invoke a database migration
 
-With this script you can perform database upgrades by providing/adding specific sqlscripts with the right version number.
+With this script, you can perform database upgrades by providing/adding specific SQL scripts with the right version number.
 Once a new version number is detected it will incrementally execute this.
 
 While doing so it will create a table "DatabaseVersion".
@@ -34,10 +34,10 @@ The current version is stored in a table "DatabaseVersion", which will be create
 | `UserName`          | yes                                     | The UserName of the SQL Database                                                    |
 | `Password`          | yes                                     | The Password of the SQL Database                                                    |
 | `ScriptsFolder`     | no (default: `$PSScriptRoot/sqlScripts` | The directory folder where the SQL migration scripts are located on the file system |
-| `ScriptsFileFolder` | no (default: `*sql`)                    | The file filter to limited the SQL script files to use during the migrations        |
+| `ScriptsFileFolder` | no (default: `*.sql`)                   | The file filter to limit the SQL script files to use during the migrations          |
 | `DatabaseSchema`    | no (default: `dbo`)                     | The database schema to use when running SQL commands on the target database         |
 
-Make sure that the credentials that you provide are able to write tables to the database + any action that you specify in the sql scripts.
+Make sure that the credentials that you provide can write tables to the database + any action that you specify in the SQL scripts.
 
 **Example with defaults**
 
@@ -46,7 +46,7 @@ PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-na
 # Looking for SQL scripts in folder: ./sqlScripts
 ```
 
-**Example wiht custom values**
+**Example with custom values**
 
 ```powershell
 PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password" -ScriptsFolder "$PSScriptRoot/sql-scripts" -ScriptsFileFilter "*.MyScript.sql" -DatabaseSchema "custom"
@@ -72,10 +72,10 @@ CREATE TABLE [dbo].[DatabaseVersion]
 )
 ```
 
-3. Next to that you can add your own scripts which, in order to be recognized by the module, need to match the following naming convention:
+3. Next to that you can add your scripts which, to be recognized by the module, need to match the following naming convention:
 `[Prefix]_[VersionNumber]_[DescriptionOfMigration].sql`
 
 In practice this can look like this:
 Arcus_001_AddIndexes.sql
 
-When a new migration comes along, just create the new sql script with a version number one number higher than the previous one.
+When a new migration comes along, just create the new SQL script with a version number one number higher than the previous one.
