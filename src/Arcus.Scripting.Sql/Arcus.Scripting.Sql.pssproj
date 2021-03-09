@@ -1,0 +1,44 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{d55e5794-cf04-4a91-b6ea-ca59a2e92797}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Arcus.Scripting.Sql</RootNamespace>
+    <AssemblyName>Arcus.Scripting.Sql</AssemblyName>
+    <Name>Arcus.Scripting.Sql</Name>
+    <ProjectHome />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+    <Folder Include="Scripts\sqlScripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Arcus.Scripting.Sql.psd1" />
+    <Compile Include="Arcus.Scripting.Sql.psm1" />
+    <Compile Include="Scripts\Invoke-AzSqlDatabaseMigration.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\sqlScripts\CreateDatabaseVersionTable.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="Build" />
+  <Import Project="$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets')" />
+</Project>

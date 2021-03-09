@@ -45,6 +45,12 @@ PS> Install-Module -Name Arcus.Scripting.KeyVault
 PS> Install-Module -Name Arcus.Scripting.LogicApps
 ```
 
+- **Azure SQL**
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.SQL
+```
+
 - **Azure Table Storage**
 
 ```powershell

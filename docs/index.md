@@ -32,7 +32,7 @@ For more granular packages we recommend reading the documentation.
     * Azure Table Storage tasks ([powershell](features/powershell/azure-storage-table))
     * Azure Blob Storage tasks ([powershell](features/powershell/azure-storage-blob))
     * Azure File Share Storage tasks ([powershell](features/powershell/azure-storage-fileshare))
-
+   
 # Older versions
 
 - [v0.2](v0.2)

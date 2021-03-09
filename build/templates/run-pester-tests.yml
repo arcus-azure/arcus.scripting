@@ -18,6 +18,7 @@ steps:
       script: |
         Install-Module -Name Pester -Force -SkipPublisherCheck
         Install-Module -Name Az -Force -SkipPublisherCheck
+        Install-Module -Name SqlServer -Force -SkipPublisherCheck
         Import-Module ./src/Arcus.Scripting.Security
         
         Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
