@@ -28,7 +28,7 @@ For more granular packages we recommend reading the documentation.
 * Automate Azure Logic Apps tasks ([powershell](features/powershell/azure-logic-apps))
 * Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
 * Automate Azure Security tasks ([powershell](features/powershell/azure-security))
-* Automate Azure SQL tasks ([powershell](featues/powershell/azure-sql))
+* Automate Azure SQL tasks ([powershell](features/powershell/azure-sql))
 * Automate Azure Storage tasks ([powershell](features/powershell/azure-storage))
     * Azure Table Storage tasks ([powershell](features/powershell/azure-storage-table))
     * Azure Blob Storage tasks ([powershell](features/powershell/azure-storage-blob))
