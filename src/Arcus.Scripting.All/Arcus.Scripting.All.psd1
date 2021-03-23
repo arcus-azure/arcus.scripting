@@ -48,7 +48,7 @@ PowerShellVersion = '5.1'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @(@{ModuleName='Arcus.Scripting.ApiManagement';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.ARM';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.DataFactory';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.DevOps';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.KeyVault';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.LogicApps';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.Security';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.Storage.All';ModuleVersion='#{Package.Version}#'})
+RequiredModules = @(@{ModuleName='Arcus.Scripting.ApiManagement';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.ARM';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.DataFactory';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.DevOps';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.KeyVault';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.LogicApps';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.Security';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.Sql';ModuleVersion='#{Package.Version}#'},@{ModuleName='Arcus.Scripting.Storage.All';ModuleVersion='#{Package.Version}#'})
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
