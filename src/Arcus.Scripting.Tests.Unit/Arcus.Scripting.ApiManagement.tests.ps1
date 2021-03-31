@@ -719,6 +719,30 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
             }
+            It "Uploads private certificate to API Management" {
+                # Arrange
+                $resourceGroup = "customer"
+                $name = "customer-name"
+                $filePath = "c:\temp\certificate.pfx"
+                $password = "P@ssw0rd"
+                $stubContext = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock New-AzApiManagementContext {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $name
+                    return $stubContext } -Verifiable
+
+                Mock New-AzApiManagementCertificate {
+                    $Context | Should -Be $stubContext
+                    $PfxFilePath | Should -Be $filePath
+                    $PfxPassword | Should -Be $password } -Verifiable
+
+                # Act
+                Upload-AzApiManagementCertificate -ResourceGroupName $resourceGroup -ServiceName $name -CertificateFilePath $filePath -CertificatePassword $password
+
+                # Assert
+                Assert-VerifiableMock
+            }
         }
     }
 }
