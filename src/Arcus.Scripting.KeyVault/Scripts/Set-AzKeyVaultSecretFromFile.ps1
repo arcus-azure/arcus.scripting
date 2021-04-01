@@ -2,7 +2,8 @@ param (
     [Parameter(Mandatory=$true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
     [Parameter(Mandatory=$true)][string] $SecretName = $(throw "Name of the secret name is required"),
     [Parameter(Mandatory=$true)][string] $FilePath = $(throw "Path to the secret file is required"),
-    [Parameter(Mandatory=$false)][System.Nullable[System.DateTime]] $Expires
+    [Parameter(Mandatory=$false)][System.Nullable[System.DateTime]] $Expires,
+    [Parameter(Mandatory=$false)][switch] $Base64 = $false
 )
 
 $isFileFound = Test-Path -Path $FilePath -PathType Leaf

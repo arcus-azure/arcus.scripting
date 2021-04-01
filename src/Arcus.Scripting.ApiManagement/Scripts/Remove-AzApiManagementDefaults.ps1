@@ -3,16 +3,16 @@ param(
     [Parameter(Mandatory = $true)][string] $ServiceName
 )
 
-Write-Versbose "Start removing Azure API Management defaults..."
+Write-Host "Start removing Azure API Management defaults..."
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
 
-Write-Verbose "Removing Echo Api..."
+Write-Host "Removing Echo Api..."
 $apiResult = Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api'
 
-Write-Verbose "Removing Starter product..."
+Write-Host "Removing Starter product..."
 $starterResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions
 
-Write-Verbose "Removing Unlimited product..."
+Write-Host "Removing Unlimited product..."
 $unlimitedResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions
 
 if ($apiResult -and $starterResult -and $unlimitedResult) {
