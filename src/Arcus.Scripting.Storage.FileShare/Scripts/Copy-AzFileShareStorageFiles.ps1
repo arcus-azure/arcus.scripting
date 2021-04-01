@@ -1,10 +1,10 @@
 param(
-    [parameter(Mandatory = $true)][string] $ResourceGroupName,
-    [parameter(Mandatory = $true)][string] $StorageAccountName,
-    [parameter(Mandatory = $true)][string] $FileShareName,
-    [parameter(Mandatory = $true)][string] $SourceFolderPath,
-    [parameter(Mandatory = $true)][string] $DestinationFolderName,
-    [parameter(Mandatory = $false)][string] $FileMask = ""
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+    [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+    [Parameter(Mandatory = $true)][string] $FileShareName = $(throw "Name of file share is required"),
+    [Parameter(Mandatory = $true)][string] $SourceFolderPath = $(throw "Folder path to the source folder is required"),
+    [Parameter(Mandatory = $true)][string] $DestinationFolderName = $(throw "Folder name to the destination folder is required"),
+    [Parameter(Mandatory = $false)][string] $FileMask = ""
 )
 
 function VerifyAzureFileShareExists 

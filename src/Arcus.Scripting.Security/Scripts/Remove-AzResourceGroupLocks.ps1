@@ -1,6 +1,6 @@
 param (
-    [Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
-    [Parameter(Mandatory=$false)][string]$LockName = $null
+    [Parameter(Mandatory=$true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+    [Parameter(Mandatory=$false)][string] $LockName = $null
 )
 
 $locks = $null

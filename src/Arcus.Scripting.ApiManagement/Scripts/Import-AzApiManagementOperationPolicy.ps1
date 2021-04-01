@@ -1,9 +1,9 @@
 param(
-    [string][parameter(Mandatory = $true)] $ResourceGroupName,
-    [string][parameter(Mandatory = $true)] $ServiceName,
-    [string][parameter(Mandatory = $true)] $ApiId,
-    [string][parameter(Mandatory = $true)] $OperationId,
-    [string][parameter(Mandatory = $true)] $PolicyFilePath
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName,
+    [Parameter(Mandatory = $true)][string] $ServiceName,
+    [Parameter(Mandatory = $true)][string] $ApiId,
+    [Parameter(Mandatory = $true)][string] $OperationId,
+    [Parameter(Mandatory = $true)][string] $PolicyFilePath
 )
 
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName

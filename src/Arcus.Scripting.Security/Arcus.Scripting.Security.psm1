@@ -13,8 +13,8 @@
 #>
 function Remove-AzResourceGroupLocks {
     param(
-        [Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
-        [Parameter(Mandatory=$false)][string]$LockName = $null
+        [Parameter(Mandatory=$true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+        [Parameter(Mandatory=$false)][string] $LockName = $null
     )
 
     . $PSScriptRoot\Scripts\Remove-AzResourceGroupLocks.ps1 -ResourceGroupName $ResourceGroupName -LockName $LockName

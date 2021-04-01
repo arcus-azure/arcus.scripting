@@ -1,6 +1,6 @@
 param(
-   [string][parameter(Mandatory = $true)] $keyVaultName,
-   [string][parameter(Mandatory = $false)] $resourceGroupName = ""
+   [Parameter(Mandatory = $true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
+   [Parameter(Mandatory = $false)][string] $ResourceGroupName = ""
 )
 
 $keyVault = $null

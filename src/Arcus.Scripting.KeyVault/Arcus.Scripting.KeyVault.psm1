@@ -12,11 +12,11 @@
   The resource group containing the Azure Key Vault.
 #>
 function Get-AzKeyVaultAccessPolicies {
-	param(
-	   [parameter(Mandatory = $true)][string] $KeyVaultName,
-	   [parameter(Mandatory = $false)][string] $ResourceGroupName = ""
-	)
-	. $PSScriptRoot\Scripts\Get-AzKeyVaultAccessPolicies.ps1 -keyVaultName $KeyVaultName -resourceGroupName $ResourceGroupName
+    param(
+       [Parameter(Mandatory = $true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
+       [Parameter(Mandatory = $false)][string] $ResourceGroupName = ""
+    )
+    . $PSScriptRoot\Scripts\Get-AzKeyVaultAccessPolicies.ps1 -keyVaultName $KeyVaultName -resourceGroupName $ResourceGroupName
 }
 
 Export-ModuleMember -Function Get-AzKeyVaultAccessPolicies
@@ -43,10 +43,10 @@ Export-ModuleMember -Function Get-AzKeyVaultAccessPolicies
 
 function Set-AzKeyVaultSecretFromFile {
     param (
-        [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
-        [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
-        [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
-        [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires
+        [Parameter(Mandatory=$true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
+        [Parameter(Mandatory=$true)][string] $SecretName = $(throw "Name of the secret name is required"),
+        [Parameter(Mandatory=$true)][string] $FilePath = $(throw "Path to the secret file is required"),
+        [Parameter(Mandatory=$false)][System.Nullable[System.DateTime]] $Expires
     )
 
     . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile.ps1 -KeyVaultName $KeyVaultName -SecretName $SecretName -FilePath $FilePath -Expires $Expires
@@ -76,10 +76,10 @@ Export-ModuleMember -Function Set-AzKeyVaultSecretFromFile
 
 function Set-AzKeyVaultSecretAsBase64FromFile {
     param (
-        [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
-        [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
-        [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
-        [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires
+        [Parameter(Mandatory=$true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
+        [Parameter(Mandatory=$true)][string] $SecretName = $(throw "Name of the secret name is required"),
+        [Parameter(Mandatory=$true)][string] $FilePath = $(throw "Path to the secret file is required"),
+        [Parameter(Mandatory=$false)][System.Nullable[System.DateTime]] $Expires
     )
 
     . $PSScriptRoot\Scripts\Set-AzKeyVaultSecretFromFile.ps1 -KeyVaultName $KeyVaultName -SecretName $SecretName -FilePath $FilePath -Expires $Expires -Base64

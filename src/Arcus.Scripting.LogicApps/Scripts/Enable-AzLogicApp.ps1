@@ -1,11 +1,10 @@
-param
-(
-    [string][Parameter(Mandatory = $false)]$EnvironmentName = "AzureCloud",
-    [string][parameter(Mandatory = $false)]$SubscriptionId = "",
-    [string][parameter(Mandatory = $true)]$ResourceGroupName,
-    [string][parameter(Mandatory = $true)]$LogicAppName,
-    [string][Parameter(Mandatory = $false)]$ApiVersion = "2016-06-01",
-    [string][parameter(Mandatory = $false)]$AccessToken = ""
+param(
+    [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+    [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is reqiured"),
+    [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of logic app is required"),
+    [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01",
+    [Parameter(Mandatory = $false)][string] $AccessToken = ""
 )
 
 try{

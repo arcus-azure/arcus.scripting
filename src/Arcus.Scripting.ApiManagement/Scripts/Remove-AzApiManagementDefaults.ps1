@@ -1,22 +1,22 @@
 param(
-    [string][parameter(Mandatory = $true)] $ResourceGroupName,
-    [string][parameter(Mandatory = $true)] $ServiceName
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName,
+    [Parameter(Mandatory = $true)][string] $ServiceName
 )
 
-Write-Host "Start removing Azure API Management defaults..."
+Write-Versbose "Start removing Azure API Management defaults..."
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
 
-Write-Host "Removing Echo Api..."
+Write-Verbose "Removing Echo Api..."
 $apiResult = Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api'
 
-Write-Host "Removing Starter product..."
+Write-Verbose "Removing Starter product..."
 $starterResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions
 
-Write-Host "Removing Unlimited product..."
+Write-Verbose "Removing Unlimited product..."
 $unlimitedResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions
 
 if ($apiResult -and $starterResult -and $unlimitedResult) {
-    Write-Host "Successfully removed the 'echo-api' API, 'starter' Product and 'unlimited' Product"
+    Write-Information "Successfully removed the 'echo-api' API, 'starter' Product and 'unlimited' Product"
 } else {
     $message = "Failed to remove API Management defaults"
     if (-not $apiResult) {
