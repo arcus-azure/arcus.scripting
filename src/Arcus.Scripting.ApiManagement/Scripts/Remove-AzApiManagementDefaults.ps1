@@ -16,7 +16,7 @@ Write-Verbose "Removing Unlimited product..."
 $unlimitedResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions
 
 if ($apiResult -and $starterResult -and $unlimitedResult) {
-    Write-Information "Successfully removed the 'echo-api' API, 'starter' Product and 'unlimited' Product"
+    Write-Host "Successfully removed the 'echo-api' API, 'starter' Product and 'unlimited' Product"
 } else {
     $message = "Failed to remove API Management defaults"
     if (-not $apiResult) {
