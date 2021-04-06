@@ -204,7 +204,7 @@ Write-Host "Subscription key query parameter 'myApiKey' was assigned"
 ```
 
 ## Uploading private certificates to the Azure API Management certificate store
-Uploads a public/private certificate to the Azure API Management certificate store, allowing authentication against backend services.
+Uploads a private certificate to the Azure API Management certificate store, allowing authentication against backend services.
 
 | Parameter             | Mandatory | Description                                                                                   |
 | --------------------- | --------- | --------------------------------------------------------------------------------------------- |
