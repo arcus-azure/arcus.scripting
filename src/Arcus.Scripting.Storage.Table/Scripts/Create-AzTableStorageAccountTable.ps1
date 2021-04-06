@@ -1,8 +1,8 @@
 param(
-   [string][parameter(Mandatory = $true)] $ResourceGroupName,
-   [string][parameter(Mandatory = $true)] $StorageAccountName,
-   [string][parameter(Mandatory = $true)] $TableName,
-   [switch][parameter()] $Recreate = $false
+   [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+   [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+   [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
+   [Parameter()][switch] $Recreate = $false
 )
 
 function Create-StorageAccountTable()

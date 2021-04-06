@@ -1,10 +1,10 @@
 param(
-    [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Requires a resource group name where the Azure storage account is located"),
-    [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Requires a name for the Azure sotrage account"),
-    [string][parameter(Mandatory = $true)] $TargetFolderPath = $(throw "Requires a folder file path to locate the targetted the files to be uploaded to Azure Blob Storage"),
-    [string][parameter(Mandatory = $true)] $ContainerName = $(throw "Requires a name for the Azure Blob Storage container to where the targetted files should be uploaded"),
-    [string][parameter(Mandatory = $false)] $ContainerPermissions = "Off",
-    [string][parameter(Mandatory = $false)] $FilePrefix = ""
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Requires a resource group name where the Azure storage account is located"),
+    [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Requires a name for the Azure sotrage account"),
+    [Parameter(Mandatory = $true)][string] $TargetFolderPath = $(throw "Requires a folder file path to locate the targetted the files to be uploaded to Azure Blob Storage"),
+    [Parameter(Mandatory = $true)][string] $ContainerName = $(throw "Requires a name for the Azure Blob Storage container to where the targetted files should be uploaded"),
+    [Parameter(Mandatory = $false)][string] $ContainerPermissions = "Off",
+    [Parameter(Mandatory = $false)][string] $FilePrefix = ""
 )
 
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName

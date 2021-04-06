@@ -18,18 +18,18 @@
   The optional flag to indicate whether or not a possible already existing table should be deleted and re-created.
 #>
 function Create-AzStorageTable {
-	param(
-		[string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
-		[string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
-		[string][parameter(Mandatory = $true)] $TableName = $(throw = "Table Storage name is required"),
-		[switch][parameter()] $Recreate = $false
-	)
+    param(
+       [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+       [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+       [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
+       [Parameter()][switch] $Recreate = $false
+    )
 
-	if ($Recreate) {
-		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName -Recreate
-	} else {
-		. $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName
-	}
+    if ($Recreate) {
+        . $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName -Recreate
+    } else {
+        . $PSScriptRoot\Scripts\Create-AzTableStorageAccountTable.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName
+    }
 }
 
 Export-ModuleMember -Function Create-AzStorageTable

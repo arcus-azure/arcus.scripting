@@ -1,16 +1,8 @@
-param
-(
-    [Parameter(Mandatory)]
-    [String]$ResourceGroupName,
-
-    [Parameter(Mandatory)]
-    [String]$StorageAccountName,
-
-    [Parameter(Mandatory)]
-    [String]$FileShareName,
-
-    [Parameter(Mandatory)]
-    [String]$FolderName
+param(
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+    [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+    [Parameter(Mandatory = $true)][string] $FileShareName = $(throw "Name of Azure file share is required"),
+    [Parameter(Mandatory = $true)][string] $FolderName = $(throw "Name of folder is required")
 )
 
 try{

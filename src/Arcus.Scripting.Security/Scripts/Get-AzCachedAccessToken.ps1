@@ -1,5 +1,5 @@
 param(
-   [switch][parameter()] $AssignGlobalVariables = $false
+   [Parameter()][switch] $AssignGlobalVariables = $false
 )
 
 function Get-AzCachedAccessToken()
