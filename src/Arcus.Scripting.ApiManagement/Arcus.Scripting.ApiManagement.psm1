@@ -323,7 +323,7 @@ Export-ModuleMember -Function Set-AzApiManagementApiSubscriptionKey
   Uploads a certificate to the Azure API Management certificate store.
 
  .Description
-  Uploads a public/private certificate to the Azure API Management certificate store, allowing authentication against backend services.
+  Uploads a private certificate to the Azure API Management certificate store, allowing authentication against backend services.
 
  .Parameter ResourceGroupName
   The name of the resource group containing the Azure API Management instance.
