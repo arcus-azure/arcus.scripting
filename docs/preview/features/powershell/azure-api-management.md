@@ -210,7 +210,7 @@ Uploads a private certificate to the Azure API Management certificate store, all
 | --------------------- | --------- | --------------------------------------------------------------------------------------------- |
 | `ResourceGroupName`   | yes       | The resource group containing the Azure API Management instance                               |
 | `ServiceName`         | yes       | The name of the Azure API Management instance                                                 |
-| `CertificateFilePath` | yes       | The full file path to the location of the private/public certificate                          |
+| `CertificateFilePath` | yes       | The full file path to the location of the private certificate                                 |
 | `CertificatePassword` | yes       | The password for the private certificate                                                      |
 
 **Example**
