@@ -306,9 +306,9 @@ Export-ModuleMember -Function Restore-AzApiManagementService
 #>
 function Set-AzApiManagementApiSubscriptionKey {
     param(
-        [Parameter(Mandatory = $true)][string] $ResourceGroupName,
-        [Parameter(Mandatory = $true)][string] $ServiceName,
-        [Parameter(Mandatory = $true)][string] $ApiId,
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API management service name is required"),
+        [Parameter(Mandatory = $true)][string] $ApiId = $(throw "API ID is required"),
         [Parameter(Mandatory = $false)][string] $HeaderName = "x-api-key",
         [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
     )
@@ -332,17 +332,17 @@ Export-ModuleMember -Function Set-AzApiManagementApiSubscriptionKey
   The name of the Azure API Management instance.
 
  .Parameter CertificateFilePath
-  The full file path to the location of the private/public certificate.
+  The full file path to the location of the public certificate.
 
  .Parameter CertificatePassword
   The password for the private certificate.
 #>
 function Upload-AzApiManagementCertificate {
     param(
-        [Parameter(Mandatory = $true)][string] $ResourceGroupName,
-        [Parameter(Mandatory = $true)][string] $ServiceName,
-        [Parameter(Mandatory = $true)][string] $CertificateFilePath,
-        [Parameter(Mandatory = $false)][string] $CertificatePassword
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API management service name is required"),
+        [Parameter(Mandatory = $true)][string] $CertificateFilePath = $(throw "Full file path to public certificate is required"),
+        [Parameter(Mandatory = $true)][string] $CertificatePassword = $(throw "Password for certificate is required")
     )
 
     . $PSScriptRoot\Scripts\Upload-AzApiManagementCertificate.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -CertificateFilePath $CertificateFilePath -CertificatePassword $CertificatePassword
