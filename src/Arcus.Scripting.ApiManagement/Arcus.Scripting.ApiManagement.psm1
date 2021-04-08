@@ -317,3 +317,35 @@ function Set-AzApiManagementApiSubscriptionKey {
 }
 
 Export-ModuleMember -Function Set-AzApiManagementApiSubscriptionKey
+
+<#
+ .Synopsis
+  Uploads a certificate to the Azure API Management certificate store.
+
+ .Description
+  Uploads a private certificate to the Azure API Management certificate store, allowing authentication against backend services.
+
+ .Parameter ResourceGroupName
+  The name of the resource group containing the Azure API Management instance.
+
+ .Parameter ServiceName
+  The name of the Azure API Management instance.
+
+ .Parameter CertificateFilePath
+  The full file path to the location of the public certificate.
+
+ .Parameter CertificatePassword
+  The password for the private certificate.
+#>
+function Upload-AzApiManagementCertificate {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API management service name is required"),
+        [Parameter(Mandatory = $true)][string] $CertificateFilePath = $(throw "Full file path to the certificate is required"),
+        [Parameter(Mandatory = $true)][string] $CertificatePassword = $(throw "Password for certificate is required")
+    )
+
+    . $PSScriptRoot\Scripts\Upload-AzApiManagementCertificate.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -CertificateFilePath $CertificateFilePath -CertificatePassword $CertificatePassword
+}
+
+Export-ModuleMember -Function Upload-AzApiManagementCertificate
