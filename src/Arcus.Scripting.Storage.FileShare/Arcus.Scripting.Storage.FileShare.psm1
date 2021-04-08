@@ -19,10 +19,10 @@
 #>
 function Create-AzFileShareStorageFolder {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
-        [string][Parameter(Mandatory = $true)] $StorageAccountName,
-        [string][Parameter(Mandatory = $true)] $FileShareName,
-        [string][Parameter(Mandatory = $true)] $FolderName
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+        [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+        [Parameter(Mandatory = $true)][string] $FileShareName = $(throw "Name of Azure file share is required"),
+        [Parameter(Mandatory = $true)][string] $FolderName = $(throw "Name of folder is required")
     )
     
     . $PSScriptRoot\Scripts\Create-AzFileShareStorageFolder.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -FileShareName $FileShareName -FolderName $FolderName
@@ -57,12 +57,12 @@ Export-ModuleMember -Function Create-AzFileShareStorageFolder
 #>
 function Copy-AzFileShareStorageFiles {
     param(
-        [parameter(Mandatory = $true)][string] $ResourceGroupName,
-        [parameter(Mandatory = $true)][string] $StorageAccountName,
-        [parameter(Mandatory = $true)][string] $FileShareName,
-        [parameter(Mandatory = $true)][string] $SourceFolderPath,
-        [parameter(Mandatory = $true)][string] $DestinationFolderName,
-        [parameter(Mandatory = $false)][string] $FileMask = ""
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+        [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+        [Parameter(Mandatory = $true)][string] $FileShareName = $(throw "Name of file share is required"),
+        [Parameter(Mandatory = $true)][string] $SourceFolderPath = $(throw "Folder path to the source folder is required"),
+        [Parameter(Mandatory = $true)][string] $DestinationFolderName = $(throw "Folder name to the destination folder is required"),
+        [Parameter(Mandatory = $false)][string] $FileMask = ""
     )
 
     . $PSScriptRoot\Scripts\Copy-AzFileShareStorageFiles.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -FileShareName $FileShareName -SourceFolderPath $SourceFolderPath -DestinationFolderName $DestinationFolderName -FileMask $FileMask

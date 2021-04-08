@@ -1,11 +1,9 @@
-# Use this script to upload a certificate as plain text (multiline-support) into Azure Key Vault.
-
 param (
-    [string][Parameter(Mandatory=$true)] $KeyVaultName = $(throw "The path to the file is required."),
-    [string][Parameter(Mandatory=$true)] $SecretName = $(throw "The path to the file is required."),
-    [string][Parameter(Mandatory=$true)] $FilePath = $(throw "The path to the file is required."),
-    [System.Nullable[System.DateTime]][Parameter(Mandatory=$false)] $Expires,
-    [switch][Parameter(Mandatory=$false)] $Base64 = $false
+    [Parameter(Mandatory=$true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
+    [Parameter(Mandatory=$true)][string] $SecretName = $(throw "Name of the secret name is required"),
+    [Parameter(Mandatory=$true)][string] $FilePath = $(throw "Path to the secret file is required"),
+    [Parameter(Mandatory=$false)][System.Nullable[System.DateTime]] $Expires,
+    [Parameter(Mandatory=$false)][switch] $Base64 = $false
 )
 
 $isFileFound = Test-Path -Path $FilePath -PathType Leaf

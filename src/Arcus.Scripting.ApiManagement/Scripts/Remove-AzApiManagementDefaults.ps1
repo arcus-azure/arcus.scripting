@@ -1,6 +1,6 @@
 param(
-    [string][parameter(Mandatory = $true)] $ResourceGroupName,
-    [string][parameter(Mandatory = $true)] $ServiceName
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName,
+    [Parameter(Mandatory = $true)][string] $ServiceName
 )
 
 Write-Host "Start removing Azure API Management defaults..."
