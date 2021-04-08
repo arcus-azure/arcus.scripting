@@ -1,8 +1,8 @@
 param(
-    [Parameter(Mandatory = $true)][string] $ResourceGroupName,
-    [Parameter(Mandatory = $true)][string] $ServiceName,
-    [Parameter(Mandatory = $true)][string] $CertificateFilePath,
-    [Parameter(Mandatory = $true)][string] $CertificatePassword
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+    [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API management service name is required")),
+    [Parameter(Mandatory = $true)][string] $CertificateFilePath = $(throw "Full file path to certificate is required"),
+    [Parameter(Mandatory = $true)][string] $CertificatePassword = $(throw "Password for certificate is required")
 )
 
 $context = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
