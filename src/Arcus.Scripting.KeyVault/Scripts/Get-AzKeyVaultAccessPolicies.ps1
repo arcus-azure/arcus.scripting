@@ -15,11 +15,11 @@ else
 	$keyVault = Get-AzKeyVault -VaultName $keyVaultName -ResourceGroupName $resourceGroupName
 }
 
-if($keyVault)
-{
-	$armAccessPolicies = @()
-	$keyVaultAccessPolicies = $keyVault.accessPolicies
+$armAccessPolicies = @()
+$keyVaultAccessPolicies = $keyVault.accessPolicies
 
+if($keyVault)
+{	
 	if($keyVaultAccessPolicies)
 	{
 	   Write-Host "Key Vault '$keyVaultName' is found."
@@ -42,16 +42,16 @@ if($keyVault)
 
 		  $armAccessPolicies += $armAccessPolicy
 	   }   
-	}
-
-	$armAccessPoliciesParameter = [pscustomobject]@{
-		list = $armAccessPolicies
-	}
-
-	Write-Host "Current access policies: $armAccessPoliciesParameter"
-	return $armAccessPoliciesParameter
+	}	
 }
 else
 {
 	Write-Warning "KeyVault '$keyVaultName' could not be found."
 }
+
+$armAccessPoliciesParameter = [pscustomobject]@{
+	list = $armAccessPolicies
+}
+
+Write-Host "Current access policies: $armAccessPoliciesParameter"
+return $armAccessPoliciesParameter
