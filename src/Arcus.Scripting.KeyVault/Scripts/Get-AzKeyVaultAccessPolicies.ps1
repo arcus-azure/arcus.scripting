@@ -16,14 +16,15 @@ else
 }
 
 $armAccessPolicies = @()
-$keyVaultAccessPolicies = $keyVault.accessPolicies
 
 if($keyVault)
 {	
-	if($keyVaultAccessPolicies)
-	{
-	   Write-Host "Key Vault '$keyVaultName' is found."
+	Write-Host "Key Vault '$keyVaultName' is found."
 
+	$keyVaultAccessPolicies = $keyVault.accessPolicies
+
+	if($keyVaultAccessPolicies)
+	{	
 	   foreach($keyVaultAccessPolicy in $keyVaultAccessPolicies)
 	   {
 		  $armAccessPolicy = [pscustomobject]@{
