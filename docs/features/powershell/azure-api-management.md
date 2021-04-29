@@ -216,7 +216,7 @@ Uploads a private certificate to the Azure API Management certificate store, all
 **Example**
 
 ```powershell
-PS> Upload-AzApiManagementCertificate -ResourceGroupName "my-resource-group" -ServiceName "my-api-management-instance' -CertificateFilePath "c:\temp\certificate.pfx" -CertificatePassword "P@ssw0rd"
+PS> Upload-AzApiManagementCertificate -ResourceGroupName "my-resource-group" -ServiceName "my-api-management-instance" -CertificateFilePath "c:\temp\certificate.pfx" -CertificatePassword "P@ssw0rd"
 # Using API Management instance 'my-api-management-instance' in resource group 'my-resource-group'
 # Uploaded private certificate at 'c:\temp\certificate.pfx'
 ```
