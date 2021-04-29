@@ -3,7 +3,7 @@ title: "Home"
 layout: default
 ---
 
-![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.All)
+[![PowerShell Gallery Version](https://img.shields.io/badge/powershell%20gallery-v0.4.3-orange)](https://www.powershellgallery.com/packages/Arcus.Scripting.All/0.4.3)
 
 # Installation
 
@@ -11,7 +11,7 @@ The Arcus.Scripting modules can be found on the PowerShell gallery.
 Install the latest version of a module by executing the following command:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.All
+PS> Install-Module -Name Arcus.Scripting.All --Version 0.4.3
 ```
 
 For more granular packages we recommend reading the documentation.
