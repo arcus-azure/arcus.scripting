@@ -1,9 +1,6 @@
 ---
 title: "Home"
 layout: default
-permalink: /
-redirect_from:
- - /index.html
 ---
 
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.All)
@@ -29,17 +26,10 @@ For more granular packages we recommend reading the documentation.
 * Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
 * Automate Azure Security tasks ([powershell](features/powershell/azure-security))
 * Automate Azure SQL tasks ([powershell](features/powershell/azure-sql))
-* Automate Azure Storage tasks ([powershell](features/powershell/azure-storage-all))
+* Automate Azure Storage tasks ([powershell](features/powershell/azure-storage))
     * Azure Table Storage tasks ([powershell](features/powershell/azure-storage-table))
     * Azure Blob Storage tasks ([powershell](features/powershell/azure-storage-blob))
     * Azure File Share Storage tasks ([powershell](features/powershell/azure-storage-fileshare))
- 
-# Older versions
-
-- [v0.4](v0.4)
-- [v0.3](v0.3)
-- [v0.2](v0.2)
-- [v0.1.3](v0.1.3)
 
 # License
 This is licensed under The MIT License (MIT). Which means that you can use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the web application. But you always need to state that Codit is the original author of this web application.
