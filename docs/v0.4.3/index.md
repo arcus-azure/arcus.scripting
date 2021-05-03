@@ -31,6 +31,13 @@ For more granular packages we recommend reading the documentation.
     * Azure Blob Storage tasks ([powershell](features/powershell/azure-storage-blob))
     * Azure File Share Storage tasks ([powershell](features/powershell/azure-storage-fileshare))
 
+# Older versions
+
+- [v0.4](../v0.4)
+- [v0.3](../v0.3)
+- [v0.2](../v0.2)
+- [v0.1.3](../v0.1.3)
+
 # License
 This is licensed under The MIT License (MIT). Which means that you can use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the web application. But you always need to state that Codit is the original author of this web application.
 
