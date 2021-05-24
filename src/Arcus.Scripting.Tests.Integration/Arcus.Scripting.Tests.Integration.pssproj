@@ -41,6 +41,8 @@
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="appsettings.local.json" />
+    <Content Include="appsettings.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />

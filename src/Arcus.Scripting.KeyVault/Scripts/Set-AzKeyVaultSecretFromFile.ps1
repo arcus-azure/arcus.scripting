@@ -11,7 +11,7 @@ param (
 $isFileFound = Test-Path -Path $FilePath -PathType Leaf
 if ($false -eq $isFileFound) {
     Write-Error "No file could containing the secret certificate at '$FilePath'"
-    return;
+    throw "No file containing the secret certificate was found"
 }
 
 Write-Host "Creating KeyVault secret..."

@@ -1,28 +1,33 @@
+Import-Module Az.KeyVault
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
 
 Describe "Arcus" {
     Context "KeyVault" {
         InModuleScope Arcus.Scripting.KeyVault {
-            It "Set secret in Key Vault" {
-                $contents = "this is the raw secret certificate field contents"
-                $file = New-Item -Path "test-file.txt" -ItemType File -Value $contents
-                try {
-                    # Arrange
-                    $keyVault = "key vault"
-                    $secretName = "secret name"
-                
-                    Mock Set-AzKeyVaultSecret {
-                        ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
-                        $KeyVault | Should -Be $keyVault
-                        $SecretName | Should -Be $secretName } -Verifiable
+            BeforeAll {
+                [string]$appsettings = Get-Content "$PSScriptRoot\appsettings.local.json"
+                $config = ConvertFrom-Json $appsettings
 
+                $clientSecret = ConvertTo-SecureString $config.Arcus.ServicePrincipal.ClientSecret -AsPlainText
+                $pscredential = New-Object -TypeName System.Management.Automation.PSCredential($config.Arcus.ServicePrincipal.ClientId, $clientSecret)
+                Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
+            }
+            It "Set secret in Key Vault" {
+                # Arrange
+                $expected = [System.Guid]::NewGuid().ToString()
+                $file = New-Item -Path "test-file.txt" -ItemType File -Value $expected
+                $secretName = "Arcus-Scripting-KeyVault-MySecret"
+                try {
                     # Act
-                    Set-AzKeyVaultSecretFromFile -KeyVaultName $keyVault -SecretName $secretName -FilePath $file.FullName
+                    Set-AzKeyVaultSecretFromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -FilePath $file.FullName
 
                     # Assert
-                    Assert-VerifiableMock
+                    $actual = Get-AzureKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
+                    $actual | Should -Be $expected
+
                 } finally {
-                    Remove-Item -Path $file.FullName    
+                    Remove-Item -Path $file.FullName
+                    Remove-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -PassThru -Force
                 }
             }
             It "Set secret as BASE64 in Key Vault" {
