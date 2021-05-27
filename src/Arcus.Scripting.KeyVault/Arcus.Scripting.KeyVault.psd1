@@ -12,7 +12,7 @@
 RootModule = 'Arcus.Scripting.KeyVault.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0'
+ModuleVersion = '#{Package.Version}#'
 
 # ID used to uniquely identify this module
 GUID = '4d58ddab-aeca-495e-b504-d49eb2124b74'
