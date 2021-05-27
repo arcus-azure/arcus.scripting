@@ -14,6 +14,7 @@ This module provides the following capabilities:
 - [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
 - [Restoring an API Management service](#restoring-an-api-management-service)
 - [Setting authentication keys to an API in the Azure API Management instance](#setting-authentication-keys-to-an-api-in-the-azure-api-management-instance)
+- [Uploading private certificates to the Azure API Management certificate store](#uploading-private-certificates-to-the-azure-api-management-certificate-store)
 
 ## Installation
 
@@ -200,4 +201,22 @@ PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $ResourceGroup -Ser
 Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroup'"
 Write-Host "Subscription key header 'my-api-key' was assigned"
 Write-Host "Subscription key query parameter 'myApiKey' was assigned"
+```
+
+## Uploading private certificates to the Azure API Management certificate store
+Uploads a private certificate to the Azure API Management certificate store, allowing authentication against backend services.
+
+| Parameter             | Mandatory | Description                                                                                   |
+| --------------------- | --------- | --------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`   | yes       | The resource group containing the Azure API Management instance                               |
+| `ServiceName`         | yes       | The name of the Azure API Management instance                                                 |
+| `CertificateFilePath` | yes       | The full file path to the location of the private certificate                                 |
+| `CertificatePassword` | yes       | The password for the private certificate                                                      |
+
+**Example**
+
+```powershell
+PS> Upload-AzApiManagementCertificate -ResourceGroupName "my-resource-group" -ServiceName "my-api-management-instance" -CertificateFilePath "c:\temp\certificate.pfx" -CertificatePassword "P@ssw0rd"
+# Using API Management instance 'my-api-management-instance' in resource group 'my-resource-group'
+# Uploaded private certificate at 'c:\temp\certificate.pfx'
 ```

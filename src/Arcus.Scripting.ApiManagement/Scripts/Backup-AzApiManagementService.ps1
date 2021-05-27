@@ -1,12 +1,12 @@
 param(
-    [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
-    [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
-    [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
-    [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
-    [string][parameter(Mandatory = $true)] $ContainerName = $(throw "Name of the target blob container is required"),
-    [string][parameter(Mandatory = $false)] $BlobName = $null,
-    [switch][parameter(Mandatory = $false)] $PassThru = $false,
-    [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter(Mandatory = $false)] $DefaultProfile = $null
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+    [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
+    [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Storage account name is required"),
+    [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API managgement service name is required"),
+    [Parameter(Mandatory = $true)][string] $ContainerName = $(throw "Name of the target blob container is required"),
+    [Parameter(Mandatory = $false)][string]  $BlobName = $null,
+    [Parameter(Mandatory = $false)][switch] $PassThru = $false,
+    [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null
 )
 
 Write-Host "Getting Azure storage account key..."
@@ -31,10 +31,26 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
                 Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru
             }
         } else {
-            Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName
+            if ($DefaultProfile -ne $null) {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -DefaultProfile $DefaultProfile
+            } else {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName
+            }
         }
     } else {
-        Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName
+        if ($PassThru) {
+            if ($DefaultProfile -ne $null) {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru -DefaultProfile $DefaultProfile
+            } else {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru
+            }
+        } else {
+            if ($DefaultProfile -ne $null) {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName -DefaultProfile $DefaultProfile
+            } else {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -TargetContainerName $ContainerName
+            }
+        }
     }
 
     Write-Host "API management service is backed-up!"

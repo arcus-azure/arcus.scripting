@@ -33,14 +33,14 @@
 #>
 function Backup-AzApiManagementService {
     param(
-        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
-        [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
-        [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
-        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
-        [string][parameter(Mandatory = $true)] $ContainerName = $(throw "Name of the target blob container is required"),
-        [string][parameter(Mandatory = $false)] $BlobName = $null,
-        [switch][parameter(Mandatory = $false)] $PassThru = $false,
-        [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter(Mandatory = $false)] $DefaultProfile = $null
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
+        [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Storage account name is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API managgement service name is required"),
+        [Parameter(Mandatory = $true)][string] $ContainerName = $(throw "Name of the target blob container is required"),
+        [Parameter(Mandatory = $false)][string] $BlobName = $null,
+        [Parameter(Mandatory = $false)][switch] $PassThru = $false,
+        [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null
     )
 
     if ($PassThru) {
@@ -91,15 +91,15 @@ Export-ModuleMember -Function Backup-AzApiManagementService
 #>
 function Create-AzApiManagementApiOperation {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
-        [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required"),
-        [string][Parameter(Mandatory = $true)] $ApiId = $(throw "API ID is required"),
-        [string][Parameter(Mandatory = $true)] $OperationId = $(throw "Operation ID is required"),
-        [string][Parameter(Mandatory = $true)] $Method = $(throw "Method is required"),
-        [string][Parameter(Mandatory = $true)] $UrlTemplate = $(throw "URL template is required"),
-        [string][Parameter(Mandatory = $false)] $OperationName = $OperationId,
-        [string][Parameter(Mandatory = $false)] $Description = "",
-        [string][Parameter(Mandatory = $false)] $PolicyFilePath = ""
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "Service name for API Management service name is required"),
+        [Parameter(Mandatory = $true)][string] $ApiId = $(throw "API ID to identitfy the Azure API Management instance is required"),
+        [Parameter(Mandatory = $true)][string] $OperationId = $(throw "Operation ID is required"),
+        [Parameter(Mandatory = $true)][string] $Method = $(throw "Method is required"),
+        [Parameter(Mandatory = $true)][string] $UrlTemplate = $(throw "URL template is required"),
+        [Parameter(Mandatory = $false)][string] $OperationName = $OperationId,
+        [Parameter(Mandatory = $false)][string] $Description = "",
+        [Parameter(Mandatory = $false)][string] $PolicyFilePath = ""
     )
     . $PSScriptRoot\Scripts\Create-AzApiManagementApiOperation.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate -OperationName $OperationName -Description $Description -PolicyFilePath $PolicyFilePath
 }
@@ -127,10 +127,10 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
 #>
 function Import-AzApiManagementProductPolicy {
     param(
-        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
-        [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
-        [string][parameter(Mandatory = $true)] $ProductId = $(throw "Product ID is required"),
-        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw = "Service name for API Management service name is required"),
+        [Parameter(Mandatory = $true)][string] $ProductId = $(throw "Product ID is required"),
+        [Parameter(Mandatory = $true)][string] $PolicyFilePath = $(throw "Policy file path is required")
     )
 
     . $PSScriptRoot\Scripts\Import-AzApiManagementProductPolicy.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
@@ -153,8 +153,8 @@ Export-ModuleMember -Function Import-AzApiManagementProductPolicy
 #>
 function Remove-AzApiManagementDefaults {
   param(
-      [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
-      [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "Service name is required")
+      [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
+      [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "Service name for API Management service name is required")
   )
 
 . $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
@@ -183,10 +183,10 @@ Export-ModuleMember -Function Remove-AzApiManagementDefaults
 #>
 function Import-AzApiManagementApiPolicy {
     param(
-        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw = "Resource group is required"),
-        [string][parameter(Mandatory = $true)] $ServiceName = $(throw = "Service name is required"),
-        [string][parameter(Mandatory = $true)] $ApiId = $(throw = "API ID is required"),
-        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
+        [parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw = "Resource group is required"),
+        [parameter(Mandatory = $true)][string] $ServiceName = $(throw = "Service name for API Management service name is required"),
+        [parameter(Mandatory = $true)][string] $ApiId = $(throw = "API ID to identitfy the Azure API Management instance is required"),
+        [parameter(Mandatory = $true)][string] $PolicyFilePath = $(throw "Policy file path is required")
     )
 
     . $PSScriptRoot\Scripts\Import-AzApiManagementApiPolicy.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
@@ -218,11 +218,11 @@ Export-ModuleMember -Function Import-AzApiManagementApiPolicy
 #>
 function Import-AzApiManagementOperationPolicy {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group is required"),
-        [string][Parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
-        [string][Parameter(Mandatory = $true)] $ApiId = $(throw "API ID is required"),
-        [string][Parameter(Mandatory = $true)] $OperationId = $(throw "Operation ID is required"),
-        [string][parameter(Mandatory = $true)] $PolicyFilePath = $(throw "Policy file path is required")
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API management service name is required"),
+        [Parameter(Mandatory = $true)][string] $ApiId = $(throw "API ID to identitfy the Azure API Management instance is required"),
+        [Parameter(Mandatory = $true)][string] $OperationId = $(throw "Operation ID is required"),
+        [Parameter(Mandatory = $true)][string] $PolicyFilePath = $(throw "Policy file path is required")
     )
 
     . $PSScriptRoot\Scripts\Import-AzApiManagementOperationPolicy.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
@@ -263,14 +263,14 @@ Export-ModuleMember -Function Import-AzApiManagementOperationPolicy
 #>
 function Restore-AzApiManagementService {
     param(
-        [string][parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
-        [string][parameter(Mandatory = $true)] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
-        [string][parameter(Mandatory = $true)] $StorageAccountName = $(throw "Storage account name is required"),
-        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API managgement service name is required"),
-        [string][parameter(Mandatory = $true)] $ContainerName =$(throw "Source container name is required"),
-        [string][parameter(Mandatory = $true)] $BlobName = $(throw "Source blob name is required"),
-        [switch][parameter(Mandatory = $false)] $PassThru = $false,
-        [Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer][parameter(Mandatory = $false)] $DefaultProfile = $null
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
+        [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name for the Azure storage account is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "Service name for API Management service name is required"),
+        [Parameter(Mandatory = $true)][string] $ContainerName =$(throw "Name of the source container is required"),
+        [Parameter(Mandatory = $true)][string] $BlobName = $(throw "Name of the Azure storage blob is required"),
+        [Parameter(Mandatory = $false)][switch] $PassThru = $false,
+        [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null
     )
 
     if ($PassThru) {
@@ -306,9 +306,9 @@ Export-ModuleMember -Function Restore-AzApiManagementService
 #>
 function Set-AzApiManagementApiSubscriptionKey {
     param(
-        [Parameter(Mandatory = $true)][string] $ResourceGroupName,
-        [Parameter(Mandatory = $true)][string] $ServiceName,
-        [Parameter(Mandatory = $true)][string] $ApiId,
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw = "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw = "Azure API Management service name is required"),
+        [Parameter(Mandatory = $true)][string] $ApiId = $("API ID to identitfy the Azure API Management instance is required"),
         [Parameter(Mandatory = $false)][string] $HeaderName = "x-api-key",
         [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
     )
@@ -317,3 +317,35 @@ function Set-AzApiManagementApiSubscriptionKey {
 }
 
 Export-ModuleMember -Function Set-AzApiManagementApiSubscriptionKey
+
+<#
+ .Synopsis
+  Uploads a certificate to the Azure API Management certificate store.
+
+ .Description
+  Uploads a private certificate to the Azure API Management certificate store, allowing authentication against backend services.
+
+ .Parameter ResourceGroupName
+  The name of the resource group containing the Azure API Management instance.
+
+ .Parameter ServiceName
+  The name of the Azure API Management instance.
+
+ .Parameter CertificateFilePath
+  The full file path to the location of the public certificate.
+
+ .Parameter CertificatePassword
+  The password for the private certificate.
+#>
+function Upload-AzApiManagementCertificate {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API management service name is required"),
+        [Parameter(Mandatory = $true)][string] $CertificateFilePath = $(throw "Full file path to the certificate is required"),
+        [Parameter(Mandatory = $true)][string] $CertificatePassword = $(throw "Password for certificate is required")
+    )
+
+    . $PSScriptRoot\Scripts\Upload-AzApiManagementCertificate.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -CertificateFilePath $CertificateFilePath -CertificatePassword $CertificatePassword
+}
+
+Export-ModuleMember -Function Upload-AzApiManagementCertificate

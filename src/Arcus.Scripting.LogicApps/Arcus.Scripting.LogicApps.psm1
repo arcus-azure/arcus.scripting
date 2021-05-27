@@ -26,12 +26,12 @@
 #>
 function Disable-AzLogicApp {
     param(
-        [string][Parameter(Mandatory = $false)] $EnvironmentName = "AzureCloud",
-        [string][Parameter(Mandatory = $false)] $SubscriptionId = "",
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
-        [string][Parameter(Mandatory = $true)] $LogicAppName,
-        [string][Parameter(Mandatory = $false)] $ApiVersion = "2016-06-01",
-        [string][Parameter(Mandatory = $false)] $AccessToken = ""
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+        [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
+        [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
+        [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01",
+        [Parameter(Mandatory = $false)][string] $AccessToken = ""
     )
     
     . $PSScriptRoot\Scripts\Disable-AzLogicApp.ps1  -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $AccessToken
@@ -63,11 +63,11 @@ Export-ModuleMember -Function Disable-AzLogicApp
 #>
 function Disable-AzLogicAppsFromConfig {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
-        [string] $DeployFileName = "deploy-orderControl.json",
-        [string][Parameter(Mandatory = $false)] $ResourcePrefix = "",
-        [string][Parameter(Mandatory = $false)] $EnvironmentName = "AzureCloud",
-        [string][Parameter(Mandatory = $false)] $ApiVersion = "2016-06-01"
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+        [Parameter(Mandatory = $true)][string] $DeployFileName = "deploy-orderControl.json",
+        [Parameter(Mandatory = $false)][string] $ResourcePrefix = "",
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+        [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01"
     )
     
     . $PSScriptRoot\Scripts\Disable-AzLogicAppsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -DeployFileName $DeployFileName -ResourcePrefix $ResourcePrefix -EnvironmentName $EnvironmentName -ApiVersion $ApiVersion
@@ -104,12 +104,12 @@ Export-ModuleMember -Function Disable-AzLogicAppsFromConfig
 #>
 function Enable-AzLogicApp {
     param(
-        [string][Parameter(Mandatory = $false)] $EnvironmentName = "AzureCloud",
-        [string][Parameter(Mandatory = $false)] $SubscriptionId = "",
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
-        [string][Parameter(Mandatory = $true)] $LogicAppName,
-        [string][Parameter(Mandatory = $false)] $ApiVersion = "2016-06-01",
-        [string][Parameter(Mandatory = $false)] $AccessToken = ""
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+        [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is reqiured"),
+        [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of logic app is required"),
+        [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01",
+        [Parameter(Mandatory = $false)][string] $AccessToken = ""
     )
     
     . $PSScriptRoot\Scripts\Enable-AzLogicApp.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $AccessToken
@@ -141,11 +141,11 @@ Export-ModuleMember -Function Enable-AzLogicApp
 #>
 function Enable-AzLogicAppsFromConfig {
     param(
-        [string][Parameter(Mandatory = $true)] $ResourceGroupName,
-        [string] $DeployFileName = "deploy-orderControl.json",
-        [string][Parameter(Mandatory = $false)] $ResourcePrefix = "",
-        [string][Parameter(Mandatory = $false)] $EnvironmentName = "AzureCloud",
-        [string][Parameter(Mandatory = $false)] $ApiVersion = "2016-06-01"
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+        [Parameter(Mandatory = $true)][string] $DeployFileName = "deploy-orderControl.json",
+        [Parameter(Mandatory = $false)][string] $ResourcePrefix = "",
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+        [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01"
     )
     
     . $PSScriptRoot\Scripts\Enable-AzLogicAppsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -DeployFileName $DeployFileName -ResourcePrefix $ResourcePrefix -EnvironmentName $EnvironmentName -ApiVersion $ApiVersion

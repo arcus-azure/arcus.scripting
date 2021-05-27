@@ -1,11 +1,11 @@
 param(
-    [parameter(Mandatory=$true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
-    [parameter(Mandatory=$true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
-    [parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
-    [parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
-    [parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
-    [parameter(Mandatory=$false)][string] $ScriptsFileFilter = "*.sql",
-    [parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
+    [Parameter(Mandatory=$true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
+    [Parameter(Mandatory=$true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
+    [Parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
+    [Parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
+    [Parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
+    [Parameter(Mandatory=$false)][string] $ScriptsFileFilter = "*.sql",
+    [Parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
 )
 
 Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"

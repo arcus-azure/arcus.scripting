@@ -1,9 +1,9 @@
 param(
-    [string][Parameter(Mandatory = $true)]$ResourceGroupName,
-    [string][Parameter(Mandatory = $true)]$DeployFileName,
-    [string][Parameter(Mandatory = $false)]$ResourcePrefix = "",
-    [string][Parameter(Mandatory = $false)]$EnvironmentName = "AzureCloud",
-    [string][Parameter(Mandatory = $false)]$ApiVersion = "2016-06-01"
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+    [Parameter(Mandatory = $true)][string] $DeployFileName = $(throw "Name of deployment file is required"),
+    [Parameter(Mandatory = $false)][string] $ResourcePrefix = "",
+    [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+    [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01"
 )
 
 $Global:accessToken = "";

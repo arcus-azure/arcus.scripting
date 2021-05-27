@@ -74,7 +74,8 @@ FunctionsToExport = @(
     'Backup-AzApiManagementService',
     'Remove-AzApiManagementDefaults',
     'Restore-AzApiManagementService',
-    'Set-AzApiManagementApiSubscriptionKey')
+    'Set-AzApiManagementApiSubscriptionKey',
+    'Upload-AzApiManagementCertificate')
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'

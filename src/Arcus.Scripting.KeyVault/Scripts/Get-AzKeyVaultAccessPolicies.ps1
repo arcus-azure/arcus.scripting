@@ -1,6 +1,6 @@
 param(
-   [string][parameter(Mandatory = $true)] $keyVaultName,
-   [string][parameter(Mandatory = $false)] $resourceGroupName = ""
+   [Parameter(Mandatory = $true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
+   [Parameter(Mandatory = $false)][string] $ResourceGroupName = ""
 )
 
 $keyVault = $null
@@ -12,13 +12,13 @@ if($resourceGroupName -eq '') {
     $keyVault = Get-AzKeyVault -VaultName $keyVaultName -ResourceGroupName $resourceGroupName
 }
 
-if($keyVault) {
-    $armAccessPolicies = @()
+$armAccessPolicies = @()
+if($keyVault) {    
+    Write-Verbose "Found Azure Key Vault '$keyVaultName'"
+    
     $keyVaultAccessPolicies = $keyVault.accessPolicies
-
-    if($keyVaultAccessPolicies) {
-       Write-Verbose "Found Azure Key Vault '$keyVaultName'"
-
+    if($keyVaultAccessPolicies)
+    {    
        foreach($keyVaultAccessPolicy in $keyVaultAccessPolicies) {
           $armAccessPolicy = [pscustomobject]@{
              tenantId = $keyVaultAccessPolicy.TenantId
@@ -35,14 +35,14 @@ if($keyVault) {
           $armAccessPolicy | Add-Member -MemberType NoteProperty -Name permissions -Value $armAccessPolicyPermissions
           $armAccessPolicies += $armAccessPolicy
        }   
-    }
-
-    $armAccessPoliciesParameter = [pscustomobject]@{
-        list = $armAccessPolicies
-    }
-
-    Write-Host "Current Azure Key Vault access policies: $armAccessPoliciesParameter"
-    return $armAccessPoliciesParameter
+    }    
 } else {
     Write-Warning "Azure Key Vault '$keyVaultName' could not be found, please check if the vault has the correct name and is located in the resource group you specified"
 }
+
+$armAccessPoliciesParameter = [pscustomobject]@{
+    list = $armAccessPolicies
+}
+
+Write-Host "Current access policies: $armAccessPoliciesParameter"
+return $armAccessPoliciesParameter
