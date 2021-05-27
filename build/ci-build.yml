@@ -27,9 +27,10 @@ resources:
       endpoint: arcus-azure
 
 variables:
+  - group: 'Build Configuration'
+  - group: 'Arcus Scripting - Integration Testing'
   - group: 'Arcus - GitHub Package Registry'
   - group: 'MyGet'
-  - group: 'Build Configuration'
   - template: ./variables/build.yml
   - name: 'Package.Version'
     value: '0.$(Build.BuildNumber)'

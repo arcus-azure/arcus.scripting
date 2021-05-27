@@ -9,6 +9,18 @@ steps:
       fi
     env:
       PROJECT_NAME: ${{ parameters.projectName }}
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+    displayName: 'Replace integration test tokens'
+    inputs:
+      rootDirectory: 'src/${{ parameters.projectName }}/'
+      targetFiles: 'appsettings.json'
+      encoding: 'auto'
+      verbosity: 'detailed'
+      writeBOM: true
+      actionOnMissing: 'fail'
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
   - task: PowerShell@2
     displayName: 'Run Pester tests'
     inputs:
