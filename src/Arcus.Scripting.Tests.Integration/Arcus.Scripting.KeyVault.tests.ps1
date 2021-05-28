@@ -43,7 +43,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                     Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -FilePath $file.FullName
 
                     # Assert
-                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual.SecretValueText) |
                         % { [System.Text.Encoding]::UTF8.GetString($_) } |
                         Should -Be $contents.ToCharArray()
@@ -88,6 +88,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                     # Assert
                     $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName
                     $actual.Expires | Should -Be $expirationDate
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual.SecretValueText) |
                         % { [System.Text.Encoding]::UTF8.GetString($_) } |
                         Should -Be $contents.ToCharArray()
