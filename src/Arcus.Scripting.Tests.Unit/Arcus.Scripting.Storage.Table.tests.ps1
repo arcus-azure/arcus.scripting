@@ -1,6 +1,3 @@
-using module Az
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Table -DisableNameChecking
-
 Describe "Arcus" {
     Context "Table Storage" {
         InModuleScope Arcus.Scripting.Storage.Table {

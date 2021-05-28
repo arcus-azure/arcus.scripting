@@ -1,5 +1,3 @@
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Sql -DisableNameChecking
-
 function global:Get-TestSqlDataTable ($query, $schema, $DatabaseVersionTableName = "DatabaseVersion") {
     if ($query -eq 'SELECT TABLE_NAME FROM information_schema.tables') {
         $tableNamesDataTable = New-Object System.Data.DataTable

@@ -1,6 +1,4 @@
-﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
-
-Describe "Arcus" {
+﻿Describe "Arcus" {
     Context "KeyVault" {
         InModuleScope Arcus.Scripting.KeyVault {
             It "Get Key Vault access policies" {
