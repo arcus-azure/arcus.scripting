@@ -24,8 +24,8 @@ InModuleScope Arcus.Scripting.KeyVault {
                     Set-AzKeyVaultSecretFromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -FilePath $file.FullName
 
                     # Assert
-                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName
-                    $actual.SecretValueText | Should -Be $expected
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
+                    $actual | Should -Be $expected
 
                 } finally {
                     Remove-Item -Path $file.FullName
