@@ -30,10 +30,10 @@ steps:
       script: |
         Install-Module -Name Pester -Force -SkipPublisherCheck
 
-        Get-ChildItem .\src\ -Filter *.psd1 -Recurse |
+        Get-ChildItem ./src -Filter *.psd1 -Recurse |
             % { $content = Import-PowerShellDataFile $_.FullName
                 $content.RequiredModules |
-                    where { $_.ModuleVersion -ne "#{Package.Version}#" } |
+                    where { $_.ModuleName -ne $null -and $_.ModuleVersion -ne "#{Package.Version}#"} |
                     % { Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck } }
 
         Import-Module ./src/Arcus.Scripting.Security
