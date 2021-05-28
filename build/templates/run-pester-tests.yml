@@ -28,13 +28,13 @@ steps:
       pwsh: true
       failOnStderr: true
       script: |
-        Install-Module -Name Pester -Force -SkipPublisherCheck
-
+        Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
         Get-ChildItem ./src -Filter *.psd1 -Recurse |
             % { $content = Import-PowerShellDataFile $_.FullName
                 $content.RequiredModules |
                     where { $_.ModuleName -ne $null -and $_.ModuleVersion -ne "#{Package.Version}#"} |
                     % { Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck } }
+        Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
 
         Import-Module ./src/Arcus.Scripting.Security
         
