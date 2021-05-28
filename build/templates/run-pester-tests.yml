@@ -29,8 +29,13 @@ steps:
       failOnStderr: true
       script: |
         Install-Module -Name Pester -Force -SkipPublisherCheck
-        Install-Module -Name Az -MaximumVersion 4.2.0 -Force -SkipPublisherCheck
-        Install-Module -Name SqlServer -Force -SkipPublisherCheck
+
+        Get-ChildItem .\src\ -Filter *.psd1 -Recurse |
+            % { $content = Import-PowerShellDataFile $_.FullName
+                $content.RequiredModules |
+                    where { $_.ModuleVersion -ne "#{Package.Version}#" } |
+                    % { Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck } }
+
         Import-Module ./src/Arcus.Scripting.Security
         
         Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
