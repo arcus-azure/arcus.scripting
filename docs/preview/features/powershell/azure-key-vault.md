@@ -31,11 +31,15 @@ Lists the current available access policies of the Azure Key Vault resource.
 
 ```powershell
 PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault"
+# Looking for the Azure Key Vault with name 'my-key-vault'...
+# Found Azure Key Vault 'my-key-vault'
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
 
 ```powershell
 PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group"
+# Looking for the Azure Key Vault with name 'my-key-vault' in resourcegroup 'my-resource-group'...
+# Found Azure Key Vault 'my-key-vault'
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
 
@@ -53,12 +57,15 @@ Sets a secret certificate from a file as plain text in Azure Key Vault.
 **Example**
 ```powershell
 PS> Set-AzKeyVaultSecretFromFile -KeyVaultName "my-key-vault" -SecretName "my-secret" -FilePath "/file-path/secret-certificate.pfx"
-# Secret 'my-secret' has been created.
+# Creating Azure Key Vault secret from file...
+# Azure Key Vault Secret 'my-secret' (Version: 'new-secret-version') has been created
 ```
 
 And with expiration date:
 ```powershell
 PS> Set-AzKeyVaultSecretFromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -Expires [Datetime]::ParseExact('07/15/2019', 'MM/dd/yyyy', $null) -KeyVaultName "my-key-vault"
+# Creating Azure Key Vault secret from file...
+# Azure Key Vault Secret 'my-secret' (Version: 'new-secret-version') has been created
 ```
 
 ## Setting a secret value with BASE64 encoded file-content into Azure Key Vault
@@ -76,10 +83,14 @@ Can be useful when having to refer to a certificate from within an ARM-template.
 **Example**
 ```powershell
 PS> Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName "my-key-vault" -SecretName "my-secret" -FilePath "/file-path/secret-certificate.pfx"
-# Secret 'my-secret' has been created.
+# Creating Azure Key Vault secret from file...
+# Use BASE64 format as secret format
+# Azure Key Vault Secret 'my-secret' (Version: 'new-secret-version') has been created
 ```
 
 And with expiration date:
 ```powershell
 PS> Set-AzKeyVaultSecretAsBase64FromFile -FilePath "/file-path/secret-certificate.pfx" -SecretName "my-secret" -Expires [Datetime]::ParseExact('07/15/2019', 'MM/dd/yyyy', $null) -KeyVaultName "my-key-vault"
+# Creating Azure Key Vault secret from file...
+# Azure Key Vault Secret 'my-secret' (Version: 'new-secret-version') has been created
 ```
