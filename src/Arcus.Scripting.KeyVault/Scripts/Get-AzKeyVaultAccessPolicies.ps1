@@ -37,7 +37,7 @@ if($keyVault) {
        }   
     }    
 } else {
-    Write-Warning "Azure Key Vault '$keyVaultName' could not be found, please check if the vault has the correct name and is located in the resource group you specified"
+    Write-Warning "Azure Key Vault '$keyVaultName' could not be found, please check if the provided vault name and/or resource group name is correct."
 }
 
 $armAccessPoliciesParameter = [pscustomobject]@{
