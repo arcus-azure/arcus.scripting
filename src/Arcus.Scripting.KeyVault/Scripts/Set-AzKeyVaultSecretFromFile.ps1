@@ -8,7 +8,7 @@ param (
 
 $isFileFound = Test-Path -Path $FilePath -PathType Leaf
 if ($false -eq $isFileFound) {
-    Write-Error "Cannot set an Azure Key Vault secret because no file could containing the secret at '$FilePath'"
+    Write-Error "Cannot set an Azure Key Vault secret because no file could be found containing the secret at '$FilePath'"
     throw "Cannot set an Azure Key Vault secret because no file containing the secret certificate was found"
 }
 
