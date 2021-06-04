@@ -27,8 +27,10 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     # Assert
                     $blob = Get-AzStorageBlob -Container $containerName -Blob "arcus.png"
                     $blob | Should -Not -Be $null
+                    $blob.IsDeleted | Should -Be $false
                 } finally {
-                    Remove-AzStorageContainer -Name $containerName -Force
+                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccountName
+                    Remove-AzStorageContainer -Name $containerName -Context $storageAccount.Context -Force
                 }
             }
         }
