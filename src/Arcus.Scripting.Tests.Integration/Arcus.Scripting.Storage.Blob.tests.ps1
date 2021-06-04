@@ -16,6 +16,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     # Arrange
                     $targetFolderPath = "$PSScriptRoot\Blobs"
                     $containerName = "arcus-scripting-storage-container"
+                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccountName
 
                     # Act
                     Upload-AzFilesToBlobStorage `
@@ -25,11 +26,10 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                         -ContainerName $containerName
 
                     # Assert
-                    $blob = Get-AzStorageBlob -Container $containerName -Blob "arcus.png"
+                    $blob = Get-AzStorageBlob -Container $containerName -Blob "arcus.png" -Context $storageAccount.Context
                     $blob | Should -Not -Be $null
                     $blob.IsDeleted | Should -Be $false
                 } finally {
-                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccountName
                     Remove-AzStorageContainer -Name $containerName -Context $storageAccount.Context -Force
                 }
             }
