@@ -20,7 +20,9 @@ catch {
     New-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -Permission $ContainerPermissions
 } 
 
-$files = Get-ChildItem ("$TargetFolderPath") -File
+$files = Get-ChildItem $TargetFolderPath -File
+Write-Host "Uploading $($files.Length) files from $TargetFolderPath"
+
 foreach($file in $files)
 {
     #Read schema name
