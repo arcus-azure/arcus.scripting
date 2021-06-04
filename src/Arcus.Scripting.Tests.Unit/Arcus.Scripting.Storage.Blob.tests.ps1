@@ -1,6 +1,3 @@
-using module Az
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -DisableNameChecking
-
 Describe "Arcus" {
     Context "Blob Storage" {
         InModuleScope Arcus.Scripting.Storage.Blob {

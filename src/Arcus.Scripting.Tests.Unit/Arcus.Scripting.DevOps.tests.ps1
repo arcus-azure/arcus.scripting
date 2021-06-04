@@ -1,6 +1,4 @@
-﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
-
-Describe "Arcus" {
+﻿Describe "Arcus" {
     Context "Azure DevOps" {
         InModuleScope Arcus.Scripting.DevOps {
             It "Seting DevOps variable should write to host" {

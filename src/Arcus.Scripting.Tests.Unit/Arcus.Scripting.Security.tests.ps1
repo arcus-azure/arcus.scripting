@@ -1,6 +1,3 @@
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security\Arcus.Scripting.Security.psm1
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
-
 Describe "Arcus" {
     Context "ARM remove resource group locks" {
         InModuleScope Arcus.Scripting.Security {

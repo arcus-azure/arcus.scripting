@@ -1,97 +1,102 @@
+Import-Module Az.KeyVault
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
 
-Describe "Arcus" {
-    Context "KeyVault" {
-        InModuleScope Arcus.Scripting.KeyVault {
+InModuleScope Arcus.Scripting.KeyVault {
+    Describe "Arcus Azure Key Vault integration tests" {
+        BeforeEach {
+            $filePath = "$PSScriptRoot\appsettings.json"
+            [string]$appsettings = Get-Content $filePath
+            $config = ConvertFrom-Json $appsettings
+            
+            $clientSecret = ConvertTo-SecureString $config.Arcus.ServicePrincipal.ClientSecret -AsPlainText -Force
+            $pscredential = New-Object -TypeName System.Management.Automation.PSCredential($config.Arcus.ServicePrincipal.ClientId, $clientSecret)
+            Disable-AzContextAutosave -Scope Process
+            Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
+        }
+        Context "Set secret from file" {
             It "Set secret in Key Vault" {
-                $contents = "this is the raw secret certificate field contents"
-                $file = New-Item -Path "test-file.txt" -ItemType File -Value $contents
+                # Arrange
+                $expected = [System.Guid]::NewGuid().ToString()
+                $file = New-Item -Path "test-file.txt" -ItemType File -Value $expected
+                $secretName = "Arcus-Scripting-KeyVault-MySecret-$([System.Guid]::NewGuid())"
                 try {
-                    # Arrange
-                    $keyVault = "key vault"
-                    $secretName = "secret name"
-                
-                    Mock Set-AzKeyVaultSecret {
-                        ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
-                        $KeyVault | Should -Be $keyVault
-                        $SecretName | Should -Be $secretName } -Verifiable
-
                     # Act
-                    Set-AzKeyVaultSecretFromFile -KeyVaultName $keyVault -SecretName $secretName -FilePath $file.FullName
+                    Set-AzKeyVaultSecretFromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -FilePath $file.FullName
 
                     # Assert
-                    Assert-VerifiableMock
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
+                    $actual | Should -Be $expected
+
                 } finally {
-                    Remove-Item -Path $file.FullName    
+                    Remove-Item -Path $file.FullName
+                    Remove-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -PassThru -Force
                 }
             }
             It "Set secret as BASE64 in Key Vault" {
-                $contents = "this is the base64 secret certificate field contents"
+                $contents = [System.Guid]::NewGuid().ToString()
                 $file = New-Item -Path "test-base64-file.txt" -ItemType File -Value $contents
                 try {
                     # Arrange
-                    $keyVault = "key vault"
-                    $secretName = "secret name"
-
-                    Mock Set-AzKeyvaultSecret {
-                        ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText |
-                            % { [System.Convert]::FromBase64String($_) } |
-                            Should -Be ([System.Text.Encoding]::UTF8.GetBytes($contents))
-                        $KeyVault | Should -Be $keyVault
-                        $SecretName | Should -Be $secretName } -Verifiable
+                    $secretName = "Arcus-Scripting-KeyVault-MySecret-$([System.Guid]::NewGuid())"
 
                     # Act
-                    Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $keyVault -SecretName $secretName -FilePath $file.FullName
+                    Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -FilePath $file.FullName
 
                     # Assert
-                    Assert-VerifiableMock
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
+                    [System.Convert]::FromBase64String($actual) |
+                        % { [System.Text.Encoding]::UTF8.GetString($_) } |
+                        Should -Be $contents.ToCharArray()
                 } finally {
                     Remove-Item -Path $file.FullName
+                    Remove-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -PassThru -Force
                 }
             }
             It "Set secret in Key Vault with expiration date" {
                 # Arrange
-                $contents = "this is the raw secret certificate field contents"
-                $keyVault = "key vault"
-                $secretName = "secret name"
+                $expected = [System.Guid]::NewGuid().ToString()
+                $file = New-Item -Path "test-file.txt" -ItemType File -Value $expected
+                $secretName = "Arcus-Scripting-KeyVault-MySecret-$([System.Guid]::NewGuid())"
                 $expirationDate = (Get-Date).AddDays(7).ToUniversalTime()
-                
-                Mock Test-Path { return $true }
-                Mock Get-Content { return $contents }
-                Mock Set-AzKeyVaultSecret {
-                    ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText | Should -Be $contents
-                    $KeyVault | Should -Be $keyVault
-                    $SecretName | Should -Be $secretName
-                    $ExpirationDate | Should -Be $expirationDate } -Verifiable
+                $expirationDate = $expirationDate.AddTicks(-$expirationDate.Ticks)
 
-                # Act
-                Set-AzKeyVaultSecretFromFile -KeyVaultName $keyVault -SecretName $secretName -Expires $expirationDate -FilePath "/filepath"
+                try {
+                    # Act
+                    Set-AzKeyVaultSecretFromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -Expires $expirationDate -FilePath $file.FullName
 
-                # Assert
-                Assert-VerifiableMock
+                    # Assert
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName
+                    $actual.Expires | Should -Be $expirationDate
+                } finally {
+                    Remove-Item -Path $file.FullName
+                    Remove-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -PassThru -Force
+                }
             }
             It "Set secret as BASE64 in Key Vault with expiration date" {
                 # Arrange
-                $contents = [System.Text.Encoding]::UTF8.GetBytes("this is the BASE64 secret certificate field contents")
-                $keyVault = "key vault"
-                $secretName = "secret name"
-                $expirationDate = (Get-Date).AddDays(5).ToUniversalTime()
+                $contents = [System.Guid]::NewGuid().ToString()
+                $file = New-Item -Path "test-file.txt" -ItemType File -Value $contents
+                $secretName = "Arcus-Scripting-KeyVault-MySecret-$([System.Guid]::NewGuid())"
+                $expirationDate = (Get-Date).AddDays(7).ToUniversalTime()
+                $expirationDate = $expirationDate.AddTicks(-$expirationDate.Ticks)
 
-                Mock Test-Path { return $true }
-                Mock Get-Content { return $contents }
-                Mock Set-AzKeyvaultSecret {
-                    ConvertFrom-SecureString -SecureString $SecretValue -AsPlainText |
-                        % { [System.Convert]::FromBase64String($_) } |
-                        Should -Be $contents
-                    $KeyVault | Should -Be $keyVault
-                    $SecretName | Should -Be $secretName
-                    $ExpirationDate | Should -Be $expirationDate } -Verifiable
+                try
+                {
+                    # Act
+                    Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -Expires $expirationDate -FilePath $file.FullName
+                
+                    # Assert
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName
+                    $actual.Expires | Should -Be $expirationDate
+                    $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
+                    [System.Convert]::FromBase64String($actual) |
+                        % { [System.Text.Encoding]::UTF8.GetString($_) } |
+                        Should -Be $contents.ToCharArray()
 
-                # Act
-                Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $keyVault -SecretName $secretName -Expires $expirationDate -FilePath "/filepath"
-
-                # Assert
-                Assert-VerifiableMock
+                } finally {
+                    Remove-Item -Path $file.FullName
+                    Remove-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -PassThru -Force
+                }
             }
             It "Set secret in Key Vault fails when file is not found" {
                 # Arrange
@@ -124,6 +129,22 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Set-AzKeyVaultSecret -Times 0
+            }
+        }
+        Context "Get access policies" {
+            It "Get access policies with resource group" {
+                # Act
+                $policies = Get-AzKeyVaultAccessPolicies -KeyVaultName $config.Arcus.KeyVault.VaultName -ResourceGroupName $config.Arcus.ResourceGroupName
+
+                # Assert
+                $policies.list | Should -Not -BeNullOrEmpty
+            }
+            It "Get access policies without resource group" {
+                 # Act
+                $policies = Get-AzKeyVaultAccessPolicies -KeyVaultName $config.Arcus.KeyVault.VaultName
+
+                # Assert
+                $policies.list | Should -Not -BeNullOrEmpty
             }
         }
     }

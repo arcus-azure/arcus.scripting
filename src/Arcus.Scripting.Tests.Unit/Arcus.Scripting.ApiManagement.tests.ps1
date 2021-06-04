@@ -1,7 +1,4 @@
-﻿using module Az
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -DisableNameChecking
-
-Describe "Arcus" {
+﻿Describe "Arcus" {
     Context "ApiManagement" {
         InModuleScope Arcus.Scripting.ApiManagement {
             It "Creates storage context during API management backup" {

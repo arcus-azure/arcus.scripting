@@ -1,6 +1,3 @@
-using module Az
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -DisableNameChecking
-
 Describe "Arcus" {
     Context "File Share" {
         InModuleScope Arcus.Scripting.Storage.FileShare {
