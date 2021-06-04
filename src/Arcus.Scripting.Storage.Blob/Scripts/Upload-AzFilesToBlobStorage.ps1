@@ -21,7 +21,7 @@ catch {
 } 
 
 $files = Get-ChildItem $TargetFolderPath -File
-Write-Host "Uploading $($files.Length) files from $TargetFolderPath"
+Write-Host "Uploading files from $TargetFolderPath"
 
 foreach($file in $files)
 {
