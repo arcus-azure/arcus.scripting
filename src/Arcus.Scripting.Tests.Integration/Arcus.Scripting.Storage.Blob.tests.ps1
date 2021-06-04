@@ -14,7 +14,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
             It "Uploads files to existing Azure Blob storage resource" {
                 try {
                     # Arrange
-                    $targetFolderPath = "arcus-scripting-storage-folder"
+                    $targetFolderPath = "$PSScriptRoot\Blobs"
                     $containerName = "arcus-scripting-storage-container"
 
                     # Act
