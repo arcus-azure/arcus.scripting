@@ -38,11 +38,11 @@ PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
 
 Stores the Azure Resource Management (ARM) outputs in a variable group on Azure DevOps.
 
-| Parameter                          | Mandatory | Description                                                                                             |
-| ---------------------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
-| `VariableGroupName`                | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be stored                   |
-| `ArmOutputsEnvironmentVariableName | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`)          |
-| `UpdateVariablesForCurrentJob`     | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
+| Parameter                           | Mandatory | Description                                                                                             |
+| ----------------------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| `VariableGroupName`                 | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be stored                   |
+| `ArmOutputsEnvironmentVariableName` | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`)          |
+| `UpdateVariablesForCurrentJob`      | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
 
 **Example**
 Without updating the variables in the current job running the pipeline:
@@ -82,9 +82,9 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 
 Sets the ARM outputs as variables to an Azure DevOps pipeline during the execution of the pipeline.
 
-| Parameter                          | Mandatory | Description                                                                                    |
-| ---------------------------------- | --------- | ---------------------------------------------------------------------------------------------- |
-| `ArmOutputsEnvironmentVariableName | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`) |
+| Parameter                           | Mandatory | Description                                                                                    |
+| ----------------------------------- | --------- | ---------------------------------------------------------------------------------------------- |
+| `ArmOutputsEnvironmentVariableName` | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`) |
 
 **Example**
 With default `ArmOutputs` environment variable containing: `"my-variable": "my-value"`:
