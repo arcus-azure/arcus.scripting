@@ -4,7 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAc
 InModuleScope Arcus.Scripting.IntegrationAccount {
     Describe "Arcus Azure Integration Account integration tests" {
         BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.json"
+            $filePath = "$PSScriptRoot\appsettings.local.json"
             [string]$appsettings = Get-Content $filePath
             $config = ConvertFrom-Json $appsettings
             
