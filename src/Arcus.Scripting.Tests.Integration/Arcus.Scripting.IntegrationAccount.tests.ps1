@@ -19,7 +19,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
 				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
-                [System.IO.FileInfo]$schema = New-Object System.IO.FileInfo("$SchemaFilePath")
+                $schema = Get-ChildItem($schemaFilePath) -File
 
                 # Act
                 { 
@@ -35,10 +35,10 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
 				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
-                [System.IO.FileInfo]$schema = New-Object System.IO.FileInfo("$SchemaFilePath")
+                $schema = Get-ChildItem($schemaFilePath) -File
                 $expectedSchemaName = $schema.Name
                 $executionDateTime = Get-Date
-                
+
                 try {
                     # Act
                     Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName
@@ -58,7 +58,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
 				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
-                [System.IO.FileInfo]$schema = New-Object System.IO.FileInfo("$SchemaFilePath")
+                $schema = Get-ChildItem($schemaFilePath) -File
                 $expectedSchemaName = $schema.BaseName
                 $executionDateTime = Get-Date
 
@@ -81,7 +81,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
 				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
-                [System.IO.FileInfo]$schema = New-Object System.IO.FileInfo("$SchemaFilePath")
+                $schema = Get-ChildItem($schemaFilePath) -File
                 $artifactsPrefix = "dev-"
                 $expectedSchemaName = $artifactsPrefix + $schema.BaseName
                 $executionDateTime = Get-Date
