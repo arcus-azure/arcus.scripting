@@ -38,7 +38,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 [System.IO.FileInfo]$schema = New-Object System.IO.FileInfo("$SchemaFilePath")
                 $expectedSchemaName = $schema.Name
                 $executionDateTime = Get-Date
-
+                
                 try {
                     # Act
                     Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName
