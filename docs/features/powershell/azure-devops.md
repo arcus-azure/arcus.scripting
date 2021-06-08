@@ -6,9 +6,10 @@ layout: default
 # Azure DevOps
 
 This module provides the following capabilities:
+- [Installation](#installation)
 - [Setting a variable in an Azure DevOps pipeline](#setting-a-variable-in-an-azure-devops-pipeline)
 - [Setting ARM outputs to Azure DevOps variable group](#setting-arm-outputs-to-azure-devops-variable-group)
-- [Setting ARM otuputs to Azure DevOps pipeline variables](#setting-arm-outputs-to-azure-devops-pipeline-variables)
+- [Setting ARM outputs to Azure DevOps pipeline variables](#setting-arm-outputs-to-azure-devops-pipeline-variables)
 
 ## Installation
 

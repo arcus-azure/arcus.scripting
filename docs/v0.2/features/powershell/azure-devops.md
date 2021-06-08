@@ -6,6 +6,7 @@ layout: default
 # Azure DevOps
 
 This module provides the following capabilities:
+- [Installation](#installation)
 - [Setting a variable in an Azure DevOps pipeline](#setting-a-variable-in-an-azure-devops-pipeline)
 - [Setting ARM outputs to Azure DevOps variable group](#setting-arm-outputs-to-azure-devops-variable-group)
 
@@ -37,11 +38,11 @@ PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
 
 Stores the Azure Resource Management (ARM) outputs in a variable group on Azure DevOps.
 
-| Parameter                          | Mandatory | Description                                                                                             |
-| ---------------------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
-| `VariableGroupName`                | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be stored                   |
-| `ArmOutputsEnvironmentVariableName | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`)          |
-| `UpdateVariablesForCurrentJob`     | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
+| Parameter                           | Mandatory | Description                                                                                             |
+| ----------------------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| `VariableGroupName`                 | yes       | The name of the variable group on Azure DevOps where the ARM outputs should be stored                   |
+| `ArmOutputsEnvironmentVariableName` | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`)          |
+| `UpdateVariablesForCurrentJob`      | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
 
 **Example**
 Without updating the variables in the current job running the pipeline:
