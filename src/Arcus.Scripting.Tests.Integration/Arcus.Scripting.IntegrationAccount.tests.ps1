@@ -47,7 +47,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
-                    $actual.CreatedTime | Should -BeLessOrEqual $executionDateTime
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
@@ -70,7 +70,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
-                    $actual.CreatedTime | Should -BeLessOrEqual $executionDateTime
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
@@ -94,7 +94,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
-                    $actual.CreatedTime | Should -BeLessOrEqual $executionDateTime
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
@@ -118,7 +118,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
-                        $actual.CreatedTime | Should -BeLessOrEqual $executionDateTime
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
                 } finally {
@@ -147,7 +147,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
-                        $actual.CreatedTime | Should -BeLessOrEqual $executionDateTime
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
                 } finally {
@@ -177,7 +177,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
-                        $actual.CreatedTime | Should -BeLessOrEqual $executionDateTime
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
                 } finally {
