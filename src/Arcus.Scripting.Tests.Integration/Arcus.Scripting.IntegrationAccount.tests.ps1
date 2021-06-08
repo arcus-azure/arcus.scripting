@@ -14,6 +14,22 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
             Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
         }
         Context "Handling Schemas" {
+            It "Try to upload single schema to unexisting Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = "unexisting-integration-account"
+				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
+                [System.IO.FileInfo]$schema = New-Object System.IO.FileInfo("$SchemaFilePath")
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop
+                } | Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Set-AzKeyVaultSecret -Times 0
+            }
             It "Create a single schema in an Integration Account" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
