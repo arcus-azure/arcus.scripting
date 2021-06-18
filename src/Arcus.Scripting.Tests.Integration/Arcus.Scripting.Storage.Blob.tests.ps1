@@ -16,7 +16,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     # Arrange
                     $targetFolderPath = "$PSScriptRoot\Blobs"
                     $containerName = "arcus-scripting-storage-container"
-                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccountName
+                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
                     New-AzStorageContainer -Context $storageAccount.Context -Name $containerName -Permission Blob
 
                     # Act
@@ -40,7 +40,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     # Arrange
                     $targetFolderPath = "$PSScriptRoot\Blobs"
                     $containerName = "new-arcus-storage-container"
-                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccountName
+                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
 
                     # Act
                     Upload-AzFilesToBlobStorage `
