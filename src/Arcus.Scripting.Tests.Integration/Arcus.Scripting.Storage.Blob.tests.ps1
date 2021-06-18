@@ -22,7 +22,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     # Act
                     Upload-AzFilesToBlobStorage `
                         -ResourceGroupName $config.Arcus.ResourceGroupName `
-                        -StorageAccountName $config.Arcus.Storage.StorageAccountName `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                         -TargetFolderPath $targetFolderPath `
                         -ContainerName $containerName `
                         -ContainerPermissions "Blob"
@@ -45,7 +45,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     # Act
                     Upload-AzFilesToBlobStorage `
                         -ResourceGroupName $config.Arcus.ResourceGroupName `
-                        -StorageAccountName $config.Arcus.Storage.StorageAccountName `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                         -TargetFolderPath $targetFolderPath `
                         -ContainerName $containerName `
                         -ContainerPermissions "Blob"
