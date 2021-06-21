@@ -12,11 +12,10 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
             New-AzStorageShare -Context $storageAccount.Context -Name $fileShareName `
         }
         Context "Create Azure FileShare storage folder" {
-            It "Create a new Azure FileShare storage folder" {
+            It "Creates a new Azure FileShare storage folder" {
+                # Arrange
+                $folderName = "new-arcus-fileshare-folder"
                 try {
-                    # Arrange
-                    $folderName = "new-arcus-fileshare-folder"
-
                     # Act
                     Create-AzFileShareStorageFolder `
                         -ResourceGroupName $config.Arcus.ResourceGroupName `
@@ -29,6 +28,27 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                         % { $_.GetType().Name } | 
                         Should -Contain $folderName
                     
+                } catch {
+                    Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
+                }
+            }
+            It "Doesn't create a new Azure FileShare storage folder when already exists" {
+                # Arrange
+                $folderName = "already-existing-arcus-fileshare-folder"
+                try {
+                    New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
+
+                    # Act
+                    Create-AzFileShareStorageFolder `
+                        -ResourceGroupName $config.Arcus.ResourceGroupName `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                        -FileShareName $fileShareName `
+                        -FolderName $folderName
+
+                    # Assert
+                    Get-AzStorageFile -ShareName $fileShareName |
+                        % { $_.GetType().Name } |
+                        Should -Contain $folderName
                 } catch {
                     Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
                 }
