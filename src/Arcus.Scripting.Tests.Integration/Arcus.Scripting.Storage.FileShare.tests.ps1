@@ -9,12 +9,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
             $fileShareName = "arcus-scripting-storage-fileshare"
             $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
-            New-AzStorageShare `
-                -Context $storageAccount.Context `
-                -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
-                -Name $fileShareName `
-                -AccessTier Hot `
-                -QuotaGiB 1024
+            New-AzStorageShare -Context $storageAccount.Context -Name $fileShareName `
         }
         Context "Create Azure FileShare storage folder" {
             It "Create a new Azure FileShare storage folder" {
