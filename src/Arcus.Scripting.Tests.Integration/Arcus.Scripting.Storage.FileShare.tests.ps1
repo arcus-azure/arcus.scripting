@@ -11,7 +11,6 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
             $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
             New-AzStorageShare `
                 -Context $storageAccount.Context `
-                -ResourceGroupName $config.Arcus.ResourceGroupName `
                 -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                 -Name $fileShareName `
                 -AccessTier Hot `
