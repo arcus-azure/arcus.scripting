@@ -7,9 +7,9 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
 
-            $fileShareName = "arcus-scripting-storage-fileshare"
+            $fileShareName = "arcus-scripting-storage-fileshare-$([System.Guid]::NewGuid())"
             $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
-            New-AzStorageShare -Context $storageAccount.Context -Name $fileShareName `
+            New-AzStorageShare -Context $storageAccount.Context -Name $fileShareName
         }
         Context "Create Azure FileShare storage folder" {
             It "Creates a new Azure FileShare storage folder" {
