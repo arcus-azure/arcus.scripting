@@ -34,7 +34,7 @@ try
     Write-Host "Upload files to file share..."
     
     ## Get the storage account context  
-    $context = (Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName).Context  
+    $context = (Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName).Context
     
     ## Get the file share  
     if(VerifyAzureFileShareExists)
