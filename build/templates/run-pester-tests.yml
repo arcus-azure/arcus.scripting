@@ -27,6 +27,7 @@ steps:
       targetType: 'inline'
       pwsh: true
       failOnStderr: true
+      errorActionPreference: continue
       script: |
         Write-Host "Installing Pester test framework and Az required modules"
         Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
@@ -52,3 +53,4 @@ steps:
       testResultsFormat: 'NUnit'
       testResultsFiles: '**/pester.test.results*.xml'
       failTaskOnFailedTests: true
+
