@@ -54,6 +54,29 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                 }
             }
         }
+        Context "Copy files into Azure FileShare storage folder" {
+            It "Uploads file into existing Azure FileShare" {
+                # Arrange
+                $folderName = "uploaded-arcus-fileshare-folder"
+                try {
+                    New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
+
+                    # Act
+                    Copy-AzFileShareStorageFiles `
+                        -ResourceGroupName $config.Arcus.ResourceGroupName `
+                        -SourceFolderPath "$PSScriptPath\Blobs" `
+                        -DestinationFolderPath $folderName
+
+                    # Assert
+                    Get-AzStorageFile -ShareName $fileShareName -Path $folderName |
+                        % { Write-Host $_.Name
+                            return $_.Name } |
+                        Should -Contain "arcus.png"
+                } catch {
+                    Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
+                }
+            }
+        }
         AfterEach {
             Remove-AzStorageShare -Name $fileShareName -Context $storageAccount.Context -IncludeAllSnapshot -Force
         }
