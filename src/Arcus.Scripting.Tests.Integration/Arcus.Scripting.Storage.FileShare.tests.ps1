@@ -15,71 +15,58 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
             It "Creates a new Azure FileShare storage folder" {
                 # Arrange
                 $folderName = "new-arcus-fileshare-folder"
-                try {
-                    # Act
-                    Create-AzFileShareStorageFolder `
-                        -ResourceGroupName $config.Arcus.ResourceGroupName `
-                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
-                        -FileShareName $fileShareName `
-                        -FolderName $folderName
+                
+                # Act
+                Create-AzFileShareStorageFolder `
+                    -ResourceGroupName $config.Arcus.ResourceGroupName `
+                    -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                    -FileShareName $fileShareName `
+                    -FolderName $folderName
 
-                    # Assert
-                    Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                        where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
-                        % { $_.Name } |
-                        Should -Contain $folderName
-                    
-                } finally {
-                    Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
-                }
+                # Assert
+                Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
+                    where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                    % { $_.Name } |
+                    Should -Contain $folderName
             }
             It "Doesn't create a new Azure FileShare storage folder when already exists" {
                 # Arrange
                 $folderName = "already-existing-arcus-fileshare-folder"
-                try {
-                    New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
+                New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
 
-                    # Act
-                    Create-AzFileShareStorageFolder `
-                        -ResourceGroupName $config.Arcus.ResourceGroupName `
-                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
-                        -FileShareName $fileShareName `
-                        -FolderName $folderName
+                # Act
+                Create-AzFileShareStorageFolder `
+                    -ResourceGroupName $config.Arcus.ResourceGroupName `
+                    -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                    -FileShareName $fileShareName `
+                    -FolderName $folderName
 
-                    # Assert
-                    Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                        where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
-                        % { $_.Name }
-                        Should -Contain $folderName
-                } finally {
-                    Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
-                }
+                # Assert
+                Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
+                    where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                    % { $_.Name }
+                    Should -Contain $folderName
             }
         }
         Context "Copy files into Azure FileShare storage folder" {
             It "Uploads file into existing Azure FileShare storage" {
                 # Arrange
                 $folderName = "uploaded-arcus-fileshare-folder"
-                try {
-                    New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
+                New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
 
-                    # Act
-                    Copy-AzFileShareStorageFiles `
-                        -ResourceGroupName $config.Arcus.ResourceGroupName `
-                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
-                        -FileShareName $fileShareName `
-                        -SourceFolderPath "$PSScriptRoot\Blobs" `
-                        -DestinationFolderName $folderName
+                # Act
+                Copy-AzFileShareStorageFiles `
+                    -ResourceGroupName $config.Arcus.ResourceGroupName `
+                    -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                    -FileShareName $fileShareName `
+                    -SourceFolderPath "$PSScriptRoot\Blobs" `
+                    -DestinationFolderName $folderName
 
-                    # Assert
-                    Get-AzStorageFile -ShareName $fileShareName -Path $folderName -Context $storageAccount.Context |
-                        % { Write-Host $_.Name
-                            return $_.Name } |
-                        Should -Contain "arcus.png"
-                } finally {
-                    Remove-AzStorageFile -Context $storageAccount.Context -ShareName $fileShareName -Path "arcus.png"
-                    Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
-                }
+                # Assert
+                Get-AzStorageFile -ShareName $fileShareName -Path $folderName -Context $storageAccount.Context |
+                    % { Write-Host $_.Name
+                        return $_.Name } |
+                    Should -Contain "arcus.png"
             }
             It "Uploads file into non-existing Azure FileShare storage" {
                 # Arrange
