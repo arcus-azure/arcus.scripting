@@ -77,6 +77,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                             return $_.Name } |
                         Should -Contain "arcus.png"
                 } finally {
+                    Remove-AzStorageFile -Context $storageAccount.Context -ShareName $fileShareName -Path "arcus.png"
                     Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
                 }
             }

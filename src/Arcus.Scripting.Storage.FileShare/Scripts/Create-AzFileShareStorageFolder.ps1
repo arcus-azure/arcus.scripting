@@ -17,7 +17,7 @@ if ($fileShareFolders -contains $FolderName)
 else
 {
     Write-Verbose "Creating Azure FileShare storage folder '$FolderName' in file share '$FileShareName'.."
-    Get-AzStorageFile -Context $storageAccount.Context -Name $FileShareName |
+    Get-AzStorageFile -Context $storageAccount.Context -ShareName $FileShareName |
         New-AzStorageDirectory -Path $FolderName
     Write-Host "Created Azure FileShare storage folder '$FolderName' in file share '$FileShareName'"
 }
