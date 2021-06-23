@@ -85,16 +85,16 @@ Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
   The name of the organization in Azure DevOps.  This name will be used in the Uri to the DevOps API: https://dev.azure.com/{OrganizationName}.
 
  .Parameter ProjectId
- The Id of the Project in Azure DevOps to which the build that must be retained, belongs to. 
- (You can use the predefined variable $(System.TeamProjectId) in an Azure DevOps pipeline).
+  The Id of the Project in Azure DevOps to which the build that must be retained, belongs to. 
+  (You can use the predefined variable $(System.TeamProjectId) in an Azure DevOps pipeline).
 
  .Parameter BuildId
- The Id of the Build that must be retained.
- (You can use the predefined variable $(Build.BuildId) in an Azure DevOps pipeline).
+  The Id of the Build that must be retained.
+  (You can use the predefined variable $(Build.BuildId) in an Azure DevOps pipeline).
 
  .Parameter AccessToken
- The JWT access-token that must be used to authenticate with the DevOps API.
- (You can use the predefined variable $(System.AccessToken) in an Azure DevOps pipeline).
+  The JWT access-token that must be used to authenticate with the DevOps API.
+  (You can use the predefined variable $(System.AccessToken) in an Azure DevOps pipeline).
 #>
 function Set-RetainBuildFlag {
     param(
