@@ -24,7 +24,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                         -FolderName $folderName
 
                     # Assert
-                    Get-AzStorageFile -ShareName $fileShareName |
+                    Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
                         % { $_.GetType().Name } | 
                         Should -Contain $folderName
                     
@@ -46,7 +46,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                         -FolderName $folderName
 
                     # Assert
-                    Get-AzStorageFile -ShareName $fileShareName |
+                    Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
                         % { $_.GetType().Name } |
                         Should -Contain $folderName
                 } finally {
@@ -64,13 +64,13 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                     # Act
                     Copy-AzFileShareStorageFiles `
                         -ResourceGroupName $config.Arcus.ResourceGroupName `
-                        -StorageAccountName $config.Arcus.Storage.StorageAcount.Name `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                         -FileShareName $fileShareName `
                         -SourceFolderPath "$PSScriptPath\Blobs" `
                         -DestinationFolderPath $folderName
 
                     # Assert
-                    Get-AzStorageFile -ShareName $fileShareName -Path $folderName |
+                    Get-AzStorageFile -ShareName $fileShareName -Path $folderName -Context $storageAccount.Context |
                         % { Write-Host $_.Name
                             return $_.Name } |
                         Should -Contain "arcus.png"
