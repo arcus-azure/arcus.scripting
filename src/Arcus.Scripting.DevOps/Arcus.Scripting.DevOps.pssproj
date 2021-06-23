@@ -33,6 +33,7 @@
     <Compile Include="Arcus.Scripting.DevOps.psd1" />
     <Compile Include="Arcus.Scripting.DevOps.psm1" />
     <Compile Include="Scripts\Set-AzDevOpsArmOutputs.ps1" />
+    <Compile Include="Scripts\Set-RetainBuildFlag.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
