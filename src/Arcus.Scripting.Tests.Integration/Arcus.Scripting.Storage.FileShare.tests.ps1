@@ -68,7 +68,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                         -ResourceGroupName $config.Arcus.ResourceGroupName `
                         -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                         -FileShareName $fileShareName `
-                        -SourceFolderPath "$PSScriptPath\Blobs" `
+                        -SourceFolderPath "$PSScriptRoot\Blobs" `
                         -DestinationFolderName $folderName
 
                     # Assert
