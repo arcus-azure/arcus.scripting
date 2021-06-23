@@ -8,6 +8,7 @@ Describe "Arcus" {
                 $testEndpoint = "http://storageaccountname.blob.core.windows.net"
                 $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
+                $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
                 $storageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
@@ -25,6 +26,7 @@ Describe "Arcus" {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $storageAccountName
                     return $psStorageAccount } -Verifiable
+                Mock Get-AzStorageFile { return @() }
                 Mock Get-AzStorageShare {
                     $Context | Should -Be $psStorageAccount
                     $Name | Should -Be $fileShareName
@@ -43,6 +45,7 @@ Describe "Arcus" {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-AzStorageFile -Times 1
                 Assert-MockCalled Get-AzStorageShare -Times 1
                 Assert-MockCalled New-AzStorageDirectory -Times 1
             }
@@ -55,7 +58,7 @@ Describe "Arcus" {
                 $tableName = "products"
                
                 $storageUri = New-Object -TypeName System.Uri -ArgumentList "http://something.filesharestorage"
-                $cloudFileDirectory = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileDirectory -ArgumentList $storageUri
+                $cloudFileDirectory = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileDirectory -ArgumentList $null
                 $fileShareDirectory = New-Object -TypeName icrosoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileDirectory -ArgumentList $cloudFileDirectory, $storageAccount
 
                 Mock Get-AzStorageAccount {
@@ -140,7 +143,6 @@ Describe "Arcus" {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $storageAccountName
                     return $psStorageAccount } -Verifiable 
-                Mock Get-AzStorageFile { return @() }
                 Mock Get-AzStorageShare {
                     $Context | Should -Be $psStorageAccount
                     $Name | Should -Be $fileShareName
@@ -160,7 +162,6 @@ Describe "Arcus" {
                 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzStorageFile -Times 1
                 Assert-MockCalled Get-AzStorageAccount -Times 1
                 Assert-MockCalled Get-ChildItem -Times 0
                 Assert-MockCalled Set-AzStorageFileContent -Times 0
