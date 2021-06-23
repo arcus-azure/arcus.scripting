@@ -4,7 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAct
 InModuleScope Arcus.Scripting.Storage.FileShare {
     Describe "Arcus Azure FileShare storage integration tests" {
         BeforeEach {
-            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.local.json"
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
             $guid = [System.Guid]::NewGuid()
             $fileShareName = "arcus-scripting-fileshare-$guid"
@@ -44,7 +44,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                 # Assert
                 Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
                     where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
-                    % { $_.Name }
+                    % { $_.Name } |
                     Should -Contain $folderName
             }
         }
@@ -63,10 +63,18 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                     -DestinationFolderName $folderName
 
                 # Assert
-                Get-AzStorageFile -ShareName $fileShareName -Path $folderName -Context $storageAccount.Context |
-                    % { Write-Host $_.Name
-                        return $_.Name } |
-                    Should -Contain "arcus.png"
+                $tempLocation = "$PSScriptRoot\arcus.png"
+                try {
+                    Get-AzStorageFileContent `
+                        -Context $storageAccount.Context `
+                        -ShareName $fileShareName `
+                        -Path "$folderName/arcus.png" `
+                        -Destination $tempLocation -Force
+                    $file = Get-Item $tempLocation
+                    $file.Length | Should -BeGreaterThan 0
+                } finally {
+                    Remove-Item $tempLocation -Force
+                }
             }
             It "Uploads file into non-existing Azure FileShare storage" {
                 # Arrange
@@ -78,7 +86,8 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                     -ResourceGroupName $config.Arcus.ResourceGroupName `
                     -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                     -FileShareName $nonExistingFileShareName `
-                    -DestinationFolderPath $folderName } |
+                    -SourceFolderPath "$PSScriptRoot\Blobs" `
+                    -DestinationFolderName $folderName } |
                     Should -Throw
             }
         }

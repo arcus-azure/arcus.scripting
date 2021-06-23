@@ -6,18 +6,15 @@ param(
 )
 
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
+$fileShare = Get-AzStorageFile -Context $storageAccount.Context -ShareName $FileShareName
 $fileShareFolders =
-    Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context | 
+    Get-AzStorageFile -ShareName $FileShareName -Context $storageAccount.Context | 
         where { $_.GetType().Name -eq "AzureStorageFileDirectory" }
 
-if ($fileShareFolders -contains $FolderName)
-{
+if ($FolderName -in $fileShareFolders.Name) {
     Write-Host "Azure FileShare storage folder '$FolderName' already exists, skipping"
-}
-else
-{
+} else {
     Write-Verbose "Creating Azure FileShare storage folder '$FolderName' in file share '$FileShareName'.."
-    Get-AzStorageFile -Context $storageAccount.Context -ShareName $FileShareName |
-        New-AzStorageDirectory -Path $FolderName
+    New-AzStorageDirectory -Context $storageAccount.Context -ShareName $FileShareName -Path $FolderName
     Write-Host "Created Azure FileShare storage folder '$FolderName' in file share '$FileShareName'"
 }

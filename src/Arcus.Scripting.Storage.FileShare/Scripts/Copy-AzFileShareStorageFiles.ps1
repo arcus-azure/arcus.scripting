@@ -7,57 +7,39 @@ param(
     [Parameter(Mandatory = $false)][string] $FileMask = ""
 )
 
-function VerifyAzureFileShareExists 
-{
-    try
-    {
+function VerifyAzureFileShareExists {
+    try {
         $fileShare = Get-AzStorageShare -Context $context -Name $FileShareName -ErrorAction Stop 
         return $true
-    }
-    catch [Microsoft.Azure.Storage.StorageException]
-    {
-        if($Error[0].Exception.Message -like "*does not exist*")
-        {
+    } catch [Microsoft.Azure.Storage.StorageException] {
+        if ($Error[0].Exception.Message -like "*does not exist*") {
             Write-Host "The given file-share '$FileShareName' does not seem to exist in storage account '$StorageAccountName'."
             Write-Error "The given file-share '$FileShareName' does not seem to exist in storage account '$StorageAccountName'."
             return $false
-        }
-        else
-        {
+        } else {
             throw
         }
     }
 }
 
-try
-{
-    Write-Host "Upload files to file share..."
-    
-    ## Get the storage account context  
-    $context = (Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName).Context
-    
-    ## Get the file share  
-    if(VerifyAzureFileShareExists)
-    {
-        ## Loop all files in the source-folder
-        foreach($file in Get-ChildItem ("$SourceFolderPath") -File)
-        {
-            ## Does the file match the FileMask
-            if($file.Name.EndsWith($FileMask,"CurrentCultureIgnoreCase"))
-            {
-                ## Upload the file  
-                Set-AzStorageFileContent -Context $context -ShareName $FileShareName -Source $file.FullName -Path $DestinationFolderName -Force 
-                $fileName = $file.Name
-                Write-Host "Uploaded the file to File Share: $fileName"
-            }
-        }
+$storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
+$context = $storageAccount.Context
 
-        Write-Host "Files have been uploaded" 
+Write-Verbose "Upload files to Azure FileShare storage '$FileShareName'..."
+
+if (VerifyAzureFileShareExists) {
+    foreach ($file in Get-ChildItem ("$SourceFolderPath") -File) {
+        try {
+            if ($file.Name.EndsWith($FileMask, "CurrentCultureIgnoreCase")) {
+                Set-AzStorageFileContent -Context $context -ShareName $FileShareName -Source $file.FullName -Path $DestinationFolderName -Force 
+                Write-Host "Uploaded the '$($file.Name)' file to Azure FileShare '$FileShareName'"
+            }
+        } catch {
+            $ErrorMessage = $_.Exception.Message
+            Write-Error "Failed to upload files to directory '$DestinationFolderName' in file-share '$FileShareName'. Reason: $ErrorMessage"
+        }
+        
     }
-}
-catch
-{
-    $ErrorMessage = $_.Exception.Message
-    Write-Error "Failed to upload files to directory '$DestinationFolderName' in file-share '$FileShareName'. Reason: $ErrorMessage"
-    return $null
+
+    Write-Host "Files have been uploaded to Azure FileShare storage '$FileShareName'" 
 }
