@@ -25,7 +25,8 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                     # Assert
                     Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                        % { $_.GetType().Name } | 
+                        where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                        % { $_.Name } |
                         Should -Contain $folderName
                     
                 } finally {
@@ -47,7 +48,8 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                     # Assert
                     Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                        % { $_.GetType().Name } |
+                        where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                        % { $_.Name }
                         Should -Contain $folderName
                 } finally {
                     Remove-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
@@ -67,7 +69,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                         -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                         -FileShareName $fileShareName `
                         -SourceFolderPath "$PSScriptPath\Blobs" `
-                        -DestinationFolderPath $folderName
+                        -DestinationFolderName $folderName
 
                     # Assert
                     Get-AzStorageFile -ShareName $fileShareName -Path $folderName -Context $storageAccount.Context |
