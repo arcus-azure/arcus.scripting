@@ -52,4 +52,3 @@ steps:
       testResultsFormat: 'NUnit'
       testResultsFiles: '**/pester.test.results*.xml'
       failTaskOnFailedTests: true
-
