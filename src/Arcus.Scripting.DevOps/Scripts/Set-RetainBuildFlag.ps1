@@ -15,7 +15,7 @@ $requestUri = "https://dev.azure.com/$OrganizationName/$ProjectId/_apis/build/bu
 
 $response = Invoke-WebRequest -Uri $requestUri -Method Patch -Body $requestBody -ContentType "application/json" -Headers @{ Authorization = "Bearer $accessToken" }      
 
-if( $response.StatusCode -ne 200 ) {
+if ($response.StatusCode -ne 200) {
     Write-Error "Unable to retain build indefinetely. API request returned statuscode $($response.StatusCode)"
     exit 1
 }
