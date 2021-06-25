@@ -9,9 +9,11 @@ $retentionPayload = @{
   keepforever='true'
 }
 
-$requestBody = $retentionPayload | ConvertTo-Json -Depth 1
+$requestBody = $retentionPayload | ConvertTo-Json -Depth 1 -Compress
 
 $requestUri = "https://dev.azure.com/$OrganizationName/$ProjectId/_apis/build/builds/" + $BuildId + "?api-version=6.0"
+
+Write-Verbose "Saving AzDevOps build with buildid $BuildId in project $ProjectId by posting $requestBody to $requestUri"
 
 $response = Invoke-WebRequest -Uri $requestUri -Method Patch -Body $requestBody -ContentType "application/json" -Headers @{ Authorization = "Bearer $accessToken" }      
 
