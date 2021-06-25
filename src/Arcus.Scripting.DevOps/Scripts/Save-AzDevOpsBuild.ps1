@@ -9,7 +9,7 @@ $retentionPayload = @{
   keepforever='true'
 }
 
-$requestBody = $retentionPayload | ConvertTo-Json -Depth 100
+$requestBody = $retentionPayload | ConvertTo-Json -Depth 1
 
 $requestUri = "https://dev.azure.com/$OrganizationName/$ProjectId/_apis/build/builds/" + $BuildId + "?api-version=6.0"
 

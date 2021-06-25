@@ -96,7 +96,7 @@ Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
   The JWT access-token that must be used to authenticate with the DevOps API.
   (You can use the predefined variable $(System.AccessToken) in an Azure DevOps pipeline).
 #>
-function Set-RetainBuildFlag {
+function Save-AzDevOpsBuild {
     param(
         [Parameter(Mandatory = $true)][string] $OrganizationName = $(throw "The name of the organization is required"),
         [Parameter(Mandatory = $true)][string] $ProjectId = $(throw "ProjectId is required"),
@@ -104,7 +104,7 @@ function Set-RetainBuildFlag {
         [Parameter(Mandatory = $true)][string] $AccessToken = $(throw "An access Token for the DevOps API is required")
     )
 
-    . $PSScriptRoot\Scripts\Set-RetainBuildFlag.ps1 -OrganizationName $OrganizationName -ProjectId $ProjectId -BuildId $BuildId -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -OrganizationName $OrganizationName -ProjectId $ProjectId -BuildId $BuildId -AccessToken $AccessToken
 }
 
-Export-ModuleMember -Function Set-RetainBuildFlag
+Export-ModuleMember -Function Save-AzDevOpsBuild
