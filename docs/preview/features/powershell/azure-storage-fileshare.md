@@ -20,6 +20,7 @@ PS> Install-Module -Name Arcus.Scripting.Storage.FileShare
 ## Creating a folder on an Azure file share
 
 Creates a new folder within the Azure File Share resource.
+When a folder already exists with the provided name, it will be skipped. No exception will be thrown.
 
 | Parameter            | Mandatory | Description                                                             |
 | -------------------- | --------- | ----------------------------------------------------------------------- |
@@ -32,8 +33,8 @@ Creates a new folder within the Azure File Share resource.
 
 ```powershell
 PS> Create-AzFileShareStorageFolder -ResourceGroupName "shipping-resources" -StorageAccountName "tracking-account-storage" -FileShareName "returned" -FolderName "containers"
-# Creating 'containers' directory in file share..
-# Directory 'containers' has been created..
+# Creating Azure FileShare storage folder 'containers' in file share 'returned'..
+# Created Azure FileShare storage folder 'containers' in file share 'returned'
 ```
 
 ## Copying files to a folder on an Azure file share
@@ -53,8 +54,8 @@ Upload a set of files from a given folder, optionally matching a specific file m
 
 ```powershell
 PS> Copy-AzFileShareStorageFiles -ResourceGroupName "shipping-resources" -StorageAccountName "tracking-account-storage" -FileShareName "returned" -SourceFolderPath "containers" -DestinationFolderName "containers"
-# Upload files to file share...
-# Uploaded the file to File Share: [fileName]
-# Uploaded the file to File Share: [fileName]
-# Files have been uploaded
+# Upload files to Azure FileShare storage 'returned'...
+# Uploaded the '[fileName]' file to Azure FileShare 'returned'
+# Uploaded the '[fileName]' file to Azure FileShare 'returned'
+# Files have been uploaded to Azure FileShare storage 'returned'
 ```

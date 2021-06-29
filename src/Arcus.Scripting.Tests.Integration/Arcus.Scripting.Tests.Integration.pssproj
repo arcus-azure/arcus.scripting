@@ -29,6 +29,10 @@
     <Compile Include="Arcus.Scripting.ARM.tests.ps1" />
     <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
+    <Compile Include="Connect-AzAccountFromConfig.ps1" />
+    <Compile Include="Load-JsonAppsettings.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Arcus.Scripting.ARM\Arcus.Scripting.ARM.pssproj">
@@ -39,10 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
+    <Folder Include="Blobs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.local.json" />
     <Content Include="appsettings.json" />
+    <Content Include="Blobs\arcus.png" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />

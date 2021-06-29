@@ -40,7 +40,7 @@ stages:
     jobs:
       - job: Compile
         pool:
-          vmImage: 'ubuntu-16.04'
+          vmImage: '$(Vm.Image)'
         steps:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace package version tokens'
@@ -75,7 +75,7 @@ stages:
       - job: RunUnitTests
         displayName: 'Run unit tests'
         pool:
-          vmImage: 'ubuntu-16.04'
+          vmImage: '$(Vm.Image)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
@@ -94,7 +94,7 @@ stages:
       - job: RunIntegrationTests
         displayName: 'Run integration tests'
         pool:
-          vmImage: 'ubuntu-16.04'
+          vmImage: '$(Vm.Image)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'

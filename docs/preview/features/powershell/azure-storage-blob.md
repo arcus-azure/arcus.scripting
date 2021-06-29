@@ -38,13 +38,18 @@ With existing blob container:
 
 ```powershell
 PS> Upload-AzFilesToBlobStorage -ResourceGroupName "resource-group" -StorageAccountName "account-name" -TargetFolderPath "./directory" -ContainerName "blob-container"
-# Uploaded the file to Blob Storage: [file]
+# Try using existing Azure Storage Container blob-container...
+# Using existing Azure Storage Container blob-container
+# Uploading files from ./directory
+# Uploaded the file to Azure Blob Storage: [file]
 ```
 
 With non-existing blob container:
 
 ```powershell
 PS> Upload-AzFilesToBlobStorage -ResourceGroupName "resource-group" -StorageAccountName "account-name" -TargetFolderPath "./directory" -ContainerName "blob-container"
+# Try using existing Azure Storage Container blob-container...
 # Creating Storage Container blob-container
-# Uploaded the file to Blob Storage: [file]
+# Uploading files from ./directory
+# Uploaded the file to Azure Blob Storage: [file]
 ```

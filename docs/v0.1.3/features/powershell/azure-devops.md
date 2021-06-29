@@ -6,6 +6,7 @@ layout: default
 # Azure DevOps
 
 This module provides the following capabilities:
+- [Installation](#installation)
 - [Setting a variable in an Azure DevOps pipeline](#setting-a-variable-in-an-azure-devops-pipeline)
 
 ## Installation
@@ -21,9 +22,9 @@ PS> Install-Module -Name Arcus.Scripting.DevOps
 Assign a value to a DevOps pipeline variable during the execution of this pipeline.
 
 | Parameter       | Mandatory | Description                                       |
-| --------------- | -------- | ------------------------------------------------ |
-| `Name`  | yes      | The name of the variable to set in the pipeline  |
-| `Value` | yes      | The value of the variable to set in the pipeline |
+| --------------- | --------- | ------------------------------------------------- |
+| `Name`          | yes       | The name of the variable to set in the pipeline   |
+| `Value`         | yes       | The value of the variable to set in the pipeline  |
 
 **Example**
 
