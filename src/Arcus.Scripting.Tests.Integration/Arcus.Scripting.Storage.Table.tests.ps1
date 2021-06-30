@@ -11,7 +11,8 @@ InModuleScope Arcus.Scripting.Storage.Table {
         Context "Create Azure Table storage table" {
             It "Create an new Azure Table within an Azure storage account" {
                 # Arrange
-                $tableName = "arcus-new-table"
+                $tableName = "arcusnewtable"
+                $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
                 try {
                     # Act
                     Create-AzTableStorageAccountTable `
@@ -20,7 +21,6 @@ InModuleScope Arcus.Scripting.Storage.Table {
                         -Table $tableName
 
                     # Assert
-                    $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
                     $storageTable = Get-AzStorageTable -Name $tableName -Context $storageAccount.Context
                     $storageTable.Name | Should -Be $tableName
                 } finally {
@@ -29,7 +29,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
             }
             It "Re-creates a new Azure Table within an Azure storage account" {
                 # Arrange
-                $tableName = "arcus-already-existing-table"
+                $tableName = "arcusalreadyexistingtable"
                 try {
                     $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
                     New-AzStorageTable -Name $tableName -Context $storageAccount.Context
