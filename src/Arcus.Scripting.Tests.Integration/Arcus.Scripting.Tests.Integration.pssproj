@@ -31,6 +31,7 @@
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
     <Compile Include="Connect-AzAccountFromConfig.ps1" />
     <Compile Include="Load-JsonAppsettings.ps1" />
   </ItemGroup>
