@@ -15,7 +15,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                 $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name
                 try {
                     # Act
-                    Create-AzTableStorageAccountTable `
+                    Create-AzStorageTable `
                         -ResourceGroupName $config.Arcus.ResourceGroupName `
                         -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                         -Table $tableName
@@ -40,7 +40,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                             Should -Not -Be $null
 
                     # Act
-                    Create-AzTableStorageAccountTable `
+                    Create-AzStorageTable `
                         -ResourceGroupName $config.Arcus.ResourceGroupName `
                         -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                         -Table $tableName `
