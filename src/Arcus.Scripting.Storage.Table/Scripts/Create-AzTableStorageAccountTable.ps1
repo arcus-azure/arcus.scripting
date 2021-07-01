@@ -5,52 +5,49 @@ param(
    [Parameter()][switch] $Recreate = $false
 )
 
-function Try-CreateTable()
-{
+function Try-CreateTable() {
     [CmdletBinding()]
-    param
-    (
-        [object][parameter(Mandatory = $true)] $StorageAccount,
-        [string][parameter(Mandatory = $true)] $TableName
+    param (
+        [Parameter(Mandatory = $true)][object] $StorageAccount,
+        [Parameter(Mandatory = $true)][string] $TableName
     )
-    BEGIN
-    {
+    BEGIN {
         try {
-            Write-Verbose "Creating table '$TableName' in the storage account '$StorageAccountName'..."
-            New-AzStorageTable -Name $TableName -Context $StorageAccount.Context -ErrorAction Stop
-            Write-Host "Table '$TableName' has been created"
+            Write-Verbose "Creating Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
+            New-AzStorageTable -Name $TableName -Context $StorageAccount.Context
+            Write-Host "Azure storage able '$TableName' has been created"
 
             return $true
         } catch {
-            Write-Warning "Table '$TableName' failed to be created: $_"
+            Write-Warning "Azure storage table '$TableName' failed to be created: $_"
             return $false
         }
     }
 }
 
-Write-Host "Retrieving storage account ('$StorageAccountName') context..."
+Write-Verbose "Retrieving Azure storage account '$StorageAccountName' context..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
-Write-Host "Storage account context has been retrieved."
+Write-Host "Azure storage account context has been retrieved"
 
-Write-Host "Checking if the table '$TableName' already exists..."
+Write-Verbose "Checking if the Azure storage table '$TableName' already exists..."
 $tables = Get-AzStorageTable -Context $storageAccount.Context
 
 if ($TableName -in $tables.Name) {
     if ($Recreate) {
-        Write-Host "Deleting existing table '$TableName' in the storage account '$StorageAccountName'..."
+        Write-Verbose "Deleting existing Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
         Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context
         Write-Host "Table '$TableName' has been removed"
         
         while (-not(Try-CreateTable -StorageAccount $storageAccount -TableName $TableName)) {
-            Write-Host "Failed to create the table, retrying in 5 seconds..."
+            Write-Warning "Failed to create the Azure storage table, retrying in 5 seconds..."
             Start-Sleep -Seconds 5
         }
        
     } else {
-        Write-Host "No actions performed, since the specified table ('$TableName') already exists in the storage account ('$StorageAccountName')."
+        Write-Host "No actions performed, since the specified Azure storage table '$TableName' already exists in the Azure storage account '$StorageAccountName'"
     }
 } else {
-    Write-Host "Table '$TableName' does not exist yet"
+    Write-Host "Azure storage table '$TableName' does not exist yet in the Azure storage account '$StorageAccountName'"
     Try-CreateTable -StorageAccount $storageAccount -TableName $TableName
 }
 
