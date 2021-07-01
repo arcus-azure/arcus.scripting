@@ -45,7 +45,7 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
-                    return [pscustomobject]@{} } -Verifiable
+                    return [pscustomobject]@{ Name = $tableName } } -Verifiable
                 Mock New-AzStorageTable { }
                 Mock Remove-AzStorageTable { }
 
@@ -72,7 +72,7 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
-                    return [pscustomobject]@{} } -Verifiable
+                    return [pscustomobject]@{ Name = $tableName } } -Verifiable
                 Mock New-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
                     $Name | Should -Be $tableName } -Verifiable
