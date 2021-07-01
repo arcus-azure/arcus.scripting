@@ -9,13 +9,19 @@ function Try-CreateTable() {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)][object] $StorageAccount,
-        [Parameter(Mandatory = $true)][string] $TableName
+        [Parameter(Mandatory = $true)][string] $TableName,
+        [Parameter(Mandatory = $true)][int] $RetryIndex = 1
     )
     BEGIN {
+        if ($RetryIndex -ge 3) {
+            Write-Warning "Azure storage table '$TableName' was not able to be created in Azure storage account '$StorageAccountName', please check your connection information and access permissions"
+            return $true
+        }
+
         try {
             Write-Verbose "Creating Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
             New-AzStorageTable -Name $TableName -Context $StorageAccount.Context
-            Write-Host "Azure storage able '$TableName' has been created"
+            Write-Host "Azure storage table '$TableName' has been created"
 
             return $true
         } catch {
@@ -38,8 +44,10 @@ if ($TableName -in $tables.Name) {
         Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context
         Write-Host "Table '$TableName' has been removed"
         
-        while (-not(Try-CreateTable -StorageAccount $storageAccount -TableName $TableName)) {
+        $retryIndex = 1
+        while (-not(Try-CreateTable -StorageAccount $storageAccount -TableName $TableName -RetryIndex $retryIndex)) {
             Write-Warning "Failed to create the Azure storage table, retrying in 5 seconds..."
+            $retryIndex = $retryIndex + 1
             Start-Sleep -Seconds 5
         }
        
