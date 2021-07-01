@@ -10,7 +10,7 @@ function Try-CreateTable() {
     param (
         [Parameter(Mandatory = $true)][object] $StorageAccount,
         [Parameter(Mandatory = $true)][string] $TableName,
-        [Parameter(Mandatory = $true)][int] $RetryIndex = 1
+        [Parameter(Mandatory = $false)][int] $RetryIndex = 1
     )
      if ($RetryIndex -ge 3) {
          Write-Warning "Azure storage table '$TableName' was not able to be created in Azure storage account '$StorageAccountName', please check your connection information and access permissions"
@@ -56,4 +56,3 @@ if ($TableName -in $tables.Name) {
     Write-Host "Azure storage table '$TableName' does not exist yet in the Azure storage account '$StorageAccountName'"
     Try-CreateTable -StorageAccount $storageAccount -TableName $TableName
 }
-
