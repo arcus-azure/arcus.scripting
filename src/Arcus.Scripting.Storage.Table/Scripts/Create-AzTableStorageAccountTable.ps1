@@ -12,23 +12,21 @@ function Try-CreateTable() {
         [Parameter(Mandatory = $true)][string] $TableName,
         [Parameter(Mandatory = $true)][int] $RetryIndex = 1
     )
-    BEGIN {
-        if ($RetryIndex -ge 3) {
-            Write-Warning "Azure storage table '$TableName' was not able to be created in Azure storage account '$StorageAccountName', please check your connection information and access permissions"
-            return $true
-        }
+     if ($RetryIndex -ge 3) {
+         Write-Warning "Azure storage table '$TableName' was not able to be created in Azure storage account '$StorageAccountName', please check your connection information and access permissions"
+         return $true
+     }
 
-        try {
-            Write-Verbose "Creating Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
-            New-AzStorageTable -Name $TableName -Context $StorageAccount.Context
-            Write-Host "Azure storage table '$TableName' has been created"
+     try {
+         Write-Verbose "Creating Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
+         New-AzStorageTable -Name $TableName -Context $StorageAccount.Context
+         Write-Host "Azure storage table '$TableName' has been created"
 
-            return $true
-        } catch {
-            Write-Warning "Azure storage table '$TableName' failed to be created: $_"
-            return $false
-        }
-    }
+         return $true
+     } catch {
+         Write-Warning "Azure storage table '$TableName' failed to be created: $_"
+         return $false
+     }
 }
 
 Write-Verbose "Retrieving Azure storage account '$StorageAccountName' context..."
@@ -41,7 +39,7 @@ $tables = Get-AzStorageTable -Context $storageAccount.Context
 if ($TableName -in $tables.Name) {
     if ($Recreate) {
         Write-Verbose "Deleting existing Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
-        Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context
+        Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context -Force
         Write-Host "Table '$TableName' has been removed"
         
         $retryIndex = 1
