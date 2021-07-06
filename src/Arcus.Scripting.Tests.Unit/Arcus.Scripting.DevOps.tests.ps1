@@ -120,6 +120,22 @@
                 Assert-VerifiableMock
                 Assert-MockCalled Write-Host
             }
-        }
+            It "Save-AzDevOpsBuild fails when API call does not return success-code" {
+                # Arrange
+                $organizationName = "myOrganization"
+                $projectId = "abc123"
+                $buildId = 128
+                $accessToken = "mocking accesstoken"
+
+                Mock Invoke-WebRequest -Verifiable -MockWith {
+                    return @{
+                        StatusCode = 400
+                    }
+                }
+
+                # Act
+                { Save-AzDevOpsBuild -Organization $organizationName -ProjectId $projectId -BuildId $buildId -AccessToken $accessToken } | Should -Throw
+            }
+        }        
     }
 }
