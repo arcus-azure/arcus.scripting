@@ -133,8 +133,24 @@
                     }
                 }
 
-                # Act
+                # Act and Assert
                 { Save-AzDevOpsBuild -Organization $organizationName -ProjectId $projectId -BuildId $buildId -AccessToken $accessToken } | Should -Throw
+            }
+            It "Save-AzDevOpsBuild succeeds when API call does return success-code" {
+                # Arrange
+                $organizationName = "myOrganization"
+                $projectId = "abc123"
+                $buildId = 128
+                $accessToken = "mocking accesstoken"
+
+                Mock Invoke-WebRequest -Verifiable -MockWith {
+                    return @{
+                        StatusCode = 200
+                    }
+                }
+
+                # Act and Assert
+                { Save-AzDevOpsBuild -Organization $organizationName -ProjectId $projectId -BuildId $buildId -AccessToken $accessToken } | Should -Not -Throw
             }
         }        
     }
