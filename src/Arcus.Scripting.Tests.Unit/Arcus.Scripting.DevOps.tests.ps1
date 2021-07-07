@@ -128,8 +128,7 @@
                 $accessToken = "mocking accesstoken"
 
                 Mock Invoke-WebRequest {
-                    $statusCode = 400
-                   # $errorDetails = '{"message": "No Project found for the specified ID"}'
+                    $statusCode = 400                   
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
                 } -ModuleName Arcus.Scripting.DevOps
@@ -148,12 +147,7 @@
                     $statusCode = 200                    
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps
-                # -Verifiable -MockWith {
-                #     return @{
-                #         StatusCode = 200
-                #     }
-                # }
+                 } -ModuleName Arcus.Scripting.DevOps               
 
                 # Act and Assert
                 { Save-AzDevOpsBuild -Organization $organizationName -ProjectId $projectId -BuildId $buildId -AccessToken $accessToken } | Should -Not -Throw
