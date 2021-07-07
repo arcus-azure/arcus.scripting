@@ -1,7 +1,7 @@
 ﻿Describe "Arcus" {
     Context "Azure DevOps" {
         InModuleScope Arcus.Scripting.DevOps {
-            It "Seting DevOps variable should write to host" {
+            It "Setting DevOps variable should write to host" {
                 # Arrange
                 Mock Write-Host { $Object | Should -Be "#vso[task.setvariable variable=test] value" } -Verifiable
                 
