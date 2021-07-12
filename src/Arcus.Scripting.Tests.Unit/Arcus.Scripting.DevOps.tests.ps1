@@ -169,7 +169,7 @@
                 Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 
 
                 # Assert
-                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
+                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { $Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
             }
             It "Save-AzDevOpsBuild correctly builds API endpoint when CollectionUri does not have trailing slash" {
                 # Arrange
@@ -188,7 +188,7 @@
                 Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 
 
                 # Assert
-                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
+                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { $Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
             }
         }        
     }
