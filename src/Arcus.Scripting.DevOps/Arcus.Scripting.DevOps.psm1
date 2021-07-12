@@ -80,10 +80,7 @@ Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
 
  .Description
   Indicates that the specified DevOps pipeline-run must be retained indefinetely.
-
- .Parameter OrganizationName
-  The name of the organization in Azure DevOps.  This name will be used in the Uri to the DevOps API: https://dev.azure.com/{OrganizationName}.
-
+ 
  .Parameter ProjectId
   The Id of the Project in Azure DevOps to which the build that must be retained, belongs to. 
   (You can use the predefined variable $(System.TeamProjectId) in an Azure DevOps pipeline).
@@ -91,20 +88,15 @@ Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
  .Parameter BuildId
   The Id of the Build that must be retained.
   (You can use the predefined variable $(Build.BuildId) in an Azure DevOps pipeline).
-
- .Parameter AccessToken
-  The JWT access-token that must be used to authenticate with the DevOps API.
-  (You can use the predefined variable $(System.AccessToken) in an Azure DevOps pipeline).
+ 
 #>
 function Save-AzDevOpsBuild {
-    param(
-        [Parameter(Mandatory = $true)][string] $OrganizationName = $(throw "The name of the organization is required"),
+    param(        
         [Parameter(Mandatory = $true)][string] $ProjectId = $(throw "ProjectId is required"),
-        [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required"),
-        [Parameter(Mandatory = $true)][string] $AccessToken = $(throw "An access Token for the DevOps API is required")
+        [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required")
     )
 
-    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -OrganizationName $OrganizationName -ProjectId $ProjectId -BuildId $BuildId -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -ProjectId $ProjectId -BuildId $BuildId
 }
 
 Export-ModuleMember -Function Save-AzDevOpsBuild
