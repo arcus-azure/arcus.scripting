@@ -122,10 +122,10 @@
             }
             It "Save-AzDevOpsBuild fails when API call does not return success-code" {
                 # Arrange
-                $organizationName = "myOrganization"
+                $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
+                $env:ACCESS_TOKEN = "mocking accesstoken"
                 $projectId = "abc123"
-                $buildId = 128
-                $accessToken = "mocking accesstoken"
+                $buildId = 128                
 
                 Mock Invoke-WebRequest {
                     $statusCode = 400                   
@@ -134,14 +134,14 @@
                 } -ModuleName Arcus.Scripting.DevOps
 
                 # Act and Assert
-                { Save-AzDevOpsBuild -Organization $organizationName -ProjectId $projectId -BuildId $buildId -AccessToken $accessToken } | Should -Throw
+                { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId  } | Should -Throw
             }
             It "Save-AzDevOpsBuild succeeds when API call does return success-code" {
                 # Arrange
-                $organizationName = "myOrganization"
+                $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
+                $env:ACCESS_TOKEN = "mocking accesstoken"
                 $projectId = "abc123"
-                $buildId = 128
-                $accessToken = "mocking accesstoken"
+                $buildId = 128  
 
                 Mock Invoke-WebRequest {  
                     $statusCode = 200                    
@@ -150,7 +150,45 @@
                  } -ModuleName Arcus.Scripting.DevOps               
 
                 # Act and Assert
-                { Save-AzDevOpsBuild -Organization $organizationName -ProjectId $projectId -BuildId $buildId -AccessToken $accessToken } | Should -Not -Throw
+                { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId } | Should -Not -Throw
+            }
+            It "Save-AzDevOpsBuild correctly builds API endpoint when CollectionUri has trailing slash" {
+                # Arrange
+                $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
+                $env:ACCESS_TOKEN = "mocking accesstoken"
+                $projectId = "abc123"
+                $buildId = 128  
+
+                Mock Invoke-WebRequest {  
+                    $statusCode = 200                    
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    return $response
+                 } -ModuleName Arcus.Scripting.DevOps               
+
+                # Act
+                Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 
+
+                # Assert
+                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
+            }
+            It "Save-AzDevOpsBuild correctly builds API endpoint when CollectionUri does not have trailing slash" {
+                # Arrange
+                $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization"
+                $env:ACCESS_TOKEN = "mocking accesstoken"
+                $projectId = "abc123"
+                $buildId = 128  
+
+                Mock Invoke-WebRequest {  
+                    $statusCode = 200                    
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    return $response
+                 } -ModuleName Arcus.Scripting.DevOps               
+
+                # Act
+                Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 
+
+                # Assert
+                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
             }
         }        
     }
