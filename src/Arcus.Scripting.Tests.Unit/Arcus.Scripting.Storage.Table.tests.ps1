@@ -121,6 +121,22 @@ Describe "Arcus" {
                 Assert-MockCalled New-AzStorageTable -Times 1
                 Assert-MockCalled Remove-AzStorageTable -Times 0
             }
+            It "Create table with zero retry interval in seconds fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -RetryIntervalInSeconds 0 } |
+                    Should -Throw
+            }
+            It "Create table with less than zero retry interval in seconds fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -RetryIntervalInSeconds -3 } |
+                    Should -Throw
+            }
+            It "Create table with zero max retry-cycle count fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -MaxRetryCount 0 } |
+                    Should -Throw
+            }
+            It "Create table with less than zero max retry-cycle count fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -MaxRetryCount -2 } |
+                    Should -Throw
+            }
         }
     }
 }

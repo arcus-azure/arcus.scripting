@@ -7,6 +7,14 @@ param(
     [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
 )
 
+if ($RetryIntervalSeconds -le 0) {
+    throw "Retry interval in seconds should be greater than zero"
+}
+
+if ($MaxRetryCount -le 0) {
+    throw "Maximum retry-cycle count should be greater than zero"
+}
+
 function Try-CreateTable() {
     [CmdletBinding()]
     param (
