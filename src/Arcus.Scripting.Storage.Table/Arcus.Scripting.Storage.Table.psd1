@@ -12,7 +12,7 @@
 RootModule = 'Arcus.Scripting.Storage.Table.psm1'
 
 # Version number of this module.
-ModuleVersion = '#{Package.Version}#'
+ModuleVersion = '0.1'
 
 # ID used to uniquely identify this module
 GUID = '96a6a7d3-b077-4570-9d0e-9f8b35f3025b'

@@ -1,3 +1,5 @@
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Table -ErrorAction Stop
+
 Describe "Arcus" {
     Context "Table Storage" {
         InModuleScope Arcus.Scripting.Storage.Table {
@@ -45,7 +47,7 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
-                    return [pscustomobject]@{ Name = $tableName } } -Verifiable
+                    return @([pscustomobject]@{ Name = $tableName }) } -Verifiable
                 Mock New-AzStorageTable { }
                 Mock Remove-AzStorageTable { }
 
