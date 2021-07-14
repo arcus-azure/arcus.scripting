@@ -11,15 +11,18 @@ $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Na
 
 #Create the blob container if not yet made
 try{
+    Write-Verbose "Try using existing Azure Storage Container $ContainerName..."
     Get-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -ErrorAction Stop
-    Write-Host "Using existing Storage Container $ContainerName"
+    Write-Host "Using existing Azure Storage Container $ContainerName"
 }
 catch {
-    Write-Host "Creating Storage Container $ContainerName"
+    Write-Host "Creating Azure Storage Container $ContainerName"
     New-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -Permission $ContainerPermissions
 } 
 
-$files = Get-ChildItem ("$TargetFolderPath") -File
+$files = Get-ChildItem $TargetFolderPath -File
+Write-Host "Uploading files from $TargetFolderPath"
+
 foreach($file in $files)
 {
     #Read schema name
@@ -28,5 +31,5 @@ foreach($file in $files)
     #upload the files to blob storage.
     $content = Set-AzStorageBlobContent -File $file.FullName -Container $ContainerName -Blob $blobFileName -Context $storageAccount.Context -Force
     $blobUri = $content.ICloudBlob.uri.AbsoluteUri
-    Write-Host "Uploaded the file to Blob Storage: " $($blobUri)
+    Write-Host "Uploaded the file to Azure Blob storage: " $($blobUri)
 }

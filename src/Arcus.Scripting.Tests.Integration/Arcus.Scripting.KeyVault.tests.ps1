@@ -8,10 +8,7 @@ InModuleScope Arcus.Scripting.KeyVault {
             [string]$appsettings = Get-Content $filePath
             $config = ConvertFrom-Json $appsettings
             
-            $clientSecret = ConvertTo-SecureString $config.Arcus.ServicePrincipal.ClientSecret -AsPlainText -Force
-            $pscredential = New-Object -TypeName System.Management.Automation.PSCredential($config.Arcus.ServicePrincipal.ClientId, $clientSecret)
-            Disable-AzContextAutosave -Scope Process
-            Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
+            & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "Set secret from file" {
             It "Set secret in Key Vault" {
