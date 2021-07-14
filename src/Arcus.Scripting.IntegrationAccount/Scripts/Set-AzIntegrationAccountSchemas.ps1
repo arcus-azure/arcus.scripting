@@ -24,7 +24,7 @@ function UploadSchema {
     if ($ArtifactsPrefix -ne '') {
         $schemaName = $ArtifactsPrefix + $schemaName
     }
-    Write-Host "Uploading schema '$schemaName' into the Integration Account '$Name'"
+    Write-Host "Uploading schema '$schemaName' into the Integration Account '$Name'."
 
     ## Check if the schema already exists
     $existingSchema = $null
