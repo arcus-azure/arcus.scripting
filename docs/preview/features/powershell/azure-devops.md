@@ -10,6 +10,7 @@ This module provides the following capabilities:
 - [Setting a variable in an Azure DevOps pipeline](#setting-a-variable-in-an-azure-devops-pipeline)
 - [Setting ARM outputs to Azure DevOps variable group](#setting-arm-outputs-to-azure-devops-variable-group)
 - [Setting ARM outputs to Azure DevOps pipeline variables](#setting-arm-outputs-to-azure-devops-pipeline-variables)
+- [Save Azure DevOps build](#save-azure-devops-build)
 
 ## Installation
 
@@ -104,4 +105,21 @@ PS> Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName
 # Get ARM outputs from 'MyArmOutputs' environment variable
 # The pipeline variable my-variable will be updated to value my-value, so it can be used in subsequent tasks of the current job. 
 # ##vso[task.setvariable variable=my-variable]my-value
+```
+
+## Save Azure DevOps build
+
+Saves/retains a specific Azure DevOps pipeline run.
+
+| Parameter       | Mandatory | Description                                                                |
+| --------------- | --------- | ---------------------------------------------------------------------------|
+| `ProjectId`     | yes       | The Id of the Project where the build that must be retained can be found   |
+| `BuildId`       | yes       | The Id of the build that must be retained                                  |
+
+**Example**
+
+```powershell
+PS> Save-AzDevOpsBuild -ProjectId $(System.TeamProjectId) -BuildId $(Build.BuildId)
+# The variables $(System.TeamProjectId) and $(Build.BuildId) are predefined Azure DevOps variables
+# Information on them can be found here: https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
 ```

@@ -73,3 +73,30 @@ function Set-AzDevOpsArmOutputsToPipelineVariables {
 }
 
 Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
+
+<#
+ .Synopsis
+  Indicates that the specified DevOps pipeline-run must be retained indefinetely.
+
+ .Description
+  Indicates that the specified DevOps pipeline-run must be retained indefinetely.
+ 
+ .Parameter ProjectId
+  The Id of the Project in Azure DevOps to which the build that must be retained, belongs to. 
+  (You can use the predefined variable $(System.TeamProjectId) in an Azure DevOps pipeline).
+
+ .Parameter BuildId
+  The Id of the Build that must be retained.
+  (You can use the predefined variable $(Build.BuildId) in an Azure DevOps pipeline).
+ 
+#>
+function Save-AzDevOpsBuild {
+    param(        
+        [Parameter(Mandatory = $true)][string] $ProjectId = $(throw "ProjectId is required"),
+        [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required")
+    )
+
+    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -ProjectId $ProjectId -BuildId $BuildId
+}
+
+Export-ModuleMember -Function Save-AzDevOpsBuild
