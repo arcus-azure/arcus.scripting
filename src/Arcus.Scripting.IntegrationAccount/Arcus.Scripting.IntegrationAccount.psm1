@@ -22,7 +22,6 @@
 
  .Parameter RemoveFileExtensions
   Indicator whether the extension should be removed from the name before uploading/updating.
-
 #>
 function Set-AzIntegrationAccountSchemas {
     param(

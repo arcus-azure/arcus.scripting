@@ -1,4 +1,3 @@
-Import-Module Az.KeyVault
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.IntegrationAccount {
