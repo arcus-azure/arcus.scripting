@@ -1,85 +1,69 @@
 param(
-   [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
-   [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
-   [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
-   [Parameter()][switch] $Recreate = $false
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+    [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+    [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
+    [Parameter()][switch] $Recreate = $false,
+    [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 5,
+    [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
 )
 
-function Create-StorageAccountTable()
-{
+if ($RetryIntervalSeconds -le 0) {
+    throw "Retry interval in seconds should be greater than zero"
+}
+
+if ($MaxRetryCount -le 0) {
+    throw "Maximum retry-cycle count should be greater than zero"
+}
+
+function Try-CreateTable() {
     [CmdletBinding()]
-    param
-    (
-       [string][parameter(Mandatory = $true)] $ResourceGroupName,
-       [string][parameter(Mandatory = $true)] $StorageAccountName,
-       [string][parameter(Mandatory = $true)] $TableName,
-       [bool][parameter()] $Recreate = $false
+    param (
+        [Parameter(Mandatory = $true)][object] $StorageAccount,
+        [Parameter(Mandatory = $true)][string] $TableName,
+        [Parameter(Mandatory = $false)][int] $RetryIndex = 1
     )
-    BEGIN
-    {
-        #Retrieve the storage account to which the table should be added
-        Write-Host "Retrieving storage account ('$StorageAccountName') context..."
-        $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
-        Write-Host "Storage account context has been retrieved."
+     if ($RetryIndex -ge $MaxRetryCount) {
+         throw "Azure storage table '$TableName' was not able to be created in Azure storage account, please check your connection information and access permissions"
+     }
+
+     try {
+         Write-Verbose "Creating Azure storage table '$TableName' in the Azure storage account..."
+         $storageTable = New-AzStorageTable -Name $TableName -Context $StorageAccount.Context -ErrorAction Stop
+         Write-Host "Azure storage table '$TableName' created"
+         return $true
+     } catch {
+         return $false
+     }
+}
+
+Write-Verbose "Retrieving Azure storage account context..."
+$storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
+Write-Host "Azure storage account context has been retrieved"
+
+Write-Verbose "Checking if the Azure storage table '$TableName' already exists..."
+$tables = Get-AzStorageTable -Context $storageAccount.Context
+
+if ($TableName -in $tables.Name) {
+    if ($Recreate) {
+        Write-Verbose "Deleting existing Azure storage table '$TableName' in the Azure storage account..."
+        $isRemoved = Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context -Force
+        if ($isRemoved -eq $false) {
+            throw "Could not successfully remove Azure storage table '$TableName' in the Azure storage account"
+        }
         
-        #Check if the table already exists
-        Write-Host "Checking if the table '$TableName' already exists..."
-        $table = Get-AzStorageTable -Name $TableName -Context $storageAccount.Context -ErrorAction Ignore
-
-        if($table)
-        {
-            #Table already exists
-            if($Recreate)
-            {
-                #Delete the table before re-creating
-                Write-Host "Deleting existing table '$TableName' in the storage account '$StorageAccountName'..."
-                Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context
-                Write-Host "Table '$TableName' has been removed"
-                
-                while(-not(Try-CreateTable -StorageAccount $storageAccount -TableName $TableName))
-                {
-                    Write-Host "Failed to create the table, retrying in 5 seconds..."
-                    Start-Sleep -Seconds 5
-                }
-               
-            }
-            else
-            {
-                Write-Host "No actions performed, since the specified table ('$TableName') already exists in the storage account ('$StorageAccountName')."
-            }
+        Write-Host "Azure storage table '$TableName' has been removed"
+        
+        $retryIndex = 1
+        while (-not (Try-CreateTable -StorageAccount $storageAccount -TableName $TableName -RetryIndex $retryIndex)) {
+            Write-Warning "Failed to re-create the Azure storage table '$TableName', retrying in 5 seconds..."
+            $retryIndex = $retryIndex + 1
+            Start-Sleep -Seconds $RetryIntervalSeconds
         }
-        else
-        {
-            #Table does not exist
-            Write-Host "Table '$TableName' does not exist yet"
-            Try-CreateTable -StorageAccount $storageAccount -TableName $TableName
-        }
+       
+    } else {
+        Write-Host "No actions performed, since the specified Azure storage table '$TableName' already exists in the Azure storage account"
     }
+} else {
+    Write-Host "Azure storage table '$TableName' does not exist yet in the Azure storage account, so will create one"
+    Try-CreateTable -StorageAccount $storageAccount -TableName $TableName
 }
-
-function Try-CreateTable()
-{
-    [CmdletBinding()]
-    param
-    (
-        [object][parameter(Mandatory = $true)] $StorageAccount,
-        [string][parameter(Mandatory = $true)] $TableName
-    )
-    BEGIN
-    {
-        try
-        {
-            Write-Host "Creating table '$TableName' in the storage account '$StorageAccountName'..."
-            New-AzStorageTable -Name $TableName -Context $StorageAccount.Context -ErrorAction Stop
-            Write-Host "Table '$TableName' has been created"
-
-            return $true
-        }
-        catch
-        {
-            return $false
-        }
-    }
-}
-
-Create-StorageAccountTable -ResourceGroupName $ResourceGroupName -StorageAccountName $StorageAccountName -TableName $TableName -Recreate $Recreate
