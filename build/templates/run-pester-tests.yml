@@ -39,7 +39,7 @@ steps:
         Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
         Write-Host "Done installing, start importing modules"
 
-        Import-Module ./src/Arcus.Scripting.Security/Arcus.Scripting.Security.psm1
+        Import-Module ./src/Arcus.Scripting.Security/Arcus.Scripting.Security.psd1
         
         Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
             % { Write-Host "Import $($_.DirectoryName) module"
