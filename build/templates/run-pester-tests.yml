@@ -39,7 +39,7 @@ steps:
         Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
         Write-Host "Done installing, start importing modules"
 
-        if ("$(Package.Version)" -like "*preview*") {
+        if ($env:PACKAGE_VERSION -like "*preview*") {
             Install-Module Arcus.Scripting.Security -Force -SkipPublisherCheck
         } else {
             Import-Module ./src/Arcus.Scripting.Security
@@ -50,6 +50,8 @@ steps:
                 Import-Module -Name $_.DirectoryName -ErrorAction Stop }
 
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
+      env:
+        PACKAGE_VERSION: '$(Package.Version)'
   - task: PublishTestResults@2
     displayName: 'Publish test results'
     inputs:
