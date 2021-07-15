@@ -21,6 +21,7 @@ For more granular packages we recommend reading the documentation.
 * Automate Azure API Management tasks ([powershell](features/powershell/azure-api-management))
 * Automate Azure Data Factory tasks ([powershell](features/powershell/azure-data-factory))
 * Automate Azure DevOps tasks ([powershell](features/powershell/azure-devops))
+* Automate Azure Integration Account tasks ([powershell](features/powershell/azure-integration-account))
 * Automate Azure Key Vault tasks ([powershell](features/powershell/azure-key-vault))
 * Automate Azure Logic Apps tasks ([powershell](features/powershell/azure-logic-apps))
 * Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
