@@ -120,6 +120,9 @@ stages:
         displayName: 'Push to PowerShell Gallery'
         pool:
           vmImage: '$(Vm.Image)'
+        variables:
+          ${{ if ne(variables['Prerelease'], 'none') }}:
+            Package.Version: "${{ parameters['Package.Version'] }}${{ parameters['Prerelease'] }}"
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
@@ -140,7 +143,7 @@ stages:
                 % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
             displayName: 'Generate .nuspec file for each PowerShell module'
             env:
-              SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
+             SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
           - task: NuGetCommand@2
             inputs:
               command: 'pack'

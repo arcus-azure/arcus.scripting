@@ -381,16 +381,18 @@ function New-NuSpecFile
       "PSCommand_$_"
     }
   }
+ 
+  # Toggled out - not needed and causing exceptions when building prereleases
+  # -------------------------------------------------------------------------
+  #$dscResourceNames = Get-ExportedDscResources -PSModuleInfo $PSModuleInfo
+  #if($dscResourceNames)
+  #{
+  #  $Tags += 'PSIncludes_DscResource'
 
-  $dscResourceNames = Get-ExportedDscResources -PSModuleInfo $PSModuleInfo
-  if($dscResourceNames)
-  {
-    $Tags += 'PSIncludes_DscResource'
-
-    $Tags += $dscResourceNames | Microsoft.PowerShell.Core\ForEach-Object {
-      "PSDscResource_$_"
-    }
-  }
+  #  $Tags += $dscResourceNames | Microsoft.PowerShell.Core\ForEach-Object {
+  #    "PSDscResource_$_"
+  #  }
+  #}
 
   $RoleCapabilityNames = Get-AvailableRoleCapabilityName -PSModuleInfo $PSModuleInfo
   if($RoleCapabilityNames)
