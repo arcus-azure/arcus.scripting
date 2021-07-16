@@ -1,3 +1,5 @@
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Table -ErrorAction Stop
+
 Describe "Arcus" {
     Context "Table Storage" {
         InModuleScope Arcus.Scripting.Storage.Table {
@@ -15,7 +17,6 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
-                    $Name | Should -Be $tableName
                     return $null } -Verifiable
                 Mock New-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
@@ -46,8 +47,7 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
-                    $Name | Should -Be $tableName
-                    return [pscustomobject]@{} } -Verifiable
+                    return @([pscustomobject]@{ Name = $tableName }) } -Verifiable
                 Mock New-AzStorageTable { }
                 Mock Remove-AzStorageTable { }
 
@@ -74,8 +74,7 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
-                    $Name | Should -Be $tableName
-                    return [pscustomobject]@{} } -Verifiable
+                    return [pscustomobject]@{ Name = $tableName } } -Verifiable
                 Mock New-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
                     $Name | Should -Be $tableName } -Verifiable
@@ -106,7 +105,6 @@ Describe "Arcus" {
                     return $psStorageAccount } -Verifiable
                 Mock Get-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
-                    $Name | Should -Be $tableName
                     return $null } -Verifiable
                 Mock New-AzStorageTable {
                     $Context | Should -Be $psStorageAccount.Context
@@ -122,6 +120,22 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzStorageTable -Times 1
                 Assert-MockCalled New-AzStorageTable -Times 1
                 Assert-MockCalled Remove-AzStorageTable -Times 0
+            }
+            It "Create table with zero retry interval in seconds fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -RetryIntervalInSeconds 0 } |
+                    Should -Throw
+            }
+            It "Create table with less than zero retry interval in seconds fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -RetryIntervalInSeconds -3 } |
+                    Should -Throw
+            }
+            It "Create table with zero max retry-cycle count fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -MaxRetryCount 0 } |
+                    Should -Throw
+            }
+            It "Create table with less than zero max retry-cycle count fails" {
+                { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -MaxRetryCount -2 } |
+                    Should -Throw
             }
         }
     }
