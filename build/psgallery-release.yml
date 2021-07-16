@@ -129,14 +129,14 @@ stages:
             inputs:
               artifact: 'Build'
               path: '$(Build.SourcesDirectory)'
-         # - template: github/create-release.yml@templates
-         #   parameters:
-         #     repositoryName: '$(Repository)'
-         #     releaseNotes: |
-         #       Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project).ARM)
-         #       ```shell
-         #       PS > Install-Module -Name $(Project).ARM --Version $(Build.BuildNumber)
-         #       ```
+          - template: github/create-release.yml@templates
+            parameters:
+              repositoryName: '$(Repository)'
+              releaseNotes: |
+                Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project).ARM)
+                ```shell
+                PS > Install-Module -Name $(Project).ARM --Version $(Build.BuildNumber)
+                ```
           - powershell: |
               Import-Module PowerShellGet -Force
               Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
@@ -149,11 +149,11 @@ stages:
               command: 'pack'
               packagesToPack: '**/*.nuspec'
               packDestination: '$(Build.ArtifactStagingDirectory)'
-         # - task: NuGetToolInstaller@1
-         #   displayName: 'Install NuGet'
-         # - powershell: |
-         #     Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
-         #       % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate }
-         #   displayName: 'Push to PowerShell Gallery'
-         #   env:
-         #     ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
+          - task: NuGetToolInstaller@1
+            displayName: 'Install NuGet'
+          - powershell: |
+              Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
+                % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate }
+            displayName: 'Push to PowerShell Gallery'
+            env:
+              ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
