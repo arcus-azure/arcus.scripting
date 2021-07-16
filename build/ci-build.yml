@@ -56,13 +56,14 @@ stages:
               keepToken: false
               tokenPrefix: '#{'
               tokenSuffix: '}#'
-          ${{ if ne(variables['Prerelease'], 'none') }}:
-            - powershell: |
+          - powershell: |
+              if ('$(Prerelease)' -ne 'none') {
                 Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
                   % { $contents = Get-Content $_.FullName
                       $contents = $contents -replace "# Prerelease = ''", "Prerelease = '$(Prerelease)'"
                       $contents | Out-File $_.FullName -Force }
-              displayName: 'Set prerelease version'
+              }
+            displayName: 'Set prerelease version'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
