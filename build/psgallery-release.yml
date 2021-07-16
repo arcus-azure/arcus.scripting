@@ -26,7 +26,7 @@ variables:
   - name: 'Repository'
     value: 'arcus-azure/arcus.scripting'
   - name: 'Package.Version'
-    value: ${{ parameters['Package.Version'] }}
+    value: "${{ parameters['Package.Version'] }}${{ parameters['Prerelease'] }}"
   - name: 'Prerelease'
     value: ${{ parameters['Prerelease'] }}
 
