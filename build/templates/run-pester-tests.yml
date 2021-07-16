@@ -35,14 +35,6 @@ steps:
       Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
       Write-Host "Done installing, start importing modules"
     displayName: 'Install Pester test framework and Az required modules'
-  - powershell: |
-      Write-Host 'Package version: $(Package.Version)'
-      Import-Module ./src/Arcus.Scripting.Security
-      
-      Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
-          % { Write-Host "Import $($_.DirectoryName) module"
-              Import-Module -Name $_.DirectoryName -ErrorAction Stop }
-    displayName: 'Import Arcus PS modules'
   - task: PowerShell@2
     displayName: 'Run Pester tests'
     inputs:
@@ -50,6 +42,11 @@ steps:
       pwsh: true
       failOnStderr: true
       script: |
+        Import-Module ./src/Arcus.Scripting.Security
+      
+        Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
+          % { Write-Host "Import $($_.DirectoryName) module"
+              Import-Module -Name $_.DirectoryName -ErrorAction Stop }
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
   - task: PublishTestResults@2
     displayName: 'Publish test results'
