@@ -26,7 +26,7 @@ variables:
   - name: 'Repository'
     value: 'arcus-azure/arcus.scripting'
   - name: 'Package.Version'
-    value: "${{ parameters['Package.Version'] }}${{ parameters['Prerelease'] }}"
+    value: "${{ parameters['Package.Version'] }}"
   - name: 'Prerelease'
     value: ${{ parameters['Prerelease'] }}
 
@@ -120,6 +120,10 @@ stages:
         displayName: 'Push to PowerShell Gallery'
         pool:
           vmImage: '$(Vm.Image)'
+        variables:
+          ${{ if ne(variables['Prerelease'], 'none') }}:
+            - name: 'Package.Version'
+              value: "${{ parameters['Package.Version'] }}${{ parameters['Prerelease'] }}"
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
