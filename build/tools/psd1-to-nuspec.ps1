@@ -40,7 +40,6 @@ function Get-EscapedString
 
   return [System.Security.SecurityElement]::Escape($ElementValue)
 }
- Toggled out - not needed
 function Get-ExportedDscResources
 {
   [CmdletBinding(PositionalBinding = $false)]
