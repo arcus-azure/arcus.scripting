@@ -46,9 +46,12 @@ steps:
             Import-Module ./src/Arcus.Scripting.Security
         }
         
-        Get-ChildItem -Path ./src -Filter *.psd1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
+        Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
             % { Write-Host "Import $($_.DirectoryName) module"
-                Import-Module -Name $_.FullName -ErrorAction Stop -Global }
+                if ('$(Package.Version)' -like "*preview*") {
+                    Install-Module $_.DirectoryName -Force -SkipPublisherCheck
+                }
+                Import-Module -Name $_.DirectoryName -ErrorAction }
 
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
   - task: PublishTestResults@2
