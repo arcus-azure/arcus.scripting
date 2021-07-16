@@ -20,12 +20,14 @@ PS> Install-Module -Name Arcus.Scripting.Storage.Table
 
 (Re)Create a Azure Table Storage within an Azure Storage Account.
 
-| Parameter            | Mandatory | Description                                                                                                     |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`  | yes       | The resource group where the Azure Storage Account is located                                                   |
-| `StorageAccountName` | yes       | The name of the Azure Storage Account to add the table to                                                       |
-| `TableName`          | yes       | The name of the table to add on the Azure Storage Account                                                       |
-| `Recreate`           | no        | The optional flag to indicate whether or not a possible already existing table should be deleted and re-created |
+| Parameter              | Mandatory | Description                                                                                                                |
+| ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes       | The resource group where the Azure Storage Account is located                                                              |
+| `StorageAccountName`   | yes       | The name of the Azure Storage Account to add the table to                                                                  |
+| `TableName`            | yes       | The name of the table to add on the Azure Storage Account                                                                  |
+| `Recreate`             | no        | The optional flag to indicate whether or not a possible already existing table should be deleted and re-created            |
+| `RetryIntervalSeconds` | no        | The optional amount of seconds to wait each retry-run when a failure occures during the re-creating process (default: 5s)  |
+| `MaxRetryCount`        | no        | The optional maximum amount of retry-runs should happen when a failure occurs during the re-creating process (default: 10) |
 
 **Example**
 
@@ -33,13 +35,18 @@ With non-existing table:
 
 ```powershell
 PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products"
-# Creating table 'products' in the storage account 'admin'..."
+# Azure storage account context has been retrieved
+# Azure storage table 'products' does not exist yet in the Azure storage account, so will create one
+# Azure storage table 'products' created
 ```
 
 With existing table and re-create:
 
 ```powershell
-PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -Recreate
-# Deleting existing table 'products' in the storage account 'admin'...
-# Creating table 'products' in the storage account 'admin'..
+PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -Recreate -RetryIntervalSeconds 3
+# Azure storage account context has been retrieved
+# Azure storage table 'products' has been removed
+# Failed to re-create the Azure storage table 'products', retrying in 5 seconds...
+# Failed to re-create the Azure storage table 'products', retrying in 5 seconds...
+# Azure storage table 'products' created
 ```

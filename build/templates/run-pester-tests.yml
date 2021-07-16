@@ -30,6 +30,7 @@ steps:
       script: |
         Write-Host "Installing Pester test framework and Az required modules"
         Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
+
         Get-ChildItem ./src -Filter *.psd1 -Recurse |
             % { $content = Import-PowerShellDataFile $_.FullName
                 $content.RequiredModules |
@@ -37,6 +38,7 @@ steps:
                     % { Write-Host "Install $($_.ModuleName) module $($_.ModuleVersion)"
                         Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck -AllowPrerelease } }
         Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
+        Install-Module -Name AzTable -Force -SkipPublisherCheck -MaximumVersion 2.1.0
         Write-Host "Done installing, start importing modules"
 
         Import-Module ./src/Arcus.Scripting.Security/Arcus.Scripting.Security.psd1
