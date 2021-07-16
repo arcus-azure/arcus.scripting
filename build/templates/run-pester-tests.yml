@@ -48,7 +48,7 @@ steps:
         
         Get-ChildItem -Path ./src -Filter *.psd1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
             % { Write-Host "Import $($_.DirectoryName) module"
-                Import-Module -Name $_.FullName -ErrorAction Stop }
+                Import-Module -Name $_.FullName -ErrorAction Stop -Global }
 
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
   - task: PublishTestResults@2
