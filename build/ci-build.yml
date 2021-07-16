@@ -33,7 +33,7 @@ variables:
   - group: 'MyGet'
   - template: ./variables/build.yml
   - name: 'Package.Version'
-    value: '0.$(Build.BuildNumber)-preview'
+    value: '0.1.0-preview'
 
 stages:
   - stage: Build
