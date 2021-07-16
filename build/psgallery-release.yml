@@ -122,8 +122,7 @@ stages:
           vmImage: '$(Vm.Image)'
         variables:
           ${{ if ne(variables['Prerelease'], 'none') }}:
-            - name: 'Package.Version'
-              value: "${{ parameters['Package.Version'] }}${{ parameters['Prerelease'] }}"
+            Package.Version: "${{ parameters['Package.Version'] }}${{ parameters['Prerelease'] }}"
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
