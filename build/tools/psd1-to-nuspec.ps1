@@ -40,52 +40,53 @@ function Get-EscapedString
 
   return [System.Security.SecurityElement]::Escape($ElementValue)
 }
-function Get-ExportedDscResources
-{
-  [CmdletBinding(PositionalBinding = $false)]
-  Param
-  (
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
-    [PSModuleInfo]
-    $PSModuleInfo
-  )
+# Toggled out - not needed
+#function Get-ExportedDscResources
+#{
+#  [CmdletBinding(PositionalBinding = $false)]
+#  Param
+#  (
+#    [Parameter(Mandatory = $true)]
+#    [ValidateNotNullOrEmpty()]
+#    [PSModuleInfo]
+#    $PSModuleInfo
+#  )
 
-  $dscResources = @()
+#  $dscResources = @()
 
-  if(Get-Command -Name Get-DscResource -Module PSDesiredStateConfiguration -ErrorAction Ignore)
-  {
-    $OldPSModulePath = $env:PSModulePath
+#  if(Get-Command -Name Get-DscResource -Module PSDesiredStateConfiguration -ErrorAction Ignore)
+#  {
+#    $OldPSModulePath = $env:PSModulePath
 
-    try
-    {
-      $env:PSModulePath = Join-Path -Path $PSHOME -ChildPath 'Modules'
-      $env:PSModulePath = "$env:PSModulePath;$(Split-Path -Path $PSModuleInfo.ModuleBase -Parent)"
+#    try
+#    {
+#      $env:PSModulePath = Join-Path -Path $PSHOME -ChildPath 'Modules'
+#      $env:PSModulePath = "$env:PSModulePath;$(Split-Path -Path $PSModuleInfo.ModuleBase -Parent)"
 
-      $dscResources = PSDesiredStateConfiguration\Get-DscResource -ErrorAction SilentlyContinue -WarningAction SilentlyContinue |
-      Microsoft.PowerShell.Core\ForEach-Object {
-        if($_.Module -and ($_.Module.Name -eq $PSModuleInfo.Name))
-        {
-          $_.Name
-        }
-      }
-    }
-    finally
-    {
-      $env:PSModulePath = $OldPSModulePath
-    }
-  }
-  else
-  {
-    $dscResourcesDir = Join-PathUtility -Path $PSModuleInfo.ModuleBase -ChildPath 'DscResources' -PathType Directory
-    if(Microsoft.PowerShell.Management\Test-Path $dscResourcesDir)
-    {
-      $dscResources = Microsoft.PowerShell.Management\Get-ChildItem -Path $dscResourcesDir -Directory -Name
-    }
-  }
+#      $dscResources = PSDesiredStateConfiguration\Get-DscResource -ErrorAction SilentlyContinue -WarningAction SilentlyContinue |
+#      Microsoft.PowerShell.Core\ForEach-Object {
+#        if($_.Module -and ($_.Module.Name -eq $PSModuleInfo.Name))
+#        {
+#          $_.Name
+#        }
+#      }
+#    }
+#    finally
+#    {
+#      $env:PSModulePath = $OldPSModulePath
+#    }
+#  }
+#  else
+#  {
+#    $dscResourcesDir = Join-PathUtility -Path $PSModuleInfo.ModuleBase -ChildPath 'DscResources' -PathType Directory
+#    if(Microsoft.PowerShell.Management\Test-Path $dscResourcesDir)
+#    {
+#      $dscResources = Microsoft.PowerShell.Management\Get-ChildItem -Path $dscResourcesDir -Directory -Name
+#    }
+#  }
 
-  return $dscResources
-}
+#  return $dscResources
+#}
 function Get-AvailableRoleCapabilityName
 {
   [CmdletBinding(PositionalBinding = $false)]
