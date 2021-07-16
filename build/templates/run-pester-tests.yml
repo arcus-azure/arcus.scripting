@@ -40,17 +40,10 @@ steps:
         Write-Host "Done installing, start importing modules"
 
         Write-Host 'Package version: $(Package.Version)'
-        if ('$(Package.Version)' -like "*preview*") {
-            Install-Module Arcus.Scripting.Security -Force -SkipPublisherCheck
-        } else {
-            Import-Module ./src/Arcus.Scripting.Security
-        }
+        Import-Module ./src/Arcus.Scripting.Security
         
         Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
             % { Write-Host "Import $($_.DirectoryName) module"
-                if ('$(Package.Version)' -like "*preview*") {
-                    Install-Module $_.DirectoryName -Force -SkipPublisherCheck
-                }
                 Import-Module -Name $_.DirectoryName -ErrorAction }
 
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit

@@ -6,6 +6,10 @@ pr: none
 parameters:
   - name: 'Package.Version'
     type: 'string'
+  - name: 'Prerelease'
+    displayName: 'Prerelease string (ex. -alpha, -alpha1, -BETA, -update20171020) or none'
+    type: 'string'
+    default: 'none'
 
 resources:
   repositories:
@@ -23,6 +27,8 @@ variables:
     value: 'arcus-azure/arcus.scripting'
   - name: 'Package.Version'
     value: ${{ parameters['Package.Version'] }}
+  - name: 'Prerelease'
+    value: ${{ parameters['Prerelease'] }}
 
 stages:
   - stage: Build

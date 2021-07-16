@@ -33,7 +33,9 @@ variables:
   - group: 'MyGet'
   - template: ./variables/build.yml
   - name: 'Package.Version'
-    value: '0.1.0-preview'
+    value: '0.1.0'
+  - name: 'Prerelease'
+    value: '-preview'
 
 stages:
   - stage: Build
@@ -54,6 +56,13 @@ stages:
               keepToken: false
               tokenPrefix: '#{'
               tokenSuffix: '}#'
+          ${{ if ne(variables['Prerelease'], 'none') }}:
+            - powershell: |
+                Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+                  % { $contents = Get-Content $_.FullName
+                      $contents = $contents -replace "# Prerelease = ''", "Prerelease = '$(Prerelease)'"
+                      $contents | Out-File $_.FullName -Force }
+              displayName: 'Set prerelease version'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
