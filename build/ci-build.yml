@@ -59,7 +59,8 @@ stages:
           - powershell: |
               if ('$(Prerelease)' -ne 'none') {
                 Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
-                  % { $contents = Get-Content $_.FullName
+                  % { Write-Host "Insert prerelease '$(Prerelease)' into PowerShell $($_.Name) datafile"
+                      $contents = Get-Content $_.FullName
                       $contents = $contents -replace "# Prerelease = ''", "Prerelease = '$(Prerelease)'"
                       $contents | Out-File $_.FullName -Force }
               }

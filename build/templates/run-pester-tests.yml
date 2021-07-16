@@ -9,6 +9,7 @@ steps:
       fi
     env:
       PROJECT_NAME: ${{ parameters.projectName }}
+    displayName: 'Guard against invalid parameters'
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace integration test tokens'
     inputs:
@@ -24,8 +25,9 @@ steps:
   - powershell: |
       Write-Host "Installing Pester test framework and Az required modules"
       Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
-      Get-ChildItem ./src -Filter *.psd1 -Recurse |
-          % { $content = Import-PowerShellDataFile $_.FullName
+      Get-ChildItem ./src -Filter *.psd1 -Recurse -Exclude "*.All.psd1" |
+          % { Write-Host "Inspect PowerShell '$($_.Name)' datafile"
+              $content = Import-PowerShellDataFile $_.FullName
               $content.RequiredModules |
                   where { $_.ModuleName -ne $null -and $_.ModuleVersion -ne "#{Package.Version}#" } |
                   % { Write-Host "Install $($_.ModuleName) module $($_.ModuleVersion)"
