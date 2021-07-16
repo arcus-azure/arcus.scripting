@@ -9,6 +9,7 @@ steps:
       fi
     env:
       PROJECT_NAME: ${{ parameters.projectName }}
+    displayName: 'Guard against invalid parameters'
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace integration test tokens'
     inputs:
@@ -21,6 +22,20 @@ steps:
       keepToken: false
       tokenPrefix: '#{'
       tokenSuffix: '}#'
+  - powershell: |
+      Write-Host "Installing Pester test framework and Az required modules"
+      Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
+      Get-ChildItem ./src -Filter *.psd1 -Recurse -Exclude "*.All.psd1" |
+          % { Write-Host "Inspect PowerShell '$($_.Name)' datafile"
+              $content = Import-PowerShellDataFile $_.FullName
+              $content.RequiredModules |
+                  where { $_.ModuleName -ne $null -and $_.ModuleName -notlike 'Arcus.Scripting.*' -and $_.ModuleVersion -ne "#{Package.Version}#" } |
+                  % { Write-Host "Install $($_.ModuleName) module $($_.ModuleVersion)"
+                      Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck } }
+      Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
+      Install-Module -Name AzTable -Force -SkipPublisherCheck -MaximumVersion 2.1.0
+      Write-Host "Done installing, start importing modules"
+    displayName: 'Install Pester test framework and Az required modules'
   - task: PowerShell@2
     displayName: 'Run Pester tests'
     inputs:
@@ -28,25 +43,11 @@ steps:
       pwsh: true
       failOnStderr: true
       script: |
-        Write-Host "Installing Pester test framework and Az required modules"
-        Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
-
-        Get-ChildItem ./src -Filter *.psd1 -Recurse |
-            % { $content = Import-PowerShellDataFile $_.FullName
-                $content.RequiredModules |
-                    where { $_.ModuleName -ne $null -and $_.ModuleVersion -ne "#{Package.Version}#" } |
-                    % { Write-Host "Install $($_.ModuleName) module $($_.ModuleVersion)"
-                        Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck -AllowPrerelease } }
-        Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
-        Install-Module -Name AzTable -Force -SkipPublisherCheck -MaximumVersion 2.1.0
-        Write-Host "Done installing, start importing modules"
-
-        Import-Module ./src/Arcus.Scripting.Security/Arcus.Scripting.Security.psd1
-        
+        Import-Module ./src/Arcus.Scripting.Security
+      
         Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
-            % { Write-Host "Import $($_.DirectoryName) module"
-                Import-Module -Name $_.DirectoryName -ErrorAction Stop }
-
+          % { Write-Host "Import $($_.DirectoryName) module"
+              Import-Module -Name $_.DirectoryName -ErrorAction Stop }
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
   - task: PublishTestResults@2
     displayName: 'Publish test results'

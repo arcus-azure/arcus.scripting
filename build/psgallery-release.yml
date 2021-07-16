@@ -6,6 +6,10 @@ pr: none
 parameters:
   - name: 'Package.Version'
     type: 'string'
+  - name: 'Prerelease'
+    displayName: 'Prerelease string (ex. -alpha, -alpha1, -BETA, -update20171020) or none'
+    type: 'string'
+    default: 'none'
 
 resources:
   repositories:
@@ -23,6 +27,8 @@ variables:
     value: 'arcus-azure/arcus.scripting'
   - name: 'Package.Version'
     value: ${{ parameters['Package.Version'] }}
+  - name: 'Prerelease'
+    value: ${{ parameters['Prerelease'] }}
 
 stages:
   - stage: Build
@@ -43,6 +49,15 @@ stages:
               keepToken: false
               tokenPrefix: '#{'
               tokenSuffix: '}#'
+          - powershell: |
+              if ('$(Prerelease)' -ne 'none') {
+                Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+                  % { Write-Host "Insert prerelease '$(Prerelease)' into PowerShell $($_.Name) datafile"
+                      $contents = Get-Content $_.FullName
+                      $contents = $contents -replace "# Prerelease = ''", "Prerelease = '$(Prerelease)'"
+                      $contents | Out-File $_.FullName -Force }
+              }
+            displayName: 'Set prerelease version'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
