@@ -35,7 +35,7 @@ steps:
                 $content.RequiredModules |
                     where { $_.ModuleName -ne $null -and $_.ModuleVersion -ne "#{Package.Version}#" } |
                     % { Write-Host "Install $($_.ModuleName) module $($_.ModuleVersion)"
-                        Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck -AllowPrerelease } }
+                        Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -Force -SkipPublisherCheck } }
         Install-Module -Name Az -Force -SkipPublisherCheck -MaximumVersion 5.6.0
         Write-Host "Done installing, start importing modules"
 
@@ -44,7 +44,7 @@ steps:
         
         Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
             % { Write-Host "Import $($_.DirectoryName) module"
-                Import-Module -Name $_.DirectoryName -ErrorAction }
+                Import-Module -Name $_.DirectoryName -ErrorAction Stop }
 
         Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
   - task: PublishTestResults@2
