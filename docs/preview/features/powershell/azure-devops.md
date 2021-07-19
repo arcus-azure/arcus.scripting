@@ -6,6 +6,7 @@ layout: default
 # Azure DevOps
 
 This module provides the following capabilities:
+
 - [Installation](#installation)
 - [Setting a variable in an Azure DevOps pipeline](#setting-a-variable-in-an-azure-devops-pipeline)
 - [Setting ARM outputs to Azure DevOps variable group](#setting-arm-outputs-to-azure-devops-variable-group)
@@ -122,4 +123,27 @@ Saves/retains a specific Azure DevOps pipeline run.
 PS> Save-AzDevOpsBuild -ProjectId $(System.TeamProjectId) -BuildId $(Build.BuildId)
 # The variables $(System.TeamProjectId) and $(Build.BuildId) are predefined Azure DevOps variables
 # Information on them can be found here: https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+```
+
+This function is intended to be used from an Azure DevOps pipeline.  Internally, it uses some predefined Azure DevOps variables.
+One of the environment variables that is used, is the the `SYSTEM_ACCESSTOKEN` variable.  However, due to safety reasons this variable is not available out-of-the box.
+To be able to use this variable, it must be explicitly added to the environment-variables.
+
+Example of how to use this function in an Azure DevOps pipeline:
+
+```yaml
+- task: PowerShell@2
+  displayName: 'Retain current build indefinitely'
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+  inputs:
+    targetType: 'inline'
+    pwsh: true
+    script: |
+      Install-Module -Name Arcus.Scripting.DevOps -Force
+
+      $project = "$(System.TeamProjectId)"
+      $buildId = $(Build.BuildId)
+
+      Save-AzDevOpsBuild -ProjectId $project -BuildId $buildId
 ```
