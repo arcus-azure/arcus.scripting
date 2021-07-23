@@ -10,7 +10,7 @@ function global:Connect-AzAccountFromConfig ($config) {
     & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
 }
 
-InModuleScope {
+InModuleScope Arcus.Scripting.Security {
     Describe "Arcus Azure security integration tests" {
         Context "Get cached access token" {
             It "Get cached access token from current active authenticated Azure session succeeds" {
