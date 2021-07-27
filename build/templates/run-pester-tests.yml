@@ -36,19 +36,17 @@ steps:
       Install-Module -Name AzTable -Force -SkipPublisherCheck -MaximumVersion 2.1.0
       Write-Host "Done installing, start importing modules"
     displayName: 'Install Pester test framework and Az required modules'
-  - task: PowerShell@2
-    displayName: 'Run Pester tests'
-    inputs:
-      targetType: 'inline'
-      pwsh: true
-      failOnStderr: true
-      script: |
-        Import-Module ./src/Arcus.Scripting.Security
+  - powershell:
+      Import-Module ./src/Arcus.Scripting.Security
       
-        Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
-          % { Write-Host "Import $($_.DirectoryName) module"
-              Import-Module -Name $_.DirectoryName -ErrorAction Stop }
-        Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
+      Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
+        % { Write-Host "Import $($_.DirectoryName) module"
+            Import-Module -Name $_.DirectoryName -ErrorAction Stop }
+      Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
+    displayName: 'Run Pester tests'
+    failOnStderr: true
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
   - task: PublishTestResults@2
     displayName: 'Publish test results'
     inputs:
