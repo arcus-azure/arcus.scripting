@@ -16,8 +16,6 @@ InModuleScope Arcus.Scripting.DevOps {
                 $buildId = $env:BUILD_BUILDID
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
                 $requestUri = "$collectionUri" + "$projectId/_apis/build/builds/" + $buildId + "?api-version=6.0"
-                $part = $env:SYSTEM_ACCESSTOKEN.Substring(0, 2)
-                Write-Host "Access Token is like $part"
                 $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
                 try {
                     # Act
