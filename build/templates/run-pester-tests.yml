@@ -36,9 +36,8 @@ steps:
       Install-Module -Name AzTable -Force -SkipPublisherCheck -MaximumVersion 2.1.0
       Write-Host "Done installing, start importing modules"
     displayName: 'Install Pester test framework and Az required modules'
-  - powershell:
+  - powershell: |
       Import-Module ./src/Arcus.Scripting.Security
-      
       Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
         % { Write-Host "Import $($_.DirectoryName) module"
             Import-Module -Name $_.DirectoryName -ErrorAction Stop }
