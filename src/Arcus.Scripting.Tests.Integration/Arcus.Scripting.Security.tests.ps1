@@ -28,6 +28,7 @@ InModuleScope Arcus.Scripting.Security {
             }
               It "Get cached access token from current unative authenticated Azure session fails" {
                 # Arrange
+                $config = Load-AppSettings
                 Disconnect-AzAccount -TenantId $config.Arcus.TenantId -ApplicationId $config.Arcus.ServicePrincipal.ClientId
 
                 # Act
