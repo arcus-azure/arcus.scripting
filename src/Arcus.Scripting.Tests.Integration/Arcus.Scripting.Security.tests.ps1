@@ -26,6 +26,13 @@ InModuleScope Arcus.Scripting.Security {
                 $token.SubscriptionId | Should -Not -BeNullOrEmpty
                 $token.AccessToken | Should -Not -BeNullOrEmpty
             }
+              It "Get cached access token from current unative authenticated Azure session fails" {
+                # Arrange
+                Disconnect-AzAccount -TenantId $config.Arcus.TenantId -ApplicationId $config.Arcus.ServicePrincipal.ClientId
+
+                # Act
+                { Get-AzCachedAccessToken } | Should -Throw
+            }
         }
     }
 }
