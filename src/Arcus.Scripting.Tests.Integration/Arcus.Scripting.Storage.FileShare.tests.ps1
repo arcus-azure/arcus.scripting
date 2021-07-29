@@ -90,6 +90,47 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                     -DestinationFolderName $folderName } |
                     Should -Throw
             }
+            It "Copying file into existing Azure FileShare storage" {
+                # Arrange
+                $folderName = "uploaded-arcus-fileshare-folder"
+                New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
+
+                # Act
+                Copy-AzFileShareStorageFiles `
+                    -ResourceGroupName $config.Arcus.ResourceGroupName `
+                    -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                    -FileShareName $fileShareName `
+                    -SourceFolderPath "$PSScriptRoot\Blobs" `
+                    -DestinationFolderName $folderName
+
+                # Assert
+                $tempLocation = "$PSScriptRoot\arcus.png"
+                try {
+                    Get-AzStorageFileContent `
+                        -Context $storageAccount.Context `
+                        -ShareName $fileShareName `
+                        -Path "$folderName/arcus.png" `
+                        -Destination $tempLocation -Force
+                    $file = Get-Item $tempLocation
+                    $file.Length | Should -BeGreaterThan 0
+                } finally {
+                    Remove-Item $tempLocation -Force
+                }
+            }
+            It "Copying file into non-existing Azure FileShare storage" {
+                # Arrange
+                $folderName = "non-existing-arcus-fileshare-folder"
+                $nonExistingFileShareName = "non-existing-fileshare-storage"
+
+                # Act / Assert
+                { Copy-AzFileShareStorageFiles `
+                    -ResourceGroupName $config.Arcus.ResourceGroupName `
+                    -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                    -FileShareName $nonExistingFileShareName `
+                    -SourceFolderPath "$PSScriptRoot\Blobs" `
+                    -DestinationFolderName $folderName } |
+                    Should -Throw
+            }
         }
         AfterEach {
             Remove-AzStorageShare -Name $fileShareName -Context $storageAccount.Context -IncludeAllSnapshot -Force

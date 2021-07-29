@@ -164,6 +164,89 @@ Describe "Arcus" {
                 Assert-MockCalled Get-ChildItem -Times 0
                 Assert-MockCalled Set-AzStorageFileContent -Times 0
             }
+            It "Copy files to existing Azure File Share" {
+                # Arrange
+                $resourceGroup = "stock"
+                $storageAccountName = "admin"
+                $fileShareName = "shipped-file"
+                $sourceFolderPath = "/shipped"
+                $destinationFolderName = "/shipped"
+                $fileMask = "-suffix"
+
+                $files = @( 
+                    [pscustomobject]@{ Name = "Container 1$fileMask"; FullName = "Container 1-full" }, 
+                    [pscustomobject]@{ Name = "Container 2"; FullName = "Container 2-full" }
+                )
+
+                Mock Get-AzStorageAccount {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $storageAccountName
+                    return $psStorageAccount } -Verifiable
+                Mock Get-AzStorageShare {
+                    $Context | Should -Be $psStorageAccount.Context
+                    $Name | Should -Be $fileShareName
+                    return $fileShare } -Verifiable
+                Mock Get-ChildItem {
+                    $Path | Should -Be $sourceFolderPath
+                    return $files } -Verifiable
+                Mock Set-AzStorageFileContent {
+                    $Context | Should -Be $psStorageAccount.Context
+                    $ShareName | Should -Be $fileShareName
+                    $Source | Should -BeIn ($files | % { $_.FullName })
+                    $Path | Should -Be $destinationFolderName } -Verifiable
+
+                # Act
+                Copy-AzFileShareStorageFiles `
+                    -ResourceGroupName $resourceGroup `
+                    -StorageAccountName $storageAccountName `
+                    -FileShareName $fileShareName `
+                    -SourceFolderPath $sourceFolderPath `
+                    -DestinationFolderName $destinationFolderName `
+                    -FileMask $fileMask
+                
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-AzStorageShare -Times 1
+                Assert-MockCalled Get-ChildItem -Times 1
+                Assert-MockCalled Set-AzStorageFileContent -Times 1
+            }
+            It "Copy files to Azure File Share fails when no File Share is found" {
+                # Arrange
+                $resourceGroup = "stock"
+                $storageAccountName = "admin"
+                $fileShareName = "shipped-file"
+                $sourceFolderPath = "shipped"
+                $destinationFolderName = "shipped"
+                $fileMask = "-suffix"
+
+                Mock Get-AzStorageAccount {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $storageAccountName
+                    return $psStorageAccount } -Verifiable 
+                Mock Get-AzStorageShare {
+                    $Context | Should -Be $psStorageAccount.Context
+                    $Name | Should -Be $fileShareName
+                    throw [Microsoft.Azure.Storage.StorageException] "Sabotage does not exist getting file share" }
+                Mock Get-ChildItem { }
+                Mock Set-AzStorageFileContent { }
+
+                # Act
+                { Copy-AzFileShareStorageFiles `
+                    -ResourceGroupName $resourceGroup `
+                    -StorageAccountName $storageAccountName `
+                    -FileShareName $fileShareName `
+                    -SourceFolderPath $sourceFolderPath `
+                    -DestinationFolderName $destinationFolderName `
+                    -FileMask $fileMask } |
+                    Should -Throw
+                
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-ChildItem -Times 0
+                Assert-MockCalled Set-AzStorageFileContent -Times 0
+            }
         }
     }
 }
