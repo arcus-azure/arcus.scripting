@@ -81,7 +81,7 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzStorageAccount -Times 1
                 Assert-MockCalled New-AzStorageDirectory -Times 0
             }
-            It "Copy files to existing Azure File Share" {
+            It "Upload files to existing Azure File Share" {
                 # Arrange
                 $resourceGroup = "stock"
                 $storageAccountName = "admin"
@@ -113,7 +113,7 @@ Describe "Arcus" {
                     $Path | Should -Be $destinationFolderName } -Verifiable
 
                 # Act
-                Copy-AzFileShareStorageFiles `
+                Upload-AzFileShareStorageFiles `
                     -ResourceGroupName $resourceGroup `
                     -StorageAccountName $storageAccountName `
                     -FileShareName $fileShareName `
@@ -128,7 +128,7 @@ Describe "Arcus" {
                 Assert-MockCalled Get-ChildItem -Times 1
                 Assert-MockCalled Set-AzStorageFileContent -Times 1
             }
-            It "Copy files to Azure File Share fails when no File Share is found" {
+            It "Upload files to Azure File Share fails when no File Share is found" {
                 # Arrange
                 $resourceGroup = "stock"
                 $storageAccountName = "admin"
@@ -149,7 +149,7 @@ Describe "Arcus" {
                 Mock Set-AzStorageFileContent { }
 
                 # Act
-                { Copy-AzFileShareStorageFiles `
+                { Upload-AzFileShareStorageFiles `
                     -ResourceGroupName $resourceGroup `
                     -StorageAccountName $storageAccountName `
                     -FileShareName $fileShareName `

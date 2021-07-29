@@ -48,14 +48,14 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                     Should -Contain $folderName
             }
         }
-        Context "Copy files into Azure FileShare storage folder" {
+        Context "Upload files into Azure FileShare storage folder" {
             It "Uploads file into existing Azure FileShare storage" {
                 # Arrange
                 $folderName = "uploaded-arcus-fileshare-folder"
                 New-AzStorageDirectory -Context $storageAccount.Context -ShareName $fileShareName -Path $folderName
 
                 # Act
-                Copy-AzFileShareStorageFiles `
+                Upload-AzFileShareStorageFiles `
                     -ResourceGroupName $config.Arcus.ResourceGroupName `
                     -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                     -FileShareName $fileShareName `
@@ -82,7 +82,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                 $nonExistingFileShareName = "non-existing-fileshare-storage"
 
                 # Act / Assert
-                { Copy-AzFileShareStorageFiles `
+                { Upload-AzFileShareStorageFiles `
                     -ResourceGroupName $config.Arcus.ResourceGroupName `
                     -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
                     -FileShareName $nonExistingFileShareName `
