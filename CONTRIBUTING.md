@@ -3,7 +3,7 @@
 
 The following set of guidelines will help you in contributing to this Arcus repository. The difference with other Arcus repositories is that `Arcus.Scripting` is written in PowerShell which can be an extra hurdle to take for some.
 
-But, no worries, if you forget something or have problems with some of these steps, we'll happy to help! In those cases: create a PullRequest on this repository so we can talk about it.
+But, no worries, if you forget something or have problems with some of these steps, we're happy to help! In those cases: create a PullRequest on this repository so we can talk about it.
 
 ## PowerShell modules
 Our PowerShell functionality is hosted as seperate modules. Each module contains a set of PowerShell scripts that can be accessed as regular functions.
