@@ -740,6 +740,71 @@
                 # Assert
                 Assert-VerifiableMock
             }
+            It "Uploads public CA certificate to Azure API Management in-process" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $certificateFile = "c:\temp\certificate.cer"
+                $stubCertificate = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagementSystemCertificate
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock New-AzApiManagementSystemCertificate {
+                    $StoreName | Should -Be "Root"
+                    $PfxPath | Should -Be $certificateFile
+                    return $stubCertificate } -Verifiable
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Set-AzApiManagement {
+                    $InputObject | Should -Be $stubApiManagement
+                    $AsJob | Should -Be $false } -Verifiable
+
+                # Act
+                Upload-AzApiManagementSystemCertificate `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -CertificateFilePath $certificateFile
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled New-AzApiManagementSystemCertificate -Times 1
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Set-AzApiManagement -Times 1
+            }
+            It "Uploads public CA certificate to Azure API Management out-of-process" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $certificateFile = "c:\temp\certificate.cer"
+                $stubCertificate = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagementSystemCertificate
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock New-AzApiManagementSystemCertificate {
+                    $StoreName | Should -Be "Root"
+                    $PfxPath | Should -Be $certificateFile
+                    return $stubCertificate } -Verifiable
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Set-AzApiManagement {
+                    $InputObject | Should -Be $stubApiManagement
+                    $AsJob | Should -Be $true } -Verifiable
+
+                # Act
+                Upload-AzApiManagementSystemCertificate `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -CertificateFilePath $certificateFile `
+                    -AsJob
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled New-AzApiManagementSystemCertificate -Times 1
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Set-AzApiManagement -Times 1
+            }
         }
     }
 }

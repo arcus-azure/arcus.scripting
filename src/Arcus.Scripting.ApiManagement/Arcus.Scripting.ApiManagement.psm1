@@ -361,7 +361,7 @@ Export-ModuleMember -Function Upload-AzApiManagementCertificate
   The name of the resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
-  THe name of the Azure API Management instance.
+  The name of the Azure API Management instance.
 
  .Parameter CertificateFilePath
   The full file path to the location of the public CA certificate.
@@ -374,7 +374,7 @@ function Upload-AzApiManagementSystemCertificate {
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
         [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API Management service name is required"),
         [Parameter(Mandatory = $true)][string] $CertificateFilePath = $(throw "Certificate file-path is required"),
-        [Parameter(Mandatory = $true][switch] $AsJob = $false
+        [Parameter(Mandatory = $true)][switch] $AsJob = $false
     )
 
     if ($AsJob) {
