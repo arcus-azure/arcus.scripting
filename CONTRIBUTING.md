@@ -125,5 +125,5 @@ Make sure that you provide the correct metadata information in the `.psd1` file:
 
     > Note that any PowerShell dependencies are to be added to the `RequiredModules` in the form of `RequiredModules = @{ @{ ModuleName = 'YourDependency'; ModuleVersion = '1.2.3' } }`
 
-These is all the important parts. After you updated this file, you're good to go!
+These are all the important parts. After you updated this file, you're good to go!
 See [How to add a new script in an existing module](#how-to-add-a-new-script-in-an-existing-module) for the next step.
