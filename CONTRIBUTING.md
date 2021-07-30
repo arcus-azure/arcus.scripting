@@ -1,7 +1,7 @@
 # Contributing to Arcus.Scripting
 🎉 First off, thanks for taking the time to contribute! We're really glad you're reading this. 🎉
 
-The following set of guidelines will help you contributing to this Arcus repository. Different than other repositories, it's written in PowerShell which can be an extra hurtle to take for some.
+The following set of guidelines will help you in contributing to this Arcus repository. The difference with other Arcus repositories is that `Arcus.Scripting` is written in PowerShell which can be an extra hurdle to take for some.
 
 But, no worries, if you forget something or have problems with some of these steps, we'll happy to help! In those cases: create a PullRequest on this repository so we can talk about it.
 
