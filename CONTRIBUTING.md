@@ -32,7 +32,7 @@ A new script to an existing PowerShell module means that the script will be avai
 These are the steps you need to take:
 
 1. Add your PowerShell `.ps1` script file to the `Scripts\` folder of the PowerShell module you want to extend.
-2. Expose your script in the `.psm1` script module. This is normally something in the line of this.
+2. Expose your script in the `.psm1` script module. This normally looks like this:
 
 ```powershell
 <#
