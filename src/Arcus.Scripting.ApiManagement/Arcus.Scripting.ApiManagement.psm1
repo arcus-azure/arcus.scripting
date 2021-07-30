@@ -374,7 +374,7 @@ function Upload-AzApiManagementSystemCertificate {
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
         [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API Management service name is required"),
         [Parameter(Mandatory = $true)][string] $CertificateFilePath = $(throw "Certificate file-path is required"),
-        [Parameter(Mandatory = $true)][switch] $AsJob = $false
+        [Parameter(Mandatory = $false)][switch] $AsJob = $false
     )
 
     if ($AsJob) {

@@ -1,6 +1,8 @@
-﻿Describe "Arcus" {
-    Context "ApiManagement" {
-        InModuleScope Arcus.Scripting.ApiManagement {
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.ApiManagement {
+    Describe "Arcus Azure API Management unit tests" {
+        Context "Create Azure API Management backup" {
             It "Creates storage context during API management backup" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -175,6 +177,8 @@
                 Assert-MockCalled New-AzStorageContext -Times 1
                 Assert-MockCalled Backup-AzApiManagement -Times 1
             }
+        }
+        Context "Create Azure API Management API operation" {
             It "Calls new operation on Azure API Management operation w/o policy" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -244,6 +248,8 @@
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
+        }
+        Context "Import Azure API Management product policy" {
             It "Importing policy product sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -293,6 +299,8 @@
                     # Assert
                     Should -Throw
             }
+        }
+        Context "Remove Azure API Management defaults" {
             It "Remove API Management defaults succeed" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -408,6 +416,8 @@
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
+        }
+        Context "Import Azure API Management API policy" {
             It "Importing policy API sets API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -459,6 +469,8 @@
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
+        }
+        Context "Import Azure API Management operation policy" {
             It "Importing policy operation sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -512,6 +524,8 @@
                 # Assert
                 Assert-VerifiableMock
             }
+        }
+        Context "Restore Azure API Management service" {
             It "Restores API management service w/o pass thru and profile" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -690,32 +704,36 @@
                 Assert-MockCalled New-AzStorageContext -Times 1
                 Assert-MockCalled Restore-AzApiManagement -Times 1
             }
-            It "Sets subscription keys on an API in Azure API Management" {
-                # Arrange
-                $resourceGroup = "shopping"
-                $serviceName = "shopping-API-management"
-                $apiId = "shopping-API"
-                $apiKeyHeaderName = "header-name"
-                $apiKeyQueryParamName = "query-param-name"
-                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+        }
+        Context "Set Azure API Management subscription key" {
+          It "Sets subscription keys on an API in Azure API Management" {
+              # Arrange
+              $resourceGroup = "shopping"
+              $serviceName = "shopping-API-management"
+              $apiId = "shopping-API"
+              $apiKeyHeaderName = "header-name"
+              $apiKeyQueryParamName = "query-param-name"
+              $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
-                Mock New-AzApiManagementContext {
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $ServiceName | Should -Be $serviceName
-                    return $context } -Verifiable
+              Mock New-AzApiManagementContext {
+                  $ResourceGroupName | Should -Be $resourceGroup
+                  $ServiceName | Should -Be $serviceName
+                  return $context } -Verifiable
 
-                Mock Set-AzApiManagementApi {
-                    $Context | Should -be $context
-                    $ApiId | Should -Be $apiId
-                    $SubscriptionKeyHeaderName | Should -Be $apiKeyHeaderName
-                    $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
+              Mock Set-AzApiManagementApi {
+                  $Context | Should -be $context
+                  $ApiId | Should -Be $apiId
+                  $SubscriptionKeyHeaderName | Should -Be $apiKeyHeaderName
+                  $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
 
-                # Act
-                Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
+              # Act
+              Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
 
-                # Assert
-                Assert-VerifiableMock
-            }
+              # Assert
+              Assert-VerifiableMock
+          }
+      }
+        Context "Upload Azure API Management certificate" {
             It "Uploads private certificate to API Management" {
                 # Arrange
                 $resourceGroup = "customer"
@@ -740,6 +758,8 @@
                 # Assert
                 Assert-VerifiableMock
             }
+        }
+        Context "Upload Azure API Management system certificate" {
             It "Uploads public CA certificate to Azure API Management in-process" {
                 # Arrange
                 $resourceGroup = "contoso"
