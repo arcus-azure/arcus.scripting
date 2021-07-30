@@ -17,7 +17,7 @@ Arcus.Scripting.ModuleName\
 ```
 
 ### `.psd1` file
-This file is the module manifest file of the PowerShell module. This contains metadata information like the module version, required dependency modules, module description, etc.
+This file is the module manifest file for the PowerShell module. This manifest contains metadata information such as: the module version, required dependency modules, module description, etc...
 
 ### `.psm1` file
 This file is the script module file. This contains the actual exposed functionality that will be available when the PowerShell module gets installed.
