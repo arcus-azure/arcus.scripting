@@ -103,7 +103,7 @@ Invoke-Pester .\src\Arcus.Scripting.Unit.Tests\Arcus.Scripting.YourModule.tests.
 ```
 
 ## How to add a new module
-We use the [PowerShell Tools for Visual Studio](https://ironmansoftware.com/powershell-pro-tools) to manage our project. When creating a new PowerShell module, this corresponds with creating a new PowerShell project to our code solution. Make sure that you name the module in the format `Arcus.Scripting.*`.
+We use the [PowerShell Tools for Visual Studio](https://ironmansoftware.com/powershell-pro-tools) to manage our project. When creating a new PowerShell module, this corresponds with adding a new PowerShell project to our code solution. Make sure that you name the module in the format `Arcus.Scripting.*`.
 
 Normally, you would already be presented with a `.psd1` and `.psm1` file. If you don't know what these files are, see our section [PowerShell modules](#powershell-modules) or [the official Microsoft docs](https://docs.microsoft.com/en-us/powershell/scripting/developer/module/understanding-a-windows-powershell-module) for more information.
 
