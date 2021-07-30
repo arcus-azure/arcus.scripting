@@ -58,7 +58,7 @@ Export-ModuleMember -Function My-AzCustomFunction
 
 3. Add your function name to the `FunctionsToExport` in the `.psd1` file: `FunctionsToExport = @('My-AzCustomFunction')`
 
-Voila! Now your script will be part as a module function the next time the PowerShell module will be installed.
+Voila! Now your script will be available as a module function the next time the PowerShell module is installed.
 
 ## How to add tests for a new script
 As test framework, we use [Pester](https://pester.dev/docs/quick-start). These tests can be found under the solution folder `/Tests`. Both unit and integration tests follow the same principle: 1 file per PowerShell module. So, if you have created a new PowerShell module, you can create a new `.tests.ps1` file, otherwise append your test to the exising one for the module.
