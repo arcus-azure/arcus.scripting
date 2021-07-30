@@ -96,7 +96,7 @@ InModuleScope Arcus.Scripting.YourModule {
 }
 ```
 
-When you want to tests these locally, we recommand to provide a valid `ModuleVersion` in the `.psd1` file, as it's required for loading the module in Pester.
+When you want to run these tests locally, we recommend to provide a valid `ModuleVersion` in the `.psd1` file, as it's required for loading the module in Pester.
 
 ```powershell
 Invoke-Pester .\src\Arcus.Scripting.Unit.Tests\Arcus.Scripting.YourModule.tests.ps1
