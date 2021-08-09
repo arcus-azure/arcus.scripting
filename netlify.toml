@@ -23,6 +23,22 @@ ID = "52a5e73a-fd4e-4d18-8321-5334c5de88c9"
 [build.environment]
   NODE_VERSION = "16.2"
 
+[[redirects]]
+  from = "/:version/features/powershell/azure-storage-all"
+  to = "/:version/features/powershell/azure-storage/azure-storage-all"
+
+[[redirects]]
+  from = "/:version/features/powershell/azure-storage-blob"
+  to = "/:version/features/powershell/azure-storage/azure-storage-blob"
+
+[[redirects]]
+  from = "/:version/features/powershell/azure-storage-fileshare"
+  to = "/:version/features/powershell/azure-storage/azure-storage-fileshare"
+
+[[redirects]]
+  from = "/:version/features/powershell/azure-storage-table"
+  to = "/:version/features/powershell/azure-storage/azure-storage-table"
+
 # Production context: all deploys from the Production branch set in your site's
 # deploy settings will inherit these settings.
 # [context.production]

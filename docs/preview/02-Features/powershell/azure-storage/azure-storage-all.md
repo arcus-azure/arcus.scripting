@@ -1,11 +1,20 @@
 ---
-title: " Azure Storage"
+title: "Azure Storage"
 layout: default
+sidebar_label: Installation
 ---
 
 # Azure Storage
 
 This module contains several sub-modules, all related to Azure Storage.
+
+## Installation
+
+Install all Azure Storage-related modules at once via:
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.Storage.All
+```
 
 ## Azure Table Storage
 

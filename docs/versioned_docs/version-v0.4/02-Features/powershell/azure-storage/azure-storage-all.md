@@ -1,6 +1,7 @@
 ---
 title: " Azure Storage"
 layout: default
+sidebar_label: Installation
 ---
 
 # Azure Storage
