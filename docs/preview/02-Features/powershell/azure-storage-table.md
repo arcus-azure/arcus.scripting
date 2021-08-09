@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure Table Storage"
+title: " Azure Table Storage"
 layout: default
 ---
 

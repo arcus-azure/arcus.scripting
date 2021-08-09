@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure Logic Apps"
+title: " Azure Logic Apps"
 layout: default
 ---
 

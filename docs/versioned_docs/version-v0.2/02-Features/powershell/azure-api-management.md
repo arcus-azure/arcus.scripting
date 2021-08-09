@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure API Management"
+title: " Azure API Management"
 layout: default
 ---
 

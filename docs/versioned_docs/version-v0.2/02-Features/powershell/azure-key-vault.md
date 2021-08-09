@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure Key Vault"
+title: " Azure Key Vault"
 layout: default
 ---
 

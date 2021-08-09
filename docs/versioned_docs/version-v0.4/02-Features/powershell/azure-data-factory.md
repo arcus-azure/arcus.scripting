@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure Data Factory"
+title: " Azure Data Factory"
 layout: default
 ---
 

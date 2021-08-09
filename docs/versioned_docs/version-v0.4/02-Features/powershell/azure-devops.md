@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure DevOps"
+title: " Azure DevOps"
 layout: default
 ---
 

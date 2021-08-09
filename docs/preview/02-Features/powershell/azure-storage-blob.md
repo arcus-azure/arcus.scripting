@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure Blob Storage"
+title: " Azure Blob Storage"
 layout: default
 ---
 

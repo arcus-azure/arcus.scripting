@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure Storage for file shares"
+title: " Azure Storage for file shares"
 layout: default
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with an Azure Integration Account"
+title: "Azure Integration Account"
 layout: default
 ---
 

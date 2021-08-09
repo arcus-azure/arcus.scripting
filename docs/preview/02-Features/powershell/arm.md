@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to ARM templates"
+title: "ARM templates"
 layout: default
 ---
 

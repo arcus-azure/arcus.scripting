@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to Azure security"
+title: " Azure security"
 layout: default
 ---
 

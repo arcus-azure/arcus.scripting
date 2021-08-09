@@ -1,5 +1,5 @@
 ---
-title: "Scripts related to interacting with Azure SQL"
+title: " Azure SQL"
 layout: default
 ---
 
