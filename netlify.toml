@@ -39,6 +39,21 @@ ID = "52a5e73a-fd4e-4d18-8321-5334c5de88c9"
   from = "/:version/features/powershell/azure-storage-table"
   to = "/:version/features/powershell/azure-storage/azure-storage-table"
 
+[[redirects]]
+  from = "/features/powershell/azure-storage-all"
+  to = "/features/powershell/azure-storage/azure-storage-all"
+
+[[redirects]]
+  from = "/features/powershell/azure-storage-blob"
+  to = "/features/powershell/azure-storage/azure-storage-blob"
+
+[[redirects]]
+  from = "/features/powershell/azure-storage-fileshare"
+  to = "/features/powershell/azure-storage/azure-storage-fileshare"
+
+[[redirects]]
+  from = "/features/powershell/azure-storage-table"
+  to = "/features/powershell/azure-storage/azure-storage-table"
 # Production context: all deploys from the Production branch set in your site's
 # deploy settings will inherit these settings.
 # [context.production]
