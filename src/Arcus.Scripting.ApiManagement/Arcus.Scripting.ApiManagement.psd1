@@ -12,7 +12,7 @@
 RootModule = 'Arcus.Scripting.ApiManagement.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1.0'
+ModuleVersion = '#{Package.Version}#'
 
 # ID used to uniquely identify this module
 GUID = '4f659b73-9e1e-4085-8ed0-a5ae1e46c34a'
