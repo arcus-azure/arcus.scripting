@@ -5,6 +5,13 @@ The following set of guidelines will help you contributing to this Arcus reposit
 
 But, no worries, if you forget something or have problems with some of these steps, we'll happy to help! In those cases: create a PullRequest on this repository so we can talk about it.
 
+This contribution guide has the following contents:
+- [PowerShell modules](#powershell-modules)
+- [How to add a new script in an existing module](#how-to-add-a-new-script-to-an-existing-module)
+- [How to add tests for a new script](#how-to-add-tests-for-a-new-script)
+- [How to add a new module](#how-to-add-a-new-module)
+- [How to update feature documentation](#how-to-update-feature-documentation)
+
 ## PowerShell modules
 Our PowerShell functionality is hosted as seperate modules. Each module contains a set of PowerShell scripts that can be accessed as regular functions.
 
@@ -128,7 +135,7 @@ Make sure that you provide the correct metadata information in the `.psd1` file:
 These is all the important parts. After you updated this file, you're good to go!
 See [How to add a new script in an existing module](#how-to-add-a-new-script-in-an-existing-module) for the next step.
 
-## Update feature documentation
+## How to update feature documentation
 When your contribution contains a new function or function parameter or any other public change, make sure that you update the feature documentation.
 The process here is that for upcoming releases, we update the markdown files in the `./docs/preview` folder so it will be included in the next release.
 
