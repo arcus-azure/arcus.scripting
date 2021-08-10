@@ -127,3 +127,32 @@ Make sure that you provide the correct metadata information in the `.psd1` file:
 
 These is all the important parts. After you updated this file, you're good to go!
 See [How to add a new script in an existing module](#how-to-add-a-new-script-in-an-existing-module) for the next step.
+
+## Update feature documentation
+When your contribution contains a new function or function parameter or any other public change, make sure that you update the feature documentation.
+The process here is that for upcoming releases, we update the markdown files in the `./docs/preview` folder so it will be included in the next release.
+
+Look for the correct documentation file within the PowerShell module you updated or create a new markdown file for your new module.
+An update in the Azure API Management documentation will, for example, result in a change in the `./docs/preview/02-Features/azure-api-management.md`.
+
+New documentation files usually have the following structure:
+
+````
+---
+title: "Your new module:
+layout: default
+---
+
+# Your new PowerShell module
+This module contains following capabilities:
+- [Your new PowerShell function](#your-new-powershell-function)
+
+## Installation
+To have access to the following features, you have to import the module:
+
+```powershell
+PS> Install-Module -Name Arcus.Scripting.YourModule
+```
+
+## Your new PowerShell function
+This new function of yours has this functionality.
