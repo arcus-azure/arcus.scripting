@@ -23,7 +23,7 @@ InModuleScope Arcus.Scripting.Security {
 
                 # Assert
                 $token | Should -Not -Be $null
-                $token.SubscriptionId | Should -Not -BeNullOrEmpty
+                $token.SubscriptionId | Should -Be $config.Arcus.SubscriptionId
                 $token.AccessToken | Should -Not -BeNullOrEmpty
             }
               It "Get cached access token from current unative authenticated Azure session fails" {
