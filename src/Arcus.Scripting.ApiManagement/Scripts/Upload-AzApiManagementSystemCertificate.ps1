@@ -12,6 +12,10 @@ Write-Host "Loaded public CA certificate '$CertificateFilePath'"
 
 Write-Verbose "Retrieving Azure API Management service '$ServiceName' instance..."
 $apimContext = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
+if ($apimContext -eq $null) {
+    throw "Unable to find the Azure API Management Instance '$ServiceName' in resource group $ResourceGroupName"
+}
+
 $systemCertificates = $apimContext.SystemCertificates
 $systemCertificates += $systemCert
 $apimContext.SystemCertificates = $systemCertificates

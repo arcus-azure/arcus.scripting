@@ -825,6 +825,65 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Set-AzApiManagement -Times 1
             }
+            It "Uploads public CA certificate to non-existing Azure API Management in-porcess fails" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $certificateFile = "c:\temp\certificate.cer"
+                $stubCertificate = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagementSystemCertificate
+
+                Mock New-AzApiManagementSystemCertificate {
+                    $StoreName | Should -Be "Root"
+                    $PfxPath | Should -Be $certificateFile
+                    return $stubCertificate } -Verifiable
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $null } -Verifiable
+                Mock Set-AzApiManagement { } -Verifiable
+
+                # Act
+                { Upload-AzApiManagementSystemCertificate `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -CertificateFilePath $certificateFile } | Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled New-AzApiManagementSystemCertificate -Times 1
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Set-AzApiManagement -Times 0
+            }
+            It "Uploads public CA certificate to non-existing Azure API Management out-of-porcess fails" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $certificateFile = "c:\temp\certificate.cer"
+                $stubCertificate = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagementSystemCertificate
+
+                Mock New-AzApiManagementSystemCertificate {
+                    $StoreName | Should -Be "Root"
+                    $PfxPath | Should -Be $certificateFile
+                    return $stubCertificate } -Verifiable
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $null } -Verifiable
+                Mock Set-AzApiManagement { } -Verifiable
+
+                # Act
+                { Upload-AzApiManagementSystemCertificate `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -CertificateFilePath $certificateFile `
+                    -AsJob } | Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled New-AzApiManagementSystemCertificate -Times 1
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Set-AzApiManagement -Times 0
+            }
         }
     }
 }
