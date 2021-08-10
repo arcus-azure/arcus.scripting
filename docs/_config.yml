@@ -1,7 +1,0 @@
-repository: arcus-azure/arcus.scripting
-theme: jekyll-theme-slate
-logo: https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png
-title: Arcus Scripting
-description: Scripting with Microsoft Azure in a breeze.
-plugins:
-  - jemoji
