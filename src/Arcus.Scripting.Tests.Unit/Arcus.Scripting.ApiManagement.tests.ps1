@@ -840,7 +840,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $null } -Verifiable
-                Mock Set-AzApiManagement { } -Verifiable
+                Mock Set-AzApiManagement { }
 
                 # Act
                 { Upload-AzApiManagementSystemCertificate `
@@ -869,7 +869,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $null } -Verifiable
-                Mock Set-AzApiManagement { } -Verifiable
+                Mock Set-AzApiManagement { }
 
                 # Act
                 { Upload-AzApiManagementSystemCertificate `
