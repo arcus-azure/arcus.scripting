@@ -7,7 +7,7 @@ But, no worries, if you forget something or have problems with some of these ste
 
 This contribution guide has the following contents:
 - [PowerShell modules](#powershell-modules)
-- [How to add a new script in an existing module](#how-to-add-a-new-script-to-an-existing-module)
+- [How to add a new script to an existing module](#how-to-add-a-new-script-to-an-existing-module)
 - [How to add tests for a new script](#how-to-add-tests-for-a-new-script)
 - [How to add a new module](#how-to-add-a-new-module)
 - [How to update feature documentation](#how-to-update-feature-documentation)
@@ -34,7 +34,7 @@ This folder contains all the PowerShell scripts in the module. As you will see, 
 
 For more information on PowerShell modules, see [the official Microsoft docs](https://docs.microsoft.com/en-us/powershell/scripting/developer/module/understanding-a-windows-powershell-module).
 
-## How to add a new script in an existing module
+## How to add a new script to an existing module
 A new script to an existing PowerShell module means that the script will be available as a module function.
 These are the steps you need to take:
 
