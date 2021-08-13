@@ -46,7 +46,7 @@ function Add-VariableGroupVariable()
             #Set properties for update of existing variable group
             Write-Host Set properties for update of existing variable group
             $variableGroup = $variableGroup.value[0]
-			$variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by release '$env:Release_ReleaseName'." -Force
+            $variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by release '$env:Release_ReleaseName'." -Force
             $method = "Put"
             $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion    
         }
