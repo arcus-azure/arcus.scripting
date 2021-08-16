@@ -37,9 +37,9 @@ function Add-VariableGroupVariable()
 
         #Get variable group
         Write-Host Get variable group
-        $getVariableGroupUrl= $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion + "&groupName=" + $VariableGroupName
+        $getVariableGroupUrl= $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion + "&groupName=" + [uri]::EscapeDataString($VariableGroupName)
         $variableGroup = (Invoke-RestMethod -Uri $getVariableGroupUrl -Headers $headers -Verbose) 
-        Write-Host $variableGroup
+        Write-Host "GET variable group: $variableGroup"
 
         if($variableGroup.value)
         {
