@@ -35,12 +35,12 @@ function Add-VariableGroupVariable()
         }
         $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
 
-
         #Get variable group
         Write-Host Get variable group
         $getVariableGroupUrl= $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion + "&groupName=" + $VariableGroupName
         $variableGroup = (Invoke-RestMethod -Uri $getVariableGroupUrl -Headers $headers -Verbose) 
-        
+        Write-Host $variableGroup
+
         if($variableGroup.value)
         {
             #Set properties for update of existing variable group
