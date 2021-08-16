@@ -20,7 +20,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 try {
                     # Act
                     Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId
-
+        
                     # Assert
                     $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                     $json = ConvertFrom-Json $getResponse.Content
@@ -39,11 +39,12 @@ InModuleScope Arcus.Scripting.DevOps {
                 $existingVariableGroup = $config.Arcus.DevOps.VariableGroup.Name
                 $variableName = "MyVariable"
                 $variableValue = [System.Guid]::NewGuid()
-                $env:ArmOutputs = "{ ""$existingVariableGroup"": [ { ""Name"": ""$variableName"", ""Value"": { ""value"": ""$variableValue"" } } ] }"
+                $env:ArmOutputs = "{ ""$variableName"": [ { ""Name"": ""$variableName"", ""Value"": { ""value"": ""$variableValue"" } } ] }"
 
                 $project = "$env:SYSTEM_TEAMPROJECT"
                 $projectUri = "$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"
                 $apiVersion = "4.1-preview.1"
+                
                 $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
                 $variableGroup = $null
 
@@ -56,11 +57,11 @@ InModuleScope Arcus.Scripting.DevOps {
                     $variableGroup = Invoke-RestMethod -Uri $getVariableGroupUrl -Headers $headers -Verbose
                     $variableGroup = $variableGroup.value[0]
                     $variableGroup.variables.$variableName | Should -Not -Be $null
-                    $variableGroup.variables.$variableName.value | Should -Be $variableValue
-                finally {
+                    $variableGroup.variables.$variableName.value | Should -Be "@{value=$variableValue}"
+                } finally {
                     $variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group reverted" -Force
-                    $variableGroup = $variableGroup.variables | Select-Object -Property * -ExcludeProperty $variableName
-                    
+                    $variableGroup.variables.PSObject.Members.Remove($variableName)
+
                     $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion 
                     $body = $variableGroup | ConvertTo-Json -Depth 10 -Compress
                     Invoke-RestMethod $upsertVariableGroupUrl -Method "Put" -Body $body -Headers $headers -ContentType 'application/json; charset=utf-8' -Verbose
