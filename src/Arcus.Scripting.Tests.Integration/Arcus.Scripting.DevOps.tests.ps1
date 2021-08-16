@@ -48,7 +48,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
                 $variableGroup = $null
 
-                try {
+                #try {
                     # Act
                     Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $existingVariableGroup
 
@@ -58,14 +58,14 @@ InModuleScope Arcus.Scripting.DevOps {
                     $variableGroup = $variableGroup.value[0]
                     $variableGroup.variables.$variableName | Should -Not -Be $null
                     $variableGroup.variables.$variableName.value | Should -Be "@{value=$variableValue}"
-                } finally {
+                #} finally {
                     $variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group reverted" -Force
                     $variableGroup.variables.PSObject.Members.Remove($variableName)
 
                     $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion 
                     $body = $variableGroup | ConvertTo-Json -Depth 10 -Compress
                     Invoke-RestMethod $upsertVariableGroupUrl -Method "Put" -Body $body -Headers $headers -ContentType 'application/json; charset=utf-8' -Verbose
-                }
+                #}
             }
         }
     }
