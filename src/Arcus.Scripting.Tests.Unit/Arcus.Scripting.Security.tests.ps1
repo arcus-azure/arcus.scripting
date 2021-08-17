@@ -42,8 +42,7 @@ Describe "Arcus" {
                 $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $LockName | Should -Be $expectedLockName
-                    return @([pscustomobject]@{ LockId = "my-lock-id" }) } -Verifiable
+                    return @([pscustomobject]@{ LockId =$expectedLockId, Name = $expectedLockName }) } -Verifiable
                 Mock Remove-AzResourceLock {
                     $LockId | Should -Be $expectedLockId } -Verifiable
 
@@ -62,7 +61,6 @@ Describe "Arcus" {
                 $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $LockName | Should -Be $expectedLockName
                     return @() } -Verifiable
                 Mock Remove-AzResourceLock { }
 

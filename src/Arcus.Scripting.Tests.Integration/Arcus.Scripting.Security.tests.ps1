@@ -3,7 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 InModuleScope Arcus.Scripting.Security {
     Describe "Arcus Azure security integration tests" {
         BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.local.json"
+            $filePath = "$PSScriptRoot\appsettings.json"
             [string]$appsettings = Get-Content $filePath
             $config = ConvertFrom-Json $appsettings
             
