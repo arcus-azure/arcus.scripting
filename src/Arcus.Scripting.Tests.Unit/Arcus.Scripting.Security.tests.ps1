@@ -1,6 +1,8 @@
-Describe "Arcus" {
-    Context "ARM remove resource group locks" {
-        InModuleScope Arcus.Scripting.Security {
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.Security {
+    Describe "Arcus Azure security unit tests" {
+        Context "ARM remove resource group locks" {
             It "Removes all resource group locks without providing lock name" {
                 # Arrange
                 $expectedLockId = "my-lock-id"
