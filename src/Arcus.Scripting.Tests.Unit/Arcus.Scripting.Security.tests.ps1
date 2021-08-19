@@ -1,6 +1,8 @@
-Describe "Arcus" {
-    Context "ARM remove resource group locks" {
-        InModuleScope Arcus.Scripting.Security {
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.Security {
+    Describe "Arcus Azure security unit tests" {
+        Context "ARM remove resource group locks" {
             It "Removes all resource group locks without providing lock name" {
                 # Arrange
                 $expectedLockId = "my-lock-id"
@@ -42,8 +44,7 @@ Describe "Arcus" {
                 $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $LockName | Should -Be $expectedLockName
-                    return @([pscustomobject]@{ LockId = "my-lock-id" }) } -Verifiable
+                    return @([pscustomobject]@{ LockId =$expectedLockId; Name = $expectedLockName }) } -Verifiable
                 Mock Remove-AzResourceLock {
                     $LockId | Should -Be $expectedLockId } -Verifiable
 
@@ -62,7 +63,6 @@ Describe "Arcus" {
                 $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $LockName | Should -Be $expectedLockName
                     return @() } -Verifiable
                 Mock Remove-AzResourceLock { }
 
@@ -75,9 +75,7 @@ Describe "Arcus" {
                 Assert-MockCalled Remove-AzResourceLock -Times 0
             }
         }
-    }
-    Context "Get Az Cached Access Token" {
-        InModuleScope Arcus.Scripting.Security {
+        Context "Get Az Cached Access Token" {
             It "Retrieves the subscriptionId and accessToken without assigning global variables" {
                 # Arrange
                 $subscriptionId = "123456"
@@ -121,9 +119,7 @@ Describe "Arcus" {
                 $Global:accessToken | Should -Be $token.AccessToken
             }
         }
-    }
-    Context "New Az resource group role assignment" {
-        InModuleScope Arcus.Scripting.Security {
+        Context "New Az resource group role assignment" {
             It "Gets resource to grant specific access to the targetted resource group" {
                 # Arrange
                 $targetResourceGroup = "to-be-accessed-resources"
@@ -131,7 +127,7 @@ Describe "Arcus" {
                 $resource = "my-resource"
                 $roleDefinitionName = "Contributer"
                 $principalId = [System.Guid]::NewGuid()
-
+        
                 Mock Get-AzResource {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $resource
@@ -142,13 +138,39 @@ Describe "Arcus" {
                     $RoleDefinitionName | Should -Be $roleDefinitionName
                     $ResourceGroupName | Should -Be $targetResourceGroup
                 } -Verifiable
-
+        
                 # Act
-                New-AzResourceGroupRoleAssignment -TargetResourceGroupName $targetResourceGroup -ResourceGroupName $resourceGroup -ResourceName $resource -RoleDefinitionName $roleDefinitionName
-
+                New-AzResourceGroupRoleAssignment `
+                    -TargetResourceGroupName $targetResourceGroup `
+                    -ResourceGroupName $resourceGroup `
+                    -ResourceName $resource `
+                    -RoleDefinitionName $roleDefinitionName
+        
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzResource -Times 1
+                Assert-MockCalled New-AzRoleAssignment -Times 1
+            }
+            It "New resource group role assignment with only object ID succeeds" {
+                # Arrange
+                $targetResourceGroup = "to-be-accessed-resources"
+                $roleDefinitionName = "Contributer"
+                $principalId = [System.Guid]::NewGuid()
+        
+                Mock New-AzRoleAssignment {
+                    $ObjectId | Should -Be $principalId
+                    $RoleDefinitionName | Should -Be $roleDefinitionName
+                    $ResourceGroupName | Should -Be $targetResourceGroup
+                } -Verifiable
+        
+                # Act
+                New-AzResourceGroupRoleAssignment `
+                    -TargetResourceGroupName $targetResourceGroup `
+                    -ObjectId $principalId `
+                    -RoleDefinitionName $roleDefinitionName
+        
+                # Assert
+                Assert-VerifiableMock
                 Assert-MockCalled New-AzRoleAssignment -Times 1
             }
         }

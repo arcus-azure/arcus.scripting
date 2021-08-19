@@ -57,13 +57,50 @@ Export-ModuleMember -Function Get-AzCachedAccessToken
 #>
 function New-AzResourceGroupRoleAssignment {
     param (
-        [Parameter(Mandatory = $true)][string] $TargetResourceGroupName = $(throw "Target resource group name to which access should be granted is required"),
-        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name where the resource is located which should be granted access is required"),
-        [Parameter(Mandatory = $true)][string] $ResourceName = $(throw "Name of the resource which should be granted access is required"),
-        [Parameter(Mandatory = $true)][string] $RoleDefinitionName = $(throw "Name of the role definition is required")
+        [Parameter(ParameterSetName = "Resource", Mandatory = $true)]
+        [Parameter(ParameterSetName = "Object", Mandatory = $true)]
+        [string] $TargetResourceGroupName = $(throw "Target resource group name to which access should be granted is required"),
+
+        [Parameter(ParameterSetName = "Resource", Mandatory = $true)]
+        #[ValidateScript({ if ($_) { return $true } else { throw "Resource group name where the resource is located which should be granted access is required" } })]
+        [string] $ResourceGroupName,
+
+        [Parameter(ParameterSetName = "Resource", Mandatory = $true)]
+        #[ValidateScript({ if ($_) { return $true } else { throw "Name of the resource which should be granted access is required" } })]
+        [string] $ResourceName,
+
+        [Parameter(ParameterSetName = "Object", Mandatory = $true)]
+        #[ValidateScript({ if ( $PSCmdLet.ParameterSetName -eq "Object" -and $_) { return $true } else { throw "ObjectId of the resource that needs to get a role assigned" }  })] 
+        [string] $ObjectId,
+
+        [Parameter(ParameterSetName = "Resource", Mandatory = $true)]
+        [Parameter(ParameterSetName = "Object", Mandatory = $true)]
+        [string] $RoleDefinitionName = $(throw "Name of the role definition is required")
     )
 
-    . $PSScriptRoot\Scripts\New-AzResourceGroupRoleAssignment.ps1 -TargetResourceGroupName $TargetResourceGroupName -ResourceGroupName $ResourceGroupName -ResourceName $ResourceName -RoleDefinitionName $RoleDefinitionName
+    if ($PSCmdLet.ParameterSetName -eq "Resource") {
+        if (-not $ResourceName) {
+            throw "Name of the resource which should be granted access is required"
+        }
+        if (-not $ResourceGroupName) {
+             throw "Resource group name where the resource is located which should be granted access is required"
+        }
+
+        . $PSScriptRoot\Scripts\New-AzResourceGroupRoleAssignment.ps1 `
+            -TargetResourceGroupName $TargetResourceGroupName `
+            -ResourceGroupName $ResourceGroupName `
+            -ResourceName $ResourceName `
+            -RoleDefinitionName $RoleDefinitionName
+    } elseif ($PSCmdLet.ParameterSetName -eq "Object") {
+        if (-not($ObjectId)) {    
+            throw "The ObjectId of the resource that needs to get a role assigned."
+        }
+
+        . $PSScriptRoot\Scripts\New-AzResourceGroupRoleAssignment.ps1 `
+            -TargetResourceGroupName $TargetResourceGroupName `
+            -ObjectId $ObjectId `
+            -RoleDefinitionName $RoleDefinitionName
+    }
 }
 
 Export-ModuleMember -Function New-AzResourceGroupRoleAssignment

@@ -1,9 +1,8 @@
-
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 
-Describe "Arcus" {
-    Context "LogicApps" {
-        InModuleScope Arcus.Scripting.LogicApps {
+InModuleScope Arcus.Scripting.LogicApps {
+    Describe "Arcus Azure Logic App integration tests" {
+        Context "LogicApps" {
             It "Enables a specific Logic App"{
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
