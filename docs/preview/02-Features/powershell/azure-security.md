@@ -37,6 +37,8 @@ When you want to remove all the resource locks, no matter what the name or the s
 PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name"
 # Retrieving all locks in resourceGroup 'your-resource-group-name'
 # Start removing all locks in resourceGroup 'your-resource-group-name'
+# Removing the lock: 'some resource lock 1'
+# Removing the lock: 'some resource lock 2'
 # All locks in resourceGroup 'your-resource-group-name' have been removed
 ```
 
@@ -46,6 +48,7 @@ When you want to remove a specific resource lock, with a given name:
 PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name" -LockName "your-resource-lock-name"
 # Retrieving all locks in resourceGroup 'your-resource-group-name' with name 'your-resource-lock-name'
 # Start removing all locks in resourceGroup 'your-resource-group-name'
+# Removing the lock: 'your-resource-lock-name'
 # All locks in resourceGroup 'your-resource-group-name' have been removed
 ```
 
