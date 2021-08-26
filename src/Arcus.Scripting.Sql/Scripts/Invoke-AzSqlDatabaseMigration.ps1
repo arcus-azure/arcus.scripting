@@ -1,8 +1,8 @@
 param(
     [Parameter(Mandatory=$true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
     [Parameter(Mandatory=$true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
-    [Parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the User that must be used to perform the update"),
-    [Parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the User that must be used to perform the update"),
+    [Parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the user name of the user that must be used to perform the update"),
+    [Parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the password of the user that must be used to perform the update"),
     [Parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
     [Parameter(Mandatory=$false)][string] $ScriptsFileFilter = "*.sql",
     [Parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
