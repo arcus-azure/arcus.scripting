@@ -170,7 +170,7 @@ for ($i = 0; $i -lt $files.Count; $i++)
     [DatabaseVersion] $scriptVersionNumber = [DatabaseVersion]::new($fileNameParts[0])
     [string] $migrationDescription = $fileNameParts[1]
 
-    if( $scriptVersionNumber -le $databaseVersion )
+    if ($scriptVersionNumber -le $databaseVersion)
     {
         Write-Verbose "Skipped Migration $scriptVersionNumber as it has already been applied"
         continue
