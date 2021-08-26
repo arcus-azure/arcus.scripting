@@ -45,8 +45,8 @@ function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [stri
       'ServerInstance' = $serverInstance
       'Username' = $UserName
       'Password' = $Password
-      'OutputSqlErrors' = $True
-      'AbortOnError' = $True
+      'OutputSqlErrors' = $true
+      'AbortOnError' = $true
     }
 }
 
