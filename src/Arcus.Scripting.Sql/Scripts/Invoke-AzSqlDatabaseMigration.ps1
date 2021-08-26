@@ -139,7 +139,7 @@ $databaseVersionNumberDataRow = Execute-DbCommandWithResult $params $getCurrentD
 
 $databaseVersion = [DatabaseVersion]::new()
 
-if( !($null -eq $databaseVersionNumberDataRow ) )
+if ($null -ne $databaseVersionNumberDataRow)
 {
     $databaseVersion = [DatabaseVersion]::new([convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[1]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[2]))    
 }
