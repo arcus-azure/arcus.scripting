@@ -93,7 +93,7 @@ Class DatabaseVersion : System.IComparable
         {
             $result = $this.MinorVersionNumber.CompareTo($other.MinorVersionNumber)
 
-            if( $result -eq 0 )
+            if ($result -eq 0)
             {
                 return $this.PatchVersionNumber.CompareTo($other.PatchVersionNumber)
             }            
