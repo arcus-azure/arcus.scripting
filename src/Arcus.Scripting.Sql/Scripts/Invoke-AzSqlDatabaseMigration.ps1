@@ -27,7 +27,7 @@ function Execute-DbCommand($params, [string]$query)
 function Execute-DbCommandWithResult($params, [string] $query)
 {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -ErrorAction Stop -ErrorVariable err
-    if( $err )
+    if ($err)
     {
         throw ($err)
     }
