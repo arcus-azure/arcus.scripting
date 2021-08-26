@@ -182,7 +182,7 @@ for ($i = 0; $i -lt $files.Count; $i++)
 
     Execute-DbCommand $params $migrationScript
 
-    if($migrationDescription.Length -gt 256)
+    if ($migrationDescription.Length -gt 256)
     {
 		Write-Host "Need to truncate the migration description because its size is" $scriptVersionDescription.Length "while the maximum size is 256"
         $migrationDescription = $migrationDescription.Substring(0, 256)
