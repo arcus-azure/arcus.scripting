@@ -67,7 +67,7 @@ When you want to retrieve the current access-token, after connecting to a specif
 
 ```powershell
 PS> $token = Get-AzCachedAccessToken
-# AccessToken and subscriptionId retrieved
+# Azure access token and subscription ID retrieved from current active Azure authenticated session
 PS> Write-Host "Current SubscriptionId:" $token.SubscriptionId
 # Current SubscriptionId: b1a8131b-35fb-4d49-b77b-11abd21c9dcb
 PS> Write-Host "Current AccessToken:" $token.AccessToken
@@ -78,7 +78,9 @@ When you want to retrieve the current access-token, after connecting to a specif
 
 ```powershell
 PS> $token = Get-AzCachedAccessToken -AssignGlobalVariables
-# AccessToken and subscriptionId retrieved
+# Global variable 'subscriptionId' assigned
+# Global variable 'accessToken' assigned
+# Azure access token and subscription ID retrieved from current active Azure authenticated session
 PS> Write-Host "Current SubscriptionId:" $Global:subscriptionId
 # Current SubscriptionId: b1a8131b-35fb-4d49-b77b-11abd21c9dcb
 PS> Write-Host "Current AccessToken:" $Global:accessToken

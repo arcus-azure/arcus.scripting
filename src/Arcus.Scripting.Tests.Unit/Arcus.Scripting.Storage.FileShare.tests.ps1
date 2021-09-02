@@ -1,3 +1,5 @@
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAction Stop
+
 Describe "Arcus" {
     Context "File Share" {
         InModuleScope Arcus.Scripting.Storage.FileShare {
