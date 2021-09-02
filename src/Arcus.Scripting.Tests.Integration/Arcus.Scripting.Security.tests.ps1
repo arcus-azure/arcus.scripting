@@ -2,18 +2,11 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Security {
     Describe "Arcus Azure security integration tests" {
-        BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.json"
-            [string]$appsettings = Get-Content $filePath
-            $config = ConvertFrom-Json $appsettings
-            
-            & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
-        }
         Context "Get cached access token" {
             It "Get cached access token from current active authenticated Azure session succeeds" {
                 # Arrange
-                $config = Load-AppSettings
-                Connect-AzAccountFromConfig $config
+                $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+                & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
 
                 # Act
                 $token = Get-AzCachedAccessToken
@@ -25,7 +18,7 @@ InModuleScope Arcus.Scripting.Security {
             }
             It "Get cached access token from current unative authenticated Azure session fails" {
                 # Arrange
-                $config = Load-AppSettings
+                $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
                 Disconnect-AzAccount -TenantId $config.Arcus.TenantId -ApplicationId $config.Arcus.ServicePrincipal.ClientId
 
                 # Act
@@ -33,6 +26,10 @@ InModuleScope Arcus.Scripting.Security {
             }
         }
         Context "Removing resource locks on Azure resources" {
+            BeforeEach {
+                $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+                & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+            }
             It "Newly added resource lock gets removed by removing all resource locks with a given lock name" {
                 # Arrange
                 $lockName = "NewTestingLockWithName"
