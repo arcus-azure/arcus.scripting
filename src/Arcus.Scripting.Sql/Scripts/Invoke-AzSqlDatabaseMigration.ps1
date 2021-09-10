@@ -18,7 +18,7 @@ function Execute-DbCommand($params, [string]$query)
 {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -QueryTimeout 180 -ErrorAction Stop -ErrorVariable err
     
-    if( $err )
+    if ($err)
     {
         throw ($err)
     }
