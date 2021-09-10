@@ -9,7 +9,7 @@ function global:Get-TestSqlDataTable ($query, $schema, $DatabaseVersionTableName
         $databaseVersionRow["TableName"] = $DatabaseVersionTableName
         $tableNamesDataTable.Rows.Add($databaseVersionRow)
         return $tableNamesDataTable
-    } elseif ($query -eq "SELECT TOP 1 CurrentVersionNumber FROM [$schema].[DatabaseVersion] ORDER BY CurrentVersionNumber DESC") {
+    } elseif ($query -eq "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM DatabaseVersion ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC") {
         $databaseVersionDataTable = New-Object System.Data.DataTable
         $currentVersionNumberColumn = New-Object System.Data.DataColumn
         $currentVersionNumberColumn.ColumnName = "CurrentVersionNumber"
@@ -32,7 +32,7 @@ Describe "Arcus" {
                 $username = "my-user"
                 $password = "my-pass"
                 Mock Invoke-Sqlcmd { 
-                    $ServerInstance | Should -Be "$serverName.database.windows.net"
+                    $ServerInstance | Should -Be "$serverName"
                     $Database | Should -Be $databaseName
                     $Username | Should -Be $username
                     $Password | Should -Be $password
@@ -70,7 +70,7 @@ Describe "Arcus" {
                 $username = "my-user"
                 $password = "my-pass"
                 Mock Invoke-Sqlcmd {
-                    $ServerInstance | Should -Be "$serverName.database.windows.net"
+                    $ServerInstance | Should -Be "$serverName"
                     $Database | Should -Be $databaseName
                     $Username | Should -Be $username
                     $Password | Should -Be $password
@@ -109,7 +109,7 @@ Describe "Arcus" {
                 $password = "my-pass"
                 $databaseSchema = "custom"
                 Mock Invoke-Sqlcmd { 
-                    $ServerInstance | Should -Be "$serverName.database.windows.net"
+                    $ServerInstance | Should -Be "$serverName"
                     $Database | Should -Be $databaseName
                     $Username | Should -Be $username
                     $Password | Should -Be $password
