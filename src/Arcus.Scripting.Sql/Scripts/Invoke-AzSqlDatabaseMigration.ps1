@@ -1,8 +1,8 @@
 param(
     [Parameter(Mandatory=$true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
     [Parameter(Mandatory=$true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
-    [Parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the User that must be used to perform the update"),
-    [Parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the User that must be used to perform the update"),
+    [Parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the user name of the user that must be used to perform the update"),
+    [Parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the password of the user that must be used to perform the update"),
     [Parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
     [Parameter(Mandatory=$false)][string] $ScriptsFileFilter = "*.sql",
     [Parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
@@ -27,7 +27,7 @@ function Execute-DbCommand($params, [string]$query)
 function Execute-DbCommandWithResult($params, [string] $query)
 {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -ErrorAction Stop -ErrorVariable err
-    if( $err )
+    if ($err)
     {
         throw ($err)
     }
@@ -45,8 +45,8 @@ function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [stri
       'ServerInstance' = $serverInstance
       'Username' = $UserName
       'Password' = $Password
-      'OutputSqlErrors' = $True
-      'AbortOnError' = $True
+      'OutputSqlErrors' = $true
+      'AbortOnError' = $true
     }
 }
 
@@ -98,11 +98,11 @@ Class DatabaseVersion : System.IComparable
     {
         $result = $this.MajorVersionNumber.CompareTo($other.MajorVersionNumber)
 
-        if( $result -eq 0 )
+        if ($result -eq 0)
         {
             $result = $this.MinorVersionNumber.CompareTo($other.MinorVersionNumber)
 
-            if( $result -eq 0 )
+            if ($result -eq 0)
             {
                 return $this.PatchVersionNumber.CompareTo($other.PatchVersionNumber)
             }            
@@ -166,7 +166,7 @@ $databaseVersionNumberDataRow = Execute-DbCommandWithResult $params $getCurrentD
 
 $databaseVersion = [DatabaseVersion]::new()
 
-if( !($null -eq $databaseVersionNumberDataRow ) )
+if ($null -ne $databaseVersionNumberDataRow)
 {
     $databaseVersion = [DatabaseVersion]::new([convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[1]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[2]))    
 }
@@ -215,7 +215,7 @@ for ($i = 0; $i -lt $files.Count; $i++)
 
     Execute-DbCommand $params $migrationScript
 
-    if($migrationDescription.Length -gt 256)
+    if ($migrationDescription.Length -gt 256)
     {
 		Write-Host "Need to truncate the migration description because its size is" $scriptVersionDescription.Length "while the maximum size is 256"
         $migrationDescription = $migrationDescription.Substring(0, 256)
