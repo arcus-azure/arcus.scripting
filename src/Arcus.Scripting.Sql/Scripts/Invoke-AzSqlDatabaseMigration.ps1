@@ -72,10 +72,19 @@ Class DatabaseVersion : System.IComparable
     DatabaseVersion([string] $version)
     {
         $items = $version -split '\.'
-
-        $this.MajorVersionNumber = $items[0];
-        $this.MinorVersionNumber = $items[1];
-        $this.PatchVersionNumber = $items[2];
+        
+        if( $items.length -eq 3 )
+        {
+            $this.MajorVersionNumber = $items[0];
+            $this.MinorVersionNumber = $items[1];
+            $this.PatchVersionNumber = $items[2];
+        }
+        elseif( $items.length -eq 1 )
+        {
+            $this.MajorVersionNumber = $items[0];
+            $this.MinorVersionNumber = 0;
+            $this.PatchVersionNumber = 0;
+        }
     }
 
     DatabaseVersion()  
@@ -129,7 +138,25 @@ $createDatabaseVersionTable = "IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.
 		                      "   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
                               "				WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
 	                          ") " +
-                              "END "
+                              "END " +
+                              "ELSE " +
+                              "BEGIN " +
+                              "   IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber' ) " +
+                              "   BEGIN " +
+                              "     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] " +
+                              "         ADD [MajorVersionNumber] INT NULL, " +
+                              "             [MinorVersionNumber] INT NULL, " +
+                              "             [PatchVersionNumber] INT NULL, " +
+                              "             [MigrationDate] DATETIME NULL " +                                                         
+                              "     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] DROP CONSTRAINT [PKDatabaseVersion] " +
+                              "     EXEC ('UPDATE [$DatabaseSchema].[DatabaseVersion] SET MajorVersionNumber = CurrentVersionNumber, MinorVersionNumber = 0, PatchVersionNumber = 0') " +
+                              "     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ALTER COLUMN [MajorVersionNumber] INT NOT NULL " +
+                              "     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ALTER COLUMN [MinorVersionNumber] INT NOT NULL " +
+                              "     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ALTER COLUMN [PatchVersionNumber] INT NOT NULL " +
+                              "     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] DROP COLUMN [CurrentVersionNumber] " +                              
+                              "     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ADD CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
+                              "   END " +
+                              "END"
 
 Execute-DbCommand $params $createDatabaseVersionTable
 
@@ -161,16 +188,22 @@ for ($i = 0; $i -lt $files.Count; $i++)
         continue;
     }
 
-    if ($fileNameParts[0] -match "\d.\d.\d" -eq $False )
+    # The version number in the 'version' part of the filename should be one integer number or a semantic version number.
+    if ( ($fileNameParts[0] -match "^\d+.\d+.\d+$" -eq $False) -and  ($fileNameParts[0] -match "^\d+$" -eq $False))
     {
         Write-Host "File $fileName skipped because version is not valid."
         continue;
     }
 
+    if ($fileNameParts[0] -match "^\d+$")
+    {
+        Write-Warning "File $fileName is still using the old naming convention.  Rename the file to $($fileNameParts[0]).0.0_$($fileNameParts[1])$($files[$i].Extension)"
+    }
+
     [DatabaseVersion] $scriptVersionNumber = [DatabaseVersion]::new($fileNameParts[0])
     [string] $migrationDescription = $fileNameParts[1]
 
-    if( $scriptVersionNumber -le $databaseVersion )
+    if ($scriptVersionNumber -le $databaseVersion)
     {
         Write-Verbose "Skipped Migration $scriptVersionNumber as it has already been applied"
         continue
