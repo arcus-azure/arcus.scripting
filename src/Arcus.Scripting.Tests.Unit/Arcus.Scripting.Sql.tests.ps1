@@ -11,10 +11,18 @@ function global:Get-TestSqlDataTable ($query, $schema, $DatabaseVersionTableName
         return $tableNamesDataTable
     } elseif ($query -eq "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM DatabaseVersion ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC") {
         $databaseVersionDataTable = New-Object System.Data.DataTable
-        $currentVersionNumberColumn = New-Object System.Data.DataColumn
-        $currentVersionNumberColumn.ColumnName = "CurrentVersionNumber"
-        $currentVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
-        $databaseVersionDataTable.Columns.Add($currentVersionNumberColumn)
+        $majorVersionNumberColumn = New-Object System.Data.DataColumn
+        $majorVersionNumberColumn.ColumnName = "MajorVersionNumber"
+        $majorVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
+        $databaseVersionDataTable.Columns.Add($majorVersionNumberColumn)
+        $minorVersionNumberColumn = New-Object System.Data.DataColumn
+        $minorVersionNumberColumn.ColumnName = "MinorVersionNumber"
+        $minorVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
+        $databaseVersionDataTable.Columns.Add($minorVersionNumberColumn)
+        $patchVersionNumberColumn = New-Object System.Data.DataColumn
+        $patchVersionNumberColumn.ColumnName = "PatchVersionNumber"
+        $patchVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
+        $databaseVersionDataTable.Columns.Add($patchVersionNumberColumn)        
         $currentVersionNumberRow = $databaseVersionDataTable.NewRow()
         $currentVersionNumberRow["MajorVersionNumber"] = 1
         $currentVersionNumberRow["MinorVersionNumber"] = 0
