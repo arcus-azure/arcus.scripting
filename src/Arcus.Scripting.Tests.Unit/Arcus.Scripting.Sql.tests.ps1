@@ -16,7 +16,9 @@ function global:Get-TestSqlDataTable ($query, $schema, $DatabaseVersionTableName
         $currentVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
         $databaseVersionDataTable.Columns.Add($currentVersionNumberColumn)
         $currentVersionNumberRow = $databaseVersionDataTable.NewRow()
-        $currentVersionNumberRow["CurrentVersionNumber"] = 1
+        $currentVersionNumberRow["MajorVersionNumber"] = 1
+        $currentVersionNumberRow["MinorVersionNumber"] = 0
+        $currentVersionNumberRow["PatchVersionNumber"] = 0
         $databaseVersionDataTable.Rows.Add($currentVersionNumberRow)
         return $databaseVersionDataTable
     }
@@ -40,7 +42,7 @@ Describe "Arcus" {
                     return $dataTable
                 } -Verifiable
 
-                $baseName = "Arcus_2_SampleMigration"
+                $baseName = "2.0.0_SampleMigration"
                 $files = @( [pscustomobject]@{ BaseName = $baseName; FullName = "Container 1-full" } )
                 Mock Get-ChildItem { 
                     $Path | Should -BeLike "*sqlScripts"
@@ -63,7 +65,7 @@ Describe "Arcus" {
                 Assert-MockCalled Get-Content
                 Assert-MockCalled Get-ChildItem
             }
-            It "Invoke SQL migration without exising migrations" {
+            It "Invoke SQL migration without new migrations" {
                 # Arrange
                 $serverName = "my-server"
                 $databaseName = "my-database"
@@ -78,7 +80,7 @@ Describe "Arcus" {
                     return $dataTable
                 }
 
-                $baseName = "Arcus_1_SampleMigration"
+                $baseName = "1.0.0_SampleMigration"
                 $files = @( [pscustomobject]@{ BaseName = $baseName; FullName = "Container 1-full" } )
                 Mock Get-ChildItem { 
                     $Path | Should -BeLike "*sqlScripts"
