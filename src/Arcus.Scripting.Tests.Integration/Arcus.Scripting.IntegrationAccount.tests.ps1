@@ -36,7 +36,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
                 $schema = Get-ChildItem($schemaFilePath) -File
                 $expectedSchemaName = $schema.Name
-                $executionDateTime = Get-Date
+                $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
                     # Act
@@ -45,8 +45,34 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     # Assert
                     $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                     $actual | Should -Not -BeNullOrEmpty
-                    $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                }
+            }
+            It "Update a single schema in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
+                $schema = Get-ChildItem($schemaFilePath) -File
+                $expectedSchemaName = $schema.Name
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                $existingSchema = New-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -SchemaFilePath $schema.FullName
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingSchema.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingSchema.CreatedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $existingSchema.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
@@ -59,7 +85,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
                 $schema = Get-ChildItem($schemaFilePath) -File
                 $expectedSchemaName = $schema.BaseName
-                $executionDateTime = Get-Date
+                $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
                     # Act
@@ -68,7 +94,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     # Assert
                     $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                     $actual | Should -Not -BeNullOrEmpty
-                    $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
@@ -83,7 +109,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $schema = Get-ChildItem($schemaFilePath) -File
                 $artifactsPrefix = "dev-"
                 $expectedSchemaName = $artifactsPrefix + $schema.BaseName
-                $executionDateTime = Get-Date
+                $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
                     # Act
@@ -92,7 +118,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     # Assert
                     $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                     $actual | Should -Not -BeNullOrEmpty
-                    $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
@@ -104,7 +130,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
 				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
-                $executionDateTime = Get-Date
+                $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
                     # Act
@@ -116,7 +142,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         
                         $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                         $actual | Should -Not -BeNullOrEmpty
-                        $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
@@ -133,7 +159,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
 				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
-                $executionDateTime = Get-Date
+                $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
                     # Act
@@ -145,7 +171,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         
                         $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                         $actual | Should -Not -BeNullOrEmpty
-                        $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
@@ -163,7 +189,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
 				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
                 $artifactsPrefix = "dev-"
-                $executionDateTime = Get-Date
+                $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
                     # Act
@@ -175,7 +201,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         
                         $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                         $actual | Should -Not -BeNullOrEmpty
-                        $actual.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToString("yyyy-MM-ddTHH:mm:ss")
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
@@ -187,7 +213,208 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            
+        }
+        Context "Handling Maps" {
+            It "Try to upload single map to unexisting Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = "unexisting-integration-account"
+				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $map = Get-ChildItem($mapFilePath) -File
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop
+                } | Should -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Set-AzKeyVaultSecret -Times 0
+            }
+            It "Create a single map in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $map = Get-ChildItem($mapFilePath) -File
+                $expectedMapName = $map.Name
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                }
+            }
+            It "Update a single map in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $map = Get-ChildItem($mapFilePath) -File
+                $expectedMapName = $map.Name
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                $existingMap = New-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -MapFilePath $map.FullName
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingMap.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingMap.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $existingMap.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
+
+                } finally {
+                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                }
+            }
+            It "Create a single map, without extension, in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $map = Get-ChildItem($mapFilePath) -File
+                $expectedMapName = $map.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -RemoveFileExtensions
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                }
+            }
+            It "Create a single map, without extension and with prefix, in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $map = Get-ChildItem($mapFilePath) -File
+                $artifactsPrefix = "dev-"
+                $expectedMapName = $artifactsPrefix + $map.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                }
+            }
+            It "Create multiple maps located in a folder in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder
+
+                    # Assert
+                    foreach ($map in Get-ChildItem($mapsFolder) -File) {
+                        $expectedMapName = $map.Name
+                        
+                        $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($map in Get-ChildItem($mapsFolder) -File) {
+                        $expectedMapName = $map.Name
+                        
+                        Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    }
+                }
+            }
+            It "Create multiple maps, without extension, located in a folder in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -RemoveFileExtensions
+
+                    # Assert
+                    foreach ($map in Get-ChildItem($mapsFolder) -File) {
+                        $expectedMapName = $map.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($map in Get-ChildItem($mapsFolder) -File) {
+                        $expectedMapName = $map.BaseName
+                        
+                        Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    }
+                }
+            }
+            It "Create multiple maps, without extension and with prefix, located in a folder in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
+                $artifactsPrefix = "dev-"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions
+
+                    # Assert
+                    foreach ($map in Get-ChildItem($mapsFolder) -File) {
+                        $expectedMapName = $artifactsPrefix + $map.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($map in Get-ChildItem($mapsFolder) -File) {
+                        $expectedMapName = $artifactsPrefix + $map.BaseName
+                        
+                        Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    }
+                }
+            }
         }
     }
 }

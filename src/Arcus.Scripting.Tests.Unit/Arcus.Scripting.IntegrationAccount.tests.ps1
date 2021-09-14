@@ -192,5 +192,197 @@
                  Assert-MockCalled New-AzIntegrationAccountSchema -Times 0
             }
         }
+        Context "Azure Integration Account Maps" {
+            It "Providing both mapFilePath and mapsFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps\"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -MapsFolder $mapsFolder -ErrorAction Stop
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing neither a mapFilePath nor mapsFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -ErrorAction Stop
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing only the mapFilePath to create a map is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$mapName = 'Dummy_New_Map'
+                $mapResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/maps/$schemaName"
+				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\$mapName.xslt"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountMap {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountMap {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountMap {
+                    return [pscustomobject]@{ Id = $mapResourceId; Name = $mapName; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 1
+                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 0
+                 Assert-MockCalled New-AzIntegrationAccountMap -Times 1
+            }
+            It "Providing only the mapFilePath to update a map is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$mapName = 'Dummy_Existing_Map'
+                $mapResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/maps/$schemaName"
+				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\$mapName.xslt"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountMap {
+                    return [pscustomobject]@{ Id = $mapResourceId; Name = $mapName; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountMap {
+                    return [pscustomobject]@{ Id = $mapResourceId; Name = $mapName; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountMap {
+                    return $null
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 1
+                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 1
+                 Assert-MockCalled New-AzIntegrationAccountMap -Times 0
+            }
+            It "Providing only a mapsFolder to create maps is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        new-item -name "map1.xslt" -type file -fo
+                        new-item -name "Map2.xslt" -type file -fo
+                    )
+                }
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountMap {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountMap {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountMap {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.xslt'; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 2
+                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 0
+                 Assert-MockCalled New-AzIntegrationAccountMap -Times 2
+            }
+            It "Providing only a mapsFolder to update maps is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        new-item -name "Map1.xslt" -type file -fo
+                        new-item -name "Map2.xslt" -type file -fo
+                    )
+                }
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountMap {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.xslt'; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountMap {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.xslt'; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountMap {
+                    return $null
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 2
+                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 2
+                 Assert-MockCalled New-AzIntegrationAccountMap -Times 0
+            }
+        }
     }
 }
