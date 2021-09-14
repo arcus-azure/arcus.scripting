@@ -27,8 +27,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Arcus.Scripting.ARM.tests.ps1" />
+    <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
+    <Compile Include="Arcus.Scripting.IntegrationAccount.tests.ps1" />
     <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Security.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
@@ -45,6 +48,9 @@
   <ItemGroup>
     <Folder Include="Files\" />
     <Folder Include="Blobs\" />
+    <Folder Include="Files\IntegrationAccount\" />
+    <Folder Include="Files\IntegrationAccount\Schemas\" />
+    <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.local.json" />
