@@ -22,28 +22,28 @@
       </xsl:attribute>
       <ns0:BankAccount>
         <ns0:Bank>
-          <xsl:for-each select="s0:Bank/s0:Name">
+          <xsl:value-of select="s0:Bank/s0:Name" />
         </ns0:Bank>
         <ns0:AccountHolder>
-          <xsl:for-each select="s0:Bank/s0:AccountHolder">
+          <xsl:value-of select="s0:Bank/s0:AccountHolder" />
         </ns0:AccountHolder>
         <ns0:AccountCode>
-          <xsl:for-each select="s0:Bank/s0:AccountCode">
+          <xsl:value-of select="s0:Bank/s0:AccountCode" />
         </ns0:AccountCode>
         <ns0:Currency>
-          <xsl:for-each select="s0:Bank/s0:Currency">
+          <xsl:value-of select="s0:Bank/s0:Currency" />
         </ns0:Currency>
         <ns0:IBAN>
-          <xsl:for-each select="s0:Bank/s0:IBAN">
+          <xsl:value-of select="s0:Bank/s0:IBAN" />
         </ns0:IBAN>
         <ns0:AccountNumber>
-          <xsl:for-each select="s0:Bank/s0:AccountNumber">
+          <xsl:value-of select="s0:Bank/s0:AccountNumber" />
         </ns0:AccountNumber>
         <ns0:SWIFT>
-          <xsl:for-each select="s0:Bank/s0:SWIFT">
+          <xsl:value-of select="s0:Bank/s0:SWIFT" />
         </ns0:SWIFT>
         <ns0:BankCode>
-          <xsl:for-each select="s0:Bank/s0:BankCode">
+          <xsl:value-of select="s0:Bank/s0:BankCode" />
         </ns0:BankCode>
       </ns0:BankAccount>
       <ns0:BankTransfers>
