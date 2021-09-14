@@ -90,15 +90,15 @@ PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name
 
 Upload/update a single, or multiple maps into an Azure Integration Account.
 
-| Parameter              | Mandatory | Description                                                                                                                            |
-| ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes       | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
-| `Name`                 | yes       | The name of the Azure Integration Account into which the maps are to be uploaded/updated.                                              |
-| `MapFilePath`          | no        | The full path of a map that should be uploaded/updated. (Mandatory if MapsFolder has not been specified).                              |
-| `MapsFolder`           | no        | The path to a directory containing all maps that should be uploaded/updated. (Mandatory if MapFilePath has not been specified).        |
-| `MapType`              | no        | The type of map to be created, default to 'Xslt'. See possible values [here](https://docs.microsoft.com/en-us/powershell/module/az.logicapp/get-azintegrationaccountmap?view=azps-6.2.1#parameters).  |
-| `ArtifactsPrefix`      | no        | The prefix, if any, that should be added to the maps before uploading/updating.                                                        |
-| `RemoveFileExtensions` | no        | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                    |
+| Parameter              | Mandatory   | Description                                                                                                                            |
+| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the maps are to be uploaded/updated.                                              |
+| `MapFilePath`          | conditional | The full path of a map that should be uploaded/updated. (_Mandatory if MapsFolder has not been specified_).                            |
+| `MapsFolder`           | conditional | The path to a directory containing all maps that should be uploaded/updated. (_Mandatory if MapFilePath has not been specified_).      |
+| `MapType`              | no          | The type of map to be created, default to 'Xslt'. See possible values [here](https://docs.microsoft.com/en-us/powershell/module/az.logicapp/get-azintegrationaccountmap?view=azps-6.2.1#parameters).  |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the maps before uploading/updating.                                                        |
+| `RemoveFileExtensions` | no          | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                    |
 
 **Example**  
 

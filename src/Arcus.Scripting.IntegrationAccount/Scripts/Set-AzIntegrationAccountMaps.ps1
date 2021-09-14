@@ -27,7 +27,6 @@ function UploadMap {
     }
     Write-Host "Uploading map '$mapName' into the Integration Account '$Name'."
 
-    ## Check if the map already exists
     $existingMap = $null
     try {
         Write-Verbose "Checking if the map '$mapName' already exists in the Integration Account '$Name'."
@@ -44,13 +43,11 @@ function UploadMap {
         
     try {
         if ($existingMap -eq $null) {
-            # Create the map
             Write-Verbose "Creating map '$mapName' in Azure Integration Account '$Name'"
             $createdMap = New-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -MapType $MapType -MapFilePath $Map.FullName -ErrorAction Stop
             Write-Verbose ($createdMap | Format-List -Force | Out-String)
         }
         else {
-            # Update the map
             Write-Verbose "Updating map '$mapName' in Azure Integration Account '$Name'"
             $updatedMap = Set-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -MapFilePath $Map.FullName -ErrorAction Stop -Force
             Write-Verbose ($updatedMap | Format-List -Force | Out-String)

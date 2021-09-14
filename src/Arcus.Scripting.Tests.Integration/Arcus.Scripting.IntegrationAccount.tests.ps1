@@ -202,7 +202,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                        #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
@@ -249,7 +248,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                    #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
@@ -275,7 +273,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingMap.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingMap.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                    #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $existingMap.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                     $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
                     $existingMap.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
@@ -300,7 +297,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                    #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
@@ -325,7 +321,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                    #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
@@ -350,7 +345,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                        #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
@@ -380,7 +374,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                        #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
@@ -411,7 +404,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
-                        #$actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
                     }
 
