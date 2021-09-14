@@ -21,14 +21,14 @@ PS> Install-Module -Name Arcus.Scripting.IntegrationAccount
 
 Upload/update a single, or multiple schemas into an Azure Integration Account.
 
-| Parameter              | Mandatory | Description                                                                                                                            |
-| ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes       | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
-| `Name`                 | yes       | The name of the Azure Integration Account into which the schemas are to be uploaded/updated.                                           |
-| `SchemaFilePath`       | no        | The full path of a schema that should be uploaded/updated. (Mandatory if SchemasFolder has not been specified).                        |
-| `SchemasFolder`        | no        | The path to a directory containing all schemas that should be uploaded/updated. (Mandatory if SchemaFilePath has not been specified).  |
-| `ArtifactsPrefix`      | no        | The prefix, if any, that should be added to the schemas before uploading/updating.                                                     |
-| `RemoveFileExtensions` | no        | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                    |
+| Parameter              | Mandatory   | Description                                                                                                                            |
+| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the schemas are to be uploaded/updated.                                           |
+| `SchemaFilePath`       | conditional | The full path of a schema that should be uploaded/updated. (_Mandatory if SchemasFolder has not been specified_).                      |
+| `SchemasFolder`        | conditional | The path to a directory containing all schemas that should be uploaded/updated. (_Mandatory if SchemaFilePath has not been specified_).|
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the schemas before uploading/updating.                                                     |
+| `RemoveFileExtensions` | no          | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                    |
 
 **Example**  
 
