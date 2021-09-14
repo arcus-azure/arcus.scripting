@@ -66,7 +66,9 @@ RequiredModules = @(@{ModuleName='Az.Storage'; ModuleVersion='2.3.0'})
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = @('Create-AzStorageTable')
+FunctionsToExport = @(
+    'Create-AzStorageTable',
+    'AzTable-SetEntities')
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'
