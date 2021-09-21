@@ -9,7 +9,7 @@ param(
 )
 
 #Import needed for Azure Powershell Release Step
-#Import-Module SqlServer
+Import-Module SqlServer
 
 Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
 
