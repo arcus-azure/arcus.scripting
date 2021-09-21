@@ -9,7 +9,7 @@ param(
 )
 
 #Import needed for Azure Powershell Release Step
-Import-Module SqlServer
+#Import-Module SqlServer
 
 Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
 
@@ -54,72 +54,6 @@ function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName)
 {
     $currentfilepath = "$scriptPath/$fileName.sql"
     return $query = Get-Content $currentfilepath
-}
-
-Class DatabaseVersion : System.IComparable
-{
-    [int] $MajorVersionNumber
-    [int] $MinorVersionNumber
-    [int] $PatchVersionNumber
-
-    DatabaseVersion([int] $major, [int] $minor, [int] $patch)
-    {
-        $this.MajorVersionNumber = $major;
-        $this.MinorVersionNumber = $minor;
-        $this.PatchVersionNumber = $patch;
-    }
-
-    DatabaseVersion([string] $version)
-    {
-        $items = $version -split '\.'
-        
-        if( $items.length -eq 3 )
-        {
-            $this.MajorVersionNumber = $items[0];
-            $this.MinorVersionNumber = $items[1];
-            $this.PatchVersionNumber = $items[2];
-        }
-        elseif( $items.length -eq 1 )
-        {
-            $this.MajorVersionNumber = $items[0];
-            $this.MinorVersionNumber = 0;
-            $this.PatchVersionNumber = 0;
-        }
-    }
-
-    DatabaseVersion()  
-    {
-        $this.MajorVersionNumber = 0;
-        $this.MinorVersionNumber = 0;
-        $this.PatchVersionNumber = 0;
-    }
-
-    [int] CompareTo($other)
-    {
-        $result = $this.MajorVersionNumber.CompareTo($other.MajorVersionNumber)
-
-        if ($result -eq 0)
-        {
-            $result = $this.MinorVersionNumber.CompareTo($other.MinorVersionNumber)
-
-            if ($result -eq 0)
-            {
-                return $this.PatchVersionNumber.CompareTo($other.PatchVersionNumber)
-            }            
-        }
-
-        return $result;                
-    }
-
-    [bool] Equals($other)
-    {
-        return $this.MajorVersionNumber -eq $other.MajorVersionNumber -and $this.MinorVersionNumber -eq $other.MinorVersionNumber -and $this.PatchVersionNumber -eq $other.PatchVersionNumber
-    }
-
-    [string] ToString()
-    {
-        return $this.MajorVersionNumber.ToString() + "." + $this.MinorVersionNumber.ToString() + "." + $this.PatchVersionNumber.ToString()
-    }
 }
 
 #Group params needed to connect to database for ease of use

@@ -1,159 +1,176 @@
-function global:Get-TestSqlDataTable ($query, $schema, $DatabaseVersionTableName = "DatabaseVersion") {
-    if ($query -eq 'SELECT TABLE_NAME FROM information_schema.tables') {
-        $tableNamesDataTable = New-Object System.Data.DataTable
-        $databaseTableNameColumn = New-Object System.Data.DataColumn
-        $databaseTableNameColumn.ColumnName = "TableName"
-        $databaseTableNameColumn.DataType = [System.Type]::GetType("System.String")
-        $tableNamesDataTable.Columns.Add($databaseTableNameColumn)
-        $databaseVersionRow = $tableNamesDataTable.NewRow()
-        $databaseVersionRow["TableName"] = $DatabaseVersionTableName
-        $tableNamesDataTable.Rows.Add($databaseVersionRow)
-        return $tableNamesDataTable
-    } elseif ($query -eq "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM DatabaseVersion ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC") {
-        $databaseVersionDataTable = New-Object System.Data.DataTable
-        $majorVersionNumberColumn = New-Object System.Data.DataColumn
-        $majorVersionNumberColumn.ColumnName = "MajorVersionNumber"
-        $majorVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
-        $databaseVersionDataTable.Columns.Add($majorVersionNumberColumn)
-        $minorVersionNumberColumn = New-Object System.Data.DataColumn
-        $minorVersionNumberColumn.ColumnName = "MinorVersionNumber"
-        $minorVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
-        $databaseVersionDataTable.Columns.Add($minorVersionNumberColumn)
-        $patchVersionNumberColumn = New-Object System.Data.DataColumn
-        $patchVersionNumberColumn.ColumnName = "PatchVersionNumber"
-        $patchVersionNumberColumn.DataType = [System.Type]::GetType("System.Int32")
-        $databaseVersionDataTable.Columns.Add($patchVersionNumberColumn)        
-        $currentVersionNumberRow = $databaseVersionDataTable.NewRow()
-        $currentVersionNumberRow["MajorVersionNumber"] = 1
-        $currentVersionNumberRow["MinorVersionNumber"] = 0
-        $currentVersionNumberRow["PatchVersionNumber"] = 0
-        $databaseVersionDataTable.Rows.Add($currentVersionNumberRow)
-        return $databaseVersionDataTable
-    }
-}
+using module .\..\Arcus.Scripting.Sql\Arcus.Scripting.Sql.psd1
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Sql -ErrorAction Stop
 
-Describe "Arcus" {
-    Context "Sql" {
-        InModuleScope Arcus.Scripting.Sql {
-            It "Invoking SQL migration using defaults with new found migration" {
+InModuleScope Arcus.Scripting.Sql {
+    Describe "Arcus Azure SQL unit tests" {
+        Context "Azure SQL database version" {
+            It "Passing major minor patch seperatly to string" {
                 # Arrange
-                $serverName = "my-server"
-                $databaseName = "my-database"
-                $username = "my-user"
-                $password = "my-pass"
-                Mock Invoke-Sqlcmd { 
-                    $ServerInstance | Should -Be "$serverName"
-                    $Database | Should -Be $databaseName
-                    $Username | Should -Be $username
-                    $Password | Should -Be $password
-                    $dataTable = Get-TestSqlDataTable $Query "dbo"
-                    return $dataTable
-                } -Verifiable
-
-                $baseName = "2.0.0_SampleMigration"
-                $files = @( [pscustomobject]@{ BaseName = $baseName; FullName = "Container 1-full" } )
-                Mock Get-ChildItem { 
-                    $Path | Should -BeLike "*sqlScripts"
-                    $Filter | Should -Be  "*.sql"
-                    return $files 
-                } -Verifiable
-
-                $sampleMigration = "Some sample migration"
-                Mock Get-Content {
-                    $Path | Should -BeLike "*sqlScripts/$baseName.sql"
-                    return $sampleMigration
-                } -Verifiable
+                $major = 2
+                $minor = 4
+                $patch = 12
+                $version = [DatabaseVersion]::new($major, $minor, $patch)
 
                 # Act
-                Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password
+                $versionString = $version.ToString()
 
                 # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Invoke-SqlCmd
-                Assert-MockCalled Get-Content
-                Assert-MockCalled Get-ChildItem
+                $versionString | Should -Be "$major.$minor.$patch"
             }
-            It "Invoke SQL migration without new migrations" {
+            It "Passing major minor patch version string gets splitted in properties" {
                 # Arrange
-                $serverName = "my-server"
-                $databaseName = "my-database"
-                $username = "my-user"
-                $password = "my-pass"
-                Mock Invoke-Sqlcmd {
-                    $ServerInstance | Should -Be "$serverName"
-                    $Database | Should -Be $databaseName
-                    $Username | Should -Be $username
-                    $Password | Should -Be $password
-                    $dataTable = Get-TestSqlDataTable $Query "dbo" "NOT_DatabaseVersion"
-                    return $dataTable
-                }
-
-                $baseName = "1.0.0_SampleMigration"
-                $files = @( [pscustomobject]@{ BaseName = $baseName; FullName = "Container 1-full" } )
-                Mock Get-ChildItem { 
-                    $Path | Should -BeLike "*sqlScripts"
-                    $Filter | Should -Be  "*.sql"
-                    return $files 
-                } -Verifiable
-
-                $sampleMigration = "Some sample migration"
-                Mock Get-Content {
-                    $Path | Should -Match "[*sqlScripts/$baseName\.sql|*sqlScripts/CreateDatabaseVersionTable\.sql]"
-                    return $sampleMigration
-                } -Verifiable
+                $major = 2
+                $minor = 4
+                $patch = 12
+                $versionString = "$major.$minor.$patch"
 
                 # Act
-                Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password
+                $version = [DatabaseVersion]::new($versionString)
 
                 # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Invoke-SqlCmd
-                Assert-MockCalled Get-Content
-                Assert-MockCalled Get-ChildItem
+                $version.MajorVersionNumber | Should -Be $major
+                $version.MinorVersionNumber | Should -Be $minor
+                $version.PatchVersionNumber | Should -Be $patch
             }
-            It "Invoke SQL migration using custom values with new found migration" {
+            It "Passing old version string results in major version" {
                 # Arrange
-                $serverName = "my-server"
+                $major = 2
+                $versionString = $major.ToString()
+
+                # Act
+                $version = [DatabaseVersion]::new($versionString)
+
+                # Assert
+                $version.MajorVersionNumber | Should -Be $major
+                $version.MinorVersionNumber | Should -Be 0
+                $version.PatchVersionNumber | Should -Be 0
+                $version.ToString() | Should -Be "$major.0.0"
+            }
+            It "Database version with higher major is greater than other" {
+                # Arrange
+                $higherVersion = [DatabaseVersion]::new(2, 1, 3)
+                $lowerVersion = [DatabaseVersion]::new(1, 9, 2)
+
+                # Act
+                $result = $higherVersion.CompareTo($lowerVersion)
+
+                # Assert
+                $result | Should -Be 1
+                $lowerVersion.CompareTo($higherVersion) | Should -Be -1
+            }
+            It "Database version with higher minor is greater than other" {
+                # Arrange
+                $higherVersion = [DatabaseVersion]::new(3, 4, 1)
+                $lowerVersion = [DatabaseVersion]::new(3, 3, 6)
+
+                # Act
+                $result = $higherVersion.CompareTo($lowerVersion)
+
+                # Assert
+                $result | Should -Be 1
+                $lowerVersion.CompareTo($higherVersion) | Should -Be -1
+            }
+            It "Database version with higher patch is greater than other" {
+                # Arrange
+                $higherVersion = [DatabaseVersion]::new(4, 9, 2)
+                $lowerVersion = [DatabaseVersion]::new(4, 9, 1)
+
+                # Act
+                $result = $higherVersion.CompareTo($lowerVersion)
+
+                # Assert
+                $result | Should -Be 1
+                $lowerVersion.CompareTo($higherVersion) | Should -Be -1
+            }
+            It "Database version with different major is not equal to other" {
+                # Arrange
+                $thisVersion = [DatabaseVersion]::new(2, 9, 4)
+                $otherVersion = [DatabaseVersion]::new(3, 9, 4)
+
+                # Act
+                $result = $thisVersion.Equals($otherVersion)
+
+                # Assert
+                $result | Should -Be $false
+            }
+            It "Database version with different minor is not equal to other" {
+                # Arrange
+                $thisVersion = [DatabaseVersion]::new(2, 10, 4)
+                $otherVersion = [DatabaseVersion]::new(2, 11, 4)
+
+                # Act
+                $result = $thisVersion.Equals($otherVersion)
+
+                # Assert
+                $result | Should -Be $false
+            }
+            It "Database version with different patch is not equal to other" {
+                # Arrange
+                $thisVersion = [DatabaseVersion]::new(2, 6, 3)
+                $otherVersion = [DatabaseVersion]::new(2, 6, 2)
+
+                # Act
+                $result = $thisVersion.Equals($otherVersion)
+
+                # Assert
+                $result | Should -Be $false
+            }
+            It "Database version with same major minor patch is equal to other" {
+                # Arrange
+                $thisVersion = [DatabaseVersion]::new(1, 2, 3)
+                $otherVersion = [DatabaseVersion]::new(1, 2, 3)
+
+                # Act
+                $result = $thisVersion.Equals($otherVersion)
+
+                # Assert
+                $result | Should -Be $true
+            }
+        }
+        Context "Invoke Azure SQL database migration" {
+            It "Invoking SQL migration without server name fails" {
+                # Arrange
+                $serverName = $null
                 $databaseName = "my-database"
                 $username = "my-user"
                 $password = "my-pass"
-                $databaseSchema = "custom"
-                Mock Invoke-Sqlcmd { 
-                    $ServerInstance | Should -Be "$serverName"
-                    $Database | Should -Be $databaseName
-                    $Username | Should -Be $username
-                    $Password | Should -Be $password
-                    $dataTable = Get-TestSqlDataTable $Query $databaseSchema
-                    if ($Query -like "INSERT *") {
-                        $Query | Should -Match "INSERT INTO \[$databaseSchema\]*"
-                    }
-                    return $dataTable
-                } -Verifiable
 
-                $scriptsFolder = "sql-scripts"
-                $scriptsFileFilter = "*.mysql"
-                $baseName = "Arcus_2_SampleMigration"
-                $files = @( [pscustomobject]@{ BaseName = $baseName; FullName = "Container 1-full" } )
-                Mock Get-ChildItem { 
-                    $Path | Should -BeLike "*$scriptsFolder"
-                    $Filter | Should -Be  $scriptsFileFilter
-                    return $files 
-                } -Verifiable
+                # Act / Assert
+                { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
+                    Should -Throw
+            }
+            It "Invoke SQL migration without database name fails" {
+                # Arrange
+                $serverName = "my-server"
+                $database = $null
+                $username = "my-user"
+                $password = "my-pass"
 
-                $sampleMigration = "Some sample migration"
-                Mock Get-Content {
-                    $Path | Should -BeLike "*$scriptsFolder/$baseName.sql"
-                    return $sampleMigration
-                } -Verifiable
+                # Act / Assert
+                 { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
+                    Should -Throw
+            }
+            It "Invoke SQL migration without username fails" {
+                # Arrange
+                $serverName = "my-server"
+                $database = "my-database"
+                $username = $null
+                $password = "my-pass"
 
-                # Act
-                Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password -ScriptsFolder $scriptsFolder -ScriptsFileFilter $scriptsFileFilter -DatabaseSchema $databaseSchema
+                # Act / Assert
+                 { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
+                    Should -Throw
+            }
+            It "Invoke SQL migration without password fails" {
+                # Arrange
+                $serverName = "my-server"
+                $database = "my-database"
+                $username = "my-user"
+                $password = $null
 
-                # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Invoke-SqlCmd
-                Assert-MockCalled Get-Content
-                Assert-MockCalled Get-ChildItem
+                # Act / Assert
+                 { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
+                    Should -Throw
             }
         }
     }
