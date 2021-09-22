@@ -8,9 +8,6 @@ param(
     [Parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
 )
 
-#Import needed for Azure Powershell Release Step
-Import-Module SqlServer
-
 Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
 
 #Functions for repeated use
