@@ -91,7 +91,7 @@ $createDatabaseVersionTable = "IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.
 
 Execute-DbCommand $params $createDatabaseVersionTable
 
-$getCurrentDbVersionQuery = "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM DatabaseVersion ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC"
+$getCurrentDbVersionQuery = "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM [$DatabaseSchema].[DatabaseVersion] ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC"
 
 $databaseVersionNumberDataRow = Execute-DbCommandWithResult $params $getCurrentDbVersionQuery
 
