@@ -7,7 +7,7 @@ layout: default
 
 This module provides the following capabilities:
 - [Creating a new folder on an Azure file share](#creating-a-folder-on-an-azure-file-share)
-- [Copying files to a folder on an Azure file share](#copying-files-to-a-folder-on-an-azure-file-share)
+- [Uploading files to a folder on an Azure file share](#uploading-files-to-a-folder-on-an-azure-file-share)
 
 ## Installation
 
@@ -37,7 +37,7 @@ PS> Create-AzFileShareStorageFolder -ResourceGroupName "shipping-resources" -Sto
 # Created Azure FileShare storage folder 'containers' in file share 'returned'
 ```
 
-## Copying files to a folder on an Azure file share
+## Uploading files to a folder on an Azure file share
 
 Upload a set of files from a given folder, optionally matching a specific file mask, to an Azure File Share.
 
@@ -53,7 +53,7 @@ Upload a set of files from a given folder, optionally matching a specific file m
 **Example**
 
 ```powershell
-PS> Copy-AzFileShareStorageFiles -ResourceGroupName "shipping-resources" -StorageAccountName "tracking-account-storage" -FileShareName "returned" -SourceFolderPath "containers" -DestinationFolderName "containers"
+PS> Upload-AzFileShareStorageFiles -ResourceGroupName "shipping-resources" -StorageAccountName "tracking-account-storage" -FileShareName "returned" -SourceFolderPath "containers" -DestinationFolderName "containers"
 # Upload files to Azure FileShare storage 'returned'...
 # Uploaded the '[fileName]' file to Azure FileShare 'returned'
 # Uploaded the '[fileName]' file to Azure FileShare 'returned'

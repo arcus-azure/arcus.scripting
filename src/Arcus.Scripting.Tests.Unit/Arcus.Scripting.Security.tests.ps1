@@ -1,6 +1,8 @@
-Describe "Arcus" {
-    Context "ARM remove resource group locks" {
-        InModuleScope Arcus.Scripting.Security {
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.Security {
+    Describe "Arcus Azure security unit tests" {
+        Context "ARM remove resource group locks" {
             It "Removes all resource group locks without providing lock name" {
                 # Arrange
                 $expectedLockId = "my-lock-id"
@@ -42,8 +44,7 @@ Describe "Arcus" {
                 $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $LockName | Should -Be $expectedLockName
-                    return @([pscustomobject]@{ LockId = "my-lock-id" }) } -Verifiable
+                    return @([pscustomobject]@{ LockId =$expectedLockId; Name = $expectedLockName }) } -Verifiable
                 Mock Remove-AzResourceLock {
                     $LockId | Should -Be $expectedLockId } -Verifiable
 
@@ -62,7 +63,6 @@ Describe "Arcus" {
                 $resourceGroup = "my-resource-group"
                 Mock Get-AzResourceLock {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $LockName | Should -Be $expectedLockName
                     return @() } -Verifiable
                 Mock Remove-AzResourceLock { }
 

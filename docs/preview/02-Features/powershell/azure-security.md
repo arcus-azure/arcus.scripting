@@ -37,6 +37,8 @@ When you want to remove all the resource locks, no matter what the name or the s
 PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name"
 # Retrieving all locks in resourceGroup 'your-resource-group-name'
 # Start removing all locks in resourceGroup 'your-resource-group-name'
+# Removing the lock: 'some resource lock 1'
+# Removing the lock: 'some resource lock 2'
 # All locks in resourceGroup 'your-resource-group-name' have been removed
 ```
 
@@ -46,6 +48,7 @@ When you want to remove a specific resource lock, with a given name:
 PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name" -LockName "your-resource-lock-name"
 # Retrieving all locks in resourceGroup 'your-resource-group-name' with name 'your-resource-lock-name'
 # Start removing all locks in resourceGroup 'your-resource-group-name'
+# Removing the lock: 'your-resource-lock-name'
 # All locks in resourceGroup 'your-resource-group-name' have been removed
 ```
 
@@ -64,7 +67,7 @@ When you want to retrieve the current access-token, after connecting to a specif
 
 ```powershell
 PS> $token = Get-AzCachedAccessToken
-# AccessToken and subscriptionId retrieved
+# Azure access token and subscription ID retrieved from current active Azure authenticated session
 PS> Write-Host "Current SubscriptionId:" $token.SubscriptionId
 # Current SubscriptionId: b1a8131b-35fb-4d49-b77b-11abd21c9dcb
 PS> Write-Host "Current AccessToken:" $token.AccessToken
@@ -75,7 +78,9 @@ When you want to retrieve the current access-token, after connecting to a specif
 
 ```powershell
 PS> $token = Get-AzCachedAccessToken -AssignGlobalVariables
-# AccessToken and subscriptionId retrieved
+# Global variable 'subscriptionId' assigned
+# Global variable 'accessToken' assigned
+# Azure access token and subscription ID retrieved from current active Azure authenticated session
 PS> Write-Host "Current SubscriptionId:" $Global:subscriptionId
 # Current SubscriptionId: b1a8131b-35fb-4d49-b77b-11abd21c9dcb
 PS> Write-Host "Current AccessToken:" $Global:accessToken

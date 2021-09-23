@@ -31,6 +31,7 @@
     <Compile Include="Arcus.Scripting.IntegrationAccount.tests.ps1" />
     <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Security.tests.ps1" />
     <Compile Include="Arcus.Scripting.Sql.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
