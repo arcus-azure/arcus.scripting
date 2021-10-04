@@ -27,6 +27,10 @@ Class DatabaseVersion : System.IComparable
             $this.MinorVersionNumber = 0;
             $this.PatchVersionNumber = 0;
         }
+        else 
+        {
+            Throw "$version is not a valid or supported version number." 
+        }
     }
 
     DatabaseVersion()  
