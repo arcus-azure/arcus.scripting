@@ -100,6 +100,42 @@ InModuleScope Arcus.Scripting.Sql {
                     Run-AzSqlCommand $params "DROP SCHEMA $customSchema"
                 }
             }
+            It "Old DatabaseVersion table is converted to new table structure" {
+                # Arrange
+                $createOldDatabaseVersionTable = "CREATE TABLE [dbo].[DatabaseVersion] ( `
+                    [CurrentVersionNumber] INT NOT NULL, `
+                    [MigrationDescription] [nvarchar](256) NOT NULL, `
+                    CONSTRAINT [PKDatabaseVersion] PRIMARY KEY CLUSTERED `
+                    ( `
+                        [CurrentVersionNumber] ASC `
+                    ) `
+                    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) `
+                ) "
+                Run-AzSqlCommand $params $createOldDatabaseVersionTable
+
+                try {
+                    # Act
+                    Invoke-AzSqlDatabaseMigration `
+                        -ServerName $config.Arcus.Sql.ServerName `
+                        -DatabaseName $config.Arcus.Sql.DatabaseName `
+                        -Username $config.Arcus.Sql.Username `
+                        -Password $config.Arcus.Sql.Password `
+                        -ScriptsFolder "$PSScriptRoot\SqlScripts"
+
+                    # Assert
+                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MajorVersionNumber'" | Should -Be 1
+                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MinorVersionNumber'" | Should -Be 1
+                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'PatchVersionNumber'" | Should -Be 1
+                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber'" | Should -Be 0
+
+                    $version = Get-AzSqlDatabaseVersion $params
+                    $version.MajorVersionNumber | Should -Be 0
+                    $version.MinorVersionNumber | Should -Be 0
+                    $version.PatchVersionNumber | Should -Be 0
+                } finally {
+                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"
+                }
+            }
         }
     }
 }
