@@ -29,15 +29,15 @@ The current version is stored in a table "DatabaseVersion", which will be create
 
 | Parameter           | Mandatory                               | Description                                                                         |
 | ------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
-| `ServerName`        | yes                                     | The SQL Server that hosts the SQL Database. (Do not include 'database.windows.net') |
+| `ServerName`        | yes                                     | The full name of the SQL Server that hosts the SQL Database.                        |
 | `DatabaseName`      | yes                                     | The name of the SQL Database                                                        |
 | `UserName`          | yes                                     | The UserName of the SQL Database                                                    |
 | `Password`          | yes                                     | The Password of the SQL Database                                                    |
 | `ScriptsFolder`     | no (default: `$PSScriptRoot/sqlScripts` | The directory folder where the SQL migration scripts are located on the file system |
-| `ScriptsFileFolder` | no (default: `*.sql`)                   | The file filter to limit the SQL script files to use during the migrations          |
+| `ScriptsFileFilter` | no (default: `*.sql`)                   | The file filter to limit the SQL script files to use during the migrations          |
 | `DatabaseSchema`    | no (default: `dbo`)                     | The database schema to use when running SQL commands on the target database         |
 
-Make sure that the credentials that you provide can write tables to the database + any action that you specify in the SQL scripts.
+Make sure that the credentials that you provide can write tables to the database + any action that you specify in the SQL scripts. (If the user is a member of the `db_ddlamin` role, then that user should have the necessary rights)
 
 **Example with defaults**
 
@@ -55,27 +55,18 @@ PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-na
 
 ### Adding SQL scripts so they can be picked up by the script
 
-1. In the location where you want to run the script add the folder "sqlScripts".
+1. In the location where you want to run the script add the folder `sqlScripts`.
 
-2. Within this folder there should be by default the `CreateDatabaseVersionTable.sql`-file, containing the script to create the initial version table:
-
-```sql
-CREATE TABLE [dbo].[DatabaseVersion]
-(
-    [CurrentVersionNumber] INT NOT NULL,
-    [MigrationDescription] [nvarchar](256) NOT NULL,
-    CONSTRAINT [PKDatabaseVersion] PRIMARY KEY CLUSTERED
-    ( 	
-        [CurrentVersionNumber] ASC
-    )
-    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
-)
-```
-
-3. Next to that you can add your scripts which, to be recognized by the module, need to match the following naming convention:
-`[Prefix]_[VersionNumber]_[DescriptionOfMigration].sql`
+2. Add your database migration scripts in the `sqlScripts` folder.  To be recognized by the module, the files must match with the following naming convention:
+`[MajorVersionNumber].[MinorVersionNumber].[PatchVersionNumber]_[DescriptionOfMigration].sql`
 
 In practice this can look like this:
-Arcus_001_AddIndexes.sql
+`1.0.0_Baseline.sql`
+`1.1.0_AddIndexes.sql`
+`1.1.1_PopulateCodetables.sql`
 
 When a new migration comes along, just create the new SQL script with a version number one number higher than the previous one.
+
+### Compatibility
+
+Semantic versioning of database-migrations is supported since version [XXX].  Existing migration scripts that follow the old naming convention will be recognized and will be given this version-number: `[VersionNumber].0.0`.
