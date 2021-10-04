@@ -123,10 +123,14 @@ InModuleScope Arcus.Scripting.Sql {
                         -ScriptsFolder "$PSScriptRoot\SqlScripts"
 
                     # Assert
-                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MajorVersionNumber'" | Should -Be 1
-                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MinorVersionNumber'" | Should -Be 1
-                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'PatchVersionNumber'" | Should -Be 1
-                    Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber'" | Should -Be 0
+                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MajorVersionNumber'" 
+                    $result.ItemArray[0] | Should -Be 1
+                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MinorVersionNumber'"
+                    $result.ItemArray[0] | Should -Be 1
+                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'PatchVersionNumber'"
+                    $result.ItemArray[0] | Should -Be 1
+                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber'" 
+                    $result.ItemArray[0] | Should -Be 0
 
                     $version = Get-AzSqlDatabaseVersion $params
                     $version.MajorVersionNumber | Should -Be 0
