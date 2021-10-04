@@ -127,10 +127,10 @@ InModuleScope Arcus.Scripting.Sql {
                 $result | Should -Be $true
             }
             It "Passing invalid version throws exception" {
-                { [DatabaseVersion]::new("1.0") } | Should-Throw
-                { [DatabaseVersion]::new("1.") } | Should-Throw
-                { [DatabaseVersion]::new("1.1.1.") } | Should-Throw
-                { [DatabaseVersion]::new("1.1.1.1") } | Should-Throw
+                { [DatabaseVersion]::new("1.0") } | Should -Throw
+                { [DatabaseVersion]::new("1.") } | Should -Throw
+                { [DatabaseVersion]::new("1.1.1.") } | Should -Throw
+                { [DatabaseVersion]::new("1.1.1.1") } | Should -Throw
             }
         }
         Context "Invoke Azure SQL database migration" {
