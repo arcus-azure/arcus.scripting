@@ -11,28 +11,24 @@ param(
 Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
 
 #Functions for repeated use
-function Execute-DbCommand($params, [string]$query)
-{
+function Execute-DbCommand($params, [string]$query) {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -QueryTimeout 180 -ErrorAction Stop -ErrorVariable err
     
-    if ($err)
-    {
+    if ($err) {
         throw ($err)
     }
 }
 
-function Execute-DbCommandWithResult($params, [string] $query)
-{
+function Execute-DbCommandWithResult($params, [string] $query) {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -ErrorAction Stop -ErrorVariable err
-    if ($err)
-    {
+
+    if ($err) {
         throw ($err)
     }
     return $result
 }
 
-function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName, [string] $Password)
-{
+function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName, [string] $Password) {
     Write-Host "databasename = $DatabaseName"
     Write-Host "serverinstance = $serverInstance"
     Write-Host "username = $UserName"
@@ -47,8 +43,7 @@ function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [stri
     }
 }
 
-function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName)
-{
+function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName) {
     $currentfilepath = "$scriptPath/$fileName.sql"
     return $query = Get-Content $currentfilepath
 }
@@ -97,8 +92,7 @@ $databaseVersionNumberDataRow = Execute-DbCommandWithResult $params $getCurrentD
 
 $databaseVersion = [DatabaseVersion]::new()
 
-if ($null -ne $databaseVersionNumberDataRow)
-{
+if ($null -ne $databaseVersionNumberDataRow) {
     $databaseVersion = [DatabaseVersion]::new([convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[1]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[2]))    
 }
 
@@ -107,35 +101,30 @@ Write-Host "Current database-version number: " $databaseVersion
 $files = Get-ChildItem -Path $ScriptsFolder -Filter $ScriptsFileFilter | Sort-Object {($_.BaseName -split '_')[0] -as [DatabaseVersion]}
 
 # Execute each migration file who's versionnumber is higher then the current DB version
-for ($i = 0; $i -lt $files.Count; $i++) 
-{
+for ($i = 0; $i -lt $files.Count; $i++) {
     $fileName = $files[$i].BaseName
 
     $fileNameParts = $fileName.Split('_')
 
-    if ($fileNameParts.Length -lt 2)
-    {
+    if ($fileNameParts.Length -lt 2) {
         Write-Host "File $fileName skipped for not having all required name sections (version and description)."
         continue;
     }
 
     # The version number in the 'version' part of the filename should be one integer number or a semantic version number.
-    if ( ($fileNameParts[0] -match "^\d+.\d+.\d+$" -eq $False) -and  ($fileNameParts[0] -match "^\d+$" -eq $False))
-    {
+    if ( ($fileNameParts[0] -match "^\d+.\d+.\d+$" -eq $false) -and  ($fileNameParts[0] -match "^\d+$" -eq $false)) {
         Write-Host "File $fileName skipped because version is not valid."
         continue;
     }
 
-    if ($fileNameParts[0] -match "^\d+$")
-    {
+    if ($fileNameParts[0] -match "^\d+$") {
         Write-Warning "File $fileName is still using the old naming convention.  Rename the file to $($fileNameParts[0]).0.0_$($fileNameParts[1])$($files[$i].Extension)"
     }
 
     [DatabaseVersion] $scriptVersionNumber = [DatabaseVersion]::new($fileNameParts[0])
     [string] $migrationDescription = $fileNameParts[1]
 
-    if ($scriptVersionNumber -le $databaseVersion)
-    {
+    if ($scriptVersionNumber -le $databaseVersion) {
         Write-Verbose "Skipped Migration $scriptVersionNumber as it has already been applied"
         continue
     }
@@ -146,8 +135,7 @@ for ($i = 0; $i -lt $files.Count; $i++)
 
     Execute-DbCommand $params $migrationScript
 
-    if ($migrationDescription.Length -gt 256)
-    {
+    if ($migrationDescription.Length -gt 256) {
 		Write-Host "Need to truncate the migration description because its size is" $scriptVersionDescription.Length "while the maximum size is 256"
         $migrationDescription = $migrationDescription.Substring(0, 256)
     }
