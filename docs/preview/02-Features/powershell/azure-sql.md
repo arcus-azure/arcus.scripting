@@ -55,9 +55,9 @@ PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-na
 
 ### Adding SQL scripts so they can be picked up by the script
 
-1. In the location where you want to run the script add the folder `sqlScripts`.
+1. In the location where you want to run the script add a folder where the migration scripts will be placed.  By default, we're looking in a folder called `SqlScripts`, but this can be any folder as it is configurable via the `ScriptsFolder` argument.
 
-2. Add your database migration scripts in the `sqlScripts` folder.  To be recognized by the module, the files must match with the following naming convention:
+2. Add your database migration scripts in the folder that was created in the previous step.  To be recognized by the module, the files must match with the following naming convention:
 `[MajorVersionNumber].[MinorVersionNumber].[PatchVersionNumber]_[DescriptionOfMigration].sql`
 
 In practice this can look like this:
