@@ -69,4 +69,4 @@ When a new migration comes along, just create the new SQL script with a version 
 
 ### Compatibility
 
-Semantic versioning of database-migrations is supported since version [XXX].  Existing migration scripts that follow the old naming convention will be recognized and will be given this version-number: `[VersionNumber].0.0`.
+Semantic versioning of database-migrations is supported since version v0.5.  Existing migration scripts that follow the old naming convention will be recognized and will be given this version-number: `[VersionNumber].0.0`.
