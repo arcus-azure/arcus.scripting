@@ -40,6 +40,7 @@
     <Compile Include="Scripts\Restore-AzApiManagementService.ps1" />
     <Compile Include="Scripts\Set-AzApiManagementApiSubscriptionKey.ps1" />
     <Compile Include="Scripts\Upload-AzApiManagementCertificate.ps1" />
+    <Compile Include="Scripts\Upload-AzApiManagementSystemCertificate.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
