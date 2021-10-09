@@ -12,6 +12,15 @@ module.exports = {
   organizationName: 'arcus-azure', // Usually your GitHub org/user name.
   projectName: 'Arcus - Scripting', // Usually your repo name.
   themeConfig: {
+    algolia: {
+      apiKey: process.env.ALGOLIA_API_KEY,
+      indexName: 'arcus-azure',
+      // Set `contextualSearch` to `true` when having multiple versions!!!
+      contextualSearch: true,
+      searchParameters: {
+        facetFilters: ["tags:scripting"]
+      },
+    },
     image: 'img/arcus.jpg',
     navbar: {
       title: 'Scripting',
