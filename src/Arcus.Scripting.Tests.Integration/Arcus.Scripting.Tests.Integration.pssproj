@@ -32,6 +32,7 @@
     <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
     <Compile Include="Arcus.Scripting.Security.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Sql.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
@@ -51,6 +52,7 @@
     <Folder Include="Files\IntegrationAccount\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
+    <Folder Include="SqlScripts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.local.json" />
@@ -77,6 +79,7 @@
     <Content Include="Files\IntegrationAccount\Schemas\NestedSchema.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Acknowledgement.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Common\NestedSchemaRoot.xsd" />
+    <Content Include="SqlScripts\1_EmptyMigration.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

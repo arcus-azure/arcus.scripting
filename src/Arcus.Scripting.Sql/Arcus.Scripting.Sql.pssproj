@@ -35,9 +35,6 @@
     <Compile Include="Arcus.Scripting.Sql.psm1" />
     <Compile Include="Scripts\Invoke-AzSqlDatabaseMigration.ps1" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\sqlScripts\CreateDatabaseVersionTable.sql" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
   <Import Project="$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets')" />
