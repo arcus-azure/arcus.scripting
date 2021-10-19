@@ -24,11 +24,11 @@ function global:Get-AzSqlDatabaseVersion ($params, $schema = "dbo") {
     $row = Run-AzSqlQuery $params "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM [$schema].[DatabaseVersion] ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC"
 
     $version = [DatabaseVersion]::new()
-    if ($row -ne $row) {
+    if (($null -ne $row) -and ($null -ne $row.ItemArray) -and ($row.ItemArray.Length -ge 3) ) {        
         $version = [DatabaseVersion]::new(
-            [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0]), 
-            [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[1]), 
-            [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[2]))    
+            [convert]::ToInt32($row.ItemArray[0]), 
+            [convert]::ToInt32($row.ItemArray[1]), 
+            [convert]::ToInt32($row.ItemArray[2]))    
     }
 
     return $version
@@ -50,7 +50,7 @@ function global:Create-MigrationTable ($params) {
 }
 
 function global:TableExists($params, $tableName) {
-    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tableName'"
+    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$tableName' AND TABLE_CATALOG = '$($params.Database)'"
 
     if ($result.ItemArray[0] -eq 1) {
         return $True
@@ -85,7 +85,7 @@ InModuleScope Arcus.Scripting.Sql {
               'AbortOnError' = $true
             }
 
-            & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+           # & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "DatabaseVersion table" {
             It "Invoke first SQL migration on empty database creates new DatabaseVersion table" {
@@ -103,7 +103,7 @@ InModuleScope Arcus.Scripting.Sql {
 
                     # Assert
                     $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 0
+                    $version.MajorVersionNumber | Should -Be 1
                     $version.MinorVersionNumber | Should -Be 0
                     $version.PatchVersionNumber | Should -Be 0
                 } finally {
@@ -128,7 +128,7 @@ InModuleScope Arcus.Scripting.Sql {
 
                     # Assert
                     $version = Get-AzSqlDatabaseVersion $params $customSchema
-                    $version.MajorVersionNumber | Should -Be 0
+                    $version.MajorVersionNumber | Should -Be 1
                     $version.MinorVersionNumber | Should -Be 0
                     $version.PatchVersionNumber | Should -Be 0
                 } finally {
@@ -169,19 +169,20 @@ InModuleScope Arcus.Scripting.Sql {
                     $result.ItemArray[0] | Should -Be 0
 
                     $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 0
+                    $version.MajorVersionNumber | Should -Be 1
                     $version.MinorVersionNumber | Should -Be 0
                     $version.PatchVersionNumber | Should -Be 0
                 } finally {
                     Drop-AzSqlDatabaseTable $params "DatabaseVersion"
                 }
             }
-            It "Migration scripts are correctly executed" {            
+            It "Migration scripts are correctly executed" {
                 # Arrange: Create the DatabaseVersion table and pre-populate it
                 Create-MigrationTable $params
 
-                Run-AzSqlCommand $params, "INSERT INTO [DatabaseVersion] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) " +
-                                          "SELECT 0, 0, 1, 'Baseline', getdate()"
+                $addBaselineRecord = "INSERT INTO [DatabaseVersion] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) SELECT 0, 0, 1, 'Baseline', getdate()"
+
+                Run-AzSqlCommand $params $addBaselineRecord
 
                 try {
                     # Act: execute the specified migration-scripts
@@ -195,19 +196,19 @@ InModuleScope Arcus.Scripting.Sql {
                     # Assert
                     # The 'NonExistingTable' should not exist, as we already had a record in DatabaseVersion for 0.0.1, so that 
                     # migration script should not have been executed.
-                    $result = TableExists $params, 'NonExistingTable'
-                    $result | Should -Be $False
+                    $result = TableExists $params 'NonExistingTable'
+                    $result | Should -Be $False -Because 'DatabaseVersion was initialized with version that introduced this table, so script should not have been executed'
 
                     # The 'Customer' table should not exist, as it should have been renamed by one of the migrationscripts
-                    $result = TableExists $params, 'Customer'
-                    $result | Should -Be $False
+                    $result = TableExists $params 'Customer'
+                    $result | Should -Be $False -Because 'Customer table should have been renamed'
 
                     # The Customer table was renamed to Person
-                    $result = TableExists $params, 'Person'
-                    $result | Should -Be $True
+                    $result = TableExists $params 'Person'
+                    $result | Should -Be $True -Because 'migration-script renamed Customer table to Person table'
 
-                    $result = ColumnExists $params, 'Person', 'Address'
-                    $result | Should -Be $True
+                    $result = ColumnExists $params 'Person' 'Address'
+                    $result | Should -Be $True -Because 'Migration script added additional Address column to table'
                     
                     $version = Get-AzSqlDatabaseVersion $params
                     $version.MajorVersionNumber | Should -Be 1
@@ -218,6 +219,7 @@ InModuleScope Arcus.Scripting.Sql {
                     Drop-AzSqlDatabaseTable $params "Person"
                 }
             }
+            
         }
     }
 }
