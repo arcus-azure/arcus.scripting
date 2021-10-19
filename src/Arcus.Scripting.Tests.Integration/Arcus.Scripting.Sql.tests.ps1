@@ -34,6 +34,42 @@ function global:Get-AzSqlDatabaseVersion ($params, $schema = "dbo") {
     return $version
 }
 
+function global:Create-MigrationTable ($params) {
+    $createTable =  "CREATE TABLE dbo.[DatabaseVersion] " +
+                    "( " +
+                    "   [MajorVersionNumber] INT NOT NULL, " +
+                    "   [MinorVersionNumber] INT NOT NULL, " +
+                    "   [PatchVersionNumber] INT NOT NULL, " +
+                    "   [MigrationDescription] [nvarchar](256) NOT NULL, " +
+                    "   [MigrationDate] DATETIME NOT NULL " +
+                    "   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
+                    "				WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
+                    ")"
+
+    Run-AzSqlCommand $params $createTable
+}
+
+function global:TableExists($params, $tableName) {
+    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tableName'"
+
+    if ($result.ItemArray[0] -eq 1) {
+        return $True
+    }
+
+    return $False
+}
+
+function global:ColumnExists($params, $tableName, $columnName) {
+    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tableName' AND COLUMN_NAME = '$columnName'"
+
+    if ($result.ItemArray[0] -eq 1) {
+        return $True
+    }
+
+    return $False
+}
+
+
 InModuleScope Arcus.Scripting.Sql {
     Describe "Arcus Azure SQL integration tests" {
         BeforeEach {
@@ -138,6 +174,48 @@ InModuleScope Arcus.Scripting.Sql {
                     $version.PatchVersionNumber | Should -Be 0
                 } finally {
                     Drop-AzSqlDatabaseTable $params "DatabaseVersion"
+                }
+            }
+            It "Migration scripts are correctly executed" {            
+                # Arrange: Create the DatabaseVersion table and pre-populate it
+                Create-MigrationTable $params
+
+                Run-AzSqlCommand $params, "INSERT INTO [DatabaseVersion] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) " +
+                                          "SELECT 0, 0, 1, 'Baseline', getdate()"
+
+                try {
+                    # Act: execute the specified migration-scripts
+                    Invoke-AzSqlDatabaseMigration `
+                        -ServerName $config.Arcus.Sql.ServerName `
+                        -DatabaseName $config.Arcus.Sql.DatabaseName `
+                        -Username $config.Arcus.Sql.Username `
+                        -Password $config.Arcus.Sql.Password `
+                        -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationScriptsAreSuccessfullyExecuted"
+
+                    # Assert
+                    # The 'NonExistingTable' should not exist, as we already had a record in DatabaseVersion for 0.0.1, so that 
+                    # migration script should not have been executed.
+                    $result = TableExists $params, 'NonExistingTable'
+                    $result | Should -Be $False
+
+                    # The 'Customer' table should not exist, as it should have been renamed by one of the migrationscripts
+                    $result = TableExists $params, 'Customer'
+                    $result | Should -Be $False
+
+                    # The Customer table was renamed to Person
+                    $result = TableExists $params, 'Person'
+                    $result | Should -Be $True
+
+                    $result = ColumnExists $params, 'Person', 'Address'
+                    $result | Should -Be $True
+                    
+                    $version = Get-AzSqlDatabaseVersion $params
+                    $version.MajorVersionNumber | Should -Be 1
+                    $version.MinorVersionNumber | Should -Be 0
+                    $version.PatchVersionNumber | Should -Be 0
+                } finally {
+                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"
+                    Drop-AzSqlDatabaseTable $params "Person"
                 }
             }
         }
