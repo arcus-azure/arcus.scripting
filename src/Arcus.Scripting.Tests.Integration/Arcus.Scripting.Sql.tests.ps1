@@ -219,7 +219,24 @@ InModuleScope Arcus.Scripting.Sql {
                     Drop-AzSqlDatabaseTable $params "Person"
                 }
             }
-            
+            It "Old script naming convention is still supported" {                
+                try {
+                    # Act and arrange: execute the specified migration-scripts
+                    Invoke-AzSqlDatabaseMigration `
+                        -ServerName $config.Arcus.Sql.ServerName `
+                        -DatabaseName $config.Arcus.Sql.DatabaseName `
+                        -Username $config.Arcus.Sql.Username `
+                        -Password $config.Arcus.Sql.Password `
+                        -ScriptsFolder "$PSScriptRoot\SqlScripts\OldMigrationScriptsAreStillSupported"
+                    
+                    $version = Get-AzSqlDatabaseVersion $params
+                    $version.MajorVersionNumber | Should -Be 2
+                    $version.MinorVersionNumber | Should -Be 0
+                    $version.PatchVersionNumber | Should -Be 0
+                } finally {
+                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"                    
+                }
+            }
         }
     }
 }
