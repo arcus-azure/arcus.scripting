@@ -230,9 +230,9 @@ InModuleScope Arcus.Scripting.Sql {
                         -ScriptsFolder "$PSScriptRoot\SqlScripts\OldMigrationScriptsAreStillSupported"
                     
                     $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 2
-                    $version.MinorVersionNumber | Should -Be 0
-                    $version.PatchVersionNumber | Should -Be 0
+                    $version.MajorVersionNumber | Should -Be 2 -Because "latest migration-script has version number 2"
+                    $version.MinorVersionNumber | Should -Be 0 -Because "Old migration scripts are used that do not have a minor version number"
+                    $version.PatchVersionNumber | Should -Be 0 -Because "Old migration scripts are used that do not have a patch version number"
                 } finally {
                     Drop-AzSqlDatabaseTable $params "DatabaseVersion"                    
                 }
