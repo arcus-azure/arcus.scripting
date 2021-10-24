@@ -78,7 +78,10 @@ function global:ColumnExists($params, $tableName, $columnName) {
 
 InModuleScope Arcus.Scripting.Sql {
     Describe "Arcus Azure SQL integration tests" {
-        BeforeEach {
+        BeforeAll {
+            # Try to open a connection to the SQL database, so that the
+            # Azure Database that can be paused, is starting up.  This should
+            # avoid having timeout errors during the test themselves.
             $filePath = "$PSScriptRoot\appsettings.json"
             [string]$appsettings = Get-Content $filePath
             $config = ConvertFrom-Json $appsettings
@@ -92,7 +95,28 @@ InModuleScope Arcus.Scripting.Sql {
             }
 
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+            try {
+                Invoke-Sqlcmd @params -Query "SELECT TOP 1 FROM INFORMATION_SCHEMA.TABLES" -QueryTimeout 180
+            }
+            catch {
+                # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database
+            }
         }
+        # BeforeEach {
+        #     $filePath = "$PSScriptRoot\appsettings.json"
+        #     [string]$appsettings = Get-Content $filePath
+        #     $config = ConvertFrom-Json $appsettings
+        #     $params = @{
+        #         'ServerInstance'  = $config.Arcus.Sql.ServerName
+        #         'Database'        = $config.Arcus.Sql.DatabaseName
+        #         'Username'        = $config.Arcus.Sql.UserName
+        #         'Password'        = $config.Arcus.Sql.Password
+        #         'OutputSqlErrors' = $true
+        #         'AbortOnError'    = $true
+        #     }
+
+        #     & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+        # }
         Context "DatabaseVersion table" {
             It "Invoke first SQL migration on empty database creates new DatabaseVersion table" {
                 # Arrange
