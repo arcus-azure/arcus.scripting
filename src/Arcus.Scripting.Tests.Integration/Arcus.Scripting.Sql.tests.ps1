@@ -105,21 +105,6 @@ InModuleScope Arcus.Scripting.Sql {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database
             }
         }
-        # BeforeEach {
-        #     $filePath = "$PSScriptRoot\appsettings.json"
-        #     [string]$appsettings = Get-Content $filePath
-        #     $config = ConvertFrom-Json $appsettings
-        #     $params = @{
-        #         'ServerInstance'  = $config.Arcus.Sql.ServerName
-        #         'Database'        = $config.Arcus.Sql.DatabaseName
-        #         'Username'        = $config.Arcus.Sql.UserName
-        #         'Password'        = $config.Arcus.Sql.Password
-        #         'OutputSqlErrors' = $true
-        #         'AbortOnError'    = $true
-        #     }
-
-        #     & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
-        # }
         Context "DatabaseVersion table" {
             It "Invoke first SQL migration on empty database creates new DatabaseVersion table" {
                 # Arrange
