@@ -79,9 +79,7 @@ function global:ColumnExists($params, $tableName, $columnName) {
 InModuleScope Arcus.Scripting.Sql {
     Describe "Arcus Azure SQL integration tests" {
         BeforeAll {
-            # Try to open a connection to the SQL database, so that the
-            # Azure Database that can be paused, is starting up.  This should
-            # avoid having timeout errors during the test themselves.
+            
             $filePath = "$PSScriptRoot\appsettings.json"
             [string]$appsettings = Get-Content $filePath
             $config = ConvertFrom-Json $appsettings
@@ -95,7 +93,12 @@ InModuleScope Arcus.Scripting.Sql {
             }
 
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+
+            # Try to open a connection to the SQL database, so that the
+            # Azure Database that can be paused, is starting up.  This should
+            # avoid having timeout errors during the test themselves.
             try {
+                Write-Information "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
                 Invoke-Sqlcmd @params -Query "SELECT TOP 1 FROM INFORMATION_SCHEMA.TABLES" -QueryTimeout 180
             }
             catch {
