@@ -2,14 +2,14 @@ Import-Module SqlServer
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Sql -ErrorAction Stop
 
 function global:Run-AzSqlCommand ($params, $command) {
-    Invoke-Sqlcmd @params -Query $command -Verbose -QueryTimeout 180 -ErrorAction Stop -ErrorVariable err
+    Invoke-Sqlcmd @params -Query $command -Verbose -QueryTimeout 180 -ConnectionTimeout 60 -ErrorAction Stop -ErrorVariable err
     if ($err) {
         throw ($err)
     }
 }
 
 function global:Run-AzSqlQuery ($params, $query) {
-    $result = Invoke-Sqlcmd @params -Query $query -Verbose -ErrorAction Stop -ErrorVariable err
+    $result = Invoke-Sqlcmd @params -Query $query -Verbose -ConnectionTimeout 60 -ErrorAction Stop -ErrorVariable err
     if ($err) {
         throw ($err)
     }
@@ -98,8 +98,8 @@ InModuleScope Arcus.Scripting.Sql {
             # Azure Database that can be paused, is starting up.  This should
             # avoid having timeout errors during the test themselves.
             try {
-                Write-Information "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
-                Invoke-Sqlcmd @params -Query "SELECT TOP 1 FROM INFORMATION_SCHEMA.TABLES" -QueryTimeout 180
+                Write-Host "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
+                Invoke-Sqlcmd @params -Query "SELECT TOP 1 FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose
             }
             catch {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database
