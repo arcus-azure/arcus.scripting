@@ -105,29 +105,27 @@ InModuleScope Arcus.Scripting.Sql {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database
             }
         }
+        AfterEach {
+            Drop-AzSqlDatabaseTable $params "DatabaseVersion"
+        }
         Context "DatabaseVersion table" {
             It "Invoke first SQL migration on empty database creates new DatabaseVersion table" {
                 # Arrange
                 { Get-AzSqlDatabaseVersion $params } | Should -Throw
                 
-                try {
-                    # Act
-                    Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
-                        -DatabaseName $config.Arcus.Sql.DatabaseName `
-                        -Username $config.Arcus.Sql.Username `
-                        -Password $config.Arcus.Sql.Password `
-                        -ScriptsFolder "$PSScriptRoot\SqlScripts"
+                # Act
+                Invoke-AzSqlDatabaseMigration `
+                    -ServerName $config.Arcus.Sql.ServerName `
+                    -DatabaseName $config.Arcus.Sql.DatabaseName `
+                    -Username $config.Arcus.Sql.Username `
+                    -Password $config.Arcus.Sql.Password `
+                    -ScriptsFolder "$PSScriptRoot\SqlScripts"
 
-                    # Assert
-                    $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 1
-                    $version.MinorVersionNumber | Should -Be 0
-                    $version.PatchVersionNumber | Should -Be 0
-                }
-                finally {
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"
-                }
+                # Assert
+                $version = Get-AzSqlDatabaseVersion $params
+                $version.MajorVersionNumber | Should -Be 1
+                $version.MinorVersionNumber | Should -Be 0
+                $version.PatchVersionNumber | Should -Be 0                
             }
             It "Invoke first SQL migration with custom schema on empty database creates new DataVersion table with custom schema" {
                 # Arrange
@@ -151,8 +149,7 @@ InModuleScope Arcus.Scripting.Sql {
                     $version.MinorVersionNumber | Should -Be 0
                     $version.PatchVersionNumber | Should -Be 0
                 }
-                finally {
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion" $customSchema
+                finally {                    
                     Run-AzSqlCommand $params "DROP SCHEMA $customSchema"
                 }
             }
@@ -168,34 +165,29 @@ InModuleScope Arcus.Scripting.Sql {
                     WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) `
                 ) "
                 Run-AzSqlCommand $params $createOldDatabaseVersionTable
+                
+                # Act
+                Invoke-AzSqlDatabaseMigration `
+                    -ServerName $config.Arcus.Sql.ServerName `
+                    -DatabaseName $config.Arcus.Sql.DatabaseName `
+                    -Username $config.Arcus.Sql.Username `
+                    -Password $config.Arcus.Sql.Password `
+                    -ScriptsFolder "$PSScriptRoot\SqlScripts"
 
-                try {
-                    # Act
-                    Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
-                        -DatabaseName $config.Arcus.Sql.DatabaseName `
-                        -Username $config.Arcus.Sql.Username `
-                        -Password $config.Arcus.Sql.Password `
-                        -ScriptsFolder "$PSScriptRoot\SqlScripts"
+                # Assert
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MajorVersionNumber'" 
+                $result.ItemArray[0] | Should -Be 1
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MinorVersionNumber'"
+                $result.ItemArray[0] | Should -Be 1
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'PatchVersionNumber'"
+                $result.ItemArray[0] | Should -Be 1
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber'" 
+                $result.ItemArray[0] | Should -Be 0
 
-                    # Assert
-                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MajorVersionNumber'" 
-                    $result.ItemArray[0] | Should -Be 1
-                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MinorVersionNumber'"
-                    $result.ItemArray[0] | Should -Be 1
-                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'PatchVersionNumber'"
-                    $result.ItemArray[0] | Should -Be 1
-                    $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber'" 
-                    $result.ItemArray[0] | Should -Be 0
-
-                    $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 1
-                    $version.MinorVersionNumber | Should -Be 0
-                    $version.PatchVersionNumber | Should -Be 0
-                }
-                finally {
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"
-                }
+                $version = Get-AzSqlDatabaseVersion $params
+                $version.MajorVersionNumber | Should -Be 1
+                $version.MinorVersionNumber | Should -Be 0
+                $version.PatchVersionNumber | Should -Be 0                
             }
         }
         Context "Migrations - Happy Path" {
@@ -238,8 +230,7 @@ InModuleScope Arcus.Scripting.Sql {
                     $version.MinorVersionNumber | Should -Be 0
                     $version.PatchVersionNumber | Should -Be 0
                 }
-                finally {
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"
+                finally {                    
                     Drop-AzSqlDatabaseTable $params "Person"
                     Drop-AzSqlDatabaseTable $params "Customer"
                 }
@@ -247,49 +238,38 @@ InModuleScope Arcus.Scripting.Sql {
         }
         Context "Migrations - Unhappy path" {
             It "Migration Stops on Error" {
-                try {
-                    # Act and arrange: execute the specified migration-scripts
-                    Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
-                        -DatabaseName $config.Arcus.Sql.DatabaseName `
-                        -Username $config.Arcus.Sql.Username `
-                        -Password $config.Arcus.Sql.Password `
-                        -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationStopsOnError" 
-                }
-                catch {
-                    Write-Host "Expected migration error occured"
-                }
-                finally {
-                    $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 1 -Because "latest successfull migration-script has major version number 1"
-                    $version.MinorVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"
-                    $version.PatchVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"
+                
+                # Act and arrange: execute the specified migration-scripts
+                { Invoke-AzSqlDatabaseMigration `
+                    -ServerName $config.Arcus.Sql.ServerName `
+                    -DatabaseName $config.Arcus.Sql.DatabaseName `
+                    -Username $config.Arcus.Sql.Username `
+                    -Password $config.Arcus.Sql.Password `
+                    -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationStopsOnError" } | Should -Throw
 
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"                    
-                }
+                $version = Get-AzSqlDatabaseVersion $params
+                $version.MajorVersionNumber | Should -Be 1 -Because "latest successfull migration-script has major version number 1"
+                $version.MinorVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"
+                $version.PatchVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"                                                 
             }
         }
         Context "MigrationScripts - naming convention" {
             It "Old script naming convention is still supported" {
-                try {
-                    # Act: execute migration-scripts where the naming convention of those files
-                    #      is a mix between the old (versionnumber_description.sql) naming convention
-                    #      and the new (major.minor.patch_description.sql) naming convention.
-                    Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
-                        -DatabaseName $config.Arcus.Sql.DatabaseName `
-                        -Username $config.Arcus.Sql.Username `
-                        -Password $config.Arcus.Sql.Password `
-                        -ScriptsFolder "$PSScriptRoot\SqlScripts\OldMigrationScriptsAreStillSupported"
+                
+                # Act: execute migration-scripts where the naming convention of those files
+                #      is a mix between the old (versionnumber_description.sql) naming convention
+                #      and the new (major.minor.patch_description.sql) naming convention.
+                Invoke-AzSqlDatabaseMigration `
+                    -ServerName $config.Arcus.Sql.ServerName `
+                    -DatabaseName $config.Arcus.Sql.DatabaseName `
+                    -Username $config.Arcus.Sql.Username `
+                    -Password $config.Arcus.Sql.Password `
+                    -ScriptsFolder "$PSScriptRoot\SqlScripts\OldMigrationScriptsAreStillSupported"
                     
-                    $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 2 -Because "latest migration-script has version number 2"
-                    $version.MinorVersionNumber | Should -Be 0 -Because "Old migration scripts are used that do not have a minor version number"
-                    $version.PatchVersionNumber | Should -Be 0 -Because "Old migration scripts are used that do not have a patch version number"
-                }
-                finally {
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"                    
-                }
+                $version = Get-AzSqlDatabaseVersion $params
+                $version.MajorVersionNumber | Should -Be 2 -Because "latest migration-script has version number 2"
+                $version.MinorVersionNumber | Should -Be 0 -Because "Old migration scripts are used that do not have a minor version number"
+                $version.PatchVersionNumber | Should -Be 0 -Because "Old migration scripts are used that do not have a patch version number"                
             }
             It "Combination of old and new migration-script naming convention is supported" {
                 try {
@@ -323,8 +303,7 @@ InModuleScope Arcus.Scripting.Sql {
                         VerifyDatabaseVersionRow $versions[$i] $expectedVersions[$i]                        
                     } 
                 }
-                finally {
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"       
+                finally {                    
                     Drop-AzSqlDatabaseTable $params "Person"
                     Drop-AzSqlDatabaseTable $params "Customer"
                 }
