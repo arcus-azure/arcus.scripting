@@ -59,20 +59,20 @@ function global:TableExists($params, $tableName) {
     $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$tableName' AND TABLE_CATALOG = '$($params.Database)'"
 
     if ($result.ItemArray[0] -eq 1) {
-        return $True
+        return $true
     }
 
-    return $False
+    return $false
 }
 
 function global:ColumnExists($params, $tableName, $columnName) {
     $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tableName' AND COLUMN_NAME = '$columnName'"
 
     if ($result.ItemArray[0] -eq 1) {
-        return $True
+        return $true
     }
 
-    return $False
+    return $false
 }
 
 
@@ -220,18 +220,18 @@ InModuleScope Arcus.Scripting.Sql {
                     # The 'NonExistingTable' should not exist, as we already had a record in DatabaseVersion for 0.0.1, so that 
                     # migration script should not have been executed.
                     $result = TableExists $params 'NonExistingTable'
-                    $result | Should -Be $False -Because 'DatabaseVersion was initialized with version that introduced this table, so script should not have been executed'
+                    $result | Should -Be $false -Because 'DatabaseVersion was initialized with version that introduced this table, so script should not have been executed'
 
                     # The 'Customer' table should not exist, as it should have been renamed by one of the migrationscripts
                     $result = TableExists $params 'Customer'
-                    $result | Should -Be $False -Because 'Customer table should have been renamed'
+                    $result | Should -Be $false -Because 'Customer table should have been renamed'
 
                     # The Customer table was renamed to Person
                     $result = TableExists $params 'Person'
-                    $result | Should -Be $True -Because 'migration-script renamed Customer table to Person table'
+                    $result | Should -Be $true -Because 'migration-script renamed Customer table to Person table'
 
                     $result = ColumnExists $params 'Person' 'Address'
-                    $result | Should -Be $True -Because 'Migration script added additional Address column to table'
+                    $result | Should -Be $true -Because 'Migration script added additional Address column to table'
                     
                     $version = Get-AzSqlDatabaseVersion $params
                     $version.MajorVersionNumber | Should -Be 1
