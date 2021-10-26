@@ -130,10 +130,11 @@ InModuleScope Arcus.Scripting.Sql {
             It "Invoke first SQL migration with custom schema on empty database creates new DataVersion table with custom schema" {
                 # Arrange
                 { Get-AzSqlDatabaseVersion $params } | Should -Throw
-                $customSchema = "custom"
-                Run-AzSqlCommand $params "CREATE SCHEMA $customSchema"
 
                 try {
+                    $customSchema = "custom"
+                    Run-AzSqlCommand $params "CREATE SCHEMA $customSchema"
+
                     # Act
                     Invoke-AzSqlDatabaseMigration `
                         -ServerName $config.Arcus.Sql.ServerName `
