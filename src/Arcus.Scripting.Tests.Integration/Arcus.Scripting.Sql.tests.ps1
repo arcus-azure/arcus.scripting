@@ -34,10 +34,10 @@ function global:Get-AzSqlDatabaseVersion ($params, $schema = "dbo") {
     return $version
 }
 
-function global:VerifyDatabaseVersionRow ($row, $expectedMajorVersion, $expectedMinorVersion, $expectedPatchVersion) {
-    [convert]::ToInt32($row.ItemArray[0]) | Should -Be $expectedMajorVersion
-    [convert]::ToInt32($row.ItemArray[1]) | Should -Be $expectedMinorVersion
-    [convert]::ToInt32($row.ItemArray[2]) | Should -Be $expectedPatchVersion
+function global:VerifyDatabaseVersionRow ($row, [DatabaseVersion]$expectedVersion) {
+    [convert]::ToInt32($row.ItemArray[0]) | Should -Be $expectedVersion.MajorVersionNumber
+    [convert]::ToInt32($row.ItemArray[1]) | Should -Be $expectedVersion.MinorVersionNumber
+    [convert]::ToInt32($row.ItemArray[2]) | Should -Be $expectedVersion.PatchVersionNumber
 }
 
 function global:Create-MigrationTable ($params) {
@@ -308,28 +308,17 @@ InModuleScope Arcus.Scripting.Sql {
 
                     $versions.Length | Should -Be 6
 
-                    for ($i = 0; $i -lt $versions.Length; $i++) {
+                    $expectedVersions = @(
+                        [DatabaseVersion]::new(0, 0, 1),
+                        [DatabaseVersion]::new(1, 0, 0),
+                        [DatabaseVersion]::new(2, 0, 0),
+                        [DatabaseVersion]::new(2, 0, 1),
+                        [DatabaseVersion]::new(2, 1, 0),
+                        [DatabaseVersion]::new(3, 0, 0)
+                    )
 
-                        switch ($i) {
-                            0 {
-                                VerifyDatabaseVersionRow $versions[$i] 0 0 1
-                            }
-                            1 {
-                                VerifyDatabaseVersionRow $versions[$i] 1 0 0 
-                            }
-                            2 {
-                                VerifyDatabaseVersionRow $versions[$i] 2 0 0
-                            }
-                            3 {
-                                VerifyDatabaseVersionRow $versions[$i] 2 0 1
-                            }
-                            4 {
-                                VerifyDatabaseVersionRow $versions[$i] 2 1 0
-                            }
-                            5 {
-                                VerifyDatabaseVersionRow $versions[$i] 3 0 0
-                            }
-                        }
+                    for ($i = 0; $i -lt $versions.Length; $i++) {
+                        VerifyDatabaseVersionRow $versions[$i] $expectedVersions[$i]                        
                     } 
                 }
                 finally {
