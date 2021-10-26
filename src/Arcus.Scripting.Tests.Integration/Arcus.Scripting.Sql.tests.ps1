@@ -151,7 +151,7 @@ InModuleScope Arcus.Scripting.Sql {
                     $version.PatchVersionNumber | Should -Be 0
                 }
                 finally {      
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"
+                    Drop-AzSqlDatabaseTable $params "DatabaseVersion" $customSchema
                     Run-AzSqlCommand $params "DROP SCHEMA $customSchema"
                 }
             }
