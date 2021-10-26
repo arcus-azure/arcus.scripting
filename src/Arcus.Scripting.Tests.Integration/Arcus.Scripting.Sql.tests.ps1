@@ -197,6 +197,8 @@ InModuleScope Arcus.Scripting.Sql {
                     Drop-AzSqlDatabaseTable $params "DatabaseVersion"
                 }
             }
+        }
+        Context "Migrations - Happy Path" {
             It "Migration scripts are correctly executed" {
                 # Arrange: Create the DatabaseVersion table and pre-populate it
                 Create-MigrationTable $params
@@ -242,6 +244,32 @@ InModuleScope Arcus.Scripting.Sql {
                     Drop-AzSqlDatabaseTable $params "Customer"
                 }
             }
+        }
+        Context "Migrations - Unhappy path" {
+            It "Migration Stops on Error" {
+                try {
+                    # Act and arrange: execute the specified migration-scripts
+                    Invoke-AzSqlDatabaseMigration `
+                        -ServerName $config.Arcus.Sql.ServerName `
+                        -DatabaseName $config.Arcus.Sql.DatabaseName `
+                        -Username $config.Arcus.Sql.Username `
+                        -Password $config.Arcus.Sql.Password `
+                        -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationStopsOnError" 
+                }
+                catch {
+                    Write-Host "Expected migration error occured"
+                }
+                finally {
+                    $version = Get-AzSqlDatabaseVersion $params
+                    $version.MajorVersionNumber | Should -Be 1 -Because "latest successfull migration-script has major version number 1"
+                    $version.MinorVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"
+                    $version.PatchVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"
+
+                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"                    
+                }
+            }
+        }
+        Context "MigrationScripts - naming convention" {
             It "Old script naming convention is still supported" {
                 try {
                     # Act and arrange: execute the specified migration-scripts
@@ -309,29 +337,7 @@ InModuleScope Arcus.Scripting.Sql {
                     Drop-AzSqlDatabaseTable $params "Person"
                     Drop-AzSqlDatabaseTable $params "Customer"
                 }
-            }
-            It "Migration Stops on Error" {
-                try {
-                    # Act and arrange: execute the specified migration-scripts
-                    Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
-                        -DatabaseName $config.Arcus.Sql.DatabaseName `
-                        -Username $config.Arcus.Sql.Username `
-                        -Password $config.Arcus.Sql.Password `
-                        -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationStopsOnError" 
-                }
-                catch {
-                    Write-Host "Expected migration error occured"
-                }
-                finally {
-                    $version = Get-AzSqlDatabaseVersion $params
-                    $version.MajorVersionNumber | Should -Be 1 -Because "latest successfull migration-script has major version number 1"
-                    $version.MinorVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"
-                    $version.PatchVersionNumber | Should -Be 0 -Because "latest successfull migration-script has major version number 0"
-
-                    Drop-AzSqlDatabaseTable $params "DatabaseVersion"                    
-                }
-            }
+            }            
         }
     }
 }
