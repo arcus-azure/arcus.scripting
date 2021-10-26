@@ -272,7 +272,9 @@ InModuleScope Arcus.Scripting.Sql {
         Context "MigrationScripts - naming convention" {
             It "Old script naming convention is still supported" {
                 try {
-                    # Act and arrange: execute the specified migration-scripts
+                    # Act: execute migration-scripts where the naming convention of those files
+                    #      is a mix between the old (versionnumber_description.sql) naming convention
+                    #      and the new (major.minor.patch_description.sql) naming convention.
                     Invoke-AzSqlDatabaseMigration `
                         -ServerName $config.Arcus.Sql.ServerName `
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
