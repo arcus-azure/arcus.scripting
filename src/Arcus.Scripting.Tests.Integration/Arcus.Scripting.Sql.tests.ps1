@@ -176,14 +176,14 @@ InModuleScope Arcus.Scripting.Sql {
                     -ScriptsFolder "$PSScriptRoot\SqlScripts"
 
                 # Assert
-                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MajorVersionNumber'" 
-                $result.ItemArray[0] | Should -Be 1
-                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MinorVersionNumber'"
-                $result.ItemArray[0] | Should -Be 1
-                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'PatchVersionNumber'"
-                $result.ItemArray[0] | Should -Be 1
-                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber'" 
-                $result.ItemArray[0] | Should -Be 0
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MajorVersionNumber' AND TABLE_SCHEMA = 'dbo'" 
+                $result.ItemArray[0] | Should -Be 1 -Because "MajorVersionNumber column should be present"
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'MinorVersionNumber' AND TABLE_SCHEMA = 'dbo'"
+                $result.ItemArray[0] | Should -Be 1 -Because "MinorVersionNumber column should be present"
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'PatchVersionNumber' AND TABLE_SCHEMA = 'dbo'"
+                $result.ItemArray[0] | Should -Be 1 -Because "PatchVersionNumber column should be present"
+                $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber' AND TABLE_SCHEMA = 'dbo'" 
+                $result.ItemArray[0] | Should -Be 0 -Because "CurrentVersionNumber column should no longer be present with new table-structure"
 
                 $version = Get-AzSqlDatabaseVersion $params
                 $version.MajorVersionNumber | Should -Be 1
