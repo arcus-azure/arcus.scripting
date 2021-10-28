@@ -211,12 +211,20 @@ InModuleScope Arcus.Scripting.Sql {
                         -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationScriptsAreSuccessfullyExecuted"
 
                     # Assert
-                    # The 'NonExistingTable' should not exist, as we already had a record in DatabaseVersion for 0.0.1, so that 
-                    # migration script should not have been executed.
+                    # The MigrationScriptsAreSuccessfullyExecuted folder contains a file which has version-number 0.0.1
+                    # That migration-file creates the table 'NonExistingTable', however, when setting up this testcase
+                    # we have inserted a record in the DatabaseVersion-table which indicates that this version/migration-file was already
+                    # executed. If the Invoke-AzSqlDatabaseMigration script runs correctly, it should skip the migration-file with version 0.0.1
+                    # which means that the table 'NonExistingTable' should not exist in the DB.
+                    # If it does exist in the DB, then it means that the 0.0.1 migration-script was executed anyway.                    
                     $result = TableExists $params 'NonExistingTable'
                     $result | Should -Be $false -Because 'DatabaseVersion was initialized with version that introduced this table, so script should not have been executed'
 
-                    # The 'Customer' table should not exist, as it should have been renamed by one of the migrationscripts
+                    # A migration-script in the MigrationScriptsAreSuccessfullyExecuted folder contains a migration-file
+                    # that creates the Customer table.
+                    # However, there also exists a migration-script with a higher version in that folder which renames the
+                    # Customer table to 'Person'.  This means that the Customer table should not exist anymore.
+                    The 'Customer' table should not exist, as it should have been renamed by one of the migrationscripts
                     $result = TableExists $params 'Customer'
                     $result | Should -Be $false -Because 'Customer table should have been renamed'
 
@@ -224,6 +232,8 @@ InModuleScope Arcus.Scripting.Sql {
                     $result = TableExists $params 'Person'
                     $result | Should -Be $true -Because 'migration-script renamed Customer table to Person table'
 
+                    # After the Customer table has been renamed to Person, another migration-script
+                    # should have added a new column (Address) to the Person table.
                     $result = ColumnExists $params 'Person' 'Address'
                     $result | Should -Be $true -Because 'Migration script added additional Address column to table'
                     
