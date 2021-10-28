@@ -223,8 +223,7 @@ InModuleScope Arcus.Scripting.Sql {
                     # A migration-script in the MigrationScriptsAreSuccessfullyExecuted folder contains a migration-file
                     # that creates the Customer table.
                     # However, there also exists a migration-script with a higher version in that folder which renames the
-                    # Customer table to 'Person'.  This means that the Customer table should not exist anymore.
-                    The 'Customer' table should not exist, as it should have been renamed by one of the migrationscripts
+                    # Customer table to 'Person'.  This means that the Customer table should not exist anymore.                    
                     $result = TableExists $params 'Customer'
                     $result | Should -Be $false -Because 'Customer table should have been renamed'
 
