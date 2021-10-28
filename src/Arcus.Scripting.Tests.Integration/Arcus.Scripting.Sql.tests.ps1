@@ -239,7 +239,7 @@ InModuleScope Arcus.Scripting.Sql {
             }
         }
         Context "Migrations - Unhappy path" {
-            It "Migration Stops on Error" {
+            It "Multiple migrations are invoked until error encountered" {
                 
                 # Act and arrange: execute the specified migration-scripts
                 { Invoke-AzSqlDatabaseMigration `
