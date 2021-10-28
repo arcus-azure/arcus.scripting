@@ -193,7 +193,7 @@ InModuleScope Arcus.Scripting.Sql {
             }
         }
         Context "Migrations - Happy Path" {
-            It "Migration scripts are correctly executed" {
+            It "Multiple migrations are invoked in the correct order, ignoring lower version migrations" {
                 # Arrange: Create the DatabaseVersion table and pre-populate it
                 Create-MigrationTable $params
 
