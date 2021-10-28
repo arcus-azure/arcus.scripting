@@ -34,7 +34,7 @@ function global:Get-AzSqlDatabaseVersion ($params, $schema = "dbo") {
     return $version
 }
 
-function global:VerifyDatabaseVersionRow ($row, [DatabaseVersion]$expectedVersion) {
+function global:AssertDatabaseVersion ($row, [DatabaseVersion]$expectedVersion) {
     [convert]::ToInt32($row.ItemArray[0]) | Should -Be $expectedVersion.MajorVersionNumber
     [convert]::ToInt32($row.ItemArray[1]) | Should -Be $expectedVersion.MinorVersionNumber
     [convert]::ToInt32($row.ItemArray[2]) | Should -Be $expectedVersion.PatchVersionNumber
@@ -311,7 +311,7 @@ InModuleScope Arcus.Scripting.Sql {
                     )
 
                     for ($i = 0; $i -lt $versions.Length; $i++) {
-                        VerifyDatabaseVersionRow $versions[$i] $expectedVersions[$i]                        
+                        AssertDatabaseVersion $versions[$i] $expectedVersions[$i]                        
                     } 
                 }
                 finally {                    
