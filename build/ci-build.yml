@@ -75,7 +75,7 @@ stages:
       - job: RunUnitTests
         displayName: 'Run unit tests'
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
@@ -94,11 +94,12 @@ stages:
       - job: RunIntegrationTests
         displayName: 'Run integration tests'
         strategy:
+          maxParallel: 1
           matrix:
             linux:
-              imageName: 'ubuntu-latest'
+              imageName: '$(Vm.Linux.Image)'
             windows:
-              imageName: 'windows-latest'
+              imageName: '$(Vm.Windows.Image)'
         pool:
           vmImage: '$(imageName)'
         steps:
@@ -121,7 +122,7 @@ stages:
       - job: PushToMyGet
         displayName: 'Push to MyGet'
         pool:
-          vmImage: '$(Vm.Image.Default)'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'

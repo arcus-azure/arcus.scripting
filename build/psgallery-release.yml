@@ -35,7 +35,7 @@ stages:
     jobs:
       - job: Compile
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace package version tokens'
@@ -79,7 +79,7 @@ stages:
       - job: RunUnitTests
         displayName: 'Run unit tests'
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
@@ -97,8 +97,15 @@ stages:
     jobs:
       - job: RunIntegrationTests
         displayName: 'Run integration tests'
+        strategy:
+          maxParallel: 1
+          matrix:
+            linux:
+              imageName: '$(Vm.Linux.Image)'
+            windows:
+              imageName: '$(Vm.Windows.Image)'
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(imageName)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
@@ -119,7 +126,7 @@ stages:
       - job: PushToNuGet
         displayName: 'Push to PowerShell Gallery'
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(Vm.Linux.Image)'
         variables:
           ${{ if ne(variables['Prerelease'], 'none') }}:
             Package.Version: "${{ parameters['Package.Version'] }}${{ parameters['Prerelease'] }}"
