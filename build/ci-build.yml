@@ -97,7 +97,7 @@ stages:
           maxParallel: 1
           matrix:
             linux:
-              imageName: '$(Vm.Linux.Image)'
+              imageName: 'ubuntu-latest'
             windows:
               imageName: 'windows-latest'
         pool:
