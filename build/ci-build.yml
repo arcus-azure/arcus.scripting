@@ -72,7 +72,7 @@ stages:
     dependsOn: Build
     condition: succeeded()
     jobs:
-      - ${{ each image in $(Vm.Images) }}:
+      - ${{ each image in variables['Vm.Images'] }}:
         - job: RunUnitTests
           displayName: 'Run unit tests'
           pool:
@@ -92,7 +92,7 @@ stages:
     dependsOn: Build
     condition: succeeded()
     jobs:
-      - ${{ each image in $(Vm.Images) }}:
+      - ${{ each image in variables['Vm.Images'] }}:
         - job: RunIntegrationTests
           displayName: 'Run integration tests'
           pool:
