@@ -40,7 +40,7 @@ stages:
     jobs:
       - job: Compile
         pool:
-          vmImage: '$(Vm.Image.Default)'
+          vmImage: '$(Vm.Image)'
         steps:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace package version tokens'
