@@ -99,7 +99,7 @@ stages:
             linux:
               imageName: '$(Vm.Linux.Image)'
             windows:
-              imageName: '$(Vm.Windows.Image)'
+              imageName: 'windows-latest'
         pool:
           vmImage: '$(imageName)'
         steps:
