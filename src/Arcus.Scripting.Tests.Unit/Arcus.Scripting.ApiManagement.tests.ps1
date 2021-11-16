@@ -2,7 +2,7 @@
 
 InModuleScope Arcus.Scripting.ApiManagement {
     Describe "Arcus Azure API Management unit tests" {
-        Context "Create Azure API Management backup" {
+        Context "Back up Azure API Management service" {
             It "Creates storage context during API management backup" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -178,7 +178,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled Backup-AzApiManagement -Times 1
             }
         }
-        Context "Create Azure API Management API operation" {
+        Context "Import Azure API Management operation" {
             It "Calls new operation on Azure API Management operation w/o policy" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -248,8 +248,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
-        }
-        Context "Import Azure API Management product policy" {
+       }
+       Context "Import Azure API Management product policy" {
             It "Importing policy product sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -299,7 +299,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     # Assert
                     Should -Throw
             }
-        }
+        } 
         Context "Remove Azure API Management defaults" {
             It "Remove API Management defaults succeed" {
                 # Arrange
@@ -310,15 +310,15 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
                     $ApiId | Should -Be "echo-api"
-                    return $true } -Verifiable
+                    return $null } -Verifiable
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName
@@ -342,11 +342,11 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
@@ -367,7 +367,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
                     $ApiId | Should -Be "echo-api"
-                    return $true } -Verifiable
+                    return $null } -Verifiable
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
@@ -375,7 +375,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
@@ -396,11 +396,11 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
                     $ApiId | Should -Be "echo-api"
-                    return $true } -Verifiable
+                    return $null } -Verifiable
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $true } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
@@ -416,7 +416,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
-        }
+        } 
         Context "Import Azure API Management API policy" {
             It "Importing policy API sets API Management policy on operation" {
                 # Arrange
@@ -469,7 +469,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
-        }
+        } 
         Context "Import Azure API Management operation policy" {
             It "Importing policy operation sets Azure API Management policy on operation" {
                 # Arrange
@@ -705,34 +705,34 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled Restore-AzApiManagement -Times 1
             }
         }
-        Context "Set Azure API Management subscription key" {
-          It "Sets subscription keys on an API in Azure API Management" {
-              # Arrange
-              $resourceGroup = "shopping"
-              $serviceName = "shopping-API-management"
-              $apiId = "shopping-API"
-              $apiKeyHeaderName = "header-name"
-              $apiKeyQueryParamName = "query-param-name"
-              $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+        Context "Set Azure API Management API subscription key" {
+            It "Sets subscription keys on an API in Azure API Management" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $apiId = "shopping-API"
+                $apiKeyHeaderName = "header-name"
+                $apiKeyQueryParamName = "query-param-name"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
-              Mock New-AzApiManagementContext {
-                  $ResourceGroupName | Should -Be $resourceGroup
-                  $ServiceName | Should -Be $serviceName
-                  return $context } -Verifiable
+                Mock New-AzApiManagementContext {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
 
-              Mock Set-AzApiManagementApi {
-                  $Context | Should -be $context
-                  $ApiId | Should -Be $apiId
-                  $SubscriptionKeyHeaderName | Should -Be $apiKeyHeaderName
-                  $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
+                Mock Set-AzApiManagementApi {
+                    $Context | Should -be $context
+                    $ApiId | Should -Be $apiId
+                    $SubscriptionKeyHeaderName | Should -Be $apiKeyHeaderName
+                    $SubscriptionKeyQueryParamName | Should -Be $apiKeyQueryParamName } -Verifiable
 
-              # Act
-              Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
+                # Act
+                Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -HeaderName $apiKeyHeaderName -QueryParamName $apiKeyQueryParamName
 
-              # Assert
-              Assert-VerifiableMock
-          }
-      }
+                # Assert
+                Assert-VerifiableMock
+            }
+        }
         Context "Upload Azure API Management certificate" {
             It "Uploads private certificate to API Management" {
                 # Arrange
