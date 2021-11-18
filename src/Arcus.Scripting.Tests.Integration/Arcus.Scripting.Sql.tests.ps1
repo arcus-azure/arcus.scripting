@@ -99,7 +99,7 @@ InModuleScope Arcus.Scripting.Sql {
             # avoid having timeout errors during the test themselves.
             # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database
             Write-Host "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
-            Invoke-Sqlcmd @params -Query "SELECT TOP 1 FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
+            Invoke-Sqlcmd @params -Query "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
         }
         AfterEach {
             Drop-AzSqlDatabaseTable $params "DatabaseVersion"
