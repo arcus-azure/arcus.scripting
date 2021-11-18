@@ -97,9 +97,9 @@ stages:
           maxParallel: 1
           matrix:
             linux:
-              imageName: 'ubuntu-latest'
+              imageName: ${{ variables['Vm.Linux.Image']}}
             windows:
-              imageName: 'windows-latest'
+              imageName: ${{ variables['Vm.Windows.Image']}}
         pool:
           vmImage: '$(imageName)'
         steps:
