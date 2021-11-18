@@ -24,11 +24,11 @@ function global:Get-AzSqlDatabaseVersion ($params, $schema = "dbo") {
     $row = Run-AzSqlQuery $params "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM [$schema].[DatabaseVersion] ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC"
 
     $version = [DatabaseVersion]::new()
-    if (($null -ne $row) -and ($null -ne $row.ItemArray) -and ($row.ItemArray.Length -ge 3) ) {        
+    if (($null -ne $row) -and ($null -ne $row.ItemArray) -and ($row.ItemArray.Length -ge 3) ) {
         $version = [DatabaseVersion]::new(
-            [convert]::ToInt32($row.ItemArray[0]), 
-            [convert]::ToInt32($row.ItemArray[1]), 
-            [convert]::ToInt32($row.ItemArray[2]))    
+            [convert]::ToInt32($row.ItemArray[0]),
+            [convert]::ToInt32($row.ItemArray[1]),
+            [convert]::ToInt32($row.ItemArray[2]))
     }
 
     return $version
@@ -49,7 +49,7 @@ function global:Create-MigrationTable ($params) {
                     "   [MigrationDescription] [nvarchar](256) NOT NULL, " +
                     "   [MigrationDate] DATETIME NOT NULL " +
                     "   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
-                    "				WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
+                    "       WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
                     ")"
 
     Run-AzSqlCommand $params $createTable
@@ -99,7 +99,7 @@ InModuleScope Arcus.Scripting.Sql {
             # avoid having timeout errors during the test themselves.
             try {
                 Write-Host "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
-                Invoke-Sqlcmd @params -Query "SELECT TOP 1 FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose
+                Invoke-Sqlcmd @params -Query "SELECT TOP 1 FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
             }
             catch {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database
@@ -125,7 +125,7 @@ InModuleScope Arcus.Scripting.Sql {
                 $version = Get-AzSqlDatabaseVersion $params
                 $version.MajorVersionNumber | Should -Be 1
                 $version.MinorVersionNumber | Should -Be 0
-                $version.PatchVersionNumber | Should -Be 0                
+                $version.PatchVersionNumber | Should -Be 0
             }
             It "Invoke first SQL migration with custom schema on empty database creates new DataVersion table with custom schema" {
                 # Arrange
@@ -189,7 +189,7 @@ InModuleScope Arcus.Scripting.Sql {
                 $version = Get-AzSqlDatabaseVersion $params
                 $version.MajorVersionNumber | Should -Be 1
                 $version.MinorVersionNumber | Should -Be 0
-                $version.PatchVersionNumber | Should -Be 0                
+                $version.PatchVersionNumber | Should -Be 0
             }
         }
         Context "Migrations - Happy Path" {
@@ -216,14 +216,14 @@ InModuleScope Arcus.Scripting.Sql {
                     # we have inserted a record in the DatabaseVersion-table which indicates that this version/migration-file was already
                     # executed. If the Invoke-AzSqlDatabaseMigration script runs correctly, it should skip the migration-file with version 0.0.1
                     # which means that the table 'NonExistingTable' should not exist in the DB.
-                    # If it does exist in the DB, then it means that the 0.0.1 migration-script was executed anyway.                    
+                    # If it does exist in the DB, then it means that the 0.0.1 migration-script was executed anyway.
                     $result = TableExists $params 'NonExistingTable'
                     $result | Should -Be $false -Because 'DatabaseVersion was initialized with version that introduced this table, so script should not have been executed'
 
                     # A migration-script in the MigrationScriptsAreSuccessfullyExecuted folder contains a migration-file
                     # that creates the Customer table.
                     # However, there also exists a migration-script with a higher version in that folder which renames the
-                    # Customer table to 'Person'.  This means that the Customer table should not exist anymore.                    
+                    # Customer table to 'Person'.  This means that the Customer table should not exist anymore.
                     $result = TableExists $params 'Customer'
                     $result | Should -Be $false -Because 'Customer table should have been renamed'
 
@@ -311,14 +311,14 @@ InModuleScope Arcus.Scripting.Sql {
                     )
 
                     for ($i = 0; $i -lt $versions.Length; $i++) {
-                        AssertDatabaseVersion $versions[$i] $expectedVersions[$i]                        
-                    } 
+                        AssertDatabaseVersion $versions[$i] $expectedVersions[$i]
+                    }
                 }
-                finally {                    
+                finally {
                     Drop-AzSqlDatabaseTable $params "Person"
                     Drop-AzSqlDatabaseTable $params "Customer"
                 }
-            }            
+            }
         }
     }
 }
