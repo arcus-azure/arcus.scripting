@@ -1,5 +1,5 @@
 param(
-   [Parameter()][switch] $AssignGlobalVariables = $false
+   [Parameter()][switch] $AssignGlobalVariables
 )
 
 $azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
@@ -13,7 +13,7 @@ $profileClient = New-Object Microsoft.Azure.Commands.ResourceManager.Common.RMPr
 
 $token = $profileClient.AcquireAccessToken($currentAzureContext.Tenant.TenantId)
 
-if($AssignGlobalVariables) {
+if($AssignGlobalVariables.IsPresent) {
     $Global:subscriptionId = $currentAzureContext.Subscription.Id
     Write-Host "Global variable 'subscriptionId' assigned"
 
