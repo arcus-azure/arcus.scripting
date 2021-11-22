@@ -42,14 +42,14 @@ Make sure that the credentials that you provide can write tables to the database
 **Example with defaults**
 
 ```powershell
-PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password"
+PS> Invoke-AzSqlDatabaseMigration -ServerName "my-server-name.database.windows.net" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password"
 # Looking for SQL scripts in folder: ./sqlScripts
 ```
 
 **Example with custom values**
 
 ```powershell
-PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password" -ScriptsFolder "$PSScriptRoot/sql-scripts" -ScriptsFileFilter "*.MyScript.sql" -DatabaseSchema "custom"
+PS> Invoke-AzSqlDatabaseMigration -ServerName "my-server-name.database.windows.net" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password" -ScriptsFolder "$PSScriptRoot/sql-scripts" -ScriptsFileFilter "*.MyScript.sql" -DatabaseSchema "custom"
 # Looking for SQL scripts in folder: ./sql-scripts
 ```
 
