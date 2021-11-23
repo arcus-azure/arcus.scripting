@@ -3,11 +3,11 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 InModuleScope Arcus.Scripting.Security {
     Describe "Arcus Azure security integration tests" {
         Context "Get cached access token" {
-            It "Get cached access token from current active authenticated Azure session succeeds" {
-                # Arrange
+            BeforeEach {
                 $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
                 & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
-
+            }
+            It "Get cached access token from current active authenticated Azure session succeeds without assigning global variables" {
                 # Act
                 $token = Get-AzCachedAccessToken
 
@@ -16,9 +16,23 @@ InModuleScope Arcus.Scripting.Security {
                 $token.SubscriptionId | Should -Be $config.Arcus.SubscriptionId
                 $token.AccessToken | Should -Not -BeNullOrEmpty
             }
+            It "Get cached access token from current active authenticated Azure session succeeds with assigning global variables" {
+                # Arrange                
+                $Global:subscriptionId = ""
+                $Global:accessToken = ""
+
+                # Act
+                $token = Get-AzCachedAccessToken -AssignGlobalVariables
+
+                # Assert
+                $token | Should -Not -Be $null
+                $token.SubscriptionId | Should -Be $config.Arcus.SubscriptionId
+                $token.AccessToken | Should -Not -BeNullOrEmpty
+                $Global:subscriptionId | Should -Be $config.Arcus.SubscriptionId
+                $Global:accessToken | Should -Not -BeNullOrEmpty
+            }
             It "Get cached access token from current unative authenticated Azure session fails" {
                 # Arrange
-                $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
                 Disconnect-AzAccount -TenantId $config.Arcus.TenantId -ApplicationId $config.Arcus.ServicePrincipal.ClientId
 
                 # Act

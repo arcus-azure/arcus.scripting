@@ -1,5 +1,5 @@
 param(
-   [Parameter()][switch] $AssignGlobalVariables = $false
+   [Parameter(Mandatory = $false)][switch] $AssignGlobalVariables = $false
 )
 
 $azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
