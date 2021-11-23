@@ -6,9 +6,11 @@ layout: default
 # Azure Security
 
 This module provides the following capabilities:
-- [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
-- [Retrieving the current Az Access token](#retrieving-the-current-az-access-token)
-- [Granting a resource access to all resources within a specific resource group](#granting-a-resource-access-to-all-resources-within-a-specific-resource-group)
+- [Azure Security](#azure-security)
+  - [Installation](#installation)
+  - [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
+  - [Retrieving the current Az Access token](#retrieving-the-current-az-access-token)
+  - [Granting a resource access to all resources within a specific resource group](#granting-a-resource-access-to-all-resources-within-a-specific-resource-group)
 
 ## Installation
 
@@ -58,7 +60,7 @@ When you want to make use of the REST-API's made available to manage Azure Resou
 
 | Parameter               | Mandatory | Description                                                                                       |
 | ----------------------- | --------- | ------------------------------------------------------------------------------------------------- |
-| `AssignGlobalVariables` | no        | Indicator (switch) whether you want the global variables `access_token` and `subscriptionId` assigned for easy access.  |
+| `AssignGlobalVariables` | no        | Indicator (switch - default value: false) whether you want the global variables `access_token` and `subscriptionId` assigned for easy access.  |
 
 **Usage**
 
