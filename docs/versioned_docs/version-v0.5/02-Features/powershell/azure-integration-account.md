@@ -14,7 +14,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.IntegrationAccount -MaximumVersion 0.5.0
+PS> Install-Module -Name Arcus.Scripting.IntegrationAccount -RequiredVersion 0.5.0
 ```
 
 ## Uploading schemas into an Azure Integration Account

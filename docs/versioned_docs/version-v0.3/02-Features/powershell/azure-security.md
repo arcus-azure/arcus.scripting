@@ -14,7 +14,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Import-Module -Name Arcus.Scripting.Security -MaximumVersion 0.3.0
+PS> Import-Module -Name Arcus.Scripting.Security -RequiredVersion 0.3.0
 ```
 
 ## Removing resource locks from an Azure resource group

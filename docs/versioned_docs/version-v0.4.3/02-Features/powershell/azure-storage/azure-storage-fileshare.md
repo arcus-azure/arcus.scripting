@@ -14,7 +14,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.Storage.FileShare -MaximumVersion 0.4.3
+PS> Install-Module -Name Arcus.Scripting.Storage.FileShare -RequiredVersion 0.4.3
 ```
 
 ## Creating a folder on an Azure file share
