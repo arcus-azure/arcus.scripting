@@ -13,7 +13,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.Storage.Blob
+PS> Install-Module -Name Arcus.Scripting.Storage.Blob -MinimumVersion 0.4.0
 ```
 
 ## Uploading files to a Azure Storage Blob container

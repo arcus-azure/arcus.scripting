@@ -5,15 +5,13 @@ slug: /
 sidebar_label: Welcome
 ---
 
-[![PowerShell Gallery Version](https://img.shields.io/badge/powershell%20gallery-v0.1.3-orange)](https://www.powershellgallery.com/packages/Arcus.Scripting.ARM/0.1.3)
-
 # Installation
 
 The Arcus.Scripting modules can be found on the PowerShell gallery.
 Install the latest version of a module by executing the following command:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ARM -Version 0.1.3
+PS> Install-Module -Name Arcus.Scripting.ARM -MinimumVersion 0.1.3
 ```
 
 For more granular packages we recommend reading the documentation.

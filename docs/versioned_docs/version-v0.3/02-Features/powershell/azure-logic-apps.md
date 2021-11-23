@@ -16,7 +16,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.LogicApps
+PS> Install-Module -Name Arcus.Scripting.LogicApps -MinimumVersion 0.3.0
 ```
 
 ## Disable an Azure Logic App
