@@ -38,7 +38,7 @@ function Get-AzCachedAccessToken {
         [Parameter(Mandatory = $false)][switch] $AssignGlobalVariables = $false
     )
 
-    if($AssignGlobalVariables) {
+    if ($AssignGlobalVariables) {
         . $PSScriptRoot\Scripts\Get-AzCachedAccessToken.ps1 -AssignGlobalVariables
     } else {
         . $PSScriptRoot\Scripts\Get-AzCachedAccessToken.ps1
