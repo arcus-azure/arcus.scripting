@@ -29,9 +29,20 @@ Export-ModuleMember -Function Remove-AzResourceGroupLocks
   
  .Description
   Retrieve the AccessToken and subscriptionId based on the current AzContext. Ensure you have logged in (Connect-AzAccount) before calling this function.
+
+ .Parameter AssignGlobalVariables
+  Indicate whether to assign the global variables `access_token` and `subscriptionId` for easy access.
 #>
 function Get-AzCachedAccessToken {
-    . $PSScriptRoot\Scripts\Get-AzCachedAccessToken.ps1
+    param(
+        [Parameter(Mandatory = $false)][switch] $AssignGlobalVariables = $false
+    )
+
+    if($AssignGlobalVariables) {
+        . $PSScriptRoot\Scripts\Get-AzCachedAccessToken.ps1 -AssignGlobalVariables
+    } else {
+        . $PSScriptRoot\Scripts\Get-AzCachedAccessToken.ps1
+    }
 }
 
 Export-ModuleMember -Function Get-AzCachedAccessToken
