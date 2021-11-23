@@ -13,7 +13,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.SQL -MinimumVersion 0.5.0
+PS> Install-Module -Name Arcus.Scripting.SQL -MaximumVersion 0.5.0
 ```
 
 ## Invoke a database migration

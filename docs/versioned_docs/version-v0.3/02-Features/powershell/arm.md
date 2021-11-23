@@ -13,7 +13,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ARM -MinimumVersion 0.3.0
+PS> Install-Module -Name Arcus.Scripting.ARM -MaximumVersion 0.3.0
 ```
 
 ## Injecting content into an ARM template
