@@ -13,7 +13,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.SQL -RequiredVersion 0.5.0
+PS> Install-Module -Name Arcus.Scripting.SQL
 ```
 
 ## Invoke a database migration
@@ -42,14 +42,14 @@ Make sure that the credentials that you provide can write tables to the database
 **Example with defaults**
 
 ```powershell
-PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password"
+PS> Invoke-AzSqlDatabaseMigration -ServerName "my-server-name.database.windows.net" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password"
 # Looking for SQL scripts in folder: ./sqlScripts
 ```
 
 **Example with custom values**
 
 ```powershell
-PS> RunDatabaseScript -ServerName "my-server-name" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password" -ScriptsFolder "$PSScriptRoot/sql-scripts" -ScriptsFileFilter "*.MyScript.sql" -DatabaseSchema "custom"
+PS> Invoke-AzSqlDatabaseMigration -ServerName "my-server-name.database.windows.net" -DatabaseName "my-database-name" -Username "my-sql-username" -Password "my-sql-password" -ScriptsFolder "$PSScriptRoot/sql-scripts" -ScriptsFileFilter "*.MyScript.sql" -DatabaseSchema "custom"
 # Looking for SQL scripts in folder: ./sql-scripts
 ```
 
