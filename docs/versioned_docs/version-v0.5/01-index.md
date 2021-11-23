@@ -5,8 +5,6 @@ slug: /
 sidebar_label: Welcome
 ---
 
-![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.All)
-
 # Installation
 
 The Arcus.Scripting modules can be found on the PowerShell gallery.

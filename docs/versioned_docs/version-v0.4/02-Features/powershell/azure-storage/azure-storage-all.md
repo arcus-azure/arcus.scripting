@@ -13,7 +13,7 @@ This module contains several sub-modules, all related to Azure Storage.
 Install all Azure Storage-related modules at once via:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.Storage.All
+PS> Install-Module -Name Arcus.Scripting.Storage.All -RequiredVersion 0.4.0
 ```
 
 ## Azure Table Storage

@@ -15,7 +15,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.KeyVault
+PS> Install-Module -Name Arcus.Scripting.KeyVault --RequiredVersion 0.2.0
 ```
 
 ## Getting all access policies for an Azure Key Vault
