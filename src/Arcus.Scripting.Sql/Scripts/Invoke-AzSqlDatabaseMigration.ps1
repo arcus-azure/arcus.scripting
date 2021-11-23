@@ -140,8 +140,8 @@ for ($i = 0; $i -lt $files.Count; $i++) {
         $migrationDescription = $migrationDescription.Substring(0, 256)
     }
 	
-    $updateVersionQuery =   "INSERT INTO [$DatabaseSchema].[DatabaseVersion] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) " +
-                            "SELECT $($scriptVersionNumber.MajorVersionNumber), $($scriptVersionNumber.MinorVersionNumber), $($scriptVersionNumber.PatchVersionNumber), '$migrationDescription', getdate()"
+    $updateVersionQuery = "INSERT INTO [$DatabaseSchema].[DatabaseVersion] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) " +
+                          "SELECT $($scriptVersionNumber.MajorVersionNumber), $($scriptVersionNumber.MinorVersionNumber), $($scriptVersionNumber.PatchVersionNumber), '$migrationDescription', getdate()"
     
     Execute-DbCommand $params $updateVersionQuery
 

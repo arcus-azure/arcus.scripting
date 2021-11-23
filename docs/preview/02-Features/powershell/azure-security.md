@@ -58,8 +58,7 @@ When you want to make use of the REST-API's made available to manage Azure Resou
 
 | Parameter               | Mandatory | Description                                                                                       |
 | ----------------------- | --------- | ------------------------------------------------------------------------------------------------- |
-| `AssignGlobalVariables` | no        | Switch - default value: false                                                                     |
-|                         |           | When you want the global variables `access_token` and `subscriptionId` assigned for easy access.  |
+| `AssignGlobalVariables` | no        | Indicator (switch - default value: false) whether you want the global variables `access_token` and `subscriptionId` assigned for easy access.  |
 
 **Usage**
 
