@@ -50,9 +50,14 @@
     <Folder Include="Files\" />
     <Folder Include="Blobs\" />
     <Folder Include="Files\IntegrationAccount\" />
+    <Folder Include="Files\IntegrationAccount\Maps\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
     <Folder Include="SqlScripts\" />
+    <Folder Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\" />
+    <Folder Include="SqlScripts\MigrationStopsOnError\" />
+    <Folder Include="SqlScripts\OldAndNewNamingConventionSupported\" />
+    <Folder Include="SqlScripts\OldMigrationScriptsAreStillSupported\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.local.json" />
@@ -76,10 +81,27 @@
     <Content Include="Files\arm-template-inline.json" />
     <Content Include="Files\arm-template-inline-value.json" />
     <Content Include="Files\arm-template-inline-org.json" />
+    <Content Include="Files\IntegrationAccount\Maps\BankTransfer_Canonical-to-BankTransfer_PKO.xslt" />
+    <Content Include="Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt" />
     <Content Include="Files\IntegrationAccount\Schemas\NestedSchema.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Acknowledgement.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Common\NestedSchemaRoot.xsd" />
     <Content Include="SqlScripts\1_EmptyMigration.sql" />
+    <Content Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\0.0.1_baseline.sql" />
+    <Content Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\0.1.0_AddCustomerTable.sql" />
+    <Content Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\0.2.0_AlterCustomerTable.sql" />
+    <Content Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\1.0.0_RenameCustomerTable.sql" />
+    <Content Include="SqlScripts\MigrationStopsOnError\1.0.0_initialversion.sql" />
+    <Content Include="SqlScripts\MigrationStopsOnError\1.1.0_erroneousmigration.sql" />
+    <Content Include="SqlScripts\MigrationStopsOnError\1.2.0_latestversion.sql" />
+    <Content Include="SqlScripts\OldAndNewNamingConventionSupported\0.0.1_baseline.sql" />
+    <Content Include="SqlScripts\OldAndNewNamingConventionSupported\1_version.sql" />
+    <Content Include="SqlScripts\OldAndNewNamingConventionSupported\2.0.1_version.sql" />
+    <Content Include="SqlScripts\OldAndNewNamingConventionSupported\2.1.0_version.sql" />
+    <Content Include="SqlScripts\OldAndNewNamingConventionSupported\2_version.sql" />
+    <Content Include="SqlScripts\OldAndNewNamingConventionSupported\3_version.sql" />
+    <Content Include="SqlScripts\OldMigrationScriptsAreStillSupported\1_EmptyMigration.sql" />
+    <Content Include="SqlScripts\OldMigrationScriptsAreStillSupported\2_AnotherEmptyMigration.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

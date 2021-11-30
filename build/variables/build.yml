@@ -1,4 +1,5 @@
 variables:
   DotNet.Sdk.Version: '2.2.105'
   Project: 'Arcus.Scripting'
-  Vm.Image: 'ubuntu-latest'
+  Vm.Linux.Image: 'ubuntu-latest'
+  Vm.Windows.Image: 'windows-latest'

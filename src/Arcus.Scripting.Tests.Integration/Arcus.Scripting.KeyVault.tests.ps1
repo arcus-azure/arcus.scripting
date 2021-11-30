@@ -30,12 +30,11 @@ InModuleScope Arcus.Scripting.KeyVault {
                 }
             }
             It "Set secret as BASE64 in Key Vault" {
-                $contents = [System.Guid]::NewGuid().ToString()
-                $file = New-Item -Path "test-base64-file.txt" -ItemType File -Value $contents
+                # Arrange
+                $expected = [System.Guid]::NewGuid().ToString()
+                $file = New-Item -Path "test-base64-file.txt" -ItemType File -Value $expected
+                $secretName = "Arcus-Scripting-KeyVault-MySecret-$([System.Guid]::NewGuid())"
                 try {
-                    # Arrange
-                    $secretName = "Arcus-Scripting-KeyVault-MySecret-$([System.Guid]::NewGuid())"
-
                     # Act
                     Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -FilePath $file.FullName
 
@@ -43,7 +42,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                     $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual) |
                         % { [System.Text.Encoding]::UTF8.GetString($_) } |
-                        Should -Be $contents.ToCharArray()
+                        Should -Be $expected.ToCharArray()
                 } finally {
                     Remove-Item -Path $file.FullName
                     Remove-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -PassThru -Force
@@ -71,14 +70,13 @@ InModuleScope Arcus.Scripting.KeyVault {
             }
             It "Set secret as BASE64 in Key Vault with expiration date" {
                 # Arrange
-                $contents = [System.Guid]::NewGuid().ToString()
-                $file = New-Item -Path "test-file.txt" -ItemType File -Value $contents
+                $expected = [System.Guid]::NewGuid().ToString()
+                $file = New-Item -Path "test-base64-file.txt" -ItemType File -Value $expected
                 $secretName = "Arcus-Scripting-KeyVault-MySecret-$([System.Guid]::NewGuid())"
                 $expirationDate = (Get-Date).AddDays(7).ToUniversalTime()
                 $expirationDate = $expirationDate.AddTicks(-$expirationDate.Ticks)
 
-                try
-                {
+                try {
                     # Act
                     Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $config.Arcus.KeyVault.VaultName -SecretName $secretName -Expires $expirationDate -FilePath $file.FullName
                 
@@ -88,7 +86,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                     $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual) |
                         % { [System.Text.Encoding]::UTF8.GetString($_) } |
-                        Should -Be $contents.ToCharArray()
+                        Should -Be $expected.ToCharArray()
 
                 } finally {
                     Remove-Item -Path $file.FullName
