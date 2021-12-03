@@ -57,7 +57,7 @@ function InjectFile {
         if ($instructionParts.Length -gt 1) {
             $optionParts = $instructionParts | select -Skip 1
 
-            if ($optionParts.Contains("ReplaceSpecialChars")){
+            if ($optionParts.Contains("ReplaceSpecialChars")) {
                 Write-Host "`t Replacing special characters"
 
                 # Replace newline characters with literal equivalents
@@ -81,21 +81,21 @@ function InjectFile {
                 $newString = $newString -replace '(?<!\\)"', '\"'
             }
 
-
-            if ($optionParts.Contains("InjectAsJsonObject")){
-                try{
+            if ($optionParts.Contains("InjectAsJsonObject")) {
+                try {
                     # Test if content is valid JSON
+                    Write-Host "Test if valid JSON: $newString"
                     ConvertFrom-Json $newString
 
                     $surroundContentWithDoubleQuotes = $False
                 }
-                catch{
-                    Write-Error "Content to inject cannot be parsed as a JSON object!"
+                catch {
+                    Write-Warning "Content to inject cannot be parsed as a JSON object!"
                 }
             }
         }
 
-        if ($surroundContentWithDoubleQuotes){
+        if ($surroundContentWithDoubleQuotes) {
             Write-Host "`t Surrounding content in double quotes"
 
             $newString = '"' + $newString + '"'
