@@ -63,6 +63,9 @@
     <Content Include="appsettings.local.json" />
     <Content Include="appsettings.json" />
     <Content Include="Blobs\arcus.png" />
+    <Content Include="Files\arm-template-object %28linux%29.json" />
+    <Content Include="Files\arm-template-object-org %28linux%29.json" />
+    <Content Include="Files\arm-template-object-value %28linux%29.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
     <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
@@ -75,9 +78,9 @@
     <Content Include="Files\arm-template-escape-value.xml" />
     <Content Include="Files\arm-template-escape.json" />
     <Content Include="Files\arm-template-escape-org.json" />
-    <Content Include="Files\arm-template-object-value.json" />
-    <Content Include="Files\arm-template-object.json" />
-    <Content Include="Files\arm-template-object-org.json" />
+    <Content Include="Files\arm-template-object-value %28windows%29.json" />
+    <Content Include="Files\arm-template-object %28windows%29.json" />
+    <Content Include="Files\arm-template-object-org %28windows%29.json" />
     <Content Include="Files\arm-template-inline.json" />
     <Content Include="Files\arm-template-inline-value.json" />
     <Content Include="Files\arm-template-inline-org.json" />

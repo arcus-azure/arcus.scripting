@@ -5,7 +5,7 @@
   "properties": {
     "subscriptionRequired": true,
     "path": "demo",
-    "value": "${ FileToInject='./../Files/arm-template-object-value.json', InjectAsJsonObject }$",
+    "value": "${ FileToInject='./../Files/arm-template-object-value (linux).json', InjectAsJsonObject }$",
     "format": "swagger-json"
   },
   "tags": "[variables('Tags')]",

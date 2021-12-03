@@ -61,7 +61,7 @@ function InjectFile {
                 Write-Host "`t Replacing special characters"
 
                 # Replace newline characters with literal equivalents
-                if ([environment]::OSVersion.VersionString -like "*Windows*") {
+                if ([Environment]::OSVersion.VersionString -like "*Windows*") {
                     $newString = $newString -replace "`r`n", "\r\n"
                 } else {
                     $newString = $newString -replace "`n", "\n"
