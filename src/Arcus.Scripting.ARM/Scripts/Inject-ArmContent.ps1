@@ -62,7 +62,7 @@ function InjectFile {
 
                 # Replace newline characters with literal equivalents
                 if ([environment]::OSVersion.VersionString -like "*Windows*") {
-                    $newString = $newString -replace "`n", "\r\n"
+                    $newString = $newString -replace "`r`n", "\r\n"
                 } else {
                     $newString = $newString -replace "`n", "\n"
                 }
@@ -106,7 +106,7 @@ function InjectFile {
 
     $rawContents = Get-Content $filePath -Raw
     $injectionInstructionRegex = [regex] '"?\${(.+)}\$"?';
-    $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -Encoding UTF8
+    $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -NoNewline -Encoding UTF8
     
     Write-Host "Done checking file $filePath" 
 }
