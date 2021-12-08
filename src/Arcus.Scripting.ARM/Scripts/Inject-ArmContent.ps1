@@ -61,7 +61,11 @@ function InjectFile {
                 Write-Host "`t Replacing special characters"
 
                 # Replace newline characters with literal equivalents
-                $newString = $newString -replace "`r`n", "\r\n"
+                if ([environment]::OSVersion.VersionString -like "*Windows*") {
+                    $newString = $newString -replace "`n", "\r\n"
+                } else {
+                    $newString = $newString -replace "`n", "\n"
+                }
 
                 # Replace tabs with spaces
                 $newString = $newString -replace "`t", "    "

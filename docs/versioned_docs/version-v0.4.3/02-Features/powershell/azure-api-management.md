@@ -15,13 +15,14 @@ This module provides the following capabilities:
 - [Restoring an API Management service](#restoring-an-api-management-service)
 - [Setting authentication keys to an API in the Azure API Management instance](#setting-authentication-keys-to-an-api-in-the-azure-api-management-instance)
 - [Uploading private certificates to the Azure API Management certificate store](#uploading-private-certificates-to-the-azure-api-management-certificate-store)
+- [Uploading public CA certificate to the Azure API Management certificate store](#uploading-public-ca-certificate-to-the-azure-api-management-certificate-store)
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ApiManagement
+PS> Install-Module -Name Arcus.Scripting.ApiManagement -RequiredVersion 0.4.3
 ```
 
 ## Backing up an API Management service
@@ -219,4 +220,23 @@ Uploads a private certificate to the Azure API Management certificate store, all
 PS> Upload-AzApiManagementCertificate -ResourceGroupName "my-resource-group" -ServiceName "my-api-management-instance' -CertificateFilePath "c:\temp\certificate.pfx" -CertificatePassword "P@ssw0rd"
 # Using API Management instance 'my-api-management-instance' in resource group 'my-resource-group'
 # Uploaded private certificate at 'c:\temp\certificate.pfx'
+```
+
+# Uploading public CA certificate to the Azure API Management certificate store
+Uploads a public CA certificate to the Azure API management Root certificate store, allowing certificate validation in the Azure API Management service policy.
+
+| Parameter            | Mandatory | Description                                                                                          |
+| -------------------- | --------- | ---------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`  | yes       | The name of the resource group containing the Azure API Management instance                          |
+| `ServiceName`        | yes       | The name of the Azure API Management instance                                                        |
+| `CertificateFilePath`| yes       | The full file path to the location of the public CA certificate                                      |
+| `AsJob`              | no        | Indicates whether or not the public CA certificate uploading process should be run in the background |
+
+**Example**
+
+```powershell
+PS> Upload-AzApiManagementSystemCertificate -ResourceGroupName "ContosoGroup" -Name "ContosoApi" -CertificateFilePath "C:\contoso\certificates\privateCa.cer" -AsJob
+# Loaded public CA certificate 'C:\contoso\certificates\privateCa.cer'
+# Retrieved Azure API Management service 'ContosoApi' instance
+# Uploaded public CA certificate 'C:\contoso\certificates\privateCa.cer' into Azure API Management 'ContosoApi'
 ```
