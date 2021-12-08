@@ -80,7 +80,7 @@ Export-ModuleMember -Function Create-AzStorageTable
  .Parameter MaxRetryCount
   The optional maximum amount of retry-runs should happen when a failure occurs during the re-creating process.
 #>
-function AzTable-SetEntities {
+function Set-AzTableStorageEntities {
     param(
        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
        [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
@@ -90,7 +90,7 @@ function AzTable-SetEntities {
        [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
     )
    
-    . $PSScriptRoot\Scripts\AzTable-SetEntities.ps1 `
+    . $PSScriptRoot\Scripts\Set-AzTableStorageEntities.ps1 `
         -ResourceGroupName $ResourceGroupName `
         -StorageAccountName $StorageAccountName `
         -TableName $TableName `
@@ -99,4 +99,4 @@ function AzTable-SetEntities {
         -MaxRetryCount $MaxRetryCount   
 }
 
-Export-ModuleMember -Function AzTable-SetEntities
+Export-ModuleMember -Function Set-AzTableStorageEntities
