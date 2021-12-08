@@ -17,23 +17,18 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
-				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
+                $schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
                 $schema = Get-ChildItem($schemaFilePath) -File
 
                 # Act
-                { 
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop
-                } | Should -Throw
-
-                # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Set-AzKeyVaultSecret -Times 0
+                { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop } | 
+                    Should -Throw
             }
             It "Create a single schema in an Integration Account" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
+                $schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
                 $schema = Get-ChildItem($schemaFilePath) -File
                 $expectedSchemaName = $schema.Name
                 $executionDateTime = (Get-Date).ToUniversalTime()
@@ -56,7 +51,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
+                $schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
                 $schema = Get-ChildItem($schemaFilePath) -File
                 $expectedSchemaName = $schema.Name
                 $executionDateTime = (Get-Date).ToUniversalTime()
@@ -82,7 +77,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
+                $schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
                 $schema = Get-ChildItem($schemaFilePath) -File
                 $expectedSchemaName = $schema.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
@@ -105,7 +100,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
+                $schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\NestedSchema.xsd"
                 $schema = Get-ChildItem($schemaFilePath) -File
                 $artifactsPrefix = "dev-"
                 $expectedSchemaName = $artifactsPrefix + $schema.BaseName
@@ -129,7 +124,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
+                $schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
@@ -158,7 +153,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
+                $schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
@@ -187,7 +182,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
+                $schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas"
                 $artifactsPrefix = "dev-"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
@@ -219,23 +214,18 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
-				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
                 $map = Get-ChildItem($mapFilePath) -File
 
                 # Act
-                { 
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop
-                } | Should -Throw
-
-                # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Set-AzKeyVaultSecret -Times 0
+                { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop} |
+                    Should -Throw
             }
             It "Create a single map in an Integration Account" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
                 $map = Get-ChildItem($mapFilePath) -File
                 $expectedMapName = $map.Name
                 $executionDateTime = (Get-Date).ToUniversalTime()
@@ -258,7 +248,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
                 $map = Get-ChildItem($mapFilePath) -File
                 $expectedMapName = $map.Name
                 $executionDateTime = (Get-Date).ToUniversalTime()
@@ -284,7 +274,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
                 $map = Get-ChildItem($mapFilePath) -File
                 $expectedMapName = $map.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
@@ -307,7 +297,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt"
                 $map = Get-ChildItem($mapFilePath) -File
                 $artifactsPrefix = "dev-"
                 $expectedMapName = $artifactsPrefix + $map.BaseName
@@ -331,7 +321,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
+                $mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
@@ -360,7 +350,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
+                $mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
                 try {
@@ -389,7 +379,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
+                $mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps"
                 $artifactsPrefix = "dev-"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 

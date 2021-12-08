@@ -17,8 +17,9 @@ Write-Verbose "Creating Azure Key Vault secret from file..."
 $secretValue = $null
 if ($Base64) {
     Write-Verbose "Use BASE64 format as secret format"
-    $content = Get-Content $filePath -AsByteStream -Raw
-    $contentBase64 = [System.Convert]::ToBase64String($content)
+    $content = Get-Content $filePath -Raw
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($content)
+    $contentBase64 = [System.Convert]::ToBase64String($bytes)
     $secretValue = ConvertTo-SecureString -String $contentBase64 -Force -AsPlainText
 } else {
     $rawContent = Get-Content $FilePath -Raw

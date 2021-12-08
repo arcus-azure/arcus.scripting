@@ -20,7 +20,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ApiManagement
+PS> Install-Module -Name Arcus.Scripting.ApiManagement -RequiredVersion 0.4.0
 ```
 
 ## Backing up an API Management service

@@ -17,7 +17,7 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ApiManagement
+PS> Install-Module -Name Arcus.Scripting.ApiManagement -RequiredVersion 0.1.3
 ```
 
 ## Creating a new API operation in the Azure API Management instance
