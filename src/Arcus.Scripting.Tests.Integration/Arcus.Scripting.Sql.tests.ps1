@@ -100,7 +100,7 @@ InModuleScope Arcus.Scripting.Sql {
             try {
                 Write-Host "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
                 Invoke-Sqlcmd @params -Query "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
-            catch {
+            } catch {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database.
             }
         }
