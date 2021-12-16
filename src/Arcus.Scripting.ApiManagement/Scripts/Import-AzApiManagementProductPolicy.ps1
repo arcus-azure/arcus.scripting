@@ -12,5 +12,5 @@ $result = Set-AzApiManagementPolicy -Context $apimContext -ProductId $ProductId 
 if ($result) {
     Write-Host "Successfully updated the product policy"
 } else {
-    Write-Error "Failed to update the product policy"
+    throw "Failed to update the product policy"
 }

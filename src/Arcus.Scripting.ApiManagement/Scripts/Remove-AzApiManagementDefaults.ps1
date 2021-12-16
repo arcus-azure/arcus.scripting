@@ -27,10 +27,10 @@ if ($null -ne $unlimitedResult) {
     $message += [System.Environment]::NewLine + "> Failed to remove the 'unlimited' Product"
 }
 
-if($null -eq $message){
+if ($null -eq $message) {
     Write-Host "Successfully removed the 'echo-api' API, 'starter' Product and 'unlimited' Product"
-}else{
-    Write-Error $message
+} else {
+    throw $message
 }
 
 Write-Host "Finished removing Azure API Management defaults!"

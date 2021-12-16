@@ -1,5 +1,7 @@
-﻿Describe "Arcus" {
-    InModuleScope Arcus.Scripting.IntegrationAccount {
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.IntegrationAccount {
+    Describe "Arcus Azure Integration Account unit tests" {
         Context "Azure Integration Account Schemas" {
             It "Providing both schemaFilePath and schemasFolder should fail" {
                 # Arrange

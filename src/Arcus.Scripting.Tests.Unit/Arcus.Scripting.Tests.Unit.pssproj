@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arcus.Scripting.ApiManagement.tests.ps1" />
+    <Compile Include="Arcus.Scripting.IntegrationAccount.tests.ps1" />
     <Compile Include="Arcus.Scripting.Security.tests.ps1" />
     <Compile Include="Arcus.Scripting.DataFactory.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />

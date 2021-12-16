@@ -1,6 +1,8 @@
-﻿Describe "Arcus" {
-    Context "Azure DevOps" {
-        InModuleScope Arcus.Scripting.DevOps {
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.DevOps {
+    Describe "Arcus Azure DevOps unit tests" {
+        Context "Setting ARM outputs to Azure DevOps variable group" {
             It "Setting DevOps variable should write to host" {
                 # Arrange
                 Mock Write-Host { $Object | Should -Be "#vso[task.setvariable variable=test] value" } -Verifiable
@@ -120,15 +122,17 @@
                 Assert-VerifiableMock
                 Assert-MockCalled Write-Host
             }
+        }
+        Context "Saving Azure DevOps build run" {
             It "Save-AzDevOpsBuild fails when API call does not return success-code" {
                 # Arrange
                 $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
                 $env:ACCESS_TOKEN = "mocking accesstoken"
                 $projectId = "abc123"
-                $buildId = 128                
+                $buildId = 128
 
                 Mock Invoke-WebRequest {
-                    $statusCode = 400                   
+                    $statusCode = 400
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
                 } -ModuleName Arcus.Scripting.DevOps
@@ -141,13 +145,13 @@
                 $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
                 $env:ACCESS_TOKEN = "mocking accesstoken"
                 $projectId = "abc123"
-                $buildId = 128  
+                $buildId = 128
 
-                Mock Invoke-WebRequest {  
-                    $statusCode = 200                    
+                Mock Invoke-WebRequest {
+                    $statusCode = 200
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps               
+                 } -ModuleName Arcus.Scripting.DevOps
 
                 # Act and Assert
                 { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId } | Should -Not -Throw
@@ -157,39 +161,39 @@
                 $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
                 $env:ACCESS_TOKEN = "mocking accesstoken"
                 $projectId = "abc123"
-                $buildId = 128  
+                $buildId = 128
 
-                Mock Invoke-WebRequest {  
-                    $statusCode = 200                    
+                Mock Invoke-WebRequest {
+                    $statusCode = 200
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps               
+                 } -ModuleName Arcus.Scripting.DevOps
 
                 # Act
                 Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 
 
                 # Assert
-                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { $Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
+                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { $Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }
             }
             It "Save-AzDevOpsBuild correctly builds API endpoint when CollectionUri does not have trailing slash" {
                 # Arrange
                 $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization"
                 $env:ACCESS_TOKEN = "mocking accesstoken"
                 $projectId = "abc123"
-                $buildId = 128  
+                $buildId = 128
 
-                Mock Invoke-WebRequest {  
-                    $statusCode = 200                    
+                Mock Invoke-WebRequest {
+                    $statusCode = 200
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps               
+                 } -ModuleName Arcus.Scripting.DevOps
 
                 # Act
                 Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 
 
                 # Assert
-                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { $Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }                
+                Should -Invoke -CommandName Invoke-WebRequest -Times 1 -ParameterFilter { $Uri -Like "https://dev.azure.com/myorganization/$projectId/*" }
             }
-        }        
+        }
     }
 }
