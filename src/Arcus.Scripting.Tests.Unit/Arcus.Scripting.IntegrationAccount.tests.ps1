@@ -37,9 +37,9 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$schemaName = 'Dummy_New_Schema'
+                $schemaName = 'Dummy_New_Schema'
                 $schemaResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/schemas/$schemaName"
-				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\$schemaName.xsd"
+                $schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\$schemaName.xsd"
 
                 Mock Get-AzIntegrationAccount {
                     return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
@@ -75,9 +75,9 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$schemaName = 'Dummy_Existing_Schema'
+                $schemaName = 'Dummy_Existing_Schema'
                 $schemaResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/schemas/$schemaName"
-				$schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\$schemaName.xsd"
+                $schemaFilePath = "$PSScriptRoot\Files\IntegrationAccount\Schemas\$schemaName.xsd"
 
                 Mock Get-AzIntegrationAccount {
                     return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
@@ -113,12 +113,12 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas\"
+                $schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas\"
 
                 Mock Get-ChildItem {
                     return @(
-                        new-item -name "Schema1.xsd" -type file -fo
-                        new-item -name "Schema2.xsd" -type file -fo
+                        New-Item -Name "Schema1.xsd" -Type File -fo
+                        New-Item -Name "Schema2.xsd" -Type File -fo
                     )
                 }
                 
@@ -138,17 +138,20 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.xsd'; Type = 'Microsoft.Logic/integrationAccounts/schemas'; SchemaType = 'Xml'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
                 }
 
-                # Act
-                { 
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ErrorAction Stop
-                 } | Should -Not -Throw
+                try {
+                    # Act
+                    { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ErrorAction Stop } | 
+                        Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountSchema -Times 2
-                 Assert-MockCalled Set-AzIntegrationAccountSchema -Times 0
-                 Assert-MockCalled New-AzIntegrationAccountSchema -Times 2
+                    # Assert
+                    Assert-VerifiableMock
+                    Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                    Assert-MockCalled Get-AzIntegrationAccountSchema -Times 2
+                    Assert-MockCalled Set-AzIntegrationAccountSchema -Times 0
+                    Assert-MockCalled New-AzIntegrationAccountSchema -Times 2
+                } finally {
+                    Remove-Item -Path .\* -Filter "*.xsd"  -ErrorAction SilentlyContinue
+                }
             }
             It "Providing only a schemasFolder to update schemas is OK" {
                 # Arrange
@@ -156,12 +159,12 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas\"
+                $schemasFolder = "$PSScriptRoot\Files\IntegrationAccount\Schemas\"
 
                 Mock Get-ChildItem {
                     return @(
-                        new-item -name "Schema1.xsd" -type file -fo
-                        new-item -name "Schema2.xsd" -type file -fo
+                        New-Item -Name "Schema1.xsd" -Type File -fo
+                        New-Item -Name "Schema2.xsd" -Type File -fo
                     )
                 }
                 
@@ -181,17 +184,20 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     return $null
                 }
 
-                # Act
-                { 
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ErrorAction Stop
-                 } | Should -Not -Throw
+                try {
+                    # Act
+                    { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ErrorAction Stop } | 
+                        Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountSchema -Times 2
-                 Assert-MockCalled Set-AzIntegrationAccountSchema -Times 2
-                 Assert-MockCalled New-AzIntegrationAccountSchema -Times 0
+                    # Assert
+                    Assert-VerifiableMock
+                    Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                    Assert-MockCalled Get-AzIntegrationAccountSchema -Times 2
+                    Assert-MockCalled Set-AzIntegrationAccountSchema -Times 2
+                    Assert-MockCalled New-AzIntegrationAccountSchema -Times 0
+                } finally {
+                    Remove-Item -Path .\* -Filter "*.xsd"  -ErrorAction SilentlyContinue
+                }
             }
         }
         Context "Azure Integration Account Maps" {
@@ -229,12 +235,12 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$mapName = 'Dummy_New_Map'
+                $mapName = "Dummy_New_Map"
                 $mapResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/maps/$schemaName"
-				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\$mapName.xslt"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\$mapName.xslt"
 
                 Mock Get-AzIntegrationAccount {
-                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = "Microsoft.Logic/integrationAccounts"; Location = "westeurope"; Sku = "Free" }
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccountMap {
@@ -246,7 +252,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
 
                 Mock New-AzIntegrationAccountMap {
-                    return [pscustomobject]@{ Id = $mapResourceId; Name = $mapName; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                    return [pscustomobject]@{ Id = $mapResourceId; Name = $mapName; Type = "Microsoft.Logic/integrationAccounts/maps"; MapType = "Xslt"; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
                 }
 
                 # Act
@@ -267,9 +273,9 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$mapName = 'Dummy_Existing_Map'
+                $mapName = "Dummy_Existing_Map"
                 $mapResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/maps/$schemaName"
-				$mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\$mapName.xslt"
+                $mapFilePath = "$PSScriptRoot\Files\IntegrationAccount\Maps\$mapName.xslt"
 
                 Mock Get-AzIntegrationAccount {
                     return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
@@ -305,12 +311,12 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps\"
+                $mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps\"
 
                 Mock Get-ChildItem {
                     return @(
-                        new-item -name "map1.xslt" -type file -fo
-                        new-item -name "Map2.xslt" -type file -fo
+                        New-Item -Name "map1.xslt" -Type File -fo
+                        New-Item -Name "Map2.xslt" -Type File -fo
                     )
                 }
                 
@@ -330,17 +336,20 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.xslt'; Type = 'Microsoft.Logic/integrationAccounts/maps'; MapType = 'Xslt'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
                 }
 
-                # Act
-                { 
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop
-                 } | Should -Not -Throw
+                try {
+                    # Act
+                    { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop } | 
+                        Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 2
-                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 0
-                 Assert-MockCalled New-AzIntegrationAccountMap -Times 2
+                    # Assert
+                    Assert-VerifiableMock
+                    Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                    Assert-MockCalled Get-AzIntegrationAccountMap -Times 2
+                    Assert-MockCalled Set-AzIntegrationAccountMap -Times 0
+                    Assert-MockCalled New-AzIntegrationAccountMap -Times 2
+                } finally {
+                    Remove-Item -Path .\* -Filter "*.xslt" -ErrorAction SilentlyContinue
+                }
             }
             It "Providing only a mapsFolder to update maps is OK" {
                 # Arrange
@@ -348,12 +357,12 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps\"
+                $mapsFolder = "$PSScriptRoot\Files\IntegrationAccount\Maps\"
 
                 Mock Get-ChildItem {
                     return @(
-                        new-item -name "Map1.xslt" -type file -fo
-                        new-item -name "Map2.xslt" -type file -fo
+                        New-Item -Name "Map1.xslt" -Type File -fo
+                        New-Item -Name "Map2.xslt" -Type File -fo
                     )
                 }
                 
@@ -373,17 +382,20 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     return $null
                 }
 
-                # Act
-                { 
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop
-                 } | Should -Not -Throw
+                try {
+                    # Act
+                    { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop } | 
+                        Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 2
-                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 2
-                 Assert-MockCalled New-AzIntegrationAccountMap -Times 0
+                    # Assert
+                    Assert-VerifiableMock
+                    Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                    Assert-MockCalled Get-AzIntegrationAccountMap -Times 2
+                    Assert-MockCalled Set-AzIntegrationAccountMap -Times 2
+                    Assert-MockCalled New-AzIntegrationAccountMap -Times 0
+                } finally {
+                    Remove-Item -Path .\* -Filter "*.xslt" -ErrorAction SilentlyContinue
+                }
             }
         }
     }
