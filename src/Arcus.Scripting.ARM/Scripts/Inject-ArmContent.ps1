@@ -57,12 +57,12 @@ function InjectFile {
         if ($instructionParts.Length -gt 1) {
             $optionParts = $instructionParts | select -Skip 1
 
-            if ($optionParts.Contains("ReplaceSpecialChars")){
+            if ($optionParts.Contains("ReplaceSpecialChars")) {
                 Write-Host "`t Replacing special characters"
 
                 # Replace newline characters with literal equivalents
-                if ([environment]::OSVersion.VersionString -like "*Windows*") {
-                    $newString = $newString -replace "`n", "\r\n"
+                if ([Environment]::OSVersion.VersionString -like "*Windows*") {
+                    $newString = $newString -replace "`r`n", "\r\n"
                 } else {
                     $newString = $newString -replace "`n", "\n"
                 }
@@ -81,21 +81,21 @@ function InjectFile {
                 $newString = $newString -replace '(?<!\\)"', '\"'
             }
 
-
-            if ($optionParts.Contains("InjectAsJsonObject")){
-                try{
+            if ($optionParts.Contains("InjectAsJsonObject")) {
+                try {
                     # Test if content is valid JSON
+                    Write-Host "Test if valid JSON: $newString"
                     ConvertFrom-Json $newString
 
                     $surroundContentWithDoubleQuotes = $False
                 }
-                catch{
-                    Write-Error "Content to inject cannot be parsed as a JSON object!"
+                catch {
+                    Write-Warning "Content to inject cannot be parsed as a JSON object!"
                 }
             }
         }
 
-        if ($surroundContentWithDoubleQuotes){
+        if ($surroundContentWithDoubleQuotes) {
             Write-Host "`t Surrounding content in double quotes"
 
             $newString = '"' + $newString + '"'
@@ -106,7 +106,7 @@ function InjectFile {
 
     $rawContents = Get-Content $filePath -Raw
     $injectionInstructionRegex = [regex] '"?\${(.+)}\$"?';
-    $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -Encoding UTF8
+    $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -NoNewline -Encoding UTF8
     
     Write-Host "Done checking file $filePath" 
 }
