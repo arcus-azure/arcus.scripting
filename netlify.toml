@@ -40,8 +40,12 @@ ID = "52a5e73a-fd4e-4d18-8321-5334c5de88c9"
   to = "/:version/features/powershell/azure-storage/azure-storage-table"
 
 [[redirects]]
-  from = "/:version/features/powershell/azure-storage-table"
+  from = "/:version/features/powershell/azure-storage"
   to = "/:version/features/powershell/azure-storage/azure-storage-table"
+
+[[redirects]]
+from = "/:version/preview/features/powershell/azure-api-management"
+to = "/:version/features/powershell/azure-api-management"
 
 [[redirects]]
   from = "/features/powershell/azure-storage-all"
@@ -62,6 +66,10 @@ ID = "52a5e73a-fd4e-4d18-8321-5334c5de88c9"
 [[redirects]]
 from = "/features/powershell/azure-storage"
 to = "/features/powershell/azure-storage/azure-storage-table"
+
+[[redirects]]
+from = "/preview/features/powershell/azure-api-management"
+to = "/features/powershell/azure-api-management"
 # Production context: all deploys from the Production branch set in your site's
 # deploy settings will inherit these settings.
 # [context.production]
