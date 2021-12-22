@@ -40,13 +40,18 @@ function Add-VariableGroupVariable()
         Write-Host Get variable group
         $getVariableGroupUrl= $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion + "&groupName=" + $VariableGroupName
         $variableGroup = (Invoke-RestMethod -Uri $getVariableGroupUrl -Headers $headers -Verbose) 
+        $releaseName = $env:Release_ReleaseName
+        if ([string]::IsNullOrEmpty($releaseName))
+        {
+            $releaseName = $env:Build_DefinitionName + " " + $env:Build_BuildNumber
+        }
         
         if($variableGroup.value)
         {
             #Set properties for update of existing variable group
             Write-Host Set properties for update of existing variable group
             $variableGroup = $variableGroup.value[0]
-			$variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by release '$env:Release_ReleaseName'." -Force
+			$variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by release '$releaseName'." -Force
             $method = "Put"
             $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion    
         }
@@ -54,7 +59,7 @@ function Add-VariableGroupVariable()
         {
             #Set properties for creation of new variable group
             Write-Host Set properties for creation of new variable group
-            $variableGroup = @{name=$VariableGroupName;type="Vsts";description="Variable group that got auto-updated by release '$env:Release_ReleaseName'.";variables=New-Object PSObject;}
+            $variableGroup = @{name=$VariableGroupName;type="Vsts";description="Variable group that got auto-updated by release '$releaseName'.";variables=New-Object PSObject;}
             $method = "Post"
             $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion
         }
