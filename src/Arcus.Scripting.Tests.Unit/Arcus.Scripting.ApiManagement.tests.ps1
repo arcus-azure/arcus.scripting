@@ -531,7 +531,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     $ApiId | Should -Be "echo-api"
-                    throw } -Verifiable
+                    return $null } -Verifiable
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
                     $ApiId | Should -Be "echo-api"
