@@ -6,31 +6,61 @@ param(
 Write-Host "Start removing Azure API Management defaults..."
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
 
-Write-Host "Removing Echo Api..."
-$apiResult = Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api'
-
-Write-Host "Removing Starter product..."
-$starterResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions
-
-Write-Host "Removing Unlimited product..."
-$unlimitedResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions
-
-$message = $null
-
-if ($null -ne $apiResult) {
-    $message += [System.Environment]::NewLine + "> Failed to remove the 'echo' API"
+Write-Host "Checking if 'echo' API exists..."
+$Global:Error.clear()
+try {
+    $apiGetResult = Get-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop
 }
-if ($null -ne $starterResult) {
-    $message += [System.Environment]::NewLine + "> Failed to remove the 'starter' Product"
+catch {
+    Write-Host "The 'echo' API does not exist, skipping removal..."
 }
-if ($null -ne $unlimitedResult) {
-    $message += [System.Environment]::NewLine + "> Failed to remove the 'unlimited' Product"
+if (!$Global:Error) {
+    try {
+        Write-Host "Removing 'echo' API..."
+        $apiRemoveResult = Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop
+    }
+    catch {
+        Write-Error "Failed to remove the 'echo' API"
+        throw
+    }
 }
 
-if($null -eq $message){
-    Write-Host "Successfully removed the 'echo-api' API, 'starter' Product and 'unlimited' Product"
-}else{
-    Write-Error $message
+Write-Host "Checking if 'starter' product exists..."
+$Global:Error.clear()
+try {
+    $starterGetResult = Get-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -ErrorAction Stop
+}
+catch {
+    Write-Host "The 'starter' product does not exist, skipping removal..."
+}
+if (!$Global:Error) { 
+    try {
+        Write-Host "Removing 'starter' product..."
+        $starterRemoveResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions -ErrorAction Stop
+    }
+    catch {
+        Write-Error "Failed to remove the 'starter' product"
+        throw
+    }
+}
+
+Write-Host "Checking if 'unlimited' product exists..."
+$Global:Error.clear()
+try {
+    $unlimitedGetResult = Get-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -ErrorAction Stop
+}
+catch {
+    Write-Host "The 'unlimited' product does not exist, skipping removal..."
+}
+if (!$Global:Error) { 
+    try {
+        Write-Host "Removing 'unlimited' product..."
+        $unlimitedRemoveResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions -ErrorAction Stop
+    }
+    catch {
+        Write-Error "Failed to remove the 'unlimited' product"
+        throw
+    }
 }
 
 Write-Host "Finished removing Azure API Management defaults!"
