@@ -107,7 +107,7 @@ Describe "Arcus" {
                     if ($Method -eq "Post" -or $Method -eq "Put") {
                         $Uri | Should -BeLike "*$variableGroupName*"
                         $Body | Should -BeLike "*$variableName*"
-                        $Body | Should -BeLike "*Variable group that got auto-updated by release \u0027release 1.0\u0027*"
+                        $Body | Should -BeLike "*release 1.0*"
                         return $null
                     } else {
                         $Uri | Should -BeLike "*$variableGroupName*"
@@ -135,7 +135,7 @@ Describe "Arcus" {
                     if ($Method -eq "Post" -or $Method -eq "Put") {
                         $Uri | Should -BeLike "*$variableGroupName*"
                         $Body | Should -BeLike "*$variableName*"
-                        $Body | Should -BeLike "*Variable group that got auto-updated by release \u0027release 1.0\u0027*"
+                        $Body | Should -BeLike "*release 1.0*"
                         return $null
                     } else {
                         $Uri | Should -BeLike "*$variableGroupName*"
