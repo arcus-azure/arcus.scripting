@@ -5,6 +5,7 @@ param(
 
 Write-Host "Start removing Azure API Management defaults..."
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
+$exceptionOccurredOnDelete = $false
 
 Write-Host "Checking if 'echo' API exists..."
 $echoExists = $true
@@ -22,7 +23,7 @@ if ($echoExists) {
     }
     catch {
         Write-Error "Failed to remove the 'echo' API"
-        throw
+        $exceptionOccurredOnDelete = $true
     }
 }
 
@@ -42,7 +43,7 @@ if ($starterExists) {
     }
     catch {
         Write-Error "Failed to remove the 'starter' product"
-        throw
+        $exceptionOccurredOnDelete = $true
     }
 }
 
@@ -62,8 +63,13 @@ if ($unlimitedExists) {
     }
     catch {
         Write-Error "Failed to remove the 'unlimited' product"
-        throw
+        $exceptionOccurredOnDelete = $true
     }
+}
+
+if ($exceptionOccurredOnDelete)
+{
+    throw
 }
 
 Write-Host "Finished removing Azure API Management defaults!"
