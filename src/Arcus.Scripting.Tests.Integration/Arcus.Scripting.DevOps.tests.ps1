@@ -32,23 +32,23 @@ InModuleScope Arcus.Scripting.DevOps {
                     $patchResponse.StatusCode | Should -Be 200
                 }
             }
-            #It "Sets the DevOps variable group description with the release name" {
-            #    # Arrange
-            #    $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
-            #    $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
-            #    $projectId = $env:SYSTEM_TEAMPROJECTID                
-            #    $collectionUri = $env:SYSTEM_COLLECTIONURI
-            #    $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.0"
-            #    $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+            It "Sets the DevOps variable group description with the release name" -Skip {
+                # Arrange
+                $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
+                $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
+                $projectId = $env:SYSTEM_TEAMPROJECTID                
+                $collectionUri = $env:SYSTEM_COLLECTIONURI
+                $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.0"
+                $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
 
-            #    # Act
-            #    Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
+                # Act
+                Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
 
-            #    # Assert
-            #    $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
-            #    $json = ConvertFrom-Json $getResponse.Content
-            #    $json.description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
-            #}
+                # Assert
+                $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
+                $json = ConvertFrom-Json $getResponse.Content
+                $json.description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
+            }
         }
     }
 }
