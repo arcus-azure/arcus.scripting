@@ -309,12 +309,10 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
@@ -335,8 +333,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
@@ -350,12 +348,10 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    throw } -Verifiable
+                    throw } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
@@ -363,8 +359,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
             }
             It "Remove API Management defaults when starter product failed to remove, throws" {
                 # Arrange
@@ -374,15 +370,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "starter"
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
@@ -395,8 +388,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
             }
@@ -408,15 +401,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "starter"
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
@@ -424,7 +414,6 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "unlimited"
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
@@ -437,8 +426,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
@@ -452,11 +441,9 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    throw } -Verifiable
+                    throw } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "starter"
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
@@ -464,7 +451,6 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "unlimited"
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
@@ -476,7 +462,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
@@ -490,19 +476,15 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "starter"
                     throw } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "unlimited"
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
@@ -514,8 +496,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
@@ -528,15 +510,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "starter"
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
@@ -544,7 +523,6 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $ProductId | Should -Be "unlimited"
                     throw } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
@@ -552,8 +530,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Get-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
