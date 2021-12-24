@@ -40,10 +40,10 @@ function Add-VariableGroupVariable()
         Write-Host Get variable group
         $getVariableGroupUrl= $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion + "&groupName=" + $VariableGroupName
         $variableGroup = (Invoke-RestMethod -Uri $getVariableGroupUrl -Headers $headers -Verbose) 
-        $releaseName = $env:Release_ReleaseName
+        $releaseName = $env:RELEASE_RELEASENAME
         if ([string]::IsNullOrEmpty($releaseName))
         {
-            $releaseName = $env:Build_DefinitionName + " " + $env:Build_BuildNumber
+            $releaseName = $env:BUILD_DEFINITIONNAME + " " + $env:BUILD_BUILDNUMBER
         }
         
         if($variableGroup.value)

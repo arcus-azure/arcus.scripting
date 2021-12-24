@@ -35,7 +35,7 @@ InModuleScope Arcus.Scripting.DevOps {
             It "Sets the DevOps variable group description with the release name" {
                 # Arrange
                 $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
-                $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
+                $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
                 $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.0"
