@@ -99,7 +99,7 @@ Describe "Arcus" {
                 $variableGroupName = "some-variable-group-name"
                 $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
                 $env:SYSTEM_ACCESSTOKEN = "something to fill"
-                $env:Release_ReleaseName = "release 1.0"
+                $env:RELEASE_RELEASENAME = "release 1.0"
                 
                 $variableName = "some-id"
 
@@ -126,8 +126,8 @@ Describe "Arcus" {
                 $variableGroupName = "some-variable-group-name"
                 $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
                 $env:SYSTEM_ACCESSTOKEN = "something to fill"
-                $env:Build_DefinitionName = "release"
-                $env:Build_BuildNumber = "1.0"
+                $env:BUILD_DEFINITIONNAME = "release"
+                $env:BUILD_BUILDNUMBER = "1.0"
                 
                 $variableName = "some-id"
 
