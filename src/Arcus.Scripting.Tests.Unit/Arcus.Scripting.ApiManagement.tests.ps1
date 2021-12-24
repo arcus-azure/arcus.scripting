@@ -249,7 +249,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
        }
-        Context "Import Azure API Management product policy" {
+       Context "Import Azure API Management product policy" {
             It "Importing policy product sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
