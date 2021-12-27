@@ -10,7 +10,7 @@ $exceptionOccurredOnDelete = $false
 Write-Host "Checking if 'echo' API exists..."
 $echoExists = $true
 try {
-    $apiGetResult = Get-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop
+    Get-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop | Out-Null
 }
 catch {
     $echoExists = $false
@@ -19,7 +19,7 @@ catch {
 if ($echoExists) {
     try {
         Write-Host "Removing 'echo' API..."
-        $apiRemoveResult = Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop
+        Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop | Out-Null
     }
     catch {
         Write-Error "Failed to remove the 'echo' API"
@@ -30,7 +30,7 @@ if ($echoExists) {
 Write-Host "Checking if 'starter' product exists..."
 $starterExists = $true
 try {
-    $starterGetResult = Get-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -ErrorAction Stop
+    Get-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -ErrorAction Stop | Out-Null
 }
 catch {
     $starterExists = $false
@@ -39,7 +39,7 @@ catch {
 if ($starterExists) { 
     try {
         Write-Host "Removing 'starter' product..."
-        $starterRemoveResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions -ErrorAction Stop
+        Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions -ErrorAction Stop | Out-Null
     }
     catch {
         Write-Error "Failed to remove the 'starter' product"
@@ -50,7 +50,7 @@ if ($starterExists) {
 Write-Host "Checking if 'unlimited' product exists..."
 $unlimitedExists = $true
 try {
-    $unlimitedGetResult = Get-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -ErrorAction Stop
+    Get-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -ErrorAction Stop | Out-Null
 }
 catch {
     $unlimitedExists = $false
@@ -59,7 +59,7 @@ catch {
 if ($unlimitedExists) { 
     try {
         Write-Host "Removing 'unlimited' product..."
-        $unlimitedRemoveResult = Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions -ErrorAction Stop
+        Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions -ErrorAction Stop | Out-Null
     }
     catch {
         Write-Error "Failed to remove the 'unlimited' product"
