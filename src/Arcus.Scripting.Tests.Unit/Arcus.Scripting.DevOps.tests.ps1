@@ -1,4 +1,6 @@
-﻿Describe "Arcus" {
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
+
+Describe "Arcus" {
     Context "Azure DevOps" {
         InModuleScope Arcus.Scripting.DevOps {
             It "Setting DevOps variable should write to host" {
@@ -91,6 +93,61 @@
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Write-Host
+            }
+            It "Setting DevOps variable group should contain releasename" {
+                # Arrange
+                $variableGroupName = "some-variable-group-name"
+                $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
+                $env:SYSTEM_ACCESSTOKEN = "something to fill"
+                $env:RELEASE_RELEASENAME = "release 1.0"
+                
+                $variableName = "some-id"
+
+                Mock Invoke-RestMethod {
+                    if ($Method -eq "Post" -or $Method -eq "Put") {
+                        $Uri | Should -BeLike "*$variableGroupName*"
+                        $Body | Should -BeLike "*$variableName*"
+                        $Body | Should -BeLike "*release 1.0*"
+                        return $null
+                    } else {
+                        $Uri | Should -BeLike "*$variableGroupName*"
+                        return [pscustomobject]@{ value = @( [pscustomobject]@{ id = $variableName; variables = [pscustomobject]@{} } ) }
+                    }
+                } -Verifiable
+
+                # Act
+                Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Setting DevOps variable group should contain releasename when Release.ReleaseName is missing" {
+                # Arrange
+                $variableGroupName = "some-variable-group-name"
+                $env:ArmOutputs = "{ ""$variableGroupName"": [ { ""Name"": ""my-variable"", ""Value"": { ""value"": ""my-value"" } } ] }"
+                $env:SYSTEM_ACCESSTOKEN = "something to fill"
+                $env:BUILD_DEFINITIONNAME = "release"
+                $env:BUILD_BUILDNUMBER = "1.0"
+                
+                $variableName = "some-id"
+
+                Mock Invoke-RestMethod {
+                    if ($Method -eq "Post" -or $Method -eq "Put") {
+                        $Uri | Should -BeLike "*$variableGroupName*"
+                        $Body | Should -BeLike "*$variableName*"
+                        $Body | Should -BeLike "*release 1.0*"
+                        return $null
+                    } else {
+                        $Uri | Should -BeLike "*$variableGroupName*"
+                        return [pscustomobject]@{ value = @( [pscustomobject]@{ id = $variableName; variables = [pscustomobject]@{} } ) }
+                    }
+                } -Verifiable
+
+                # Act
+                Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
+
+                # Assert
+                Assert-VerifiableMock
             }
             It "Setting pipeline variables from default ARM outputs variable writes to output" {
                 # Arrange
