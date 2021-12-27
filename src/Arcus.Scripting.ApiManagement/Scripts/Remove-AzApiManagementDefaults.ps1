@@ -14,11 +14,11 @@ try {
     Get-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop | Out-Null
 }
 catch {
-    If ($_.Exception.Response.StatusCode -eq 'NotFound' -or $_.TargetObject.Response.StatusCode -eq 'NotFound') {
+    if ($_.Exception.Response.StatusCode -eq 'NotFound' -or $_.TargetObject.Response.StatusCode -eq 'NotFound') {
         $echoExists = $false
         Write-Host "The 'echo' API does not exist, skipping removal..."
     }
-    Else {
+    else {
         Write-Error $_
         $exceptionOccurred = $true
         $failedActions += "getting the 'echo-api'"
