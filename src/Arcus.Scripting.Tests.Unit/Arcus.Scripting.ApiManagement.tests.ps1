@@ -230,7 +230,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
        }
-       Context "Import Azure API Management product policy" {
+        Context "Import Azure API Management product policy" {
             It "Importing policy product sets Azure API Management policy on operation" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -288,14 +288,22 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
+                Mock Get-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
@@ -306,8 +314,11 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
             It "Remove API Management defaults when echo-api API failed to remove, throws" {
@@ -316,18 +327,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
+                Mock Get-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $false } -Verifiable
-                Mock Remove-AzApiManagementProduct {
-                    $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true
-                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
-                Mock Remove-AzApiManagementProduct {
-                    $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true
-                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                    throw } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
@@ -335,9 +340,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
             }
             It "Remove API Management defaults when starter product failed to remove, throws" {
                 # Arrange
@@ -345,18 +349,19 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
+                Mock Get-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $false } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
-                Mock Remove-AzApiManagementProduct {
-                    $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true
-                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                    throw } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
@@ -364,9 +369,10 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
-                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
             It "Remove API Management defaults when unlimited product failed to remove, throws" {
                 # Arrange
@@ -374,18 +380,26 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
 
+                Mock Get-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Remove-AzApiManagementApi {
                     $Context | Should -Be $context
-                    $ApiId | Should -Be "echo-api"
-                    return $null } -Verifiable
-                Mock Remove-AzApiManagementProduct {
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    $DeleteSubscriptions | Should -Be $true
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Remove-AzApiManagementProduct {
                     $Context | Should -Be $context
                     $DeleteSubscriptions | Should -Be $true
-                    return $false } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    throw } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
@@ -393,9 +407,142 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
-                Assert-MockCalled Remove-AzApiManagementApi -Times 1
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+            }
+            It "Remove API Management defaults succeed when echo-api API has already been removed" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock Get-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    $errorDetails = '{"code": 1, "message": "NotFound", "more_info": "", "status": 404}'
+                    $statusCode = 404
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    $exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+                    $errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+                    $errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+                    $targetObject = $null
+                    $errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+                    $errorRecord.ErrorDetails = $errorDetails
+                    Throw $errorRecord } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+
+                # Act
+                Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+            }
+            It "Remove API Management defaults succeed when starter product has already been removed" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock Get-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Remove-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $errorDetails = '{"code": 1, "message": "NotFound", "more_info": "", "status": 404}'
+                    $statusCode = 404
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    $exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+                    $errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+                    $errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+                    $targetObject = $null
+                    $errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+                    $errorRecord.ErrorDetails = $errorDetails
+                    Throw $errorRecord } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+
+                # Act
+                Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
+            }
+            It "Remove API Management defaults succeed when unlimited product has already been removed" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $serviceName = "shopping-API-management"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+
+                Mock Get-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Remove-AzApiManagementApi {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Remove-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $DeleteSubscriptions | Should -Be $true
+                    return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                Mock Get-AzApiManagementProduct {
+                    $Context | Should -Be $context
+                    $errorDetails = '{"code": 1, "message": "NotFound", "more_info": "", "status": 404}'
+                    $statusCode = 404
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    $exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+                    $errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+                    $errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+                    $targetObject = $null
+                    $errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+                    $errorRecord.ErrorDetails = $errorDetails
+                    Throw $errorRecord } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+
+                # Act
+                Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
+                Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "unlimited" }
             }
         } 
         Context "Import Azure API Management API policy" {
