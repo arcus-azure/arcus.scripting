@@ -14,7 +14,7 @@ try {
     Get-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop | Out-Null
 }
 catch {
-    If ($_.TargetObject.Response.StatusCode -eq 'NotFound') {
+    If ($_.Exception.Response.StatusCode -eq 'NotFound' -or $_.TargetObject.Response.StatusCode -eq 'NotFound') {
         $echoExists = $false
         Write-Host "The 'echo' API does not exist, skipping removal..."
     }
@@ -42,7 +42,7 @@ try {
     Get-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -ErrorAction Stop | Out-Null
 }
 catch {
-    If ($_.TargetObject.Response.StatusCode -eq 'NotFound') {
+    If ($_.Exception.Response.StatusCode -eq 'NotFound' -or $_.TargetObject.Response.StatusCode -eq 'NotFound') {
         $starterExists = $false
         Write-Host "The 'starter' product does not exist, skipping removal..."
     }
@@ -70,7 +70,7 @@ try {
     Get-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -ErrorAction Stop | Out-Null
 }
 catch {
-    If ($_.TargetObject.Response.StatusCode -eq 'NotFound') {
+    If ($_.Exception.Response.StatusCode -eq 'NotFound' -or $_.TargetObject.Response.StatusCode -eq 'NotFound') {
         $unlimitedExists = $false
     Write-Host "The 'unlimited' product does not exist, skipping removal..."
     }

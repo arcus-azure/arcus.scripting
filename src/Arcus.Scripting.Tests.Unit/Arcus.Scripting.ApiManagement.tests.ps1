@@ -441,7 +441,16 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
-                    throw } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
+                    $errorDetails = '{"code": 1, "message": "NotFound", "more_info": "", "status": 404}'
+                    $statusCode = 404
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    $exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+                    $errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+                    $errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+                    $targetObject = $null
+                    $errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+                    $errorRecord.ErrorDetails = $errorDetails
+                    Throw $errorRecord } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
@@ -482,7 +491,16 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    throw } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
+                    $errorDetails = '{"code": 1, "message": "NotFound", "more_info": "", "status": 404}'
+                    $statusCode = 404
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    $exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+                    $errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+                    $errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+                    $targetObject = $null
+                    $errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+                    $errorRecord.ErrorDetails = $errorDetails
+                    Throw $errorRecord } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
@@ -523,7 +541,16 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     return $null } -Verifiable -ParameterFilter { $ProductId -eq "starter" }
                 Mock Get-AzApiManagementProduct {
                     $Context | Should -Be $context
-                    throw } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
+                    $errorDetails = '{"code": 1, "message": "NotFound", "more_info": "", "status": 404}'
+                    $statusCode = 404
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    $exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+                    $errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+                    $errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+                    $targetObject = $null
+                    $errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+                    $errorRecord.ErrorDetails = $errorDetails
+                    Throw $errorRecord } -Verifiable -ParameterFilter { $ProductId -eq "unlimited" }
 
                 # Act
                 Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName
