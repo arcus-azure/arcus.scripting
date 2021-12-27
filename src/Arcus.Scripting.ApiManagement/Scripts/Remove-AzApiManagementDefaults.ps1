@@ -42,11 +42,11 @@ try {
     Get-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -ErrorAction Stop | Out-Null
 }
 catch {
-    If ($_.Exception.Response.StatusCode -eq 'NotFound' -or $_.TargetObject.Response.StatusCode -eq 'NotFound') {
+    if ($_.Exception.Response.StatusCode -eq 'NotFound' -or $_.TargetObject.Response.StatusCode -eq 'NotFound') {
         $starterExists = $false
         Write-Host "The 'starter' product does not exist, skipping removal..."
     }
-    Else {
+    else {
         Write-Error $_
         $exceptionOccurred = $true
         $failedActions += "getting the 'starter' product"
