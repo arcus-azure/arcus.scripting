@@ -1,4 +1,6 @@
-﻿Describe "Arcus" {
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAction Stop
+
+Describe "Arcus" {
     InModuleScope Arcus.Scripting.IntegrationAccount {
         Context "Azure Integration Account Schemas" {
             It "Providing both schemaFilePath and schemasFolder should fail" {
@@ -382,6 +384,198 @@
                  Assert-MockCalled Get-AzIntegrationAccountMap -Times 2
                  Assert-MockCalled Set-AzIntegrationAccountMap -Times 2
                  Assert-MockCalled New-AzIntegrationAccountMap -Times 0
+            }
+        }
+        Context "Azure Integration Account Assemblies" {
+            It "Providing both assemblyFilePath and assembliesFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\LibraryThatDoesSomething.dll"
+                $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -AssembliesFolder $assembliesFolder -ErrorAction Stop
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing neither a assemblyFilePath and assembliesFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -ErrorAction Stop
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing only the assemblyFilePath to create an assembly is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$assemblyName = 'Dummy_New_Assembly'
+                $assemblyResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/assemblies/$assemblyName"
+				$assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\$assemblyName.dll"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountAssembly {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountAssembly {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountAssembly {
+                    return [pscustomobject]@{ Id = $assemblyResourceId; Name = $assemblyName; Type = 'Microsoft.Logic/integrationAccounts/assemblies'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountAssembly -Times 1
+                 Assert-MockCalled Set-AzIntegrationAccountAssembly -Times 0
+                 Assert-MockCalled New-AzIntegrationAccountAssembly -Times 1
+            }
+            It "Providing only the assemblyFilePath to update an assembly is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$assemblyName = 'Dummy_Existing_Assembly'
+                $assemblyResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/assemblies/$assemblyName"
+				$assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\$assemblyName.xslt"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountAssembly {
+                    return [pscustomobject]@{ Id = $assemblyResourceId; Name = $assemblyName; Type = 'Microsoft.Logic/integrationAccounts/assemblies'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountAssembly {
+                    return [pscustomobject]@{ Id = $assemblyResourceId; Name = $assemblyName; Type = 'Microsoft.Logic/integrationAccounts/assemblies'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountAssembly {
+                    return $null
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountAssembly -Times 1
+                 Assert-MockCalled Set-AzIntegrationAccountAssembly -Times 1
+                 Assert-MockCalled New-AzIntegrationAccountAssembly -Times 0
+            }
+            It "Providing only a assembliesFolder to create assemblies is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        new-item -name "assembly1.dll" -type file -fo
+                        new-item -name "assembly2.dll" -type file -fo
+                    )
+                }
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountAssembly {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountAssembly {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountAssembly {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.dll'; Type = 'Microsoft.Logic/integrationAccounts/assemblies'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountAssembly -Times 2
+                 Assert-MockCalled Set-AzIntegrationAccountAssembly -Times 0
+                 Assert-MockCalled New-AzIntegrationAccountAssembly -Times 2
+            }
+            It "Providing only a assembliesFolder to update assemblies is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        new-item -name "assembly1.dll" -type file -fo
+                        new-item -name "assembly2.dll" -type file -fo
+                    )
+                }
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountAssembly {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.dll'; Type = 'Microsoft.Logic/integrationAccounts/assemblies'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountAssembly {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.dll'; Type = 'Microsoft.Logic/integrationAccounts/assemblies'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountAssembly {
+                    return $null
+                }
+
+                # Act
+                { 
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ErrorAction Stop
+                 } | Should -Not -Throw
+ 
+                 # Assert
+                 Assert-VerifiableMock
+                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                 Assert-MockCalled Get-AzIntegrationAccountAssembly -Times 2
+                 Assert-MockCalled Set-AzIntegrationAccountAssembly -Times 2
+                 Assert-MockCalled New-AzIntegrationAccountAssembly -Times 0
             }
         }
     }
