@@ -5,7 +5,8 @@ param(
 
 Write-Host "Start removing Azure API Management defaults..."
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
-$exceptionOccurredOnDelete = $false
+$exceptionOccurred = $false
+$failedActions = @()
 
 Write-Host "Checking if 'echo' API exists..."
 $echoExists = $true
@@ -13,8 +14,15 @@ try {
     Get-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop | Out-Null
 }
 catch {
-    $echoExists = $false
-    Write-Host "The 'echo' API does not exist, skipping removal..."
+    If ($_.TargetObject.Response.StatusCode -eq 'NotFound') {
+        $echoExists = $false
+        Write-Host "The 'echo' API does not exist, skipping removal..."
+    }
+    Else {
+        Write-Error $_
+        $exceptionOccurred = $true
+        $failedActions += "getting the 'echo-api'"
+    }
 }
 if ($echoExists) {
     try {
@@ -23,7 +31,8 @@ if ($echoExists) {
     }
     catch {
         Write-Error "Failed to remove the 'echo' API"
-        $exceptionOccurredOnDelete = $true
+        $exceptionOccurred = $true
+        $failedActions += "removing the 'echo-api'"
     }
 }
 
@@ -33,8 +42,15 @@ try {
     Get-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -ErrorAction Stop | Out-Null
 }
 catch {
-    $starterExists = $false
-    Write-Host "The 'starter' product does not exist, skipping removal..."
+    If ($_.TargetObject.Response.StatusCode -eq 'NotFound') {
+        $starterExists = $false
+        Write-Host "The 'starter' product does not exist, skipping removal..."
+    }
+    Else {
+        Write-Error $_
+        $exceptionOccurred = $true
+        $failedActions += "getting the 'starter' product"
+    }
 }
 if ($starterExists) { 
     try {
@@ -43,7 +59,8 @@ if ($starterExists) {
     }
     catch {
         Write-Error "Failed to remove the 'starter' product"
-        $exceptionOccurredOnDelete = $true
+        $exceptionOccurred = $true
+        $failedActions += "removing the 'starter' product"
     }
 }
 
@@ -53,8 +70,15 @@ try {
     Get-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -ErrorAction Stop | Out-Null
 }
 catch {
-    $unlimitedExists = $false
+    If ($_.TargetObject.Response.StatusCode -eq 'NotFound') {
+        $unlimitedExists = $false
     Write-Host "The 'unlimited' product does not exist, skipping removal..."
+    }
+    Else {
+        Write-Error $_
+        $exceptionOccurred = $true
+        $failedActions += "getting the 'unlimited' product"
+    }
 }
 if ($unlimitedExists) { 
     try {
@@ -63,13 +87,15 @@ if ($unlimitedExists) {
     }
     catch {
         Write-Error "Failed to remove the 'unlimited' product"
-        $exceptionOccurredOnDelete = $true
+        $exceptionOccurred = $true
+        $failedActions += "removing the 'unlimited' product"
     }
 }
 
-if ($exceptionOccurredOnDelete)
+if ($exceptionOccurred)
 {
-    throw
+    $failedActionsString = $failedActions -join ", "
+    throw "These action(s) failed: $failedActionsString"
 }
 
 Write-Host "Finished removing Azure API Management defaults!"
