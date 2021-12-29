@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.IntegrationAccount.psd1" />
     <Compile Include="Arcus.Scripting.IntegrationAccount.psm1" />
+    <Compile Include="Scripts\Set-AzIntegrationAccountCertificates.ps1" />
     <Compile Include="Scripts\Set-AzIntegrationAccountSchemas.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
