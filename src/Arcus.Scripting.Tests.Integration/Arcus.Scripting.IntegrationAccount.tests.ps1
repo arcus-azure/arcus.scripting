@@ -418,7 +418,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ErrorAction Stop} |
                     Should -Throw
             }
-            It "Create a single assembly in an Integration Account" {
+            It "Create a single assembly in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
