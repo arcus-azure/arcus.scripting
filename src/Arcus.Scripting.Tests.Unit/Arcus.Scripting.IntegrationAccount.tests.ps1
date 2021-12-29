@@ -12,7 +12,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath -SchemasFolder $schemasFolder -ErrorAction Stop
+                   Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath -SchemasFolder $schemasFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific schema or the file path of a folder containing multiple schemas is required, e.g.: -SchemaFilePath 'C:\Schemas\Schema.xsd' or -SchemasFolder 'C:\Schemas'"
 
                 # Assert
@@ -25,7 +25,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -ErrorAction Stop
+                   Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific schema or the file path of a folder containing multiple schemas is required, e.g.: -SchemaFilePath 'C:\Schemas\Schema.xsd' or -SchemasFolder 'C:\Schemas'"
 
                 # Assert
@@ -59,7 +59,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath -ErrorAction Stop
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath
                  } | Should -Not -Throw
  
                  # Assert
@@ -97,7 +97,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath -ErrorAction Stop
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath
                  } | Should -Not -Throw
  
                  # Assert
@@ -140,7 +140,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ErrorAction Stop
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder
                  } | Should -Not -Throw
  
                  # Assert
@@ -183,7 +183,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ErrorAction Stop
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder
                  } | Should -Not -Throw
  
                  # Assert
@@ -204,7 +204,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -MapsFolder $mapsFolder -ErrorAction Stop
+                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -MapsFolder $mapsFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'"
 
                 # Assert
@@ -217,7 +217,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -ErrorAction Stop
+                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'"
 
                 # Assert
@@ -251,7 +251,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -ErrorAction Stop
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath
                  } | Should -Not -Throw
  
                  # Assert
@@ -289,7 +289,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -ErrorAction Stop
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath
                  } | Should -Not -Throw
  
                  # Assert
@@ -332,7 +332,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder
                  } | Should -Not -Throw
  
                  # Assert
@@ -375,7 +375,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder
                  } | Should -Not -Throw
  
                  # Assert
@@ -396,7 +396,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -AssembliesFolder $assembliesFolder -ErrorAction Stop
+                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -AssembliesFolder $assembliesFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'"
 
                 # Assert
@@ -409,7 +409,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -ErrorAction Stop
+                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'"
 
                 # Assert
@@ -443,7 +443,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -ErrorAction Stop
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath
                  } | Should -Not -Throw
  
                  # Assert
@@ -481,7 +481,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -ErrorAction Stop
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath
                  } | Should -Not -Throw
  
                  # Assert
@@ -524,7 +524,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ErrorAction Stop
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder
                  } | Should -Not -Throw
  
                  # Assert
@@ -567,7 +567,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ErrorAction Stop
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder
                  } | Should -Not -Throw
  
                  # Assert
