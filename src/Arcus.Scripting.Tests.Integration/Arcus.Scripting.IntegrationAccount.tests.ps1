@@ -491,7 +491,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
                 }
             }
-            It "Create multiple assemblies located in a folder in an Integration Account" {
+            It "Create multiple assemblies located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
