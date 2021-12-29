@@ -467,7 +467,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
                 }
             }
-            It "Create a single assembly, with prefix, in an Integration Account" {
+            It "Create a single assembly, with prefix, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
