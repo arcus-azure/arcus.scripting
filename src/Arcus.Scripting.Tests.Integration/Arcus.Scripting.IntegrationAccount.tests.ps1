@@ -441,7 +441,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
                 }
             }
-            It "Update a single assembly in an Integration Account" {
+            It "Update a single assembly in an existing Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
