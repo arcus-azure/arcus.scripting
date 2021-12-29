@@ -12,7 +12,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
             Disable-AzContextAutosave -Scope Process
             Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
         }
-        Context "Handling Schemas" {
+        Context "Uploading Schemas into an Azure Integration Account" {
             It "Try to upload single schema to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
@@ -209,7 +209,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
             }
         }
-        Context "Handling Maps" {
+        Context "Uploading Maps into an Azure Integration Account" {
             It "Try to upload single map to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
@@ -406,7 +406,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
             }
         }
-        Context "Handling Assemblies" {
+        Context "Uploading Assemblies into an Azure Integration Account" {
             It "Try to upload single assembly to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
