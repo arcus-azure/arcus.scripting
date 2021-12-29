@@ -501,8 +501,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 Mock Get-ChildItem {
                     return @(
-                        new-item -name "assembly1.dll" -type file -fo
-                        new-item -name "assembly2.dll" -type file -fo
+                        New-Item -Name "assembly1.dll" -Type File -fo
+                        New-Item -Name "assembly2.dll" -Type File -fo
                     )
                 }
                 
