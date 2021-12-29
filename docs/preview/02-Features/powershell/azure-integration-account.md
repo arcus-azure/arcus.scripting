@@ -74,7 +74,7 @@ PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name
 # ----------
 ```
 
-Uploading *all schemas* located in a specific folder into an Integration Account and remove the file-extension.  
+Uploading *all schemas* located in a specific folder into an Integration Account and set add a prefix to the name of the schemas.
 ```powershell
 PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -SchemasFolder "C:\Schemas" -ArtifactsPrefix 'dev-'
 # Uploading schema 'dev-MyFirstSchema.xsd' into the Azure Integration Account 'my-integration-account'.
@@ -144,7 +144,7 @@ PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'm
 # ----------
 ```
 
-Uploading *all maps* located in a specific folder into an Integration Account and remove the file-extension.  
+Uploading *all maps* located in a specific folder into an Integration Account and set add a prefix to the name of the maps.
 ```powershell
 PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapsFolder "C:\Maps" -ArtifactsPrefix 'dev-'
 # Uploading map 'dev-MyFirstMap.xslt' into the Azure Integration Account 'my-integration-account'.
@@ -155,5 +155,52 @@ PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'm
 # ----------
 ```
 
+## Uploading assemblies into an Azure Integration Account
 
+Upload/update a single, or multiple assemblies into an Azure Integration Account.
 
+| Parameter              | Mandatory   | Description                                                                                                                            |
+| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the maps are to be uploaded/updated.                                              |
+| `AssemblyFilePath`          | conditional | The full path of an assembly that should be uploaded/updated. (_Mandatory if AssembliesFolder has not been specified_).                            |
+| `AssembliesFolder`           | conditional | The path to a directory containing all assemblies that should be uploaded/updated. (_Mandatory if AssemblyFilePath has not been specified_).      |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the assemblies before uploading/updating.                                  |
+
+**Example**  
+
+Uploading a *single assembly* into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssemblyFilePath "C:\Assemblies\MyAssembly.dll"
+# Uploading assembly 'MyAssembly.dll' into the Azure Integration Account 'my-integration-account'.
+# Assembly 'MyAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'.
+```
+
+Uploading a *single assembly* into an Integration Account and set add a prefix to the name of the assembly within the Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssemblyFilePath "C:\Assemblies\MyAssembly.dll" -ArtifactsPrefix 'dev-'
+# Uploading assembly 'dev-MyAssembly.dll' into the Azure Integration Account 'my-integration-account'.
+# Assembly 'dev-MyAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'.
+```
+
+Uploading *all assemblies* located in a specific folder into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssembliesFolder "C:\Assemblies"
+# Uploading assembly 'MyFirstAssembly.dll' into the Azure Integration Account 'my-integration-account'.
+# Assembly 'MyFirstAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'.
+# ----------
+# Uploading assembly 'MySecondAssembly.dll' into the Azure Integration Account 'my-integration-account'.
+# Assembly 'MySecondAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'.
+# ----------
+```
+
+Uploading *all assemblies* located in a specific folder into an Integration Account and set add a prefix to the name of the assemblies.
+```powershell
+PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssembliesFolder "C:\Assemblies" -ArtifactsPrefix 'dev-'
+# Uploading assembly 'dev-MyFirstAssembly.dll' into the Azure Integration Account 'my-integration-account'.
+# Assembly 'dev-MyFirstAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'.
+# ----------
+# Uploading assembly 'dev-MySecondAssembly.dll' into the Azure Integration Account 'my-integration-account'.
+# Assembly 'dev-MySecondAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'.
+# ----------
+```
