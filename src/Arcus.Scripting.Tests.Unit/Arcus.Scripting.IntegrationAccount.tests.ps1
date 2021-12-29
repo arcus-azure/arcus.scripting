@@ -421,7 +421,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$assemblyName = 'Dummy_New_Assembly'
+                $assemblyName = 'Dummy_New_Assembly'
                 $assemblyResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/assemblies/$assemblyName"
 				$assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\$assemblyName.dll"
 
