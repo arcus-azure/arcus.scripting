@@ -1,7 +1,7 @@
 ﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAction Stop
 
-Describe "Arcus" {
-    InModuleScope Arcus.Scripting.IntegrationAccount {
+InModuleScope Arcus.Scripting.IntegrationAccount {
+    Describe "Arcus" {
         Context "Azure Integration Account Schemas" {
             It "Providing both schemaFilePath and schemasFolder should fail" {
                 # Arrange
