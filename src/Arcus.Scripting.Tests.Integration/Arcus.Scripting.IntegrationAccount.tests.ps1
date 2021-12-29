@@ -407,7 +407,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
             }
         }
         Context "Handling Assemblies" {
-            It "Try to upload single assembly to unexisting Integration Account" {
+            It "Try to upload single assembly to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
