@@ -406,5 +406,150 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
             }
         }
+        Context "Handling Assemblies" {
+            It "Try to upload single assembly to unexisting Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = "unexisting-integration-account"
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+
+                # Act
+                { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ErrorAction Stop} |
+                    Should -Throw
+            }
+            It "Create a single assembly in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+                $expectedAssemblyName = $assembly.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                }
+            }
+            It "Update a single assembly in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+                $expectedAssemblyName = $assembly.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                $existingAssembly = New-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -AssemblyFilePath $assembly.FullName
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingAssembly.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingAssembly.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.Properties.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $existingAssembly.Properties.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.Properties.ChangedTime.ToUniversalTime()
+
+                } finally {
+                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                }
+            }
+            It "Create a single assembly, with prefix, in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+                $artifactsPrefix = "dev-"
+                $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                }
+            }
+            It "Create multiple assemblies located in a folder in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder
+
+                    # Assert
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $assembly.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $assembly.BaseName
+                        
+                        Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    }
+                }
+            }
+            It "Create multiple assemblies, with prefix, located in a folder in an Integration Account" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies"
+                $artifactsPrefix = "dev-"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
+                        
+                        Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    }
+                }
+            }
+        }
     }
 }
