@@ -13,7 +13,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
             Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
         }
         Context "Handling Schemas" {
-            It "Try to upload single schema to unexisting Integration Account" {
+            It "Try to upload single schema to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
@@ -24,7 +24,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop } | 
                     Should -Throw
             }
-            It "Create a single schema in an Integration Account" {
+            It "Create a single schema in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -47,7 +47,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Update a single schema in an Integration Account" {
+            It "Update a single schema in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -73,7 +73,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Create a single schema, without extension, in an Integration Account" {
+            It "Create a single schema, without extension, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -96,7 +96,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Create a single schema, without extension and with prefix, in an Integration Account" {
+            It "Create a single schema, without extension and with prefix, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -120,7 +120,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Create multiple schemas located in a folder in an Integration Account" {
+            It "Create multiple schemas located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -149,7 +149,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple schemas, without extension, located in a folder in an Integration Account" {
+            It "Create multiple schemas, without extension, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -178,7 +178,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple schemas, without extension and with prefix, located in a folder in an Integration Account" {
+            It "Create multiple schemas, without extension and with prefix, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -210,7 +210,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
             }
         }
         Context "Handling Maps" {
-            It "Try to upload single map to unexisting Integration Account" {
+            It "Try to upload single map to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
@@ -221,7 +221,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop} |
                     Should -Throw
             }
-            It "Create a single map in an Integration Account" {
+            It "Create a single map in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -244,7 +244,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Update a single map in an Integration Account" {
+            It "Update a single map in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -270,7 +270,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Create a single map, without extension, in an Integration Account" {
+            It "Create a single map, without extension, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -293,7 +293,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Create a single map, without extension and with prefix, in an Integration Account" {
+            It "Create a single map, without extension and with prefix, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -317,7 +317,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Create multiple maps located in a folder in an Integration Account" {
+            It "Create multiple maps located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -346,7 +346,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple maps, without extension, located in a folder in an Integration Account" {
+            It "Create multiple maps, without extension, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -375,7 +375,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple maps, without extension and with prefix, located in a folder in an Integration Account" {
+            It "Create multiple maps, without extension and with prefix, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -441,7 +441,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
                 }
             }
-            It "Update a single assembly in an existing Integration Account succeeds" {
+            It "Update a single assembly in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
