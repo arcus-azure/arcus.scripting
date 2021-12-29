@@ -24,17 +24,17 @@ function UploadSchema {
     if ($ArtifactsPrefix -ne '') {
         $schemaName = $ArtifactsPrefix + $schemaName
     }
-    Write-Host "Uploading schema '$schemaName' into the Integration Account '$Name'."
+    Write-Host "Uploading schema '$schemaName' into the Integration Account '$Name'"
 
     ## Check if the schema already exists
     $existingSchema = $null
     try {
-        Write-Verbose "Checking if the schema '$schemaName' already exists in the Integration Account '$Name'."
+        Write-Verbose "Checking if the schema '$schemaName' already exists in the Integration Account '$Name'"
         $existingSchema = Get-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -ErrorAction Stop
     }
     catch {
         if ($_.Exception.Message.Contains('could not be found')) {
-            Write-Verbose "No schema '$schemaName' could not be found in Azure Integration Account '$Name'."
+            Write-Verbose "No schema '$schemaName' could not be found in Azure Integration Account '$Name'"
         }
         else {
             throw $_.Exception
@@ -54,7 +54,7 @@ function UploadSchema {
             $updatedSchema = Set-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -SchemaFilePath $schema.FullName -ErrorAction Stop -Force
             Write-Verbose ($updatedSchema | Format-List -Force | Out-String)
         }
-        Write-Host "Schema '$schemaName' has been uploaded into the Azure Integration Account '$Name'."
+        Write-Host "Schema '$schemaName' has been uploaded into the Azure Integration Account '$Name'"
     }
     catch {
         Write-Error "Failed to upload schema '$schemaName' in Azure Integration Account '$Name': '$($_.Exception.Message)_'"
