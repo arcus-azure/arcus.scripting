@@ -520,7 +520,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple assemblies, with prefix, located in a folder in an Integration Account" {
+            It "Create multiple assemblies, with prefix, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
