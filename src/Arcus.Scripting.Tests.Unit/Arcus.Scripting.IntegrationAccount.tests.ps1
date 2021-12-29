@@ -423,7 +423,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
                 $assemblyName = 'Dummy_New_Assembly'
                 $assemblyResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/assemblies/$assemblyName"
-				$assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\$assemblyName.dll"
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\$assemblyName.dll"
 
                 Mock Get-AzIntegrationAccount {
                     return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
