@@ -55,7 +55,7 @@ function UploadMap {
         Write-Host "Map '$mapName' has been uploaded into the Azure Integration Account '$Name'"
     }
     catch {
-        Write-Error "Failed to upload map '$mapName' in Azure Integration Account '$Name': '$($_.Exception.Message)_'"
+        Write-Error "Failed to upload map '$mapName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
 
