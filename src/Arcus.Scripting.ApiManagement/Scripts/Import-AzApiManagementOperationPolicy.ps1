@@ -13,5 +13,5 @@ $result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -Operati
 if ($result) {
     Write-Host "Successfully updated the operation policy"
 } else {
-    Write-Error "Failed to update the operation policy, please check parameters"
+    throw "Failed to update the operation policy, please check parameters"
 }

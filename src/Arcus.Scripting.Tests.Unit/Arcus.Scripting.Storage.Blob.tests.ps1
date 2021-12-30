@@ -1,6 +1,8 @@
-Describe "Arcus" {
-    Context "Blob Storage" {
-        InModuleScope Arcus.Scripting.Storage.Blob {
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.Storage.Blob {
+    Describe "Arcus Azure Blob storage unit tests" {
+        Context "Uploading files to Azure Blob storage" {
             It "Upload the expected amount of files to an existing Azure Blob Storage" {
                 # Arrange
                 $targetFolderPath = "/ships"
