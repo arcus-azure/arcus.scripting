@@ -551,5 +551,215 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
             }
         }
+        Context "Uploading Certificates into an Azure Integration Account" {
+            It "Try to upload single public certificate to unexisting Integration Account fails" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = "unexisting-integration-account"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate1.cer"
+                $certificate = Get-ChildItem($certificateFilePath) -File
+
+                # Act
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ErrorAction Stop} |
+                    Should -Throw
+            }
+            It "Create a single public certificate in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate1.cer"
+                $certificate = Get-ChildItem($certificateFilePath) -File
+                $expectedCertificateName = $certificate.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                }
+            }
+            It "Update a single public certificate in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate1.cer"
+                $certificate = Get-ChildItem($certificateFilePath) -File
+                $expectedCertificateName = $certificate.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                $existingCertificate = New-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -PublicCertificateFilePath $certificate.FullName
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingCertificate.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingCertificate.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $existingCertificate.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
+
+                } finally {
+                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                }
+            }
+            It "Create a single public certificate, with prefix, in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate1.cer"
+                $certificate = Get-ChildItem($certificateFilePath) -File
+                $artifactsPrefix = "dev-"
+                $expectedCertificateName = $artifactsPrefix + $certificate.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                }
+            }
+            It "Create multiple public certificates located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder
+
+                    # Assert
+                    foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
+                        $expectedCertificateName = $certificate.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
+                        $expectedCertificateName = $certificate.BaseName
+                        
+                        Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                    }
+                }
+            }
+            It "Create multiple public certificates, with prefix, located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates"
+                $artifactsPrefix = "dev-"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
+                        $expectedCertificateName = $artifactsPrefix + $certificate.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
+                        $expectedCertificateName = $artifactsPrefix + $certificate.BaseName
+                        
+                        Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                    }
+                }
+            }
+            It "Create a single private certificate in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate1.cer"
+                $certificate = Get-ChildItem($certificateFilePath) -File
+                $expectedCertificateName = $certificate.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+                $subscriptionId = $config.Arcus.SubscriptionId
+                $keyName = "PrivateCertificateKey"
+                $keyVaultName = $config.Arcus.KeyVault.VaultName
+                $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
+
+                $key = Add-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Destination 'Software'
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificate.FullName -KeyName $key.Name -KeyVersion $key.Version -KeyVaultId $keyVaultId
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
+                    Start-Sleep -Seconds 5
+                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -InRemovedState
+                }
+            }
+            It "Create a single private certificate, with prefix, in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate1.cer"
+                $certificate = Get-ChildItem($certificateFilePath) -File
+                $artifactsPrefix = "dev-"
+                $expectedCertificateName = $artifactsPrefix + $certificate.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+                $subscriptionId = $config.Arcus.SubscriptionId
+                $keyName = 'PrivateCertificateKeyPrefix'
+                $keyVaultName = $config.Arcus.KeyVault.VaultName
+                $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
+
+                $key = Add-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Destination 'Software'
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificate.FullName -ArtifactsPrefix $artifactsPrefix -KeyName $key.Name -KeyVersion $key.Version -KeyVaultId $keyVaultId
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
+                    Start-Sleep -Seconds 5
+                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -InRemovedState
+                }
+            }
+        }
     }
 }

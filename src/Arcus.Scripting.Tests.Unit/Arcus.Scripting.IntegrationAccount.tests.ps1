@@ -586,5 +586,361 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 Assert-MockCalled New-AzIntegrationAccountAssembly -Times 0
             }
         }
+        Context "Azure Integration Account Certificates" {
+            It "Providing both certificateFilePath and certificatesFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate.cer"
+                $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath -CertificatesFolder $certificatesFolder
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing neither a certificateFilePath and certificatesFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public'
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing an invalid CertificateType should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate.cer"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Wrong' -CertificateFilePath $certificateFilePath
+                } | Should -Throw -ExpectedMessage "The CertificateType should be either 'Public' or 'Private'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing a Private CertificateType and a certificatesFolder should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
+                $keyName = "privateKey"
+                $keyVersion = "1"
+                $keyVaultName = "vault"
+                $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificatesFolder $certificatesFolder -KeyName $keyName -KeyVersion $keyVersion -KeyVaultId $keyVaultId
+                } | Should -Throw -ExpectedMessage "Using the CertificatesFolder parameter in combination with Private certificates is not possible, since this would upload multiple certificates using the same Key in Azure KeyVault"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing a Private CertificateType and not a KeyName should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate.cer"
+                $keyVersion = "1"
+                $keyVaultName = "vault"
+                $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyVersion $keyVersion -KeyVaultId $keyVaultId
+                } | Should -Throw -ExpectedMessage "If the CertificateType is set to 'Private', the KeyName must be supplied"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing a Private CertificateType and not a KeyVersion should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate.cer"
+                $keyName = "privateKey"
+                $keyVaultName = "vault"
+                $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVaultId $keyVaultId
+                } | Should -Throw -ExpectedMessage "If the CertificateType is set to 'Private', the KeyVersion must be supplied"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing a Private CertificateType and not a KeyVaultId should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\certificate.cer"
+                $keyName = "privateKey"
+                $keyVersion = "1"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVersion $keyVersion
+                } | Should -Throw -ExpectedMessage "If the CertificateType is set to 'Private', the KeyVaultId must be supplied"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing only the certificateFilePath to create a public certificate is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $certificateName = 'Dummy_New_Certificate'
+                $certificateResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/certificates/$certificateName"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\$certificateName.cer"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountCertificate {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountCertificate {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = $certificateResourceId; Name = $certificateName; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountCertificate -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountCertificate -Times 0
+                Assert-MockCalled New-AzIntegrationAccountCertificate -Times 1
+            }
+            It "Providing only the certificateFilePath to update a public certificate is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $certificateName = 'Dummy_Existing_Certificate'
+                $certificateResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/certificates/$certificateName"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\$certificateName.cer"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = $certificateResourceId; Name = $certificateName; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = $certificateResourceId; Name = $certificateName; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountCertificate {
+                    return $null
+                }
+
+                # Act
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountCertificate -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountCertificate -Times 1
+                Assert-MockCalled New-AzIntegrationAccountCertificate -Times 0
+            }
+            It "Providing only a certificatesFolder to create public certificates is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        New-Item -Name "certificate1.cer" -Type File -fo
+                        New-Item -Name "certificate2.cer" -Type File -fo
+                    )
+                }
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountCertificate {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountCertificate {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.cer'; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountCertificate -Times 2
+                Assert-MockCalled Set-AzIntegrationAccountCertificate -Times 0
+                Assert-MockCalled New-AzIntegrationAccountCertificate -Times 2
+            }
+            It "Providing only a certificatesFolder to update public certificates is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				        $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        New-Item -Name "certificate1.cer" -Type File -fo
+                        New-Item -Name "certificate2.cer" -Type File -fo
+                    )
+                }
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.cer'; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.cer'; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountCertificate {
+                    return $null
+                }
+
+                # Act
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountCertificate -Times 2
+                Assert-MockCalled Set-AzIntegrationAccountCertificate -Times 2
+                Assert-MockCalled New-AzIntegrationAccountCertificate -Times 0
+            }
+            It "Providing only the certificateFilePath to create a private certificate is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $certificateName = 'Dummy_New_Certificate'
+                $certificateResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/certificates/$certificateName"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\$certificateName.cer"
+                $keyName = "privateKey"
+                $keyVersion = "1"
+                $keyVaultName = "vault"
+                $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountCertificate {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountCertificate {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = $certificateResourceId; Name = $certificateName; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVersion $keyVersion -KeyVaultId $keyVaultId } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountCertificate -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountCertificate -Times 0
+                Assert-MockCalled New-AzIntegrationAccountCertificate -Times 1
+            }
+            It "Providing only the certificateFilePath to update a private certificate is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $certificateName = 'Dummy_Existing_Certificate'
+                $certificateResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/certificates/$certificateName"
+                $certificateFilePath = "$PSScriptRoot\Files\IntegrationAccount\Certificates\$certificateName.cer"
+                $keyName = "privateKey"
+                $keyVersion = "1"
+                $keyVaultName = "vault"
+                $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = $certificateResourceId; Name = $certificateName; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountCertificate {
+                    return [pscustomobject]@{ Id = $certificateResourceId; Name = $certificateName; Type = 'Microsoft.Logic/integrationAccounts/certificates'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountCertificate {
+                    return $null
+                }
+
+                # Act
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVersion $keyVersion -KeyVaultId $keyVaultId } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountCertificate -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountCertificate -Times 1
+                Assert-MockCalled New-AzIntegrationAccountCertificate -Times 0
+            }
+        }
     }
 }

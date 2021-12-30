@@ -14,7 +14,7 @@ if ($SchemaFilePath -ne '' -and $SchemasFolder -ne '') {
 function UploadSchema {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Schema
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Schema
     )
 
     $schemaName = $Schema.Name
@@ -57,7 +57,7 @@ function UploadSchema {
         Write-Host "Schema '$schemaName' has been uploaded into the Azure Integration Account '$Name'"
     }
     catch {
-        Write-Error "Failed to upload schema '$schemaName' in Azure Integration Account '$Name': '$($_.Exception.Message)_'"
+        Write-Error "Failed to upload schema '$schemaName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
 

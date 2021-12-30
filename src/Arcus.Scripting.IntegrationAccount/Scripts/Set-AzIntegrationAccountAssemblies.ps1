@@ -13,7 +13,7 @@ if ($AssemblyFilePath -ne '' -and $AssembliesFolder -ne '') {
 function UploadAssembly {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Assembly
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Assembly
     )
 
     $assemblyName = $Assembly.BaseName
@@ -50,7 +50,7 @@ function UploadAssembly {
         Write-Host "Assembly '$assemblyName' has been uploaded into the Azure Integration Account '$Name'"
     }
     catch {
-        Write-Error "Failed to upload assembly '$assemblyName' in Azure Integration Account '$Name': '$($_.Exception.Message)_'"
+        Write-Error "Failed to upload assembly '$assemblyName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
 

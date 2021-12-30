@@ -159,13 +159,13 @@ PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'm
 
 Upload/update a single, or multiple assemblies into an Azure Integration Account.
 
-| Parameter              | Mandatory   | Description                                                                                                                            |
-| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
-| `Name`                 | yes         | The name of the Azure Integration Account into which the maps are to be uploaded/updated.                                              |
-| `AssemblyFilePath`          | conditional | The full path of an assembly that should be uploaded/updated. (_Mandatory if AssembliesFolder has not been specified_).                            |
-| `AssembliesFolder`           | conditional | The path to a directory containing all assemblies that should be uploaded/updated. (_Mandatory if AssemblyFilePath has not been specified_).      |
-| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the assemblies before uploading/updating.                                  |
+| Parameter              | Mandatory   | Description                                                                                                                                  |
+| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the assemblies are to be uploaded/updated.                                              |
+| `AssemblyFilePath`     | conditional | The full path of an assembly that should be uploaded/updated. (_Mandatory if AssembliesFolder has not been specified_).                      |
+| `AssembliesFolder`     | conditional | The path to a directory containing all assemblies that should be uploaded/updated. (_Mandatory if AssemblyFilePath has not been specified_). |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the assemblies before uploading/updating.                                                        |
 
 **Example**  
 
@@ -203,4 +203,72 @@ PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -N
 # Uploading assembly 'dev-MySecondAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'dev-MySecondAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
+```
+
+## Uploading certificates into an Azure Integration Account
+
+Upload/update a single, or multiple certificates into an Azure Integration Account.
+
+| Parameter              | Mandatory   | Description                                                                                                                                                                                                            |
+| ---------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                                                                                                   |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the certificates are to be uploaded/updated.                                                                                                                      |
+| `CertificateType`      | yes         | The type of certificate that will be uploaded, this can be either _Public_ or _Private_.                                                                                                                               |
+| `CertificateFilePath`  | conditional | The full path of a certificate that should be uploaded/updated. (_Mandatory if CertificatesFolder has not been specified_).                                                                                            |
+| `CertificatesFolder`   | conditional | The path to a directory containing all certificates that should be uploaded/updated. (_Mandatory if CertificateFilePath has not been specified_). This parameter is not supported when uploading Private certificates. |
+| `KeyName`              | no          | The name of the key in Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                             |
+| `KeyVersion`           | no          | The version of the key in Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                          |
+| `KeyVaultId`           | no          | The id of the Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                                      |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the certificates before uploading/updating.                                                                                                                                |
+
+**Example**  
+
+Uploading a *single public certificate* into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificateFilePath "C:\Certificates\MyCertificate.cer"
+# Uploading certificate 'MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
+```
+
+Uploading a *single public certificate* into an Integration Account and set add a prefix to the name of the certificate within the Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificateFilePath "C:\Certificates\MyCertificate.cer" -ArtifactsPrefix 'dev-'
+# Uploading certificate 'dev-MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'dev-MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
+```
+
+Uploading *all public certificates* located in a specific folder into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificatesFolder "C:\Certificates"
+# Uploading certificate 'MyFirstCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'MyFirstCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+# Uploading certificate 'MySecondCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'MySecondCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+```
+
+Uploading *all public assemblies* located in a specific folder into an Integration Account and set add a prefix to the name of the certificates.
+```powershell
+PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificatesFolder "C:\Certificates" -ArtifactsPrefix 'dev-'
+# Uploading certificate 'dev-MyFirstCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'dev-MyFirstCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+# Uploading certificate 'dev-MySecondCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'dev-MySecondCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+```
+
+Uploading a *single private certificate* into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Private' -CertificateFilePath "C:\Certificates\MyCertificate.cer" -KeyName 'MyKey' -KeyVersion 'MyKeyVersion' -KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
+# Uploading certificate 'MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
+```
+
+Uploading a *single private certificate* into an Integration Account and set add a prefix to the name of the certificate within the Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Private' -CertificateFilePath "C:\Certificates\MyCertificate.cer" -ArtifactsPrefix 'dev-' -KeyName 'MyKey' -KeyVersion 'MyKeyVersion' -KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
+# Uploading certificate 'dev-MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
+# Certificate 'dev-MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
