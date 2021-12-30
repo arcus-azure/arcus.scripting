@@ -708,8 +708,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $keyVaultName = $config.Arcus.KeyVault.VaultName
                 $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
 
-                Write-Host $keyVaultId
-
                 $key = Add-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Destination 'Software'
 
                 try {
@@ -742,8 +740,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $keyName = 'PrivateCertificateKeyPrefix'
                 $keyVaultName = $config.Arcus.KeyVault.VaultName
                 $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
-
-                Write-Host $keyVaultId
 
                 $key = Add-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Destination 'Software'
 
