@@ -52,6 +52,7 @@
     <Folder Include="Files\IntegrationAccount\" />
     <Folder Include="Files\IntegrationAccount\Maps\" />
     <Folder Include="Files\IntegrationAccount\Assemblies\" />
+    <Folder Include="Files\IntegrationAccount\Certificates\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
     <Folder Include="SqlScripts\" />
