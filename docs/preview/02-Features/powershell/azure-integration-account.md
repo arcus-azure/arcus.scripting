@@ -272,3 +272,79 @@ PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' 
 # Uploading certificate 'dev-MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
+
+## Uploading partners into an Azure Integration Account
+
+Upload/update a single, or multiple partners into an Azure Integration Account.
+
+| Parameter              | Mandatory   | Description                                                                                                                                  |
+| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the partners are to be uploaded/updated.                                                |
+| `PartnerFilePath`      | conditional | The full path of a partner that should be uploaded/updated. (_Mandatory if PartnersFolder has not been specified_).                          |
+| `PartnersFolder`       | conditional | The path to a directory containing all partners that should be uploaded/updated. (_Mandatory if PartnerFilePath has not been specified_).    |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the partners before uploading/updating.                                                          |
+
+**Example**  
+
+Uploading a *single partner* into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnerFilePath "C:\Partners\MyPartner.json"
+# Uploading partner 'MyPartner.json' into the Azure Integration Account 'my-integration-account'
+# Partner 'MyPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
+```
+
+Uploading a *single partner* into an Integration Account and set add a prefix to the name of the partner within the Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnerFilePath "C:\Partners\MyPartner.json" -ArtifactsPrefix 'dev-'
+# Uploading partner 'dev-MyPartner.json' into the Azure Integration Account 'my-integration-account'
+# Partner 'dev-MyPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
+```
+
+Uploading *all partners* located in a specific folder into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnersFolder "C:\Partners"
+# Uploading partner 'MyFirstPartner.json' into the Azure Integration Account 'my-integration-account'
+# Partner 'MyFirstPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+# Uploading partner 'MySecondPartner.json' into the Azure Integration Account 'my-integration-account'
+# Partner 'MySecondPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+```
+
+Uploading *all partners* located in a specific folder into an Integration Account and set add a prefix to the name of the partners.
+```powershell
+PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnersFolder "C:\Partners" -ArtifactsPrefix 'dev-'
+# Uploading partner 'dev-MyFirstPartner.json' into the Azure Integration Account 'my-integration-account'
+# Partner 'dev-MyFirstPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+# Uploading partner 'dev-MySecondPartner.json' into the Azure Integration Account 'my-integration-account'
+# Partner 'dev-MySecondPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+```
+
+**Partner JSON Example**
+The partner definition is the JSON representation of your partner, this JSON definition can also be viewed in the Azure Portal using https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-enterprise-integration-partners#edit-a-partner and clicking on `Edit as JSON`.
+An example of this file:
+```
+{
+  "name": "MyPartner",
+  "properties": {
+    "partnerType": "B2B",
+    "content": {
+      "b2b": {
+        "businessIdentities": [
+          {
+            "qualifier": "1",
+            "value": "12345"
+          },
+          {
+            "qualifier": "1",
+            "value": "54321"
+          }
+        ]
+      }
+    }
+  }
+}
+```
