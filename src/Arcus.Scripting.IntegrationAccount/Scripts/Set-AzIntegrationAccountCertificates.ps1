@@ -1,17 +1,21 @@
 Param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
+    [Parameter(Mandatory = $true)][string] $CertificateType = $(throw "Certificate type is required, this can be either 'Public' or 'Private'"),
     [parameter(Mandatory = $false)][string] $CertificateFilePath = $(if ($CertificatesFolder -eq '') { throw "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'" }),
     [parameter(Mandatory = $false)][string] $CertificatesFolder = $(if ($CertificateFilePath -eq '') { throw "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'" }),
-    [Parameter(Mandatory = $true)][string] $CertificateType = $(throw "Certificate type is required, this can be either 'Public' or 'Private'"),
-    [Parameter(Mandatory = $false)][string] $KeyName = $(if ($CertificateType -eq 'Private') { throw "IF the CertificateType is set to 'Private', the KeyName must be supplied" }),
-    [Parameter(Mandatory = $false)][string] $KeyVersion = $(if ($CertificateType -eq 'Private') { throw "IF the CertificateType is set to 'Private', the KeyVersion must be supplied" }),
-    [Parameter(Mandatory = $false)][string] $KeyVaultId = $(if ($CertificateType -eq 'Private') { throw "IF the CertificateType is set to 'Private', the KeyVaultId must be supplied" }),
+    [Parameter(Mandatory = $false)][string] $KeyName = $(if ($CertificateType -eq 'Private') { throw "If the CertificateType is set to 'Private', the KeyName must be supplied" }),
+    [Parameter(Mandatory = $false)][string] $KeyVersion = $(if ($CertificateType -eq 'Private') { throw "If the CertificateType is set to 'Private', the KeyVersion must be supplied" }),
+    [Parameter(Mandatory = $false)][string] $KeyVaultId = $(if ($CertificateType -eq 'Private') { throw "If the CertificateType is set to 'Private', the KeyVaultId must be supplied" }),
     [Parameter(Mandatory = $false)][string] $ArtifactsPrefix = ''
 )
 
 if ($CertificateFilePath -ne '' -and $CertificatesFolder -ne '') {
     throw "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'"
+}
+
+if ($CertificateType -eq 'Private' -and $CertificatesFolder -ne '' -and $CertificateFilePath -eq '') {
+    throw "Using the CertificatesFolder parameter in combination with Private certificates is not possible, since this would upload multiple certificates using the same Key in KeyVault"
 }
 
 function UploadCertificate {
@@ -24,16 +28,16 @@ function UploadCertificate {
     if ($ArtifactsPrefix -ne '') {
         $certificateName = $ArtifactsPrefix + $certificateName
     }
-    Write-Host "Uploading certificate '$certificateName' into the Integration Account '$Name'."
+    Write-Host "Uploading certificate '$certificateName' into the Integration Account '$Name'"
 
     $existingCertificate = $null
     try {
-        Write-Verbose "Checking if the certificate '$certificateName' already exists in the Integration Account '$Name'."
+        Write-Verbose "Checking if the certificate '$certificateName' already exists in the Integration Account '$Name'"
         $existingCertificate = Get-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -ErrorAction Stop
     }
     catch {
         if ($_.Exception.Message.Contains('could not be found')) {
-            Write-Verbose "No certificate '$certificateName' could not be found in Azure Integration Account '$Name'."
+            Write-Verbose "No certificate '$certificateName' could not be found in Azure Integration Account '$Name'"
         }
         else {
             throw $_.Exception
@@ -61,7 +65,7 @@ function UploadCertificate {
             }
             Write-Verbose ($updatedCertificate | Format-List -Force | Out-String)
         }
-        Write-Host "Certificate '$certificateName' has been uploaded into the Azure Integration Account '$Name'."
+        Write-Host "Certificate '$certificateName' has been uploaded into the Azure Integration Account '$Name'"
     }
     catch {
         Write-Error "Failed to upload certificate '$certificateName' in Azure Integration Account '$Name': '$($_.Exception.Message)_'"
