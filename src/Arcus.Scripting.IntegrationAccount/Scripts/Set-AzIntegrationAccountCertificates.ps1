@@ -14,8 +14,12 @@ if ($CertificateFilePath -ne '' -and $CertificatesFolder -ne '') {
     throw "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'"
 }
 
+if ($CertificateType -ne 'Public' -and $CertificateType -ne 'Private') {
+    throw "The CertificateType should be either 'Public' or 'Private'"
+}
+
 if ($CertificateType -eq 'Private' -and $CertificatesFolder -ne '' -and $CertificateFilePath -eq '') {
-    throw "Using the CertificatesFolder parameter in combination with Private certificates is not possible, since this would upload multiple certificates using the same Key in KeyVault"
+    throw "Using the CertificatesFolder parameter in combination with Private certificates is not possible, since this would upload multiple certificates using the same Key in Azure KeyVault"
 }
 
 function UploadCertificate {
