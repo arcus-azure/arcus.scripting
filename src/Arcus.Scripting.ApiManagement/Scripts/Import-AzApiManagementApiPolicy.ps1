@@ -12,5 +12,5 @@ $result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -PolicyF
 if ($result) {
     Write-Host "Successfully updated API policy"
 } else {
-    Write-Error "Failed to update API policy, please check parameters"
+    throw "Failed to update API policy, please check parameters"
 }

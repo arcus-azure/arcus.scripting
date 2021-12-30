@@ -12,8 +12,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
             Disable-AzContextAutosave -Scope Process
             Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
         }
-        Context "Handling Schemas" {
-            It "Try to upload single schema to unexisting Integration Account" {
+        Context "Uploading Schemas into an Azure Integration Account" {
+            It "Try to upload single schema to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
@@ -24,7 +24,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop } | 
                     Should -Throw
             }
-            It "Create a single schema in an Integration Account" {
+            It "Create a single schema in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -47,7 +47,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Update a single schema in an Integration Account" {
+            It "Update a single schema in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -73,7 +73,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Create a single schema, without extension, in an Integration Account" {
+            It "Create a single schema, without extension, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -96,7 +96,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Create a single schema, without extension and with prefix, in an Integration Account" {
+            It "Create a single schema, without extension and with prefix, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -120,7 +120,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
                 }
             }
-            It "Create multiple schemas located in a folder in an Integration Account" {
+            It "Create multiple schemas located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -149,7 +149,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple schemas, without extension, located in a folder in an Integration Account" {
+            It "Create multiple schemas, without extension, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -178,7 +178,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple schemas, without extension and with prefix, located in a folder in an Integration Account" {
+            It "Create multiple schemas, without extension and with prefix, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -209,8 +209,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
             }
         }
-        Context "Handling Maps" {
-            It "Try to upload single map to unexisting Integration Account" {
+        Context "Uploading Maps into an Azure Integration Account" {
+            It "Try to upload single map to unexisting Integration Account fails" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = "unexisting-integration-account"
@@ -221,7 +221,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop} |
                     Should -Throw
             }
-            It "Create a single map in an Integration Account" {
+            It "Create a single map in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -244,7 +244,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Update a single map in an Integration Account" {
+            It "Update a single map in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -270,7 +270,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Create a single map, without extension, in an Integration Account" {
+            It "Create a single map, without extension, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -293,7 +293,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Create a single map, without extension and with prefix, in an Integration Account" {
+            It "Create a single map, without extension and with prefix, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -317,7 +317,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
                 }
             }
-            It "Create multiple maps located in a folder in an Integration Account" {
+            It "Create multiple maps located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -346,7 +346,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple maps, without extension, located in a folder in an Integration Account" {
+            It "Create multiple maps, without extension, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -375,7 +375,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     }
                 }
             }
-            It "Create multiple maps, without extension and with prefix, located in a folder in an Integration Account" {
+            It "Create multiple maps, without extension and with prefix, located in a folder in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
@@ -402,6 +402,151 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $expectedMapName = $artifactsPrefix + $map.BaseName
                         
                         Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    }
+                }
+            }
+        }
+        Context "Uploading Assemblies into an Azure Integration Account" {
+            It "Try to upload single assembly to unexisting Integration Account fails" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = "unexisting-integration-account"
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+
+                # Act
+                { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ErrorAction Stop} |
+                    Should -Throw
+            }
+            It "Create a single assembly in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+                $expectedAssemblyName = $assembly.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                }
+            }
+            It "Update a single assembly in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+                $expectedAssemblyName = $assembly.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                $existingAssembly = New-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -AssemblyFilePath $assembly.FullName
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingAssembly.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingAssembly.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.Properties.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $existingAssembly.Properties.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.Properties.ChangedTime.ToUniversalTime()
+
+                } finally {
+                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                }
+            }
+            It "Create a single assembly, with prefix, in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll"
+                $assembly = Get-ChildItem($assemblyFilePath) -File
+                $artifactsPrefix = "dev-"
+                $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                }
+            }
+            It "Create multiple assemblies located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder
+
+                    # Assert
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $assembly.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $assembly.BaseName
+                        
+                        Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    }
+                }
+            }
+            It "Create multiple assemblies, with prefix, located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies"
+                $artifactsPrefix = "dev-"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.Properties.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
+                        $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
+                        
+                        Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
                     }
                 }
             }
