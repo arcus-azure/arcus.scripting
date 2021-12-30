@@ -177,3 +177,39 @@ function Set-AzIntegrationAccountCertificates {
 }
 
 Export-ModuleMember -Function Set-AzIntegrationAccountCertificates
+
+<#
+ .Synopsis
+  Upload/update a single, or multiple partners into an Azure Integration Account.
+ 
+ .Description
+  Provide a file- or folder-path to upload/update a single or multiple partners into an Integration Account.
+
+ .Parameter ResourceGroupName
+  The name of the Azure resource group where the Azure Integration Account is located.
+ 
+ .Parameter Name
+  The name of the Azure Integration Account into which the partners are to be uploaded/updated.
+
+ .Parameter PartnerFilePath
+  The full path of a partner that should be uploaded/updated.
+  
+ .Parameter PartnersFolder
+  The path to a directory containing all partners that should be uploaded/updated.
+
+ .Parameter ArtifactsPrefix
+  The prefix, if any, that should be added to the partners before uploading/updating.
+#>
+function Set-AzIntegrationAccountPartners {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
+        [parameter(Mandatory = $false)][string] $PartnerFilePath = $(if ($CertificatesFolder -eq '') { throw "Either the file path of a specific partner or the file path of a folder containing multiple partners is required, e.g.: -PartnerFilePath 'C:\Partners\partner.json' or -PartnersFolder 'C:\Partners'" }),
+        [parameter(Mandatory = $false)][string] $PartnersFolder = $(if ($CertificateFilePath -eq '') { throw "Either the file path of a specific partner or the file path of a folder containing multiple partners is required, e.g.: -PartnerFilePath 'C:\Partners\partner.json' or -PartnersFolder 'C:\Partners'" }),
+        [Parameter(Mandatory = $false)][string] $ArtifactsPrefix = ''
+    )
+
+    . $PSScriptRoot\Scripts\Set-AzIntegrationAccountCertificates.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -PartnerFilePath $CertificateFilePath -PartnersFolder $CertificatesFolder -ArtifactsPrefix $ArtifactsPrefix
+}
+
+Export-ModuleMember -Function Set-AzIntegrationAccountPartners
