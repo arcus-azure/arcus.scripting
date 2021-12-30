@@ -14,7 +14,7 @@ if ($SchemaFilePath -ne '' -and $SchemasFolder -ne '') {
 function UploadSchema {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Schema
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Schema
     )
 
     $schemaName = $Schema.Name

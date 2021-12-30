@@ -13,7 +13,7 @@ if ($AssemblyFilePath -ne '' -and $AssembliesFolder -ne '') {
 function UploadAssembly {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Assembly
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Assembly
     )
 
     $assemblyName = $Assembly.BaseName

@@ -15,7 +15,7 @@ if ($MapFilePath -ne '' -and $MapsFolder -ne '') {
 function UploadMap {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Map
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Map
     )
 
     $mapName = $Map.Name

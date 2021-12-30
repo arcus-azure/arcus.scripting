@@ -25,7 +25,7 @@ if ($CertificateType -eq 'Private' -and $CertificatesFolder -ne '' -and $Certifi
 function UploadCertificate {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Certificate
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Certificate
     )
 
     $certificateName = $Certificate.BaseName
