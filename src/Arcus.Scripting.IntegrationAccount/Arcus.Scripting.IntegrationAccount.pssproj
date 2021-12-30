@@ -33,6 +33,7 @@
     <Compile Include="Arcus.Scripting.IntegrationAccount.psd1" />
     <Compile Include="Arcus.Scripting.IntegrationAccount.psm1" />
     <Compile Include="Scripts\Set-AzIntegrationAccountAssemblies.ps1" />
+    <Compile Include="Scripts\Set-AzIntegrationAccountCertificates.ps1" />
     <Compile Include="Scripts\Set-AzIntegrationAccountMaps.ps1" />
     <Compile Include="Scripts\Set-AzIntegrationAccountSchemas.ps1" />
   </ItemGroup>

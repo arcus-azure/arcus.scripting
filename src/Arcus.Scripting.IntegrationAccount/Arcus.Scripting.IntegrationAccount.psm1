@@ -125,3 +125,55 @@ function Set-AzIntegrationAccountAssemblies {
 }
 
 Export-ModuleMember -Function Set-AzIntegrationAccountAssemblies
+
+<#
+ .Synopsis
+  Upload/update a single, or multiple certificates into an Azure Integration Account.
+ 
+ .Description
+  Provide a file- or folder-path to upload/update a single or multiple certificates into an Integration Account.
+
+ .Parameter ResourceGroupName
+  The name of the Azure resource group where the Azure Integration Account is located.
+ 
+ .Parameter Name
+  The name of the Azure Integration Account into which the certificates are to be uploaded/updated.
+
+ .Parameter CertificateType
+  The type of certificate, this can either be Public or Private.
+
+ .Parameter CertificateFilePath
+  The full path of a certificate that should be uploaded/updated.
+  
+ .Parameter CertificatesFolder
+  The path to a directory containing all certificates that should be uploaded/updated.
+
+ .Parameter KeyName
+  The name of the key in Azure KeyVault that will be used for uploading/updating private certificates.
+
+ .Parameter KeyVersion
+  The version of the key in Azure KeyVault that will be used for uploading/updating private certificates.
+
+ .Parameter KeyVaultId
+  The id of the Azure KeyVault that will be used for uploading/updating private certificates.
+
+ .Parameter ArtifactsPrefix
+  The prefix, if any, that should be added to the certificates before uploading/updating.
+#>
+function Set-AzIntegrationAccountCertificates {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
+        [Parameter(Mandatory = $true)][string] $CertificateType = $(throw "Certificate type is required, this can be either 'Public' or 'Private'"),
+        [parameter(Mandatory = $false)][string] $CertificateFilePath = $(if ($CertificatesFolder -eq '') { throw "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'" }),
+        [parameter(Mandatory = $false)][string] $CertificatesFolder = $(if ($CertificateFilePath -eq '') { throw "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'" }),
+        [Parameter(Mandatory = $false)][string] $KeyName = $(if ($CertificateType -eq 'Private') { throw "If the CertificateType is set to 'Private', the KeyName must be supplied" }),
+        [Parameter(Mandatory = $false)][string] $KeyVersion = $(if ($CertificateType -eq 'Private') { throw "If the CertificateType is set to 'Private', the KeyVersion must be supplied" }),
+        [Parameter(Mandatory = $false)][string] $KeyVaultId = $(if ($CertificateType -eq 'Private') { throw "If the CertificateType is set to 'Private', the KeyVaultId must be supplied" }),
+        [Parameter(Mandatory = $false)][string] $ArtifactsPrefix = ''
+    )
+
+    . $PSScriptRoot\Scripts\Set-AzIntegrationAccountCertificates.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -CertificateType $CertificateType -CertificateFilePath $CertificateFilePath -CertificatesFolder $CertificatesFolder -KeyName $KeyName -KeyVersion $KeyVersion -KeyVaultId $KeyVaultId -ArtifactsPrefix $ArtifactsPrefix
+}
+
+Export-ModuleMember -Function Set-AzIntegrationAccountCertificates
