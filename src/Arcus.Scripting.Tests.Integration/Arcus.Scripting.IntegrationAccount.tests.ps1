@@ -761,5 +761,150 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
             }
         }
+        Context "Uploading Partners into an Azure Integration Account" {
+            It "Try to upload single partner to unexisting Integration Account fails" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = "unexisting-integration-account"
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\partner1.json"
+                $partner = Get-ChildItem($partnerFilePath) -File
+
+                # Act
+                { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ErrorAction Stop} |
+                    Should -Throw
+            }
+            It "Create a single partner in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\partner1.json"
+                $partner = Get-ChildItem($partnerFilePath) -File
+                $expectedPartnerName = $partner.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                }
+            }
+            It "Update a single partner in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\partner1.json"
+                $partner = Get-ChildItem($partnerFilePath) -File
+                $expectedPartnerName = $partner.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                $existingPartner = New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -BusinessIdentities @("1", "12345"),@("1", "54321")
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingPartner.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingPartner.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $existingPartner.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
+
+                } finally {
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                }
+            }
+            It "Create a single partner, with prefix, in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\partner1.json"
+                $partner = Get-ChildItem($partnerFilePath) -File
+                $artifactsPrefix = "dev-"
+                $expectedPartnerName = $artifactsPrefix + $partner.BaseName
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                }
+            }
+            It "Create multiple partners located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder
+
+                    # Assert
+                    foreach ($partner in Get-ChildItem($partnersFolder) -File) {
+                        $expectedPartnerName = $partner.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($partner in Get-ChildItem($partnersFolder) -File) {
+                        $expectedPartnerName = $partner.BaseName
+                        
+                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                    }
+                }
+            }
+            It "Create multiple partners, with prefix, located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners"
+                $artifactsPrefix = "dev-"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    foreach ($partner in Get-ChildItem($partnersFolder) -File) {
+                        $expectedPartnerName = $artifactsPrefix + $partner.BaseName
+                        
+                        $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($partner in Get-ChildItem($partnersFolder) -File) {
+                        $expectedPartnerName = $artifactsPrefix + $partner.BaseName
+                        
+                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                    }
+                }
+            }
+        }
     }
 }
