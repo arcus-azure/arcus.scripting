@@ -209,7 +209,7 @@ function Set-AzIntegrationAccountPartners {
         [Parameter(Mandatory = $false)][string] $ArtifactsPrefix = ''
     )
 
-    . $PSScriptRoot\Scripts\Set-AzIntegrationAccountCertificates.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -PartnerFilePath $CertificateFilePath -PartnersFolder $CertificatesFolder -ArtifactsPrefix $ArtifactsPrefix
+    . $PSScriptRoot\Scripts\Set-AzIntegrationAccountCertificates.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -PartnerFilePath $PartnerFilePath -PartnersFolder $PartnersFolder -ArtifactsPrefix $ArtifactsPrefix
 }
 
 Export-ModuleMember -Function Set-AzIntegrationAccountPartners
