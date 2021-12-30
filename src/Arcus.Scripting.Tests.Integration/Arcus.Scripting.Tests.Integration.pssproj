@@ -51,6 +51,7 @@
     <Folder Include="Blobs\" />
     <Folder Include="Files\IntegrationAccount\" />
     <Folder Include="Files\IntegrationAccount\Maps\" />
+    <Folder Include="Files\IntegrationAccount\Assemblies\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
     <Folder Include="SqlScripts\" />
@@ -84,6 +85,8 @@
     <Content Include="Files\arm-template-inline.json" />
     <Content Include="Files\arm-template-inline-value.json" />
     <Content Include="Files\arm-template-inline-org.json" />
+    <Content Include="Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll" />
+    <Content Include="Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomethingElse.dll" />
     <Content Include="Files\IntegrationAccount\Maps\BankTransfer_Canonical-to-BankTransfer_PKO.xslt" />
     <Content Include="Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt" />
     <Content Include="Files\IntegrationAccount\Schemas\NestedSchema.xsd" />
