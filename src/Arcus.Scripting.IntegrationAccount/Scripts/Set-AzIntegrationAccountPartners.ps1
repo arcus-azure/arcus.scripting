@@ -11,8 +11,7 @@ if ($PartnerFilePath -ne '' -and $PartnersFolder -ne '') {
 }
 
 function UploadPartner {
-    param
-    (
+    param(
         [Parameter(Mandatory = $true)][System.IO.FileInfo] $Partner
     )
 
@@ -29,7 +28,7 @@ function UploadPartner {
     Write-Host "Uploading partner '$partnerName' into the Integration Account '$Name'"
 
     $businessIdentities = $null
-    ForEach ($businessIdentity in $partnerData.properties.content.b2b.businessIdentities) {
+    foreach ($businessIdentity in $partnerData.properties.content.b2b.businessIdentities) {
         $qualifier = $businessIdentity.qualifier
         $value = $businessIdentity.value
 

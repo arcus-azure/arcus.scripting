@@ -281,8 +281,8 @@ Upload/update a single, or multiple partners into an Azure Integration Account.
 | ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
 | `Name`                 | yes         | The name of the Azure Integration Account into which the partners are to be uploaded/updated.                                                |
-| `PartnerFilePath`      | conditional | The full path of a partner that should be uploaded/updated. (_Mandatory if PartnersFolder has not been specified_).                          |
-| `PartnersFolder`       | conditional | The path to a directory containing all partners that should be uploaded/updated. (_Mandatory if PartnerFilePath has not been specified_).    |
+| `PartnerFilePath`      | conditional | The full path of a partner that should be uploaded/updated. (_Mandatory if `PartnersFolder` has not been specified_).                          |
+| `PartnersFolder`       | conditional | The path to a directory containing all partners that should be uploaded/updated. (_Mandatory if `PartnerFilePath` has not been specified_).    |
 | `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the partners before uploading/updating.                                                          |
 
 **Example**  
