@@ -982,12 +982,12 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
 
                 Mock Get-Content {
-                    return [PSCustomObject] @{
-                        properties = [PSCustomObject] @{
+                    return [pscustomobject] @{
+                        properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [PSCustomObject] @{
-                                b2b = [PSCustomObject] @{
-                                    businessIdentities = [PSCustomObject] @{
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
                                         value = '12345';
                                     }
@@ -1020,7 +1020,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
 
                 Mock Get-Content {
-                    return [PSCustomObject] @{
+                    return [pscustomobject] @{
                         name = 'Partner1';
                     } | ConvertTo-Json -Depth 5;
                 } -Verifiable
@@ -1048,13 +1048,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
 
                 Mock Get-Content {
-                    return [PSCustomObject] @{
+                    return [pscustomobject] @{
                         name = 'Partner1';
-                        properties = [PSCustomObject] @{
+                        properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [PSCustomObject] @{
-                                b2b = [PSCustomObject] @{
-                                    businessIdentities = [PSCustomObject] @{
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
                                         value = '12345';
                                     }
@@ -1102,13 +1102,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 				$partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
 
                 Mock Get-Content {
-                    return [PSCustomObject] @{
+                    return [pscustomobject] @{
                         name = 'Partner1';
-                        properties = [PSCustomObject] @{
+                        properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [PSCustomObject] @{
-                                b2b = [PSCustomObject] @{
-                                    businessIdentities = [PSCustomObject] @{
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
                                         value = '12345';
                                     }
@@ -1161,13 +1161,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
                 
                 Mock Get-Content {
-                    return [PSCustomObject] @{
+                    return [pscustomobject] @{
                         name = 'Partner1';
-                        properties = [PSCustomObject] @{
+                        properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [PSCustomObject] @{
-                                b2b = [PSCustomObject] @{
-                                    businessIdentities = [PSCustomObject] @{
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
                                         value = '12345';
                                     }
