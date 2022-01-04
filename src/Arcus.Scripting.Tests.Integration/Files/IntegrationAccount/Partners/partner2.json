@@ -1,0 +1,16 @@
+{
+  "name": "Partner2",
+  "properties": {
+    "partnerType": "B2B",
+    "content": {
+      "b2b": {
+        "businessIdentities": [
+          {
+            "qualifier": "1",
+            "value": "98765"
+          }
+        ]
+      }
+    }
+  }
+}

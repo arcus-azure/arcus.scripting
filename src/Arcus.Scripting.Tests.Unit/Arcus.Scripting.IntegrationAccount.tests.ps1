@@ -942,5 +942,327 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 Assert-MockCalled New-AzIntegrationAccountCertificate -Times 0
             }
         }
+        Context "Azure Integration Account Partners" {
+            It "Providing both partnerFilePath and partnersFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\Partner1.json"
+                $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners\"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath -PartnersFolder $partnersFolder
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific partner or the file path of a folder containing multiple partners is required, e.g.: -PartnerFilePath 'C:\Partners\partner.json' or -PartnersFolder 'C:\Partners'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing neither a partnerFilePath and partnersFolder should fail" {
+                # Arrange
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName
+                } | Should -Throw -ExpectedMessage "Either the file path of a specific partner or the file path of a folder containing multiple partners is required, e.g.: -PartnerFilePath 'C:\Partners\partner.json' or -PartnersFolder 'C:\Partners'"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing a PartnerName should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $partnerName = 'Dummy_New_Partner'
+                $partnerResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/partners/$partnerName"
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
+
+                Mock Get-Content {
+                    return [pscustomobject] @{
+                        properties = [pscustomobject] @{
+                            partnerType = 'B2B';
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
+                                        qualifier = '1';
+                                        value = '12345';
+                                    }
+                                }
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
+                } | Should -Throw -ExpectedMessage "Partner name is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing a BusinessIdentity should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $partnerName = 'Dummy_New_Partner'
+                $partnerResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/partners/$partnerName"
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
+
+                Mock Get-Content {
+                    return [pscustomobject] @{
+                        name = 'Partner1';
+                    } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
+                } | Should -Throw -ExpectedMessage "At least one business identity must be supplied"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Providing only the partnerFilePath to create an partner is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $partnerName = 'Dummy_New_Partner'
+                $partnerResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/partners/$partnerName"
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
+
+                Mock Get-Content {
+                    return [pscustomobject] @{
+                        name = 'Partner1';
+                        properties = [pscustomobject] @{
+                            partnerType = 'B2B';
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
+                                        qualifier = '1';
+                                        value = '12345';
+                                    }
+                                }
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountPartner {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountPartner {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountPartner {
+                    return [pscustomobject]@{ Id = $partnerResourceId; Name = $partnerName; Type = 'Microsoft.Logic/integrationAccounts/partners'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountPartner -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountPartner -Times 0
+                Assert-MockCalled New-AzIntegrationAccountPartner -Times 1
+            }
+            It "Providing only the partnerFilePath to update an partner is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				$partnerName = 'Dummy_Existing_Partner'
+                $partnerResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/partners/$partnerName"
+				$partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
+
+                Mock Get-Content {
+                    return [pscustomobject] @{
+                        name = 'Partner1';
+                        properties = [pscustomobject] @{
+                            partnerType = 'B2B';
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
+                                        qualifier = '1';
+                                        value = '12345';
+                                    }
+                                }
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountPartner {
+                    return [pscustomobject]@{ Id = $partnerResourceId; Name = $partnerName; Type = 'Microsoft.Logic/integrationAccounts/partners'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountPartner {
+                    return [pscustomobject]@{ Id = $partnerResourceId; Name = $partnerName; Type = 'Microsoft.Logic/integrationAccounts/partners'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountPartner {
+                    return $null
+                }
+
+                # Act
+                { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountPartner -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountPartner -Times 1
+                Assert-MockCalled New-AzIntegrationAccountPartner -Times 0
+            }
+            It "Providing only a partnersFolder to create partners is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				        $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        New-Item -Name "partner1.json" -Type File -fo
+                        New-Item -Name "partner2.json" -Type File -fo
+                    )
+                }
+                
+                Mock Get-Content {
+                    return [pscustomobject] @{
+                        name = 'Partner1';
+                        properties = [pscustomobject] @{
+                            partnerType = 'B2B';
+                                content = [pscustomobject] @{
+                                b2b = [pscustomobject] @{
+                                    businessIdentities = [pscustomobject] @{
+                                        qualifier = '1';
+                                        value = '12345';
+                                    }
+                                }
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountPartner {
+                    return $null
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountPartner {
+                    return $null
+                }
+
+                Mock New-AzIntegrationAccountPartner {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.dll'; Type = 'Microsoft.Logic/integrationAccounts/partners'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                # Act
+                { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountPartner -Times 2
+                Assert-MockCalled Set-AzIntegrationAccountPartner -Times 0
+                Assert-MockCalled New-AzIntegrationAccountPartner -Times 2
+            }
+            It "Providing only a partnersFolder to update partners is OK" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+				        $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners\"
+
+                Mock Get-ChildItem {
+                    return @(
+                        New-Item -Name "partner1.json" -Type File -fo
+                        New-Item -Name "partner2.json" -Type File -fo
+                    )
+                }
+
+                Mock Get-Content {
+                    return [PSCustomObject] @{
+                        name = 'Partner1';
+                        properties = [PSCustomObject] @{
+                            partnerType = 'B2B';
+                                content = [PSCustomObject] @{
+                                b2b = [PSCustomObject] @{
+                                    businessIdentities = [PSCustomObject] @{
+                                        qualifier = '1';
+                                        value = '12345';
+                                    }
+                                }
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+                
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccountPartner {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.dll'; Type = 'Microsoft.Logic/integrationAccounts/partners'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                } -Verifiable
+
+                Mock Set-AzIntegrationAccountPartner {
+                    return [pscustomobject]@{ Id = 'fake-resource-id'; Name = 'Dummy.dll'; Type = 'Microsoft.Logic/integrationAccounts/partners'; CreatedTime = [datetime]::UtcNow; ChangedTime = [datetime]::UtcNow }
+                }
+
+                Mock New-AzIntegrationAccountPartner {
+                    return $null
+                }
+
+                # Act
+                { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder } | 
+                    Should -Not -Throw
+ 
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountPartner -Times 2
+                Assert-MockCalled Set-AzIntegrationAccountPartner -Times 2
+                Assert-MockCalled New-AzIntegrationAccountPartner -Times 0
+            }
+        }
     }
 }

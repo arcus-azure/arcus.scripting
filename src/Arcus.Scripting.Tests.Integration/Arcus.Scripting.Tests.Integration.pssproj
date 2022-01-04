@@ -53,6 +53,7 @@
     <Folder Include="Files\IntegrationAccount\Maps\" />
     <Folder Include="Files\IntegrationAccount\Assemblies\" />
     <Folder Include="Files\IntegrationAccount\Certificates\" />
+    <Folder Include="Files\IntegrationAccount\Partners\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
     <Folder Include="SqlScripts\" />
@@ -92,6 +93,8 @@
     <Content Include="Files\IntegrationAccount\Certificates\certificate2.cer" />
     <Content Include="Files\IntegrationAccount\Maps\BankTransfer_Canonical-to-BankTransfer_PKO.xslt" />
     <Content Include="Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt" />
+    <Content Include="Files\IntegrationAccount\Partners\partner1.json" />
+    <Content Include="Files\IntegrationAccount\Partners\partner2.json" />
     <Content Include="Files\IntegrationAccount\Schemas\NestedSchema.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Acknowledgement.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Common\NestedSchemaRoot.xsd" />
