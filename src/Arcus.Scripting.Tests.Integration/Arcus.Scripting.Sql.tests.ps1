@@ -104,19 +104,13 @@ InModuleScope Arcus.Scripting.Sql {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database.
             }
 
-            $tableNames = @()
-            try {
-                $tableNames = Run-AzSqlQuery $params "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
-            } catch {
-                Write-Warning "Could not select any SQL tables to drop during test setup"
-            }
-            
-            foreach ($tableName in $tableNames.ItemArray) {
+            $tables = Run-AzSqlQuery $params "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+            foreach ($table in $tables) {
                 try {
-                    Write-Verbose "Drop table $tableName in SQL database"
-                    Drop-AzSqlDatabaseTable $params $tableName
+                    Write-Verbose "Drop table $($table.TABLE_NAME) in SQL database"
+                    Drop-AzSqlDatabaseTable $params $table.TABLE_NAME $table.TABLE_SCHEMA
                 } catch {
-                    Write-Warning "Could not drop table '$($tableName)' due to an exception: $($_.Exception.Message)"
+                    Write-Warning "Could not drop table '$($table.TABLE_NAME)' due to an exception: $($_.Exception.Message)"
                 }
             }
         }
