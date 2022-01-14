@@ -8,6 +8,10 @@ layout: default
 This module provides the following capabilities:
 - [Uploading schemas into an Azure Integration Account](#uploading-schemas-into-an-azure-integration-account)
 - [Uploading maps into an Azure Integration Account](#uploading-maps-into-an-azure-integration-account)
+- [Uploading assemblies into an Azure Integration Account#](#uploading-assemblies-into-an-azure-integration-account)
+- [Uploading certificates into an Azure Integration Account#](#uploading-certificates-into-an-azure-integration-account)
+- [Uploading partners into an Azure Integration Account#](#uploading-partners-into-an-azure-integration-account)
+- [Uploading agreements into an Azure Integration Account#](#uploading-agreements-into-an-azure-integration-account)
 
 ## Installation
 
