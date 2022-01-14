@@ -963,6 +963,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $guestPartner = $agreementData.properties.guestPartner    
                 $guestIdentityQualifier = $agreementData.properties.guestIdentity.qualifier
                 $guestIdentityQualifierValue = $agreementData.properties.guestIdentity.value
+                $agreementData.properties.content.aS2.receiveAgreement.protocolSettings.messageConnectionSettings.ignoreCertificateNameMismatch = 'True'
                 $agreementContent = $agreementData.properties.content | ConvertTo-Json -Depth 20 -Compress
 
                 New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
@@ -979,6 +980,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingAgreement.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingAgreement.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
                     $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $actual.content.aS2.receiveAgreement.protocolSettings.messageConnectionSettings.ignoreCertificateNameMismatch | Should -Be 'False'
                     $existingAgreement.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
