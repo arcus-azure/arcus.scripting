@@ -24,12 +24,12 @@ function UploadSchema {
     if ($ArtifactsPrefix -ne '') {
         $schemaName = $ArtifactsPrefix + $schemaName
     }
-    Write-Host "Uploading schema '$schemaName' into the Integration Account '$Name'"
+    Write-Host "Uploading schema '$schemaName' into the Azure Integration Account '$Name'"
 
     ## Check if the schema already exists
     $existingSchema = $null
     try {
-        Write-Verbose "Checking if the schema '$schemaName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the schema '$schemaName' already exists in the Azure Integration Account '$Name'"
         $existingSchema = Get-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -ErrorAction Stop
     }
     catch {
@@ -61,7 +61,6 @@ function UploadSchema {
     }
 }
 
-# Verify if Integration Account can be found based on the given information
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"

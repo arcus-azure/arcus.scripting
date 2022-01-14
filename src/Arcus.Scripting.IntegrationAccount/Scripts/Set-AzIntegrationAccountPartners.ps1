@@ -19,13 +19,13 @@ function UploadPartner {
 
     $partnerName = $partnerData.name
     if ($partnerName -eq $null -or $partnerName -eq '') {
-        throw 'Partner name is empty'
+        throw "Cannot upload Partner to Azure Integration Account '$Name' because the partner name is empty"
     }
 
     if ($ArtifactsPrefix -ne '') {
         $partnerName = $ArtifactsPrefix + $partnerName
     }
-    Write-Host "Uploading partner '$partnerName' into the Integration Account '$Name'"
+    Write-Host "Uploading partner '$partnerName' into the Azure Integration Account '$Name'"
 
     $businessIdentities = $null
     foreach ($businessIdentity in $partnerData.properties.content.b2b.businessIdentities) {
@@ -36,12 +36,12 @@ function UploadPartner {
     }
 
     if ($businessIdentities.Count -eq 0) {
-        throw "At least one business identity must be supplied"
+        throw "Cannot upload Partner to Azure Integration Account '$Name' because at least one business identity must be supplied"
     }
 
     $existingPartner = $null
     try {
-        Write-Verbose "Checking if the partner '$partnerName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the partner '$partnerName' already exists in the Azure Integration Account '$Name'"
         $existingPartner = Get-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -ErrorAction Stop
     }
     catch {
@@ -71,7 +71,6 @@ function UploadPartner {
     }
 }
 
-# Verify if Integration Account can be found based on the given information
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"

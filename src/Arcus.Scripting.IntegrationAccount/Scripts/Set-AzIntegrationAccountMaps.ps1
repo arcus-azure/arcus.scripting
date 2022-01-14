@@ -25,11 +25,11 @@ function UploadMap {
     if ($ArtifactsPrefix -ne '') {
         $mapName = $ArtifactsPrefix + $mapName
     }
-    Write-Host "Uploading map '$mapName' into the Integration Account '$Name'"
+    Write-Host "Uploading map '$mapName' into the Azure Integration Account '$Name'"
 
     $existingMap = $null
     try {
-        Write-Verbose "Checking if the map '$mapName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the map '$mapName' already exists in the Azure Integration Account '$Name'"
         $existingMap = Get-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -ErrorAction Stop
     }
     catch {
@@ -59,7 +59,6 @@ function UploadMap {
     }
 }
 
-# Verify if Integration Account can be found based on the given information
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"

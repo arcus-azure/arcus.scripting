@@ -213,3 +213,39 @@ function Set-AzIntegrationAccountPartners {
 }
 
 Export-ModuleMember -Function Set-AzIntegrationAccountPartners
+
+<#
+ .Synopsis
+  Upload/update a single, or multiple agreements into an Azure Integration Account.
+ 
+ .Description
+  Provide a file- or folder-path to upload/update a single or multiple agreements into an Integration Account.
+
+ .Parameter ResourceGroupName
+  The name of the Azure resource group where the Azure Integration Account is located.
+ 
+ .Parameter Name
+  The name of the Azure Integration Account into which the agreements are to be uploaded/updated.
+
+ .Parameter AgreementFilePath
+  The full path of a agreement that should be uploaded/updated.
+  
+ .Parameter AgreementsFolder
+  The path to a directory containing all agreements that should be uploaded/updated.
+
+ .Parameter ArtifactsPrefix
+  The prefix, if any, that should be added to the agreements before uploading/updating.
+#>
+function Set-AzIntegrationAccountAgreements {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
+        [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
+        [parameter(Mandatory = $false)][string] $AgreementFilePath = $(if ($AgreementsFolder -eq '') { throw "Either the file path of a specific agreement or the file path of a folder containing multiple agreements is required, e.g.: -AgreementFilePath 'C:\Agreements\agreement.json' or -AgreementsFolder 'C:\Agreements'" }),
+        [parameter(Mandatory = $false)][string] $AgreementsFolder = $(if ($AgreementFilePath -eq '') { throw "Either the file path of a specific agreement or the file path of a folder containing multiple agreements is required, e.g.: -AgreementFilePath 'C:\Agreements\agreement.json' or -AgreementsFolder 'C:\Agreements'" }),
+        [Parameter(Mandatory = $false)][string] $ArtifactsPrefix = ''
+    )
+
+    . $PSScriptRoot\Scripts\Set-AzIntegrationAccountAgreements.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -AgreementFilePath $AgreementFilePath -AgreementsFolder $AgreementsFolder -ArtifactsPrefix $ArtifactsPrefix
+}
+
+Export-ModuleMember -Function Set-AzIntegrationAccountAgreements
