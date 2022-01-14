@@ -25,7 +25,7 @@ function UploadPartner {
     if ($ArtifactsPrefix -ne '') {
         $partnerName = $ArtifactsPrefix + $partnerName
     }
-    Write-Host "Uploading partner '$partnerName' into the Integration Account '$Name'"
+    Write-Host "Uploading partner '$partnerName' into the Azure Integration Account '$Name'"
 
     $businessIdentities = $null
     foreach ($businessIdentity in $partnerData.properties.content.b2b.businessIdentities) {
@@ -41,7 +41,7 @@ function UploadPartner {
 
     $existingPartner = $null
     try {
-        Write-Verbose "Checking if the partner '$partnerName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the partner '$partnerName' already exists in the Azure Integration Account '$Name'"
         $existingPartner = Get-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -ErrorAction Stop
     }
     catch {

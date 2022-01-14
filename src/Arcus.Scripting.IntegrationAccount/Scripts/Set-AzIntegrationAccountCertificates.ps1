@@ -32,11 +32,11 @@ function UploadCertificate {
     if ($ArtifactsPrefix -ne '') {
         $certificateName = $ArtifactsPrefix + $certificateName
     }
-    Write-Host "Uploading certificate '$certificateName' into the Integration Account '$Name'"
+    Write-Host "Uploading certificate '$certificateName' into the Azure Integration Account '$Name'"
 
     $existingCertificate = $null
     try {
-        Write-Verbose "Checking if the certificate '$certificateName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the certificate '$certificateName' already exists in the Azure Integration Account '$Name'"
         $existingCertificate = Get-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -ErrorAction Stop
     }
     catch {

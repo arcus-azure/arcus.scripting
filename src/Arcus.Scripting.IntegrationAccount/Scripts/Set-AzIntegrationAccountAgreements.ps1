@@ -38,7 +38,7 @@ function UploadAgreement {
 
     $existingAgreement = $null
     try {
-        Write-Verbose "Checking if the agreement '$agreementName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the agreement '$agreementName' already exists in the Azure Integration Account '$Name'"
         $existingAgreement = Get-AzIntegrationAccountAgreement -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -AgreementName $agreementName -ErrorAction Stop
     }
     catch {

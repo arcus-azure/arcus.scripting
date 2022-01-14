@@ -20,11 +20,11 @@ function UploadAssembly {
     if ($ArtifactsPrefix -ne '') {
         $assemblyName = $ArtifactsPrefix + $assemblyName
     }
-    Write-Host "Uploading assembly '$assemblyName' into the Integration Account '$Name'"
+    Write-Host "Uploading assembly '$assemblyName' into the Azure Integration Account '$Name'"
 
     $existingAssembly = $null
     try {
-        Write-Verbose "Checking if the assembly '$assemblyName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the assembly '$assemblyName' already exists in the Azure Integration Account '$Name'"
         $existingAssembly = Get-AzIntegrationAccountAssembly -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -Name $assemblyName -ErrorAction Stop
     }
     catch {

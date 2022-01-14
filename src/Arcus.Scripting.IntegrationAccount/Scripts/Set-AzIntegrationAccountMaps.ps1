@@ -25,11 +25,11 @@ function UploadMap {
     if ($ArtifactsPrefix -ne '') {
         $mapName = $ArtifactsPrefix + $mapName
     }
-    Write-Host "Uploading map '$mapName' into the Integration Account '$Name'"
+    Write-Host "Uploading map '$mapName' into the Azure Integration Account '$Name'"
 
     $existingMap = $null
     try {
-        Write-Verbose "Checking if the map '$mapName' already exists in the Integration Account '$Name'"
+        Write-Verbose "Checking if the map '$mapName' already exists in the Azure Integration Account '$Name'"
         $existingMap = Get-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -ErrorAction Stop
     }
     catch {
