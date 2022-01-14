@@ -53,6 +53,7 @@
     <Folder Include="Files\IntegrationAccount\Maps\" />
     <Folder Include="Files\IntegrationAccount\Assemblies\" />
     <Folder Include="Files\IntegrationAccount\Certificates\" />
+    <Folder Include="Files\IntegrationAccount\Agreements\" />
     <Folder Include="Files\IntegrationAccount\Partners\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
@@ -87,6 +88,8 @@
     <Content Include="Files\arm-template-inline.json" />
     <Content Include="Files\arm-template-inline-value.json" />
     <Content Include="Files\arm-template-inline-org.json" />
+    <Content Include="Files\IntegrationAccount\Agreements\agreement1.json" />
+    <Content Include="Files\IntegrationAccount\Agreements\agreement2.json" />
     <Content Include="Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll" />
     <Content Include="Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomethingElse.dll" />
     <Content Include="Files\IntegrationAccount\Certificates\certificate1.cer" />

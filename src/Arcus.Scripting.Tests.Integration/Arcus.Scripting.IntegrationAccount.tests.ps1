@@ -906,5 +906,190 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 }
             }
         }
+        Context "Uploading Agreements into an Azure Integration Account" {
+            It "Try to upload single agreement to unexisting Integration Account fails" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = "unexisting-integration-account"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\agreement1.json"
+                $agreement = Get-ChildItem($agreementFilePath) -File
+
+                # Act
+                { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ErrorAction Stop} |
+                    Should -Throw
+            }
+            It "Create a single agreement in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\agreement1.json"
+                $agreement = Get-ChildItem($agreementFilePath) -File
+                $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
+                $expectedAgreementName = $agreementData.name
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                    $actual | Should -Not -BeNullOrEmpty 
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn @($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                }
+            }
+            It "Update a single agreement in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\agreement1.json"
+                $agreement = Get-ChildItem($agreementFilePath) -File
+                $executionDateTime = (Get-Date).ToUniversalTime()
+                $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
+                $expectedAgreementName = $agreementData.name
+                $agreementType = $agreementData.properties.agreementType
+                $hostPartner = $agreementData.properties.hostPartner
+                $hostIdentityQualifier = $agreementData.properties.hostIdentity.qualifier
+                $hostIdentityQualifierValue = $agreementData.properties.hostIdentity.value
+                $guestPartner = $agreementData.properties.guestPartner    
+                $guestIdentityQualifier = $agreementData.properties.guestIdentity.qualifier
+                $guestIdentityQualifierValue = $agreementData.properties.guestIdentity.value
+                $agreementContent = $agreementData.properties.content | ConvertTo-Json -Depth 20 -Compress
+
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+
+                $existingAgreement = New-AzIntegrationAccountAgreement -ResourceGroupName $ResourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -AgreementType $agreementType -HostPartner $hostPartner -HostIdentityQualifier $hostIdentityQualifier -HostIdentityQualifierValue $hostIdentityQualifierValue -GuestPartner $guestPartner -GuestIdentityQualifier $guestIdentityQualifier -GuestIdentityQualifierValue $guestIdentityQualifierValue -AgreementContent $agreementContent -ErrorAction Stop
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($existingAgreement.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $existingAgreement.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
+                    $existingAgreement.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
+
+                } finally {
+                    Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                }
+            }
+            It "Create a single agreement, with prefix, in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\agreement1.json"
+                $agreement = Get-ChildItem($agreementFilePath) -File
+                $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
+                $artifactsPrefix = "dev-"
+                $expectedAgreementName = $artifactsPrefix + $agreementData.name
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                    $actual | Should -Not -BeNullOrEmpty
+                    $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                    $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+
+                } finally {
+                    Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
+                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                }
+            }
+            It "Create multiple agreements located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $agreementsFolder = "$PSScriptRoot\Files\IntegrationAccount\Agreements"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder
+
+                    # Assert
+                    foreach ($agreement in Get-ChildItem($agreementsFolder) -File) {
+                        $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
+                        $expectedAgreementName = $agreementData.name
+                        
+                        $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($agreement in Get-ChildItem($agreementsFolder) -File) {
+                        $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
+                        $expectedAgreementName = $agreementData.name
+                        
+                        Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
+                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
+                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                    }
+                }
+            }
+            It "Create multiple agreements, with prefix, located in a folder in an Integration Account succeeds" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $integrationAccountName = $config.Arcus.IntegrationAccount.Name
+                $agreementsFolder = "$PSScriptRoot\Files\IntegrationAccount\Agreements"
+                $artifactsPrefix = "dev-"
+                $executionDateTime = (Get-Date).ToUniversalTime()
+
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
+                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+
+                try {
+                    # Act
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder -ArtifactsPrefix $artifactsPrefix
+
+                    # Assert
+                    foreach ($agreement in Get-ChildItem($agreementsFolder) -File) {
+                        $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
+                        $expectedAgreementName = $artifactsPrefix + $agreementData.name
+                        
+                        $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                        $actual | Should -Not -BeNullOrEmpty
+                        $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss") | Should -BeIn ($actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss"), $actual.ChangedTime.ToUniversalTime().AddSeconds(-1).ToString("yyyy-MM-ddTHH:mm:ss"))
+                        $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
+                    }
+
+                } finally {
+                    foreach ($agreement in Get-ChildItem($agreementsFolder) -File) {
+                        $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
+                        $expectedAgreementName = $artifactsPrefix + $agreementData.name
+                        
+                        Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
+                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
+                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                    }
+                }
+            }
+        }
     }
 }
