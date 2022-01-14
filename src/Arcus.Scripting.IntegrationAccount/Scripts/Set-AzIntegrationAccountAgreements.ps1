@@ -19,7 +19,7 @@ function UploadAgreement {
 
     $agreementName = $agreementData.name
     if ($agreementName -eq $null -or $agreementName -eq '') {
-        throw 'Agreement name is empty'
+        throw 'Cannot upload Agreement to Azure Integration Account '$Name' because the agreement name is empty'
     }
 
     if ($ArtifactsPrefix -ne '') {

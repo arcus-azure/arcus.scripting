@@ -19,7 +19,7 @@ function UploadPartner {
 
     $partnerName = $partnerData.name
     if ($partnerName -eq $null -or $partnerName -eq '') {
-        throw 'Partner name is empty'
+        throw 'Cannot upload Partner to Azure Integration Account '$Name' because the partner name is empty'
     }
 
     if ($ArtifactsPrefix -ne '') {
