@@ -1004,7 +1004,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Act
                 { 
                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
-                } | Should -Throw -ExpectedMessage "Partner name is empty"
+                } | Should -Throw -ExpectedMessage "Cannot upload Partner to Azure Integration Account '$integrationAccountName' because the partner name is empty"
 
                 # Assert
                 Assert-VerifiableMock
@@ -1032,7 +1032,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Act
                 { 
                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
-                } | Should -Throw -ExpectedMessage "At least one business identity must be supplied"
+                } | Should -Throw -ExpectedMessage "Cannot upload Partner to Azure Integration Account '$integrationAccountName' because at least one business identity must be supplied"
 
                 # Assert
                 Assert-VerifiableMock
@@ -1293,7 +1293,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Assert
                 Assert-VerifiableMock
             }
-            It "Not Providing an AgreementName should fail" {
+            It "Not Providing an Agreement Name should fail" {
                 # Arrange
                 $subscriptionId = [guid]::NewGuid()
                 $resourceGroupName = "rg-infrastructure"
@@ -1307,8 +1307,18 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     return [pscustomobject] @{
                         properties = [pscustomobject] @{
                             agreementType = 'AS2';
-                                content = [pscustomobject] @{
-                                    aS2 = [pscustomobject] @{}
+                            hostPartner = 'Partner1';
+                            guestPartner = 'Partner2';
+                            hostIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value = '98765';
+                            }
+                            content = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
                             }
                         }
                     } | ConvertTo-Json -Depth 5;
@@ -1321,7 +1331,349 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Act
                 { 
                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
-                } | Should -Throw -ExpectedMessage "Agreement name is empty"
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the agreement name is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Agreement Type should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+                    return [pscustomobject] @{
+                        name = $agreementName;
+                        properties = [pscustomobject] @{
+                            hostPartner = 'Partner1';
+                            guestPartner = 'Partner2';
+                            hostIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value = '98765';
+                            }
+                            content = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the agreement type is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Host Partner should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+	                return [pscustomobject] @{
+		                name = $agreementName;
+		                properties = [pscustomobject] @{
+			                agreementType = 'AS2';
+			                guestPartner = 'Partner2';
+			                hostIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '12345';
+			                }
+			                guestIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '98765';
+			                }
+			                content = [pscustomobject] @{
+				                aS2 = [pscustomobject] @{}
+			                }
+		                }
+	                } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the host partner is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Host Identity Qualifier should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+	                return [pscustomobject] @{
+		                name = $agreementName;
+		                properties = [pscustomobject] @{
+			                agreementType = 'AS2';
+			                hostPartner = 'Partner1';
+			                guestPartner = 'Partner2';
+			                hostIdentity = [pscustomobject] @{
+				                value = '12345';
+			                }
+			                guestIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '98765';
+			                }
+			                content = [pscustomobject] @{
+				                aS2 = [pscustomobject] @{}
+			                }
+		                }
+	                } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the host identity qualifier is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Host Identity Value should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+	                return [pscustomobject] @{
+		                name = $agreementName;
+		                properties = [pscustomobject] @{
+			                agreementType = 'AS2';
+			                hostPartner = 'Partner1';
+			                guestPartner = 'Partner2';
+			                hostIdentity = [pscustomobject] @{
+				                qualifier = '1';
+			                }
+			                guestIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '98765';
+			                }
+			                content = [pscustomobject] @{
+				                aS2 = [pscustomobject] @{}
+			                }
+		                }
+	                } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the host identity value is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Guest Partner should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+	                return [pscustomobject] @{
+		                name = $agreementName;
+		                properties = [pscustomobject] @{
+			                agreementType = 'AS2';
+			                hostPartner = 'Partner1';
+			                hostIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '12345';
+			                }
+			                guestIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '98765';
+			                }
+			                content = [pscustomobject] @{
+				                aS2 = [pscustomobject] @{}
+			                }
+		                }
+	                } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the guest partner is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Guest Identity Qualifier should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+	                return [pscustomobject] @{
+		                name = $agreementName;
+		                properties = [pscustomobject] @{
+			                agreementType = 'AS2';
+			                hostPartner = 'Partner1';
+			                guestPartner = 'Partner2';
+			                hostIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '12345';
+			                }
+			                guestIdentity = [pscustomobject] @{
+				                value = '98765';
+			                }
+			                content = [pscustomobject] @{
+				                aS2 = [pscustomobject] @{}
+			                }
+		                }
+	                } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the guest identity qualifier is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Guest Identity Value should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+	                return [pscustomobject] @{
+		                name = $agreementName;
+		                properties = [pscustomobject] @{
+			                agreementType = 'AS2';
+			                hostPartner = 'Partner1';
+			                guestPartner = 'Partner2';
+			                hostIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '12345';
+			                }
+			                guestIdentity = [pscustomobject] @{
+				                qualifier = '1';
+			                }
+			                content = [pscustomobject] @{
+				                aS2 = [pscustomobject] @{}
+			                }
+		                }
+	                } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the guest identity value is empty"
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Not Providing an Agreement Content should fail" {
+                # Arrange
+                $subscriptionId = [guid]::NewGuid()
+                $resourceGroupName = "rg-infrastructure"
+                $integrationAccountName = "unexisting-integration-account"
+                $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
+                $agreementName = 'Dummy_New_Agreement'
+                $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+
+                Mock Get-Content {
+	                return [pscustomobject] @{
+		                name = $agreementName;
+		                properties = [pscustomobject] @{
+			                agreementType = 'AS2';
+			                hostPartner = 'Partner1';
+			                guestPartner = 'Partner2';
+			                hostIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '12345';
+			                }
+			                guestIdentity = [pscustomobject] @{
+				                qualifier = '1';
+				                value = '98765';
+			                }
+		                }
+	                } | ConvertTo-Json -Depth 5;
+                } -Verifiable
+
+                Mock Get-AzIntegrationAccount {
+                    return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
+                } -Verifiable
+
+                # Act
+                { 
+                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the agreement content is empty"
 
                 # Assert
                 Assert-VerifiableMock

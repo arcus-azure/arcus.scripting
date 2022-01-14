@@ -36,7 +36,7 @@ function UploadPartner {
     }
 
     if ($businessIdentities.Count -eq 0) {
-        throw "At least one business identity must be supplied"
+        throw "Cannot upload Partner to Azure Integration Account '$Name' because at least one business identity must be supplied"
     }
 
     $existingPartner = $null

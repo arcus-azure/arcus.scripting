@@ -28,13 +28,44 @@ function UploadAgreement {
     Write-Host "Uploading agreement '$agreementName' into the Integration Account '$Name'"
 
     $agreementType = $agreementData.properties.agreementType
+    if ($agreementType -eq $null -or $agreementType -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the agreement type is empty"
+    }
+
     $hostPartner = $agreementData.properties.hostPartner
+    if ($hostPartner -eq $null -or $hostPartner -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the host partner is empty"
+    }
+
     $hostIdentityQualifier = $agreementData.properties.hostIdentity.qualifier
+    if ($hostIdentityQualifier -eq $null -or $hostIdentityQualifier -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the host identity qualifier is empty"
+    }
+
     $hostIdentityQualifierValue = $agreementData.properties.hostIdentity.value
-    $guestPartner = $agreementData.properties.guestPartner    
+    if ($hostIdentityQualifierValue -eq $null -or $hostIdentityQualifierValue -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the host identity value is empty"
+    }
+
+    $guestPartner = $agreementData.properties.guestPartner   
+    if ($guestPartner -eq $null -or $guestPartner -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the guest partner is empty"
+    }
+
     $guestIdentityQualifier = $agreementData.properties.guestIdentity.qualifier
+    if ($guestIdentityQualifier -eq $null -or $guestIdentityQualifier -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the guest identity qualifier is empty"
+    }
+
     $guestIdentityQualifierValue = $agreementData.properties.guestIdentity.value
+    if ($guestIdentityQualifierValue -eq $null -or $guestIdentityQualifierValue -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the guest identity value is empty"
+    }
+
     $agreementContent = $agreementData.properties.content | ConvertTo-Json -Depth 20 -Compress
+    if ($agreementContent -eq $null -or $agreementContent -eq 'null' -or $agreementContent -eq '') {
+        throw "Cannot upload Agreement to Azure Integration Account '$Name' because the agreement content is empty"
+    }
 
     $existingAgreement = $null
     try {
