@@ -34,7 +34,7 @@ function global:Get-AzSqlDatabaseVersion ($params, $schema = "dbo") {
     return $version
 }
 
-function global:AssertDatabaseVersion ($row, [DatabaseVersion]$expectedVersion) {
+function global:AssertDatabaseVersion ($row, [DatabaseVersion] $expectedVersion) {
     [convert]::ToInt32($row.ItemArray[0]) | Should -Be $expectedVersion.MajorVersionNumber
     [convert]::ToInt32($row.ItemArray[1]) | Should -Be $expectedVersion.MinorVersionNumber
     [convert]::ToInt32($row.ItemArray[2]) | Should -Be $expectedVersion.PatchVersionNumber
@@ -55,7 +55,7 @@ function global:Create-MigrationTable ($params) {
     Run-AzSqlCommand $params $createTable
 }
 
-function global:TableExists($params, $tableName) {
+function global:TableExists ($params, $tableName) {
     $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$tableName' AND TABLE_CATALOG = '$($params.Database)'"
 
     if ($result.ItemArray[0] -eq 1) {
@@ -65,7 +65,7 @@ function global:TableExists($params, $tableName) {
     return $false
 }
 
-function global:ColumnExists($params, $tableName, $columnName) {
+function global:ColumnExists ($params, $tableName, $columnName) {
     $result = Run-AzSqlQuery $params "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tableName' AND COLUMN_NAME = '$columnName'"
 
     if ($result.ItemArray[0] -eq 1) {
@@ -73,6 +73,27 @@ function global:ColumnExists($params, $tableName, $columnName) {
     }
 
     return $false
+}
+
+function global:Retry-Function ($func, $retryCount = 5, $retryIntervalSeconds = 1) {
+    $attempt = 0
+    $success = $false
+    $result = $null
+    do {
+        try {
+            $result = & $func
+            $success = $true
+        } catch {
+            if (++$attempt -eq $retryCount) {
+                Write-Error "Task failed. With all $attempt attempts. Error: $($Error[0])"
+                throw
+            }
+
+            Write-Host "Task failed. Attempt $attempt. Will retry in next $retryIntervalSeconds seconds. Error: $($Error[0])" -ForegroundColor Yellow
+            Start-Sleep -Seconds $retryIntervalSeconds
+        }
+    } until ($success)
+    return $result
 }
 
 
@@ -102,6 +123,16 @@ InModuleScope Arcus.Scripting.Sql {
                 Invoke-Sqlcmd @params -Query "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
             } catch {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database.
+            }
+
+            $tables = Retry-Function { Run-AzSqlQuery $params "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" }
+            foreach ($table in $tables) {
+                try {
+                    Write-Verbose "Drop table $($table.TABLE_NAME) in SQL database"
+                    Drop-AzSqlDatabaseTable $params $table.TABLE_NAME $table.TABLE_SCHEMA
+                } catch {
+                    Write-Warning "Could not drop table '$($table.TABLE_NAME)' due to an exception: $($_.Exception.Message)"
+                }
             }
         }
         AfterEach {
