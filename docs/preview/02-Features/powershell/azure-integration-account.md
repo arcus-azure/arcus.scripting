@@ -406,12 +406,7 @@ PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -N
 **Agreement JSON Example**
 The agreement definition is the JSON representation of your agreement, this JSON definition can also be viewed in the Azure Portal using https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-enterprise-integration-agreements#edit-an-agreement and clicking on `Edit as JSON`.
 
-<details>
-    <summary>An example of this file</summary>
-    <div>
-        show file
-    </div>
-</details>
+An example of this file:
 ```json
 {
   "name": "MyAgreement",
