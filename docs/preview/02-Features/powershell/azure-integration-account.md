@@ -8,6 +8,10 @@ layout: default
 This module provides the following capabilities:
 - [Uploading schemas into an Azure Integration Account](#uploading-schemas-into-an-azure-integration-account)
 - [Uploading maps into an Azure Integration Account](#uploading-maps-into-an-azure-integration-account)
+- [Uploading assemblies into an Azure Integration Account#](#uploading-assemblies-into-an-azure-integration-account)
+- [Uploading certificates into an Azure Integration Account#](#uploading-certificates-into-an-azure-integration-account)
+- [Uploading partners into an Azure Integration Account#](#uploading-partners-into-an-azure-integration-account)
+- [Uploading agreements into an Azure Integration Account#](#uploading-agreements-into-an-azure-integration-account)
 
 ## Installation
 
@@ -325,8 +329,12 @@ PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Nam
 
 **Partner JSON Example**
 The partner definition is the JSON representation of your partner, this JSON definition can also be viewed in the Azure Portal using https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-enterprise-integration-partners#edit-a-partner and clicking on `Edit as JSON`.
-An example of this file:
-```
+
+<details>
+
+  <summary>An example of this file</summary>
+
+```json
 {
   "name": "MyPartner",
   "properties": {
@@ -348,3 +356,218 @@ An example of this file:
   }
 }
 ```
+
+</details>
+
+
+## Uploading agreements into an Azure Integration Account
+
+Upload/update a single, or multiple agreements into an Azure Integration Account.
+
+| Parameter              | Mandatory   | Description                                                                                                                                  |
+| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the agreements are to be uploaded/updated.                                                |
+| `AgreementFilePath`    | conditional | The full path of a agreement that should be uploaded/updated. (_Mandatory if `AgreementsFolder` has not been specified_).                          |
+| `AgreementsFolder`     | conditional | The path to a directory containing all agreements that should be uploaded/updated. (_Mandatory if `AgreementFilePath` has not been specified_).    |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the agreements before uploading/updating.                                                          |
+
+**Example**  
+
+Uploading a *single agreement* into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementFilePath "C:\Agreements\MyAgreement.json"
+# Uploading agreement 'MyAgreement' into the Azure Integration Account 'my-integration-account'
+# Agreement 'MyAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
+```
+
+Uploading a *single agreement* into an Integration Account and set add a prefix to the name of the agreement within the Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementFilePath "C:\Agreements\MyAgreement.json" -ArtifactsPrefix 'dev-'
+# Uploading agreement 'dev-MyAgreement' into the Azure Integration Account 'my-integration-account'
+# Agreement 'dev-MyAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
+```
+
+Uploading *all agreements* located in a specific folder into an Integration Account.  
+```powershell
+PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementsFolder "C:\Agreements"
+# Uploading agreement 'MyFirstAgreement' into the Azure Integration Account 'my-integration-account'
+# Agreement 'MyFirstAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+# Uploading agreement 'MySecondAgreement' into the Azure Integration Account 'my-integration-account'
+# Agreement 'MySecondAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+```
+
+Uploading *all agreements* located in a specific folder into an Integration Account and set add a prefix to the name of the agreements.
+```powershell
+PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementsFolder "C:\Agreements" -ArtifactsPrefix 'dev-'
+# Uploading agreement 'dev-MyFirstAgreement' into the Azure Integration Account 'my-integration-account'
+# Agreement 'dev-MyFirstAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+# Uploading agreement 'dev-MySecondAgreement' into the Azure Integration Account 'my-integration-account'
+# Agreement 'dev-MySecondAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
+# ----------
+```
+
+**Agreement JSON Example**
+The agreement definition is the JSON representation of your agreement, this JSON definition can also be viewed in the Azure Portal using https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-enterprise-integration-agreements#edit-an-agreement and clicking on `Edit as JSON`.
+
+<details>
+
+  <summary>An example of this file</summary>
+
+```json
+{
+  "name": "MyAgreement",
+  "properties": {
+    "hostPartner": "Partner1",
+    "guestPartner": "Partner2",
+    "hostIdentity": {
+      "qualifier": "1",
+      "value": "12345"
+    },
+    "guestIdentity": {
+      "qualifier": "1",
+      "value": "98765"
+    },
+    "agreementType": "AS2",
+    "content": {
+      "aS2": {
+        "receiveAgreement": {
+          "protocolSettings": {
+            "messageConnectionSettings": {
+              "ignoreCertificateNameMismatch": false,
+              "supportHttpStatusCodeContinue": true,
+              "keepHttpConnectionAlive": true,
+              "unfoldHttpHeaders": true
+            },
+            "acknowledgementConnectionSettings": {
+              "ignoreCertificateNameMismatch": false,
+              "supportHttpStatusCodeContinue": false,
+              "keepHttpConnectionAlive": false,
+              "unfoldHttpHeaders": false
+            },
+            "mdnSettings": {
+              "needMDN": false,
+              "signMDN": false,
+              "sendMDNAsynchronously": false,
+              "dispositionNotificationTo": "http://localhost",
+              "signOutboundMDNIfOptional": false,
+              "sendInboundMDNToMessageBox": true,
+              "micHashingAlgorithm": "SHA1"
+            },
+            "securitySettings": {
+              "overrideGroupSigningCertificate": false,
+              "enableNRRForInboundEncodedMessages": false,
+              "enableNRRForInboundDecodedMessages": false,
+              "enableNRRForOutboundMDN": false,
+              "enableNRRForOutboundEncodedMessages": false,
+              "enableNRRForOutboundDecodedMessages": false,
+              "enableNRRForInboundMDN": false
+            },
+            "validationSettings": {
+              "overrideMessageProperties": false,
+              "encryptMessage": false,
+              "signMessage": false,
+              "compressMessage": false,
+              "checkDuplicateMessage": false,
+              "interchangeDuplicatesValidityDays": 5,
+              "checkCertificateRevocationListOnSend": false,
+              "checkCertificateRevocationListOnReceive": false,
+              "encryptionAlgorithm": "DES3",
+              "signingAlgorithm": "Default"
+            },
+            "envelopeSettings": {
+              "messageContentType": "text/plain",
+              "transmitFileNameInMimeHeader": false,
+              "fileNameTemplate": "%FILE().ReceivedFileName%",
+              "suspendMessageOnFileNameGenerationError": true,
+              "autogenerateFileName": false
+            },
+            "errorSettings": {
+              "suspendDuplicateMessage": false,
+              "resendIfMDNNotReceived": false
+            }
+          },
+          "senderBusinessIdentity": {
+            "qualifier": "1",
+            "value": "9876"
+          },
+          "receiverBusinessIdentity": {
+            "qualifier": "1",
+            "value": "1234"
+          }
+        },
+        "sendAgreement": {
+          "protocolSettings": {
+            "messageConnectionSettings": {
+              "ignoreCertificateNameMismatch": false,
+              "supportHttpStatusCodeContinue": true,
+              "keepHttpConnectionAlive": true,
+              "unfoldHttpHeaders": true
+            },
+            "acknowledgementConnectionSettings": {
+              "ignoreCertificateNameMismatch": false,
+              "supportHttpStatusCodeContinue": false,
+              "keepHttpConnectionAlive": false,
+              "unfoldHttpHeaders": false
+            },
+            "mdnSettings": {
+              "needMDN": false,
+              "signMDN": false,
+              "sendMDNAsynchronously": false,
+              "dispositionNotificationTo": "http://localhost",
+              "signOutboundMDNIfOptional": false,
+              "sendInboundMDNToMessageBox": true,
+              "micHashingAlgorithm": "SHA1"
+            },
+            "securitySettings": {
+              "overrideGroupSigningCertificate": false,
+              "enableNRRForInboundEncodedMessages": false,
+              "enableNRRForInboundDecodedMessages": false,
+              "enableNRRForOutboundMDN": false,
+              "enableNRRForOutboundEncodedMessages": false,
+              "enableNRRForOutboundDecodedMessages": false,
+              "enableNRRForInboundMDN": false
+            },
+            "validationSettings": {
+              "overrideMessageProperties": false,
+              "encryptMessage": false,
+              "signMessage": false,
+              "compressMessage": false,
+              "checkDuplicateMessage": false,
+              "interchangeDuplicatesValidityDays": 5,
+              "checkCertificateRevocationListOnSend": false,
+              "checkCertificateRevocationListOnReceive": false,
+              "encryptionAlgorithm": "DES3",
+              "signingAlgorithm": "Default"
+            },
+            "envelopeSettings": {
+              "messageContentType": "text/plain",
+              "transmitFileNameInMimeHeader": false,
+              "fileNameTemplate": "%FILE().ReceivedFileName%",
+              "suspendMessageOnFileNameGenerationError": true,
+              "autogenerateFileName": false
+            },
+            "errorSettings": {
+              "suspendDuplicateMessage": false,
+              "resendIfMDNNotReceived": false
+            }
+          },
+          "senderBusinessIdentity": {
+            "qualifier": "1",
+            "value": "1234"
+          },
+          "receiverBusinessIdentity": {
+            "qualifier": "1",
+            "value": "9876"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+</details>
