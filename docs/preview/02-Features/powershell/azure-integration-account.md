@@ -329,7 +329,11 @@ PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Nam
 
 **Partner JSON Example**
 The partner definition is the JSON representation of your partner, this JSON definition can also be viewed in the Azure Portal using https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-enterprise-integration-partners#edit-a-partner and clicking on `Edit as JSON`.
-An example of this file:
+
+<details>
+
+  <summary>An example of this file</summary>
+
 ```json
 {
   "name": "MyPartner",
@@ -352,6 +356,9 @@ An example of this file:
   }
 }
 ```
+
+</details>
+
 
 ## Uploading agreements into an Azure Integration Account
 
