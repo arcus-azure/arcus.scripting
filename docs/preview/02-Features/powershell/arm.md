@@ -28,7 +28,7 @@ By using this script, you can inject external files inside your ARM template.
 | --------- | --------- | ----------------------------------------------------------------------------------------------- |
 | `Path`    | no        | The file path to the ARM template to inject the external files into  (default: `$PSScriptRoot`) |
 
-**Usage**
+### Usage
 Annotating content to inject:
 
 ```json
@@ -54,7 +54,7 @@ Injecting the content:
 PS> Inject-ArmContent -Path deploy\arm-template.json
 ```
 
-**Injection Instructions**
+### Injection Instructions
 It is possible to supply injection instructions in the injection annotation, this allows you to add specific functionality to the injection. These are the available injection instructions:
 
 | Injection Instruction | Description                                                                                                 |
@@ -72,5 +72,5 @@ ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars
 ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
 ```
 
-**Recommendations**
+### Recommendations
 Always inject the content in your ARM template as soon as possible, preferably during release build that creates the artifact
