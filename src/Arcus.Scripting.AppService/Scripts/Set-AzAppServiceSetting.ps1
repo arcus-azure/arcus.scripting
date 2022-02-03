@@ -39,7 +39,7 @@ foreach ($setting in $appServiceSettings)
 $existingSettings[$AppServiceSettingName] = $AppServiceSettingValue
 
 # Update the App Service Settings
-Write-Host "Setting the application setting '$AppServiceSettingName'."
+Write-Host "Setting the application setting '$AppServiceSettingName'"
 try 
 {
     $updatedAppService = Set-AzWebApp -ResourceGroupName $ResourceGroupName -Name $appServiceName -AppSettings $existingSettings
