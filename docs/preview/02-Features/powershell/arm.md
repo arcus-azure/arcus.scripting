@@ -55,7 +55,7 @@ PS> Inject-ArmContent -Path deploy\arm-template.json
 ```
 
 **Injection Instructions**
-It is possible to supply injection instructions in the injection annotation, these are the available injection instructions:
+It is possible to supply injection instructions in the injection annotation, this allows you to add specific functionality to the injection. These are the available injection instructions:
 | Injection Instruction | Description                                                                                                 |
 | --------------------- | ----------------------------------------------------------------------------------------------------------- |
 | `EscapeJson`          | Replace double quotes not preceded by a backslash with escaped quotes                                       |
