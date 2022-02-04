@@ -37,6 +37,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.All", "Arcu
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.IntegrationAccount", "Arcus.Scripting.IntegrationAccount\Arcus.Scripting.IntegrationAccount.pssproj", "{AFCEA845-372E-4000-85FD-5672D7551527}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.AppService", "Arcus.Scripting.AppService\Arcus.Scripting.AppService.pssproj", "{342747E9-6406-4DA8-B238-37335ADBA79C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{AFCEA845-372E-4000-85FD-5672D7551527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFCEA845-372E-4000-85FD-5672D7551527}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFCEA845-372E-4000-85FD-5672D7551527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

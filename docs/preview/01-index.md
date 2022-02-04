@@ -19,6 +19,7 @@ For more granular packages we recommend reading the documentation.
 # Features
 
 * Automate Azure API Management tasks ([powershell](features/powershell/azure-api-management))
+* Automate Azure App Service tasks ([powershell](features/powershell/azure-app-service))
 * Automate Azure Data Factory tasks ([powershell](features/powershell/azure-data-factory))
 * Automate Azure DevOps tasks ([powershell](features/powershell/azure-devops))
 * Automate Azure Integration Account tasks ([powershell](features/powershell/azure-integration-account))
