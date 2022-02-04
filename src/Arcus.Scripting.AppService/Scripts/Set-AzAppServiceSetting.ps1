@@ -18,7 +18,7 @@ Write-Host "Extracting the existing application settings from Azure App Service"
 $appServiceSettings = $appService.SiteConfig.AppSettings
 
 $existingSettings = @{ }
-Write-Verbose "Existing application settings:"
+Write-Verbose "Existing Azure App Service application settings:"
 foreach ($setting in $appServiceSettings) {
     $existingSettings[$setting.Name] = $setting.value
     if ($PrintSettingValuesIfVerbose) {
