@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace> Arcus.Scripting.AppService</RootNamespace>
     <AssemblyName> Arcus.Scripting.AppService</AssemblyName>
-    <Name>Arcus.Scripting.ApiManagement</Name>
+    <Name>Arcus.Scripting.AppService</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

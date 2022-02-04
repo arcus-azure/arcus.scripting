@@ -4,13 +4,8 @@ InModuleScope Arcus.Scripting.AppService {
     Describe "Arcus Azure App Service integration tests" {
         BeforeEach {
             $filePath = "$PSScriptRoot\appsettings.json"
-            [string]$appsettings = Get-Content $filePath
-            $config = ConvertFrom-Json $appsettings
-            
-            $clientSecret = ConvertTo-SecureString $config.Arcus.ServicePrincipal.ClientSecret -AsPlainText -Force
-            $pscredential = New-Object -TypeName System.Management.Automation.PSCredential($config.Arcus.ServicePrincipal.ClientId, $clientSecret)
-            Disable-AzContextAutosave -Scope Process
-            Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.TenantId -ServicePrincipal
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+            & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "Setting an Azure App Service application setting" {
             It "Try to set an application setting to unexisting App Service fails" {
@@ -39,8 +34,7 @@ InModuleScope Arcus.Scripting.AppService {
                 $actual | Should -Not -BeNullOrEmpty 
 
                 $settings = @{ }
-                foreach ($setting in $actual.SiteConfig.AppSettings) 
-                {
+                foreach ($setting in $actual.SiteConfig.AppSettings) {
                     $settings[$setting.Name] = $setting.value
                 }               
                 $settings[$AppServiceSettingName] | Should -BeExactly $AppServiceSettingValue
