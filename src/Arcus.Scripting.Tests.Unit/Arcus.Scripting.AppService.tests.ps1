@@ -22,7 +22,7 @@ InModuleScope Arcus.Scripting.AppService {
                 # Assert
                 Assert-VerifiableMock
             }
-            It "Creating a new setting succeeds" {
+            It "Creating a new application setting and setting its value succeeds" {
                 # Arrange
                 $SubscriptionId = [guid]::NewGuid()
                 $ResourceGroupName = "rg-infrastructure"
@@ -59,7 +59,7 @@ InModuleScope Arcus.Scripting.AppService {
                 Assert-MockCalled Get-AzWebApp -Times 1
                 Assert-MockCalled Set-AzWebApp -Times 1
             }
-            It "Updating an new setting succeeds" {
+            It "Updating an existing application setting and setting its value succeeds" {
                 # Arrange
                 $SubscriptionId = [guid]::NewGuid()
                 $ResourceGroupName = "rg-infrastructure"
