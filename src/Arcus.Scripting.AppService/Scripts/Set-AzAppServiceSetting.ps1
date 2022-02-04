@@ -13,12 +13,12 @@ if ($appService -eq $null) {
     throw "No App Service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
 }
 
-Write-Host "Azure App service has been found for name '$AppServiceName'"
+Write-Host "Azure App service has been found for name '$AppServiceName' in the resource group '$ResourceGroupName'"
 Write-Host "Extracting the existing application settings from Azure App Service"
 $appServiceSettings = $appService.SiteConfig.AppSettings
 
 $existingSettings = @{ }
-Write-Verbose "Existing app settings:"
+Write-Verbose "Existing application settings:"
 foreach ($setting in $appServiceSettings) {
     $existingSettings[$setting.Name] = $setting.value
     if ($PrintSettingValuesIfVerbose) {
@@ -36,20 +36,14 @@ try
     $updatedAppService = Set-AzWebApp -ResourceGroupName $ResourceGroupName -Name $appServiceName -AppSettings $existingSettings
 
     Write-Verbose "Updated Azure App Service settings:"
-    foreach($setting in $updatedAppService.SiteConfig.AppSettings) 
-    {
-        if($PrintSettingValuesIfVerbose)
-        {
+    foreach ($setting in $updatedAppService.SiteConfig.AppSettings) {
+        if ($PrintSettingValuesIfVerbose) {
             Write-Verbose "$($setting.Name): $($setting.Value)"
-        }
-        else
-        {
+        } else {
             Write-Verbose "$($setting.Name)"
         }
     }
-}
-catch 
-{
+} catch {
     throw "The Azure App Service settings could not be updated. Details: $($_.Exception.Message)"
 }
 
