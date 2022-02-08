@@ -28,7 +28,7 @@ By using this script, you can inject external files inside your ARM template.
 | --------- | --------- | ----------------------------------------------------------------------------------------------- |
 | `Path`    | no        | The file path to the ARM template to inject the external files into  (default: `$PSScriptRoot`) |
 
-**Usage**
+### Usage
 Annotating content to inject:
 
 ```json
@@ -54,5 +54,23 @@ Injecting the content:
 PS> Inject-ArmContent -Path deploy\arm-template.json
 ```
 
-**Recommendations**
+### Injection Instructions
+It is possible to supply injection instructions in the injection annotation, this allows you to add specific functionality to the injection. These are the available injection instructions:
+
+| Injection Instruction | Description                                                                                                 |
+| --------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `EscapeJson`          | Replace double quotes not preceded by a backslash with escaped quotes                                       |
+| `ReplaceSpecialChars` | Replace newline characters with literal equivalents, tabs with spaces and `"` with `\"`                     |
+| `InjectAsJsonObject`  | Tests if the content is valid JSON and makes sure the content is injected without surrounding double quotes |
+
+Usage of multiple injection instructions is supported as well, for example if you need both the `EscapeJson` and `ReplaceSpecialChars` functionality.
+
+Some examples are:
+```powershell
+${ FileToInject = ".\Parent Directory\file.xml" }
+${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars }
+${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
+```
+
+### Recommendations
 Always inject the content in your ARM template as soon as possible, preferably during release build that creates the artifact
