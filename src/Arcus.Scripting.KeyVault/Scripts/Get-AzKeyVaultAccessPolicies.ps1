@@ -44,5 +44,4 @@ $armAccessPoliciesParameter = [pscustomobject]@{
     list = $armAccessPolicies
 }
 
-Write-Host "Current access policies: $armAccessPoliciesParameter"
 return $armAccessPoliciesParameter
