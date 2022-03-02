@@ -22,7 +22,7 @@ For more granular packages we recommend reading the documentation.
 * Automate Azure Data Factory tasks ([powershell](./02-Features/powershell/azure-data-factory.md))
 * Automate Azure DevOps tasks ([powershell](./02-Features/powershell/azure-devops.md))
 * Automate Azure Key Vault tasks ([powershell](./02-Features/powershell/azure-key-vault.md))
-* Automate Azure Logic Apps tasks ([powershell](./02-Features/powershell/azure-logic-apps)]
+* Automate Azure Logic Apps tasks ([powershell](./02-Features/powershell/azure-logic-apps.md)]
 * Automate Azure Resource Manager (ARM) tasks ([powershell](./02-Features/powershell/arm.md))
 * Automate Azure Storage tasks ([powershell](./02-Features/powershell/azure-storage.md))
 
