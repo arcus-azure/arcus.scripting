@@ -6,7 +6,9 @@ layout: default
 # Azure App Service
 
 This module provides the following capabilities:
-- [Set an app setting within an Azure App Service](#set-an-app-setting-within-an-azure-app-service)
+- [Azure App Service](#azure-app-service)
+  - [Installation](#installation)
+  - [Set an app setting within an Azure App Service](#set-an-app-setting-within-an-azure-app-service)
 
 ## Installation
 

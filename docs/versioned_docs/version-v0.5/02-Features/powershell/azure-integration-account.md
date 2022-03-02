@@ -4,13 +4,13 @@ layout: default
 ---
 
 # Azure Integration Account
-
 This module provides the following capabilities:
-- [Uploading schemas into an Azure Integration Account](#uploading-schemas-into-an-azure-integration-account)
-- [Uploading maps into an Azure Integration Account](#uploading-maps-into-an-azure-integration-account)
+- [Azure Integration Account](#azure-integration-account)
+  - [Installation](#installation)
+  - [Uploading schemas into an Azure Integration Account](#uploading-schemas-into-an-azure-integration-account)
+  - [Uploading maps into an Azure Integration Account](#uploading-maps-into-an-azure-integration-account)
 
 ## Installation
-
 To have access to the following features, you have to import the module:
 
 ```powershell
@@ -18,7 +18,6 @@ PS> Install-Module -Name Arcus.Scripting.IntegrationAccount -RequiredVersion 0.5
 ```
 
 ## Uploading schemas into an Azure Integration Account
-
 Upload/update a single, or multiple schemas into an Azure Integration Account.
 
 | Parameter              | Mandatory   | Description                                                                                                                            |
@@ -87,7 +86,6 @@ PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name
 
 
 ## Uploading maps into an Azure Integration Account
-
 Upload/update a single, or multiple maps into an Azure Integration Account.
 
 | Parameter              | Mandatory   | Description                                                                                                                            |
@@ -118,7 +116,7 @@ PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'm
 Uploading a *single map* into an Integration Account and set add a prefix to the name of the schema within the Integration Account.  
 ```powershell
 PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapFilePath "C:\Maps\MyMap.xslt" -ArtifactsPrefix 'dev-'
-# Uploading smapchema 'dev-MyMap.xsd' into the Azure Integration Account 'my-integration-account'.
+# Uploading map 'dev-MyMap.xsd' into the Azure Integration Account 'my-integration-account'.
 # Map 'dev-MyMap.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'.
 ```
 

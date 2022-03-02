@@ -4,12 +4,15 @@ layout: default
 ---
 
 # ARM
-
 This module provides the following capabilities:
-- [Injecting content into an ARM template](#injecting-content-into-an-arm-template)
+- [ARM](#arm)
+  - [Installation](#installation)
+  - [Injecting content into an ARM template](#injecting-content-into-an-arm-template)
+    - [Usage](#usage)
+    - [Injection Instructions](#injection-instructions)
+    - [Recommendations](#recommendations)
 
 ## Installation
-
 To have access to the following features, you have to import the module:
 
 ```powershell
@@ -17,7 +20,6 @@ PS> Install-Module -Name Arcus.Scripting.ARM -RequiredVersion 0.4.0
 ```
 
 ## Injecting content into an ARM template
-
 In certain scenarios, you have to embed content into an ARM template to deploy it.
 
 However, the downside of it is that it's buried inside the template and tooling around it might be less ideal - An example of this is OpenAPI specifications you'd want to deploy.
