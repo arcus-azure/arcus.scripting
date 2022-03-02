@@ -30,7 +30,7 @@ function ExecuteStopType() {
             }            
         }
         ElseIf ($stopType -Match "None") {
-            Write-Host "Executing Stop 'None' => peforming no stop"
+            Write-Host "Executing Stop 'None' => performing no stop"
         }
         else {
             Write-Warning "StopType '$stopType' has no known implementation, doing nothing.." 
