@@ -3,7 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAc
 InModuleScope Arcus.Scripting.IntegrationAccount {
     Describe "Arcus Azure Integration Account integration tests" {
         BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.json"
+            $filePath = "$PSScriptRoot\appsettings.local.json"
             [string]$appsettings = Get-Content $filePath
             $config = ConvertFrom-Json $appsettings
             
@@ -704,7 +704,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $expectedCertificateName = $certificate.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
                 $subscriptionId = $config.Arcus.SubscriptionId
-                $keyName = "PrivateCertificateKey"
+                $keyName = "PrivateCertificateKey-$([System.Guid]::NewGuid())"
                 $keyVaultName = $config.Arcus.KeyVault.VaultName
                 $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
 
