@@ -737,7 +737,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $expectedCertificateName = $artifactsPrefix + $certificate.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
                 $subscriptionId = $config.Arcus.SubscriptionId
-                $keyName = 'PrivateCertificateKeyPrefix'
+                $keyName = "PrivateCertificateKeyPrefix-$([System.Guid]::NewGuid())"
                 $keyVaultName = $config.Arcus.KeyVault.VaultName
                 $keyVaultId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.KeyVault/vaults/$keyVaultName"
 
