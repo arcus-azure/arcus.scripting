@@ -6,10 +6,12 @@ layout: default
 # Azure Logic Apps
 
 This module provides the following capabilities:
-- [Disable an Azure Logic App](#disable-an-azure-logic-app)
-- [Enable an Azure Logic App](#enable-an-azure-logic-app)
-- [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
-- [Enabling Azure Logic Apps from configuration file](#enabling-azure-logic-apps-from-configuration-file)
+- [Azure Logic Apps](#azure-logic-apps)
+  - [Installation](#installation)
+  - [Disable an Azure Logic App](#disable-an-azure-logic-app)
+  - [Enable an Azure Logic App](#enable-an-azure-logic-app)
+  - [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
+  - [Enabling Azure Logic Apps from configuration file](#enabling-azure-logic-apps-from-configuration-file)
 
 ## Installation
 
@@ -21,7 +23,7 @@ PS> Install-Module -Name Arcus.Scripting.LogicApps
 
 ## Disable an Azure Logic App
 
-Using this script to enabel a specific Azure Logic App.  
+Using this script to enable a specific Azure Logic App.  
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -170,7 +172,7 @@ PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -Resou
 # Executing batch: Protocol Receiver(s)
 # ==========================
 # > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
-# Executing Check 'None' => peforming no check and executing stopType
+# Executing Check 'None' => performing no check and executing stopType
 
 # > Executing StopType 'Immediate' for Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
 # Attempting to disable rcv-shopping-order-ftp
@@ -219,7 +221,7 @@ PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -Resou
 # Executing batch: Protocol Receiver(s)
 # ==========================
 # > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
-# Executing Check 'None' => peforming no check and executing stopType
+# Executing Check 'None' => performing no check and executing stopType
 
 # > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
 # Attempting to disable la-cod-dev-we-rcv-shopping-order-ftp

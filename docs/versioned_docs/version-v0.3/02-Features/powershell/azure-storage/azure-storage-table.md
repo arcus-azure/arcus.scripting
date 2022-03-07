@@ -6,7 +6,9 @@ layout: default
 # Azure Storage - Tables
 
 This module provides the following capabilities:
-- [Creating a new table in an Azure Storage Account](#creating-a-new-table-in-an-azure-storage-account)
+- [Azure Storage - Tables](#azure-storage---tables)
+  - [Installation](#installation)
+  - [Creating a new table in an Azure Storage Account](#creating-a-new-table-in-an-azure-storage-account)
 
 ## Installation
 
@@ -39,7 +41,7 @@ PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin"
 With existing table and re-create:
 
 ```powershell
-PS> Create-AzStorageTable -ResourceGroupname "stock" -StorageAccountName "admin" -TableName "products" -Recreate
+PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -Recreate
 # Deleting existing table 'products' in the storage account 'admin'...
 # Creating table 'products' in the storage account 'admin'..
 ```

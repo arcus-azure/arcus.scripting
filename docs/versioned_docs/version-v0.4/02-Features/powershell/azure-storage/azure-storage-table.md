@@ -4,12 +4,12 @@ layout: default
 ---
 
 # Azure Storage - Tables
-
 This module provides the following capabilities:
-- [Creating a new table in an Azure Storage Account](#creating-a-new-table-in-an-azure-storage-account)
+- [Azure Storage - Tables](#azure-storage---tables)
+  - [Installation](#installation)
+  - [Creating a new table in an Azure Storage Account](#creating-a-new-table-in-an-azure-storage-account)
 
 ## Installation
-
 To have access to the following features, you have to import the module:
 
 ```powershell
@@ -17,7 +17,6 @@ PS> Install-Module -Name Arcus.Scripting.Storage.Table -RequiredVersion 0.4.0
 ```
 
 ## Creating a new table in an Azure Storage Account
-
 (Re)Create a Azure Table Storage within an Azure Storage Account.
 
 | Parameter            | Mandatory | Description                                                                                                     |

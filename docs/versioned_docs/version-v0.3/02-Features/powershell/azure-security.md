@@ -6,8 +6,10 @@ layout: default
 # Azure Security
 
 This module provides the following capabilities:
-- [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
-- [Retrieve the current Az Access token](#retrieve-the-current-az-access-token)
+- [Azure Security](#azure-security)
+  - [Installation](#installation)
+  - [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
+  - [Retrieve the current Az Access token](#retrieve-the-current-az-access-token)
 
 ## Installation
 
