@@ -8,7 +8,7 @@ if($resourceGroupName -eq '') {
     Write-Verbose "Looking for the Azure Key Vault with name '$keyVaultName'..."
     $keyVault = Get-AzKeyVault -VaultName $keyVaultName
 } else {
-    Write-Verbose "Looking for the Azure Key Vault with name '$keyVaultName' in resourcegroup '$resourceGroupName'.."
+    Write-Verbose "Looking for the Azure Key Vault with name '$keyVaultName' in resource group '$resourceGroupName'.."
     $keyVault = Get-AzKeyVault -VaultName $keyVaultName -ResourceGroupName $resourceGroupName
 }
 
