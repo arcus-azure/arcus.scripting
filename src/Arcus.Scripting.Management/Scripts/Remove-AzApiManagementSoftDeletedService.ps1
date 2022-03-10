@@ -26,7 +26,6 @@ Write-Host "API Management instance has been found for name '$Name' as a soft de
 
 Write-Host "Removing the soft deleted API Management instance '$Name'"
 try {
-    $location = ($deletedServices.value | Where-Object name -eq $Name).location
     $serviceId = ($deletedServices.value | Where-Object name -eq $Name).id
     $deleteUri = 'https://management.azure.com{0}?api-version=2021-08-01' -f $serviceId
     $removeService = Invoke-RestMethod -Method DELETE -Uri $deleteUri -Headers $authHeader
