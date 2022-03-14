@@ -3,12 +3,13 @@
     
     ${ fileToInject.xml }
     ${ FileToInject=file.xml }
+    ${ FileToInject=c:\file.xml }
     ${ FileToInject = ".\Parent Directory\file.xml" }
     ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars }
     ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
  #>
 
-param (
+ param (
     [string] $Path = $PSScriptRoot
 )
 
@@ -34,19 +35,20 @@ function InjectFile {
             throw "The file part '$filePart' of the injection instruction could not be parsed correctly"
         }
 
-        $relativePathOfFileToInject = $fileMatch.Groups["File"];
-        $fullPathOfFileToInject = Join-Path (Split-Path $filePath -Parent) $relativePathOfFileToInject
-        $fileToInjectIsFound = Test-Path -Path $fullPathOfFileToInject -PathType Leaf
-        if ($false -eq $fileToInjectIsFound) {
-            throw "No file can be found at '$fullPathofFileToInject'"
+        $pathOfFileToInject = $fileMatch.Groups["File"];
+        if (-not([System.IO.Path]::IsPathFullyQualified($pathOfFileToInject))){
+            $pathOfFileToInject = Join-Path (Split-Path $filePath -Parent) $pathOfFileToInject
+        }
+        if (-not(Test-Path -Path $pathOfFileToInject -PathType Leaf)) {
+            throw "No file can be found at '$pathOfFileToInject'"
         }
 
         # Inject content recursively first
-        InjectFile($fullPathOfFileToInject)
+        InjectFile($pathOfFileToInject)
 
-        Write-Host "`t Injecting content of $fullPathOfFileToInject into $filePath" 
+        Write-Host "`t Injecting content of $pathOfFileToInject into $filePath" 
 
-        $newString = Get-Content -Path $fullPathOfFileToInject -Raw
+        $newString = Get-Content -Path $pathOfFileToInject -Raw
 
         # XML declaration can only appear on the first line of an XML document, so remove when injecting
         $newString = $newString -replace '(<\?xml).+(\?>)(\r)?(\n)?', ""
@@ -116,7 +118,7 @@ $psScriptFileName = $MyInvocation.MyCommand.Name
 
 $PathIsFound = Test-Path -Path $Path
 if ($false -eq $PathIsFound) {
-    throw "Passed allong path '$Path' doesn't point to valid file path"
+    throw "Passed along path '$Path' doesn't point to valid file path"
 }
 
 Write-Host "Starting $psScriptFileName script on path $Path"
