@@ -83,6 +83,27 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 # The pipeline variable $variableName will be updated to value $variableValue as well, so it can be used in subsequent tasks of the current job. 
 ```
 
+This function is intended to be used from an Azure DevOps pipeline. Internally, it uses some predefined Azure DevOps variables.
+One of the environment variables that is used, is the the `SYSTEM_ACCESSTOKEN` variable.  However, due to safety reasons this variable is not available out-of-the box.
+To be able to use this variable, it must be explicitly added to the environment-variables.
+Note also that when you are using a Linux agent, you need to pass environment variables as these are not available. To be able to use the ArmOutputs environment variable, it must be explicitly added to the environment-variables.
+
+Example of how to use this function in an Azure DevOps pipeline:
+
+```yaml
+- task: PowerShell@2
+  displayName: 'Promote Azure resource outputs to variable group'
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    ArmOutputs: $(ArmOutputs)
+  inputs:
+    targetType: 'inline'
+    script: |
+      Install-Module -Name Arcus.Scripting.DevOps -Force
+
+      Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
+```
+
 ## Setting ARM outputs to Azure DevOps pipeline variables
 
 Sets the ARM outputs as variables to an Azure DevOps pipeline during the execution of the pipeline.
@@ -111,7 +132,8 @@ PS> Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName
 # ##vso[task.setvariable variable=my-variable]my-value
 ```
 
-This function is intended to be used from an Azure DevOps pipeline. Note that when you are using a Linux agent, you need to pass environment variables as these are not available out of the box. To be able to use the ArmOutputsEnvironmentVariableName, it must be explicitly added to the environment-variables.
+This function is intended to be used from an Azure DevOps pipeline.
+Note that when you are using a Linux agent, you need to pass environment variables as these are not available. To be able to use the ArmOutputs environment variable, it must be explicitly added to the environment-variables.
 
 Example of how to use this function in an Azure DevOps pipeline:
 
@@ -145,7 +167,7 @@ PS> Save-AzDevOpsBuild -ProjectId $(System.TeamProjectId) -BuildId $(Build.Build
 # Information on them can be found here: https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
 ```
 
-This function is intended to be used from an Azure DevOps pipeline.  Internally, it uses some predefined Azure DevOps variables.
+This function is intended to be used from an Azure DevOps pipeline. Internally, it uses some predefined Azure DevOps variables.
 One of the environment variables that is used, is the the `SYSTEM_ACCESSTOKEN` variable.  However, due to safety reasons this variable is not available out-of-the box.
 To be able to use this variable, it must be explicitly added to the environment-variables.
 
