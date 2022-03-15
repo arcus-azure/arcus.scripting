@@ -49,6 +49,7 @@ Stores the Azure Resource Management (ARM) outputs in a variable group on Azure 
 | `UpdateVariablesForCurrentJob`      | no        | The switch to also set the variables in the ARM output as pipeline variables in the current running job |
 
 **Example**
+
 Without updating the variables in the current job running the pipeline:
 
 ```powershell
@@ -91,6 +92,7 @@ Sets the ARM outputs as variables to an Azure DevOps pipeline during the executi
 | `ArmOutputsEnvironmentVariableName` | no        | The name of the environment variable where the ARM outputs are located (default: `ArmOutputs`) |
 
 **Example**
+
 With default `ArmOutputs` environment variable containing: `"my-variable": "my-value"`:
 
 ```powershell
@@ -107,6 +109,23 @@ PS> Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName
 # Get ARM outputs from 'MyArmOutputs' environment variable
 # The pipeline variable my-variable will be updated to value my-value, so it can be used in subsequent tasks of the current job. 
 # ##vso[task.setvariable variable=my-variable]my-value
+```
+
+This function is intended to be used from an Azure DevOps pipeline. Note that when you are using a Linux agent, you need to pass environment variables as these are not available out of the box. To be able to use the ArmOutputsEnvironmentVariableName, it must be explicitly added to the environment-variables.
+
+Example of how to use this function in an Azure DevOps pipeline:
+
+```yaml
+- task: PowerShell@2
+  displayName: 'Promote Azure resource outputs to pipeline variables'
+  env:
+    ArmOutputs: $(ArmOutputs)
+  inputs:
+    targetType: 'inline'
+    script: |
+      Install-Module -Name Arcus.Scripting.DevOps -Force
+
+      Set-AzDevOpsArmOutputsToPipelineVariables
 ```
 
 ## Save Azure DevOps build
