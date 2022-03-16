@@ -95,7 +95,7 @@ Example of how to use this function in an Azure DevOps pipeline:
   displayName: 'Promote Azure resource outputs to variable group'
   env:
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-    ArmOutputs: $(ArmOutputs)
+    ArmOutputs: $(ArmOutputs) # only needs to be set for Linux agents
   inputs:
     targetType: 'inline'
     script: |
@@ -146,7 +146,7 @@ Example of how to use this function in an Azure DevOps pipeline:
 - task: PowerShell@2
   displayName: 'Promote Azure resource outputs to pipeline variables'
   env:
-    ArmOutputs: $(ArmOutputs)
+    ArmOutputs: $(ArmOutputs) # only needs to be set for Linux agents
   inputs:
     targetType: 'inline'
     script: |
