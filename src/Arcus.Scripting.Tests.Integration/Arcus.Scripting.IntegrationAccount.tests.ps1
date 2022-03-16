@@ -723,7 +723,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 } finally {
                     Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
                     Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
-                    Start-Sleep -Seconds 5
+                    Start-Sleep -Seconds 30
                     Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -InRemovedState
                 }
             }
@@ -756,7 +756,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 } finally {
                     Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
                     Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
-                    Start-Sleep -Seconds 5
+                    Start-Sleep -Seconds 30
                     Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -InRemovedState
                 }
             }
