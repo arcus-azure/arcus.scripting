@@ -104,6 +104,11 @@ Example of how to use this function in an Azure DevOps pipeline:
       Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 ```
 
+In DevOps, below permissions need to be set on your variable group in order to make the 'Promote Azure resource outputs to variable group' task succeed:
+
+- Project Collection Build Service (`your devops org name`) - Administrator
+- `your devops project name` Build Service (`your devops org name`) - Administrator
+
 ## Setting ARM outputs to Azure DevOps pipeline variables
 
 Sets the ARM outputs as variables to an Azure DevOps pipeline during the execution of the pipeline.
