@@ -84,9 +84,9 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 ```
 
 This function is intended to be used from an Azure DevOps pipeline. Internally, it uses some predefined Azure DevOps variables.
-One of the environment variables that is used, is the the `SYSTEM_ACCESSTOKEN` variable.  However, due to safety reasons this variable is not available out-of-the box.
+One of the environment variables that is used, is the the `SYSTEM_ACCESSTOKEN` variable. However, due to safety reasons this variable is not available out-of-the box.
 To be able to use this variable, it must be explicitly added to the environment-variables.
-Note also that when you are using a Linux agent, you need to pass environment variables as these are not available. To be able to use the ArmOutputs environment variable, it must be explicitly added to the environment-variables.
+> Note that when you are using a Linux agent, you need to pass environment variables as these are not available. To be able to use the ArmOutputs environment variable, it must be explicitly added to the environment-variables.
 
 Example of how to use this function in an Azure DevOps pipeline:
 
@@ -138,7 +138,7 @@ PS> Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName
 ```
 
 This function is intended to be used from an Azure DevOps pipeline.
-Note that when you are using a Linux agent, you need to pass environment variables as these are not available. To be able to use the ArmOutputs environment variable, it must be explicitly added to the environment-variables.
+> Note that when you are using a Linux agent, you need to pass environment variables as these are not available. To be able to use the ArmOutputs environment variable, it must be explicitly added to the environment-variables.
 
 Example of how to use this function in an Azure DevOps pipeline:
 
@@ -173,7 +173,7 @@ PS> Save-AzDevOpsBuild -ProjectId $(System.TeamProjectId) -BuildId $(Build.Build
 ```
 
 This function is intended to be used from an Azure DevOps pipeline. Internally, it uses some predefined Azure DevOps variables.
-One of the environment variables that is used, is the the `SYSTEM_ACCESSTOKEN` variable.  However, due to safety reasons this variable is not available out-of-the box.
+One of the environment variables that is used, is the the `SYSTEM_ACCESSTOKEN` variable. However, due to safety reasons this variable is not available out-of-the box.
 To be able to use this variable, it must be explicitly added to the environment-variables.
 
 Example of how to use this function in an Azure DevOps pipeline:
