@@ -64,10 +64,12 @@ It is possible to supply injection instructions in the injection annotation, thi
 | `InjectAsJsonObject`  | Tests if the content is valid JSON and makes sure the content is injected without surrounding double quotes |
 
 Usage of multiple injection instructions is supported as well, for example if you need both the `EscapeJson` and `ReplaceSpecialChars` functionality.
+The reference to the file to inject can either be a path relative to the 'parent' file or an absolute path.
 
 Some examples are:
 ```powershell
 ${ FileToInject = ".\Parent Directory\file.xml" }
+${ FileToInject = "c:\Parent Directory\file.xml" }
 ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars }
 ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
 ```
