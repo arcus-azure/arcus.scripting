@@ -5,6 +5,7 @@
     ${ FileToInject=file.xml }
     ${ FileToInject=c:\file.xml }
     ${ FileToInject = ".\Parent Directory\file.xml" }
+    ${ FileToInject = "c:\Parent Directory\file.xml" }
     ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars }
     ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
  #>
