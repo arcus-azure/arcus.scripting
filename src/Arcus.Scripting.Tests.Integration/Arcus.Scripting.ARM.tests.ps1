@@ -39,7 +39,7 @@ InModuleScope Arcus.Scripting.ARM {
                 It "Replaces absolute file path with file contents as JSON object (windows)" {
                     # Arrange
                     $armTemplateFile = "$PSScriptRoot\Files\arm-template-object-absolutepath (windows).json"
-                    $armTemplateDirectory = (Get-Item $armTemplateFile).Parent.FullName
+                    $armTemplateDirectory = Split-Path $armTemplateFile -Parent
                     ((Get-Content -path $armTemplateFile -Raw) -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory) | Set-Content -Path $armTemplateFile
                     try {
                         # Act
@@ -74,7 +74,7 @@ InModuleScope Arcus.Scripting.ARM {
                 It "Replaces absolute file path with file contents as JSON object (linux)" {
                     # Arrange
                     $armTemplateFile = "$PSScriptRoot\Files\arm-template-object-absolutepath (linux).json"
-                    $armTemplateDirectory = (Get-Item $armTemplateFile).Parent.FullName
+                    $armTemplateDirectory = Split-Path $armTemplateFile -Parent
                     ((Get-Content -path $armTemplateFile -Raw) -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory) | Set-Content -Path $armTemplateFile
                     try {
                         # Act
