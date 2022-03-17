@@ -18,12 +18,12 @@ For more granular packages we recommend reading the documentation.
 
 # Features
 
-* Automate Azure API Management tasks ([powershell](features/powershell/azure-api-management))
-* Automate Azure Data Factory tasks ([powershell](features/powershell/azure-data-factory))
-* Automate Azure DevOps tasks ([powershell](features/powershell/azure-devops))
-* Automate Azure Key Vault tasks ([powershell](features/powershell/azure-key-vault))
-* Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
-* Automate Azure Storage tasks ([powershell](features/powershell/azure-storage))
+* Automate Azure API Management tasks ([powershell](./02-Features/powershell/azure-api-management.md))
+* Automate Azure Data Factory tasks ([powershell](./02-Features/powershell/azure-data-factory.md))
+* Automate Azure DevOps tasks ([powershell](./02-Features/powershell/azure-devops.md))
+* Automate Azure Key Vault tasks ([powershell](./02-Features/powershell/azure-key-vault.md))
+* Automate Azure Resource Manager (ARM) tasks ([powershell](./02-Features/powershell/arm.md))
+* Automate Azure Storage tasks ([powershell](./02-Features/powershell/azure-storage.md))
 
 # License
 This is licensed under The MIT License (MIT). Which means that you can use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the web application. But you always need to state that Codit is the original author of this web application.

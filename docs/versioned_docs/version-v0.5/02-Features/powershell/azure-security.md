@@ -6,9 +6,11 @@ layout: default
 # Azure Security
 
 This module provides the following capabilities:
-- [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
-- [Retrieving the current Az Access token](#retrieving-the-current-az-access-token)
-- [Granting a resource access to all resources within a specific resource group](#granting-a-resource-access-to-all-resources-within-a-specific-resource-group)
+- [Azure Security](#azure-security)
+  - [Installation](#installation)
+  - [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
+  - [Retrieving the current Az Access token](#retrieving-the-current-az-access-token)
+  - [Granting a resource access to all resources within a specific resource group](#granting-a-resource-access-to-all-resources-within-a-specific-resource-group)
 
 ## Installation
 
@@ -102,7 +104,7 @@ This function allows you to assign an Azure built-in role to a resource upon a r
 **Usage**
 
 ```powershell
-PS> New-AzResourceGroupRoleAssignment -TargetResourceGroupName "to-gain-access-resource-group" -ResourceGroupName "to-assign-role-resource-group" -ResourceName "to-assign-resource" -RoleAssignmentDefinition "Contributer"
-# Assigning Contributer-rights to the 'to-assign-role-resource' in the resource group 'to-assign-resource-group to gain access to the 'to-gain-access-resource-group'
-# Contributer access granted!
+PS> New-AzResourceGroupRoleAssignment -TargetResourceGroupName "to-gain-access-resource-group" -ResourceGroupName "to-assign-role-resource-group" -ResourceName "to-assign-resource" -RoleAssignmentDefinition "Contributor"
+# Assigning Contributor-rights to the 'to-assign-role-resource' in the resource group 'to-assign-resource-group to gain access to the 'to-gain-access-resource-group'
+# Contributor access granted!
 ```

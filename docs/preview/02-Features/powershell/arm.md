@@ -6,7 +6,12 @@ layout: default
 # ARM
 
 This module provides the following capabilities:
-- [Injecting content into an ARM template](#injecting-content-into-an-arm-template)
+- [ARM](#arm)
+  - [Installation](#installation)
+  - [Injecting content into an ARM template](#injecting-content-into-an-arm-template)
+    - [Usage](#usage)
+    - [Injection Instructions](#injection-instructions)
+    - [Recommendations](#recommendations)
 
 ## Installation
 
@@ -55,6 +60,7 @@ PS> Inject-ArmContent -Path deploy\arm-template.json
 ```
 
 ### Injection Instructions
+
 It is possible to supply injection instructions in the injection annotation, this allows you to add specific functionality to the injection. These are the available injection instructions:
 
 | Injection Instruction | Description                                                                                                 |

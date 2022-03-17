@@ -4,13 +4,13 @@ layout: default
 ---
 
 # Azure Storage for file shares
-
 This module provides the following capabilities:
-- [Creating a new folder on an Azure file share](#creating-a-folder-on-an-azure-file-share)
-- [Copying files to a folder on an Azure file share](#copying-files-to-a-folder-on-an-azure-file-share)
+- [Azure Storage for file shares](#azure-storage-for-file-shares)
+  - [Installation](#installation)
+  - [Creating a folder on an Azure file share](#creating-a-folder-on-an-azure-file-share)
+  - [Copying files to a folder on an Azure file share](#copying-files-to-a-folder-on-an-azure-file-share)
 
 ## Installation
-
 To have access to the following features, you have to import the module:
 
 ```powershell
@@ -18,7 +18,6 @@ PS> Install-Module -Name Arcus.Scripting.Storage.FileShare -RequiredVersion 0.4.
 ```
 
 ## Creating a folder on an Azure file share
-
 Creates a new folder within the Azure File Share resource.
 
 | Parameter            | Mandatory | Description                                                             |
@@ -37,7 +36,6 @@ PS> Create-AzFileShareStorageFolder -ResourceGroupName "shipping-resources" -Sto
 ```
 
 ## Copying files to a folder on an Azure file share
-
 Upload a set of files from a given folder, optionally matching a specific file mask, to an Azure File Share.
 
 | Parameter               | Mandatory | Description                                                                                                            |
@@ -47,7 +45,7 @@ Upload a set of files from a given folder, optionally matching a specific file m
 | `FileShareName`         | yes       |  The name of the Azure File Share.                                                                                     |
 | `SourceFolderPath`      | yes       | The file directory where the targeted files are located.                                                               |
 | `DestinationFolderName` | yes       | The name of the destination folder on the Azure File Share where the targeted files will be uploaded.                  |
-| `FileMask`              | no        | The file mask that filters out the targetted files at the source folder that will be uploaded to the Azure File Share. |
+| `FileMask`              | no        | The file mask that filters out the targeted files at the source folder that will be uploaded to the Azure File Share. |
 
 **Example**
 

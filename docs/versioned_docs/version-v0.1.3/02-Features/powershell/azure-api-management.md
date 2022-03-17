@@ -6,11 +6,12 @@ layout: default
 # Azure API Management
 
 This module provides the following capabilities:
-- [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
-- [Importing a policy to a product in the Azure API Management instance](#importing-a-policy-to-a-product-in-the-azure-api-management-instance)
-- [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
-- [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
-- [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
+- [Azure API Management](#azure-api-management)
+  - [Installation](#installation)
+  - [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
+  - [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
+  - [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
+  - [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
 
 ## Installation
 
@@ -85,6 +86,7 @@ PS> Import-AzApiManagementApiPolicy -ResourceGroup $ResourceGroup -ServiceName $
 ```
 
 ## Importing a policy to an operation in the Azure API Management instance
+
 Imports a policy from a file to an API operation in Azure API Management.
 
 | Parameter           | Mandatory | Description                                                     |
