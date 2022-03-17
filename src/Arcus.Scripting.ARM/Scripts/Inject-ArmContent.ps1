@@ -15,6 +15,16 @@ param (
     [string] $Path = $PSScriptRoot
 )
 
+# [System.IO.Path]::IsPathFullyQualified() is not supported in PS 5.1 (as opposed to PS 7)
+function IsPathFullyQualified {
+    param(
+        [string] $pathToCheck
+    )
+
+    $rootInfo = [System.IO.Path]::GetPathRoot($pathToCheck)
+    return -not([string]::IsNullOrWitespace($rootInfo))
+}
+
 function InjectFile {
     param(
         [string] $filePath
@@ -38,7 +48,7 @@ function InjectFile {
         }
 
         $pathOfFileToInject = $fileMatch.Groups["File"];
-        if (-not([System.IO.Path]::IsPathFullyQualified($pathOfFileToInject))){
+        if (-not(IsPathFullyQualified($pathOfFileToInject))){
             $pathOfFileToInject = Join-Path (Split-Path $filePath -Parent) $pathOfFileToInject
         }
         if (-not(Test-Path -Path $pathOfFileToInject -PathType Leaf)) {
