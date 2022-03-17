@@ -78,7 +78,10 @@ InModuleScope Arcus.Scripting.ARM {
                     # Arrange
                     $armTemplateFile = "$PSScriptRoot\Files\arm-template-object-absolutepath (linux).json"
                     $armTemplateDirectory = Split-Path $armTemplateFile -Parent
-                    ((Get-Content -path $armTemplateFile -Raw) -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory) | Set-Content -Path $armTemplateFile
+                    $armTemplate = Get-Content -path $armTemplateFile -Raw
+                    $armTemplate = $armTemplate -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory
+                    $armTemplate | Set-Content -Path $armTemplateFile
+
                     try {
                         # Act
                         Inject-ArmContent -Path $armTemplateFile
