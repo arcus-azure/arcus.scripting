@@ -723,8 +723,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 } finally {
                     Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
                     Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
-                    Start-Sleep -Seconds 5
-                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -InRemovedState
                 }
             }
             It "Create a single private certificate, with prefix, in an Integration Account succeeds" {
@@ -756,8 +754,6 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 } finally {
                     Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
                     Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
-                    Start-Sleep -Seconds 5
-                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -InRemovedState
                 }
             }
         }
