@@ -22,7 +22,7 @@ function IsPathFullyQualified {
     )
 
     $rootInfo = [System.IO.Path]::GetPathRoot($pathToCheck)
-    return -not([string]::IsNullOrWitespace($rootInfo))
+    return -not([string]::IsNullOrEmpty($rootInfo))
 }
 
 function InjectFile {
