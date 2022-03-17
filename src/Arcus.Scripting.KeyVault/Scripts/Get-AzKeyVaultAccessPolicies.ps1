@@ -32,9 +32,14 @@ if($keyVault) {
              storage = $keyVaultAccessPolicy.PermissionsToStorage
           }
 
+          Write-Verbose "Access Policy successfully retrieved for TenantId: $($armAccessPolicy.tenantId) and ObjectId: $($armAccessPolicy.ObjectId)"
+          Write-Verbose ($armAccessPolicyPermissions | Format-list | Out-String) 
+
           $armAccessPolicy | Add-Member -MemberType NoteProperty -Name permissions -Value $armAccessPolicyPermissions
           $armAccessPolicies += $armAccessPolicy
-       }   
+       }       
+       
+        Write-Host "Successfully retrieved Access Policies"
     }    
 } else {
     Write-Warning "Azure Key Vault '$keyVaultName' could not be found, please check if the provided vault name and/or resource group name is correct."
