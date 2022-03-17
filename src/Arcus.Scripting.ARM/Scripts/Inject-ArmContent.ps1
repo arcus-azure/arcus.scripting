@@ -10,7 +10,8 @@
     ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
  #>
 
- param (
+param (
+
     [string] $Path = $PSScriptRoot
 )
 
