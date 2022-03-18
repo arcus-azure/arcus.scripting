@@ -52,8 +52,8 @@ function InjectFile {
         }
 
         $fullPathOfFileToInject = Get-FullyQualifiedChildFilePath -ParentFilePath $filePath -ChildFilePath $fileMatch.Groups["File"]
-        if (-not(Test-Path -Path $pathOfFileToInject -PathType Leaf)) {
-            throw "No file can be found at '$pathOfFileToInject'"
+        if (-not(Test-Path -Path $fullPathOfFileToInject -PathType Leaf)) {
+            throw "No file can be found at '$fullPathOfFileToInject'"
         }
 
         # Inject content recursively first
