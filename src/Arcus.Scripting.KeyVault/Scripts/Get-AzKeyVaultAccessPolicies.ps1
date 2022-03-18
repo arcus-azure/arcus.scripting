@@ -32,7 +32,7 @@ if($keyVault) {
              storage = $keyVaultAccessPolicy.PermissionsToStorage
           }
 
-          Write-Verbose "Access Policy successfully retrieved for TenantId: $($armAccessPolicy.tenantId) and ObjectId: $($armAccessPolicy.ObjectId)"
+          Write-Verbose "Azure Key Vault access policy successfully retrieved for TenantId: $($armAccessPolicy.tenantId) and ObjectId: $($armAccessPolicy.ObjectId)"
           Write-Verbose ($armAccessPolicyPermissions | Format-list | Out-String) 
 
           $armAccessPolicy | Add-Member -MemberType NoteProperty -Name permissions -Value $armAccessPolicyPermissions
