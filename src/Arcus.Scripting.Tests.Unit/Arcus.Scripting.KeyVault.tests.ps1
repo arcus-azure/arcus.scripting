@@ -22,7 +22,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                 Mock Get-AzKeyVault { return [pscustomobject]@{ accessPolicies = @($accessPolicy) }  }
                 
                 # Act
-                $accessPoliciesParameter = Get-AzKeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name"
+                $accessPoliciesParameter = Get-AzKeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name" -verbose
                 
                 # Assert
                 $accessPolicies = $accessPoliciesParameter.list
