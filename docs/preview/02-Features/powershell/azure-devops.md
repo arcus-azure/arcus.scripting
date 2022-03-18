@@ -101,7 +101,8 @@ Example of how to use this function in an Azure DevOps pipeline:
   inputs:
     targetType: 'inline'
     script: |
-      Install-Module -Name Arcus.Scripting.DevOps -Force
+      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+      Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 
       Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 ```
@@ -154,7 +155,8 @@ Example of how to use this function in an Azure DevOps pipeline:
   inputs:
     targetType: 'inline'
     script: |
-      Install-Module -Name Arcus.Scripting.DevOps -Force
+      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+      Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 
       Set-AzDevOpsArmOutputsToPipelineVariables
 ```
@@ -192,7 +194,8 @@ Example of how to use this function in an Azure DevOps pipeline:
     targetType: 'inline'
     pwsh: true
     script: |
-      Install-Module -Name Arcus.Scripting.DevOps -Force
+      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+      Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 
       $project = "$(System.TeamProjectId)"
       $buildId = $(Build.BuildId)
