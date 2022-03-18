@@ -18,7 +18,6 @@ param (
 function Get-FullyQualifiedChildFilePath {
     param(
         [parameter(mandatory=$true)] [string] $ParentFilePath,
-
         [parameter(mandatory=$true)] [string] $ChildFilePath
     )
 
@@ -52,17 +51,17 @@ function InjectFile {
             throw "The file part '$filePart' of the injection instruction could not be parsed correctly"
         }
 
-        $pathOfFileToInject = Get-FullyQualifiedChildFilePath -ParentFilePath $filePath -ChildFilePath $fileMatch.Groups["File"]
+        $fullPathOfFileToInject = Get-FullyQualifiedChildFilePath -ParentFilePath $filePath -ChildFilePath $fileMatch.Groups["File"]
         if (-not(Test-Path -Path $pathOfFileToInject -PathType Leaf)) {
             throw "No file can be found at '$pathOfFileToInject'"
         }
 
         # Inject content recursively first
-        InjectFile($pathOfFileToInject)
+        InjectFile($fullPathOfFileToInject)
 
-        Write-Host "`t Injecting content of $pathOfFileToInject into $filePath" 
+        Write-Host "`t Injecting content of $fullPathOfFileToInject into $filePath" 
 
-        $newString = Get-Content -Path $pathOfFileToInject -Raw
+        $newString = Get-Content -Path $fullPathOfFileToInject -Raw
 
         # XML declaration can only appear on the first line of an XML document, so remove when injecting
         $newString = $newString -replace '(<\?xml).+(\?>)(\r)?(\n)?', ""
