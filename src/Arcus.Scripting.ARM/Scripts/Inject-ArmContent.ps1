@@ -11,7 +11,6 @@
  #>
 
 param (
-
     [string] $Path = $PSScriptRoot
 )
 
