@@ -15,14 +15,19 @@ param (
     [string] $Path = $PSScriptRoot
 )
 
-# [System.IO.Path]::IsPathFullyQualified() is not supported in PS 5.1 (as opposed to PS 7)
-function IsPathFullyQualified {
+function Get-FullyQualifiedChildFilePath {
     param(
-        [string] $pathToCheck
+        [parameter(mandatory=$true)] [string] $ParentFilePath,
+
+        [parameter(mandatory=$true)] [string] $ChildFilePath
     )
 
-    $rootInfo = [System.IO.Path]::GetPathRoot($pathToCheck)
-    return -not([string]::IsNullOrEmpty($rootInfo))
+    $parentDirectoryPath = Split-Path $ParentFilePath -Parent
+    # Note: in case of a fully qualified (i.e. absolute) child path the Combine-function discards the parent directory path;
+    #  otherwise the relative child path is combined with the parent directory
+    $combinedPath = [System.IO.Path]::Combine($parentDirectoryPath, $ChildFilePath)
+    $fullPath = [System.IO.Path]::GetFullPath($combinedPath)
+    return $fullPath
 }
 
 function InjectFile {
@@ -47,10 +52,7 @@ function InjectFile {
             throw "The file part '$filePart' of the injection instruction could not be parsed correctly"
         }
 
-        $pathOfFileToInject = $fileMatch.Groups["File"];
-        if (-not(IsPathFullyQualified($pathOfFileToInject))){
-            $pathOfFileToInject = Join-Path (Split-Path $filePath -Parent) $pathOfFileToInject
-        }
+        $pathOfFileToInject = Get-FullyQualifiedChildFilePath -ParentFilePath $filePath -ChildFilePath $fileMatch.Groups["File"]
         if (-not(Test-Path -Path $pathOfFileToInject -PathType Leaf)) {
             throw "No file can be found at '$pathOfFileToInject'"
         }
