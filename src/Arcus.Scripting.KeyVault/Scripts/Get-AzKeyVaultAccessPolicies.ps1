@@ -39,7 +39,7 @@ if($keyVault) {
           $armAccessPolicies += $armAccessPolicy
        }       
        
-        Write-Host "Successfully retrieved Access Policies"
+        Write-Host "Successfully retrieved Azure Key Vault access policies"
     }    
 } else {
     Write-Warning "Azure Key Vault '$keyVaultName' could not be found, please check if the provided vault name and/or resource group name is correct."
