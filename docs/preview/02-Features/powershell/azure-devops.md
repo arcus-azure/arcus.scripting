@@ -88,7 +88,9 @@ This function is intended to be used from an Azure DevOps pipeline. Internally, 
 One of the environment variables that is used, is the `SYSTEM_ACCESSTOKEN` variable. However, due to safety reasons this variable is not available out-of-the box.
 To be able to use this variable, it must be explicitly added to the environment-variables.
 
-> ⚠ When you are using a Linux agent (which is recommended), you need to pass other environment variables that you want to use as well, because these are not available. To be able to use the `ArmOutputs` environment variable, it must be explicitly added to the environment-variables.
+> ⚠ When you are using a Linux agent, you need to pass other environment variables that you want to use as well, because these are not available. To be able to use the `ArmOutputs` environment variable, it must be explicitly added to the environment-variables.
+
+> We have seen a much better performance when using Linux agents, and would recommend using Linux agents when possible.
 
 Example of how to use this function in an Azure DevOps pipeline:
 
@@ -143,7 +145,9 @@ PS> Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName
 **Azure DevOps Example**
 This function is intended to be used from an Azure DevOps pipeline.
 
-> ⚠ When you are using a Linux agent (which is recommended), you need to pass other environment variables that you want to use as well, because these are not available. To be able to use the `ArmOutputs` environment variable, it must be explicitly added to the environment-variables.
+> ⚠ When you are using a Linux agent, you need to pass other environment variables that you want to use as well, because these are not available. To be able to use the `ArmOutputs` environment variable, it must be explicitly added to the environment-variables.
+
+> We have seen a much better performance when using Linux agents, and would recommend using Linux agents when possible.
 
 Example of how to use this function in an Azure DevOps pipeline:
 
