@@ -1,21 +1,23 @@
 Param(
-    [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required")
+    [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
+    [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+    [Parameter(Mandatory = $false)][string] $AccessToken = ""
 )
 
-$azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
-if (-not $azProfile.Accounts.Count) {
-    throw "Ensure you have logged in (Connect-AzAccount) before calling this function"
+if($SubscriptionId -eq "" -or $AccessToken -eq ""){
+    # Request accessToken in case the script contains records
+    $token = Get-AzCachedAccessToken
+
+    $AccessToken = $token.AccessToken
+    $SubscriptionId = $token.SubscriptionId
 }
-$currentAzureContext = Get-AzContext
-$subscriptionId = $currentAzureContext.Subscription.id
-$profileClient = New-Object Microsoft.Azure.Commands.ResourceManager.Common.RMProfileClient($azProfile)
-$token = $profileClient.AcquireAccessToken($currentAzureContext.Tenant.TenantId)
+
 $authHeader = @{
-   'Authorization'='Bearer ' + $token.AccessToken
+   'Authorization'='Bearer ' + $AccessToken
 }
 
 Write-Host "Checking if the API Management instance with name '$Name' is listed as a soft deleted service"
-$getUri = 'https://management.azure.com/subscriptions/{0}/providers/Microsoft.ApiManagement/deletedservices?api-version=2021-08-01' -f $subscriptionId
+$getUri = 'https://management.azure.com/subscriptions/{0}/providers/Microsoft.ApiManagement/deletedservices?api-version=2021-08-01' -f $SubscriptionId
 $deletedServices = (Invoke-RestMethod -Method GET -Uri $getUri -Headers $authHeader)
 
 if ($deletedServices.value.count -eq 0 -or ($deletedServices.value | Where-Object name -eq $Name).count -eq 0) {

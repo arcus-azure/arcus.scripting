@@ -25,9 +25,13 @@ PS> Install-Module -Name Arcus.Scripting.Management
 Removes a soft deleted API Management instance. 
 For more information on API Management and soft deletion see [here](https://docs.microsoft.com/en-us/azure/api-management/soft-delete#soft-delete-behavior).
 
-| Parameter    | Mandatory | Description                                                         |
-| ------------ | --------- | ------------------------------------------------------------------- |
-| `Name`       | yes       | The name of the API Management instance that has been soft deleted. |
+| Parameter        | Mandatory | Description                                                                       |
+| ---------------- | --------- | --------------------------------------------------------------------------------- |
+| `Name`           | yes       | The name of the API Management instance that has been soft deleted.               |
+| `SubscriptionId` | no        | The Id of the subscription containing the Azure Logic App.                        |
+|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext). |
+| `AccessToken`    | no        | The access token to be used to disable the Azure Logic App.                       |
+|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext). |
 
 **Example**
 ```powershell
@@ -43,9 +47,13 @@ PS> Remove-AzApiManagementSoftDeletedService -Name "my-apim"
 Restores a soft deleted API Management instance. 
 For more information on API Management and soft deletion see [here](https://docs.microsoft.com/en-us/azure/api-management/soft-delete#soft-delete-behavior).
 
-| Parameter    | Mandatory | Description                                                         |
-| ------------ | --------- | ------------------------------------------------------------------- |
-| `Name`       | yes       | The name of the API Management instance that has been soft deleted. |
+| Parameter        | Mandatory | Description                                                                       |
+| ---------------- | --------- | --------------------------------------------------------------------------------- |
+| `Name`           | yes       | The name of the API Management instance that has been soft deleted.               |
+| `SubscriptionId` | no        | The Id of the subscription containing the Azure Logic App.                        |
+|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext). |
+| `AccessToken`    | no        | The access token to be used to disable the Azure Logic App.                       |
+|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext). |
 
 **Example**
 ```powershell
