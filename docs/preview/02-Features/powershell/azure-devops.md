@@ -19,7 +19,8 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.DevOps
+PS> Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+PS> Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 ```
 
 ## Setting a variable in an Azure DevOps pipeline
