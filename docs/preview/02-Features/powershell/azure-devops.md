@@ -19,7 +19,8 @@ This module provides the following capabilities:
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.DevOps
+PS> Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+PS> Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 ```
 
 ## Setting a variable in an Azure DevOps pipeline
@@ -90,6 +91,8 @@ To be able to use this variable, it must be explicitly added to the environment-
 
 > ⚠ When you are using a Linux agent, you need to pass other environment variables that you want to use as well, because these are not available. To be able to use the `ArmOutputs` environment variable, it must be explicitly added to the environment-variables.
 
+> 💡 We have seen a much better performance when using Linux agents, and would recommend using Linux agents when possible.
+
 Example of how to use this function in an Azure DevOps pipeline:
 
 ```yaml
@@ -101,7 +104,8 @@ Example of how to use this function in an Azure DevOps pipeline:
   inputs:
     targetType: 'inline'
     script: |
-      Install-Module -Name Arcus.Scripting.DevOps -Force
+      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+      Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 
       Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 ```
@@ -144,6 +148,8 @@ This function is intended to be used from an Azure DevOps pipeline.
 
 > ⚠ When you are using a Linux agent, you need to pass other environment variables that you want to use as well, because these are not available. To be able to use the `ArmOutputs` environment variable, it must be explicitly added to the environment-variables.
 
+> 💡 We have seen a much better performance when using Linux agents, and would recommend using Linux agents when possible.
+
 Example of how to use this function in an Azure DevOps pipeline:
 
 ```yaml
@@ -154,7 +160,8 @@ Example of how to use this function in an Azure DevOps pipeline:
   inputs:
     targetType: 'inline'
     script: |
-      Install-Module -Name Arcus.Scripting.DevOps -Force
+      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+      Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 
       Set-AzDevOpsArmOutputsToPipelineVariables
 ```
@@ -192,7 +199,8 @@ Example of how to use this function in an Azure DevOps pipeline:
     targetType: 'inline'
     pwsh: true
     script: |
-      Install-Module -Name Arcus.Scripting.DevOps -Force
+      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+      Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClobber
 
       $project = "$(System.TeamProjectId)"
       $buildId = $(Build.BuildId)
