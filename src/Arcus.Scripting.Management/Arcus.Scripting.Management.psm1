@@ -7,16 +7,24 @@
 
  .Parameter Name
   The name of the Azure API Management instance which has been soft deleted and will be permanently removed.
+  
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
+  
+ .Parameter AccessToken
+  [Optional] The access token to be used to restore the Azure API Management instance.   
 #>
 function Remove-AzApiManagementSoftDeletedService {
     param(
-        [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required")
+        [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
+        [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+        [Parameter(Mandatory = $false)][string] $AccessToken = ""
     )
 
-    . $PSScriptRoot\Scripts\Remove-AzApiManagementSoftDeletedService.ps1 -Name $Name
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -AccessToken $AccessToken
 }
 
-Export-ModuleMember -Function Set-AzIntegrationAccountSchemas
+Export-ModuleMember -Function Remove-AzApiManagementSoftDeletedService
 
 <#
  .Synopsis
@@ -27,11 +35,21 @@ Export-ModuleMember -Function Set-AzIntegrationAccountSchemas
 
  .Parameter Name
   The name of the Azure API Management instance which has been soft deleted and will be restored.
+ 
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
+  
+ .Parameter AccessToken
+  [Optional] The access token to be used to restore the Azure API Management instance.   
 #>
 function Restore-AzApiManagementSoftDeletedService {
     param(
-        [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required")
+        [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
+        [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+        [Parameter(Mandatory = $false)][string] $AccessToken = ""
     )
 
-    . $PSScriptRoot\Scripts\Restore-AzApiManagementSoftDeletedService.ps1 -Name $Name
+    . $PSScriptRoot\Scripts\Restore-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -AccessToken $AccessToken
 }
+
+Export-ModuleMember -Function Restore-AzApiManagementSoftDeletedService
