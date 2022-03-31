@@ -19,7 +19,7 @@ $authHeader = @{
 }
 
 Write-Verbose "Checking if the API Management instance with name '$Name' is listed as a soft deleted service"
-$resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ApiVersion $ApiVersion
+$resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName
 $getUri = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/Microsoft.ApiManagement/deletedservices" + "?api-version=$ApiVersion"
 $deletedServices = (Invoke-RestMethod -Method GET -Uri $getUri -Headers $authHeader)
 

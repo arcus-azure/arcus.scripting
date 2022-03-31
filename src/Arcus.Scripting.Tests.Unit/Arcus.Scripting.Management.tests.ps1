@@ -1,4 +1,5 @@
 ﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Management -ErrorAction Stop
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 Import-Module -Name Az.Accounts -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Management {
