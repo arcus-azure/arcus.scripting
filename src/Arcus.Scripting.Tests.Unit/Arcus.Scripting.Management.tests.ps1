@@ -62,7 +62,12 @@ InModuleScope Arcus.Scripting.Management {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-RestMethod -Times 2
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Get'
+                }
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Delete'
+                }
             }
             It "Removing a soft deleted API Management should succeed" {
                 # Arrange
@@ -97,7 +102,12 @@ InModuleScope Arcus.Scripting.Management {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-RestMethod -Times 2
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Get'
+                }
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Delete'
+                }
             }
         }
         Context "Restore soft deleted Azure API Management service" {
@@ -158,7 +168,12 @@ InModuleScope Arcus.Scripting.Management {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-RestMethod -Times 2
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Get'
+                }
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Put'
+                }
             }
             It "Restoring a soft deleted API Management should succeed" {
                 # Arrange
@@ -193,7 +208,12 @@ InModuleScope Arcus.Scripting.Management {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-RestMethod -Times 2
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Get'
+                }
+                Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
+                   $Method -eq 'Put'
+                }
             }            
         }
     }
