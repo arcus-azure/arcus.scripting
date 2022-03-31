@@ -18,10 +18,12 @@ function Remove-AzApiManagementSoftDeletedService {
     param(
         [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
         [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
-        [Parameter(Mandatory = $false)][string] $AccessToken = ""
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+        [Parameter(Mandatory = $false)][string] $AccessToken = "",
+        [Parameter(Mandatory = $false)][string] $ApiVersion = "2021-08-01"
     )
 
-    . $PSScriptRoot\Scripts\Remove-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -EnvironmentName $EnvironmentName -AccessToken $AccessToken -ApiVersion $ApiVersion
 }
 
 Export-ModuleMember -Function Remove-AzApiManagementSoftDeletedService
@@ -46,10 +48,12 @@ function Restore-AzApiManagementSoftDeletedService {
     param(
         [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
         [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
-        [Parameter(Mandatory = $false)][string] $AccessToken = ""
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
+        [Parameter(Mandatory = $false)][string] $AccessToken = "",    
+        [Parameter(Mandatory = $false)][string] $ApiVersion = "2021-08-01"
     )
 
-    . $PSScriptRoot\Scripts\Restore-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Restore-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -EnvironmentName $EnvironmentName -AccessToken $AccessToken -ApiVersion $ApiVersion
 }
 
 Export-ModuleMember -Function Restore-AzApiManagementSoftDeletedService
