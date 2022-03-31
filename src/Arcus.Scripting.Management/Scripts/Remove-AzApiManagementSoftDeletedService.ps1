@@ -5,7 +5,7 @@ Param(
 )
 
 if($SubscriptionId -eq "" -or $AccessToken -eq ""){
-    # Request accessToken in case the script contains records
+    # Request accessToken in case the script contains no records
     $token = Get-AzCachedAccessToken
 
     $AccessToken = $token.AccessToken
