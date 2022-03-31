@@ -18,16 +18,9 @@ $authHeader = @{
    'Authorization'='Bearer ' + $AccessToken
 }
 
-Write-Verbose "Checking if the API Management instance with name '$Name' is listed as a soft deleted service"
 $resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName
-$getUri = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/Microsoft.ApiManagement/deletedservices" + "?api-version=$ApiVersion"
-$deletedServices = (Invoke-RestMethod -Method GET -Uri $getUri -Headers $authHeader)
 
-if ($deletedServices.value.count -eq 0 -or ($deletedServices.value | Where-Object name -eq $Name).count -eq 0) {
-    throw "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed"
-}
-
-Write-Host "API Management instance has been found for name '$Name' as a soft deleted service"
+$deletedServices = . $PSScriptRoot\Get-AzApiManagementSoftDeletedResources.ps1 -Name $Name -SubscriptionId $SubscriptionId -ResourceManagerUrl $resourceManagerUrl -AuthHeader $authHeader -ApiVersion $ApiVersion
 
 Write-Host "Removing the soft deleted API Management instance '$Name'"
 try {

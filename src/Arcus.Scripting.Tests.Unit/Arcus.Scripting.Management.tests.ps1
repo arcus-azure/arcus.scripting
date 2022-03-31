@@ -23,7 +23,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Remove-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed"
+                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
 
                 # Assert
                 Assert-VerifiableMock
@@ -129,7 +129,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Restore-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be restored"
+                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
 
                 # Assert
                 Assert-VerifiableMock
