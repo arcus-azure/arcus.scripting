@@ -16,7 +16,7 @@ $authHeader = @{
    'Authorization'='Bearer ' + $AccessToken
 }
 
-Write-Host "Checking if the API Management instance with name '$Name' is listed as a soft deleted service"
+Write-Verbose "Checking if the API Management instance with name '$Name' is listed as a soft deleted service"
 $getUri = 'https://management.azure.com/subscriptions/{0}/providers/Microsoft.ApiManagement/deletedservices?api-version=2021-08-01' -f $SubscriptionId
 $deletedServices = (Invoke-RestMethod -Method GET -Uri $getUri -Headers $authHeader)
 
