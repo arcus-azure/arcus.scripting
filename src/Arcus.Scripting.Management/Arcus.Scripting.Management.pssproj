@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.Management.psd1" />
     <Compile Include="Arcus.Scripting.Management.psm1" />
+    <Compile Include="Scripts\Get-AzApiManagementResourceManagementUrl.ps1" />
     <Compile Include="Scripts\Remove-AzApiManagementSoftDeletedService.ps1" />
     <Compile Include="Scripts\Restore-AzApiManagementSoftDeletedService.ps1" />
   </ItemGroup>
