@@ -1,7 +1,5 @@
 param(
-    [string][Parameter(Mandatory = $true)] $EnvironmentName,
-    [string][parameter(Mandatory = $true)] $SubscriptionId,
-    [string][Parameter(Mandatory = $true)] $ApiVersion
+    [Parameter(Mandatory = $true)][string] $EnvironmentName
 )
 
 
@@ -25,13 +23,11 @@ try{
     }
 
     $resourceManagerUrl = (Get-AzEnvironment -Name $EnvironmentName).ResourceManagerUrl
-    
-    $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/Microsoft.ApiManagement/deletedservices" + "?api-version=$ApiVersion"
 
-    return $fullUrl
+    return $resourceManagerUrl
 }
 catch {
-    Write-Warning "Failed to define the resource management endpoint."
+    Write-Warning "Failed to retrieve the resource management endpoint."
     $ErrorMessage = $_.Exception.Message
     Write-Warning "Error: $ErrorMessage"
 } 

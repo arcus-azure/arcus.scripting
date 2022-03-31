@@ -19,7 +19,8 @@ $authHeader = @{
 }
 
 Write-Verbose "Checking if the API Management instance with name '$Name' is listed as a soft deleted service"
-$getUri = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ApiVersion $ApiVersion
+$resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ApiVersion $ApiVersion
+$getUri = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/Microsoft.ApiManagement/deletedservices" + "?api-version=$ApiVersion"
 $deletedServices = (Invoke-RestMethod -Method GET -Uri $getUri -Headers $authHeader)
 
 if ($deletedServices.value.count -eq 0 -or ($deletedServices.value | Where-Object name -eq $Name).count -eq 0) {
@@ -39,7 +40,7 @@ try {
         };
     };
     $body = $data | ConvertTo-Json;
-    $putUri = 'https://management.azure.com{0}?api-version=2021-08-01' -f $serviceId
+    $putUri = "$resourceManagerUrl" + "$serviceId" + "?api-version=$ApiVersion"
     $restoreService = Invoke-RestMethod -Method PUT -Uri $putUri -ContentType 'application/json' -Headers $authHeader -Body $body
 } catch {
     throw "The soft deleted API Management instance '$Name' could not be restored. Details: $($_.Exception.Message)"
