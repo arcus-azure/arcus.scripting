@@ -49,7 +49,7 @@ InModuleScope Arcus.Scripting.Management {
                             })
                         };
                     } else {
-                        Throw 'some error'
+                        throw 'some error'
                     }
                 } -Verifiable
 
@@ -145,7 +145,7 @@ InModuleScope Arcus.Scripting.Management {
                             })
                         };
                     } else {
-                        Throw 'some error'
+                        throw 'some error'
                     }
                 } -Verifiable
 
