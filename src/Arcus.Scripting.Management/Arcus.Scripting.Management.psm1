@@ -10,12 +10,12 @@
   
  .Parameter SubscriptionId
   [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
-  
- .Parameter AccessToken
-  [Optional] The access token to be used to restore the Azure API Management instance.   
 
  .Parameter EnvironmentName
   [Optional] The Azure Cloud environment in which the Azure API Management instance resides.
+
+ .Parameter AccessToken
+  [Optional] The access token to be used to restore the Azure API Management instance.   
 
  .Parameter ApiVersion
   [Optional] The version of the api to be used.
@@ -24,12 +24,12 @@ function Remove-AzApiManagementSoftDeletedService {
     param(
         [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
         [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",    
         [Parameter(Mandatory = $false)][string] $AccessToken = "",
-        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",        
         [Parameter(Mandatory = $false)][string] $ApiVersion = "2021-08-01"
     )
 
-    . $PSScriptRoot\Scripts\Remove-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -AccessToken $AccessToken -EnvironmentName $EnvironmentName -ApiVersion $ApiVersion
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -EnvironmentName $EnvironmentName -AccessToken $AccessToken -ApiVersion $ApiVersion
 }
 
 Export-ModuleMember -Function Remove-AzApiManagementSoftDeletedService
@@ -47,11 +47,11 @@ Export-ModuleMember -Function Remove-AzApiManagementSoftDeletedService
  .Parameter SubscriptionId
   [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
   
- .Parameter AccessToken
-  [Optional] The access token to be used to restore the Azure API Management instance. 
-  
  .Parameter EnvironmentName
   [Optional] The Azure Cloud environment in which the Azure API Management instance resides.
+
+ .Parameter AccessToken
+  [Optional] The access token to be used to restore the Azure API Management instance. 
 
  .Parameter ApiVersion
   [Optional] The version of the api to be used.
@@ -59,13 +59,13 @@ Export-ModuleMember -Function Remove-AzApiManagementSoftDeletedService
 function Restore-AzApiManagementSoftDeletedService {
     param(
         [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
-        [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+        [Parameter(Mandatory = $false)][string] $SubscriptionId = "",        
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",     
         [Parameter(Mandatory = $false)][string] $AccessToken = "", 
-        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",           
         [Parameter(Mandatory = $false)][string] $ApiVersion = "2021-08-01"
     )
 
-    . $PSScriptRoot\Scripts\Restore-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -AccessToken $AccessToken -EnvironmentName $EnvironmentName -ApiVersion $ApiVersion
+    . $PSScriptRoot\Scripts\Restore-AzApiManagementSoftDeletedService.ps1 -Name $Name -SubscriptionId $SubscriptionId -EnvironmentName $EnvironmentName -AccessToken $AccessToken -ApiVersion $ApiVersion
 }
 
 Export-ModuleMember -Function Restore-AzApiManagementSoftDeletedService

@@ -1,8 +1,8 @@
 param(
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
     [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
+    [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
     [Parameter(Mandatory = $false)][string] $AccessToken = "",
-    [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",    
     [Parameter(Mandatory = $false)][string] $ApiVersion = "2021-08-01"
 )
 
