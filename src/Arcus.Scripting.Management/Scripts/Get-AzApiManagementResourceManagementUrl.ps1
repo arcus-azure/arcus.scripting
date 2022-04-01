@@ -2,7 +2,6 @@ param(
     [Parameter(Mandatory = $true)][string] $EnvironmentName
 )
 
-
 try {
     $resourceManagerUrl = ""   
     
@@ -30,5 +29,4 @@ catch {
     Write-Warning "Failed to retrieve the resource management endpoint"
     $ErrorMessage = $_.Exception.Message
     Write-Warning "Error: $ErrorMessage"
-} 
-
+}

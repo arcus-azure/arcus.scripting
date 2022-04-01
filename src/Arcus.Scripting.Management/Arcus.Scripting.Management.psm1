@@ -13,6 +13,12 @@
   
  .Parameter AccessToken
   [Optional] The access token to be used to restore the Azure API Management instance.   
+
+ .Parameter EnvironmentName
+  [Optional] The Azure Cloud environment in which the Azure API Management instance resides.
+
+ .Parameter ApiVersion
+  [Optional] The version of the api to be used.
 #>
 function Remove-AzApiManagementSoftDeletedService {
     param(
@@ -42,7 +48,13 @@ Export-ModuleMember -Function Remove-AzApiManagementSoftDeletedService
   [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
   
  .Parameter AccessToken
-  [Optional] The access token to be used to restore the Azure API Management instance.   
+  [Optional] The access token to be used to restore the Azure API Management instance. 
+  
+ .Parameter EnvironmentName
+  [Optional] The Azure Cloud environment in which the Azure API Management instance resides.
+
+ .Parameter ApiVersion
+  [Optional] The version of the api to be used.
 #>
 function Restore-AzApiManagementSoftDeletedService {
     param(
