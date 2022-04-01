@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the API Management instance is required"),
     [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
     [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
@@ -6,7 +6,7 @@ Param(
     [Parameter(Mandatory = $false)][string] $ApiVersion = "2021-08-01"
 )
 
-if($SubscriptionId -eq "" -or $AccessToken -eq ""){
+if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
     # Request accessToken in case the script contains no records
     $token = Get-AzCachedAccessToken
 

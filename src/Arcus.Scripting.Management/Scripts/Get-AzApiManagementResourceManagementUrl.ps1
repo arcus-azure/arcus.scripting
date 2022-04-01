@@ -3,18 +3,18 @@ param(
 )
 
 
-try{
+try {
     $resourceManagerUrl = ""   
     
     $environments = (Get-AzEnvironment).Name
-    if($EnvironmentName -notin $environments){
+    if ($EnvironmentName -notin $environments) {
         $supportedEnvironments = ""
 
-        foreach($env in $environments){
-            if($supportedEnvironments.Length -eq 0) {
+        foreach ($env in $environments) {
+            if ($supportedEnvironments.Length -eq 0) {
                 $supportedEnvironments += $env
             }
-            else{
+            else {
                 $supportedEnvironments += ", " + $env
             }
         }
@@ -27,7 +27,7 @@ try{
     return $resourceManagerUrl
 }
 catch {
-    Write-Warning "Failed to retrieve the resource management endpoint."
+    Write-Warning "Failed to retrieve the resource management endpoint"
     $ErrorMessage = $_.Exception.Message
     Write-Warning "Error: $ErrorMessage"
 } 

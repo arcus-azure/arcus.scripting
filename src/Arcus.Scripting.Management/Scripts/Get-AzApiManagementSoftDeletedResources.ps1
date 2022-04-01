@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $Name,
     [Parameter(Mandatory = $true)][string] $SubscriptionId,
     [Parameter(Mandatory = $true)][string] $ResourceManagerUrl,
