@@ -25,6 +25,7 @@ For more granular packages we recommend reading the documentation.
 * Automate Azure Integration Account tasks ([powershell](./02-Features/powershell/azure-integration-account.md))
 * Automate Azure Key Vault tasks ([powershell](./02-Features/powershell/azure-key-vault.md))
 * Automate Azure Logic Apps tasks ([powershell](./02-Features/powershell/azure-logic-apps.md))
+* Automate Azure Management tasks ([powershell](./02-Features/powershell/azure-management.md))
 * Automate Azure Resource Manager (ARM) tasks ([powershell](./02-Features/powershell/arm.md))
 * Automate Azure Security tasks ([powershell](./02-Features/powershell/azure-security.md))
 * Automate Azure SQL tasks ([powershell](./02-Features/powershell/azure-sql.md))
