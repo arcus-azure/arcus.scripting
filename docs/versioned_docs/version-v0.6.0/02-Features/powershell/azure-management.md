@@ -1,4 +1,3 @@
-
 ---
 title: "Azure Management"
 layout: default
