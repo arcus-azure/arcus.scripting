@@ -24,7 +24,7 @@ Create/update a single application setting within an Azure App Service.
 
 | Parameter                     | Mandatory   | Description                                                                                           |
 | ----------------------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`           | yes         | The name of the Azure resource group where the Azure Integration Account is located.                  |
+| `ResourceGroupName`           | yes         | The name of the Azure resource group where the Azure App Service is located.                          |
 | `AppServiceName`              | yes         | The name of the Azure App Service where the application setting will be created/updated.              |
 | `AppServiceSettingName`       | yes         | The name of the application setting that will be created/updated.                                     |
 | `AppServiceSettingValue`      | yes         | The value of the application setting that will be created/updated.                                    |
