@@ -24,7 +24,7 @@ Author = 'Arcus'
 CompanyName = ''
 
 # Copyright statement for this module
-Copyright = '(c) 2020 Arcus. All rights reserved.'
+Copyright = '(c) 2022 Arcus. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Scripts related to Azure API Management'
@@ -105,7 +105,7 @@ PrivateData = @{
         LicenseUri = 'https://github.com/arcus-azure/arcus.scripting/blob/master/LICENSE'
 
         # A URL to the main website for this project.
-        ProjectUri = 'https://github.com/arcus-azure/arcus.scripting'
+        ProjectUri = 'https://scripting.arcus-azure.net/'
 
         # A URL to an icon representing this module.
         IconUri = 'https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png'
