@@ -140,10 +140,20 @@ stages:
             parameters:
               repositoryName: '$(Repository)'
               releaseNotes: |
-                Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project).ARM)
+                Install the $(Project) packages that you need via PowerShell Gallery, for instance [$(Project).ARM](https://www.powershellgallery.com/packages/$(Project).ARM/$(Build.BuildNumber)):
                 ```shell
                 PS > Install-Module -Name $(Project).ARM --Version $(Build.BuildNumber)
                 ```
+                For a complete list of all $(Project) packages see the [documentation](https://scripting.arcus-azure.net/).
+                ## What's new?
+                ### Features
+                * Provide the capability to do something (#123)
+                ### Fixes / Changes
+                None.
+                ### Breaking Changes
+                None.
+                ### Removal
+                None.
           - powershell: |
               Import-Module PowerShellGet -Force
               Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
