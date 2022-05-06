@@ -9,52 +9,65 @@ Scripting with Microsoft Azure in a breeze.
 # Installation
 Easy to install it via PowerShell gallery:
 
-- **ARM**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.ARM
-```
-
+## Azure Web
 - **Azure API Management**
-
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.ApiManagement
 ```
 
-- **Azure Data Factory**
-
+## Azure DevOps
+- **ARM**
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.DataFactory
+PS> Install-Module -Name Arcus.Scripting.ARM
 ```
 
 - **Azure DevOps**
-
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.DevOps
 ```
 
+## Azure security
 - **Azure Key Vault**
-
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.KeyVault
 ```
 
+## Azure integration
 - **Azure Logic Apps**
-
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.LogicApps
 ```
 
-- **Azure SQL**
-
+- **Azure Data Factory**
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.SQL
+PS> Install-Module -Name Arcus.Scripting.DataFactory
 ```
 
-- **Azure Table Storage**
+## Azure storage
 
+- **Azure storage**
+```powershell
+PS> Install-Module -Name Arcus.Scripting.Storage.All
+```
+
+- **Azure Blob storage**
 ```powershell
 PS> Install-Module -Name Arcus.Scripting.Storage.Table
+```
+
+- **Azure FileShare storage**
+```powershell
+PS> Install-Module -Name Arcus.Scripting.Storage.FileShare
+```
+
+- **Azure Table storage**
+```powershell
+PS> Install-Module -Name Arcus.Scripting.Storage.Table
+```
+
+- **Azure SQL**
+```powershell
+PS> Install-Module -Name Arcus.Scripting.SQL
 ```
 
 For a more thorough overview, we recommend reading our [documentation](#documentation).
