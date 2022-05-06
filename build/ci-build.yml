@@ -12,7 +12,7 @@ pr:
   paths:
     include:
       - src/*
-      - build/ci-build.yml
+      - build/*
 
 parameters:
   - name: 'Package.Version.ManualTrigger'
