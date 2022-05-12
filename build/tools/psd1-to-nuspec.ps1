@@ -513,9 +513,6 @@ function New-NuSpecFile
             $dependencies
         </dependencies>
     </metadata>
-    <files>
-        <file src="..\..\README.md" target="" />
-    </files>
 </package>
 "@
 
