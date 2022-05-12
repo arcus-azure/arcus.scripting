@@ -15,6 +15,9 @@ Easy to install it via PowerShell gallery:
 PS> Install-Module -Name Arcus.Scripting.ApiManagement
 ```
 - **Azure App Service** ([docs](https://scripting.arcus-azure.net/Features/powershell/azure-app-service))
+```powershell
+PS> Install-Module -Name Arcus.Scripting.AppService
+```
 
 ## Azure DevOps
 - **ARM**  ([docs](https://scripting.arcus-azure.net/Features/powershell/arm))
