@@ -52,7 +52,7 @@ PS> Install-Module -Name Arcus.Scripting.Storage.All
 
 - **Azure Blob storage**
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.Storage.Table
+PS> Install-Module -Name Arcus.Scripting.Storage.Blob
 ```
 
 - **Azure FileShare storage**
