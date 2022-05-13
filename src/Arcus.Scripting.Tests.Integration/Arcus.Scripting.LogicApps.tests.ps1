@@ -1,382 +1,167 @@
-
+Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 
-Describe "Arcus" {
-    Context "LogicApps" {
-        InModuleScope Arcus.Scripting.LogicApps {
+function global:Create-AzLogicAppName () {
+     $id = [Guid]::NewGuid()
+     return "arcus-test-$($id)"
+}
+
+InModuleScope Arcus.Scripting.LogicApps {
+    Describe "Arcus Azure Logic Apps integration tests" {
+        BeforeEach {
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+            & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+
+            $oldLogicAppName = "arc-dev-we-rcv-http-trigger"
+            $workflowDefinition = '{
+              "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+              "actions": {},
+              "outputs": {},
+              "parameters": {},
+              "triggers": {
+                "manual": {
+                  "inputs": {
+                    "schema": {}
+                  },
+                  "kind": "Http",
+                  "type": "Request"
+                }
+              },
+              "contentVersion": "1.0.0.0"
+            }'
+        }
+        Context "Enabling Logic Apps without configuration" {
             It "Enables a specific Logic App"{
                 # Arrange
-                $resourceGroupName = "codit-arcus-scripting"
-                $logicAppName = "arc-dev-we-rcv-http-trigger"
-                Mock Write-Host {}
-                Mock Invoke-WebRequest -MockWith {
-                    return @{
-                        Content = ""
-                        StatusCode = "200"
-                    }
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
 
-                # Act
-                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Disabled
 
-                # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Host -Scope It -Exactly 1 -ParameterFilter { $Object -eq "Successfully enabled arc-dev-we-rcv-http-trigger" }
+                try {
+                    # Act
+                    Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Enabled"
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                }
             }
-            It "Fails to enable an unknown Azure Logic App" {
-                # Arrange
-                $resourceGroupName = "codit-arcus-scripting"
-                $logicAppName = "arc-dev-we-rcv-unknown-http"
-                $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to enable $logicAppName"  }
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
-                Mock Invoke-WebRequest -MockWith {
-                    $status = [System.Net.WebExceptionStatus]::ConnectionClosed
-                    $response = New-Object -type 'System.Net.HttpWebResponse'
-                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 404 -force
-                    $exception = New-Object System.Net.WebException $errorContent , $null, $status, $response
-        
-                    Throw $exception
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
-
-
-                # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to enable $logicAppName" }
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
-            }
+        }
+        Context "Disabling Logic Apps without configuration" {
             It "Disables a specific Logic App"{
                 # Arrange
-                $resourceGroupName = "codit-arcus-scripting"
-                $logicAppName = "arc-dev-we-rcv-http-trigger"
-                Mock Write-Host {}
-                Mock Invoke-WebRequest -MockWith {
-                    return @{
-                        Content = ""
-                        StatusCode = "200"
-                    }
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
 
-                # Act
-                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Enabled
 
-                # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Host -Scope It -Exactly 1 -ParameterFilter { $Object -eq "Successfully disabled arc-dev-we-rcv-http-trigger" }
+                try {
+                    # Act
+                    Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Disabled"
+                }
+                finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                }
             }
-            It "Fails to disable an unknown Azure Logic App" {
-                # Arrange
-                $resourceGroupName = "codit-arcus-scripting"
-                $logicAppName = "arc-dev-we-rcv-unknown-http"
-                $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to disable $logicAppName"  }
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
-                Mock Invoke-WebRequest -MockWith {
-                    $status = [System.Net.WebExceptionStatus]::ConnectionClosed
-                    $response = New-Object -type 'System.Net.HttpWebResponse'
-                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 404 -force
-                    $exception = New-Object System.Net.WebException $errorContent , $null, $status, $response
-        
-                    Throw $exception
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
-
-
-                # Assert
-                Assert-VerifiableMock
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to disable $logicAppName" }
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
-            }
-
-            It "Doesn't disable anything when the checkType is not recognized" {
-                # Arrange
-                Mock Get-AzLogicAppRunHistory {}
-                Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-unknownCheckType.json" -ResourceGroup "ignored-resource-group"
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
-            }
-            It "Doesn't enable anything when the stopType is not recognized" {
-                # Arrange
-                Mock Get-AzLogicAppRunHistory {}
-                Mock Enable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-unknownStopType.json" -ResourceGroupName "ignored-resource-group"
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Enable-AzLogicApp -Scope It -Exactly 0
-            }
-            It "Doesn't disable anything when the stopType is not recognized" {
-                # Arrange
-                Mock Get-AzLogicAppRunHistory {}
-                Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-unknownStopType.json" -ResourceGroupName "ignored-resource-group"
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
-            }
-            It "Doesn't enable anything when both checkType & stopType is 'None'" {
-                # Arrange
-                Mock Get-AzLogicAppRunHistory {}
-                Mock Enable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-none.json" -ResourceGroupName "ignored-resource-group"
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Enable-AzLogicApp -Scope It -Exactly 0
-            }
-            It "Doesn't disable anything when both checkType & stopType is 'None'" {
-                # Arrange
-                Mock Get-AzLogicAppRunHistory {}
-                Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-none.json" -ResourceGroupName "ignored-resource-group"
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
-            }
-            It "Enable logic app when stopType = Immediate" {
-                # Arrange
-               $resourceGroup = "my-resource-group"
-                Mock Get-AzLogicAppRunHistory {}
-                Mock Enable-AzLogicApp {
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $LogicAppName | Should -Be "snd-async"
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Enable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroup
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Enable-AzLogicApp -Scope It -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
-            }
+        }
+        Context "Disabling Logic Apps with configuration" {
             It "Disable logic app when stopType = Immediate" {
                 # Arrange
-               $resourceGroup = "my-resource-group"
-                Mock Get-AzLogicAppRunHistory {}
-                Mock Disable-AzLogicApp {
-                    $LogicAppName | Should -Be "snd-async"
-                    $ResourceGroupName | Should -Be $resourceGroup
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
 
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-immediateWithoutCheck.json" -ResourceGroupName $resourceGroup
+                $filePath = [System.IO.Path]::GetTempFileName()
+                $json = '[
+                  {
+                    "description": "Sender(s)",
+                    "checkType": "None",
+                    "stopType": "Immediate",
+                    "logicApps": [
+                      "' + $logicAppName + '"
+                    ]
+                  }
+                ]'
+                Set-Content $filePath $json
+               
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Enabled
 
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 0
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Times 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
+                try {
+                    # Act
+                    Disable-AzLogicAppsFromConfig -DeployFileName $filePath -ResourceGroupName $resourceGroupName
+
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Disabled"
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                    Remove-Item $filePath -Force
+
+                }
             }
-            It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on the running runs for unknown stopType" {
+        }
+        Context "Enabling Logic Apps with configuration" {
+            It "Enable logic app when stopType = Immediate" {
                 # Arrange
-                $resourceGroup = "my-resource-group"
-                $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker", "ord-sthp-harvest-order-doublechecker")
-                Mock Get-AzLogicAppRunHistory { 
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $Name | Should -BeIn $logicAppNames
-                    return @([pscustomobject]@{ Status = "Waiting" })
-                }
-                Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
+               
+                $filePath = [System.IO.Path]::GetTempFileName()
+                $json = '[
+                  {
+                    "description": "Sender(s)",
+                    "checkType": "None",
+                    "stopType": "Immediate",
+                    "logicApps": [
+                      "' + $logicAppName + '"
+                    ]
+                  }
+                ]'
+                Set-Content $filePath $json
 
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" -ResourceGroupName $resourceGroup
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Disabled
 
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 6 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
-            }
-            It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on an the waiting runs for stopType = None" {
-                # Arrange
-                $resourceGroup = "my-resource-group"
-                $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker")
-                Mock Get-AzLogicAppRunHistory {
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $Name | Should -BeIn $logicAppNames
-                    return @([pscustomobject]{ Status = "Running" })
-                }
-                Mock Disable-AzLogicApp {}
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
+                try {
+                    # Act
+                    Enable-AzLogicAppsFromConfig -DeployFileName $filePath -ResourceGroupName $resourceGroupName
 
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" -ResourceGroupName $resourceGroup
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
-            }
-            It "Disbales all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and no running runs for stopType = Immediate" {
-                # Arrange
-                $resourceGroup = "my-resource-group"
-                $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker", "rcv-sthp-harvest-order-af-ftp", "rcv-sthp-harvest-order-af-sft", "rcv-sthp-harvest-order-af-file")
-                Mock Get-AzLogicAppRunHistory { 
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $Name | Should -BeIn $logicAppNames
-                    return @([pscustomobject]@{ Status = "Waiting" }) 
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Enabled"
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                    Remove-Item $filePath -Force
                 }
-                Mock Disable-AzLogicApp {
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $LogicAppName | Should -BeIn $logicAppNames
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" -ResourceGroupName $resourceGroup
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 10 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 5 -ParameterFilter { $resourceGroupName -eq $resourceGroup }
-            }
-            It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and running runs for stopType = Immediate" {
-                # Arrange
-                $resourceGroup = "my-resource-group"
-                $i = 0
-                Mock Get-AzLogicAppRunHistory {
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $Name | Should -Be "snd-async"
-                    $script:i++
-                    if ($script:i -gt 2) {
-                        Write-Host "Returning empty (no running, no waiting) runs"
-                        return @()
-                    } else {
-                        Write-Host "Returning 1 running & 1 waiting runs"
-                        return @(
-                            [pscustomobject]@{ Status = "Running" },
-                            [pscustomobject]@{ Status = "Waiting" }
-                        )
-                    }
-                }
-                Mock Disable-AzLogicApp {
-                    $ResourceGroupName | Should -Be $resourceGroup
-                    $LogicAppName | Should -Be "snd-async"
-                }
-                Mock Get-AzCachedAccessToken -MockWith {
-                    return @{
-                        SubscriptionId = "123456"
-                        AccessToken = "accessToken"
-                    }
-                }
-
-                # Act
-                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" -ResourceGroupName $resourceGroup
-
-                # Assert
-                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
-                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $resourceGroupName -eq $resourceGroup }
             }
         }
     }
