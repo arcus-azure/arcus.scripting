@@ -9,7 +9,7 @@ function global:Create-AzLogicAppName () {
 InModuleScope Arcus.Scripting.LogicApps {
     Describe "Arcus Azure Logic Apps integration tests" {
         BeforeEach {
-            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
 
             $oldLogicAppName = "arc-dev-we-rcv-http-trigger"

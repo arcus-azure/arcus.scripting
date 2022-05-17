@@ -42,18 +42,7 @@ stages:
         pool:
           vmImage: '$(Vm.Linux.Image)'
         steps:
-          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace package version tokens'
-            inputs:
-              rootDirectory: 'src/'
-              targetFiles: '**/*.psd1'
-              encoding: 'auto'
-              verbosity: 'detailed'
-              writeBOM: true
-              actionOnMissing: 'fail'
-              keepToken: false
-              tokenPrefix: '#{'
-              tokenSuffix: '}#'
+          - template: 'templates/replace-tokens.yml'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
