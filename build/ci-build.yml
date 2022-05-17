@@ -34,6 +34,8 @@ variables:
   - template: ./variables/build.yml
   - name: 'Package.Version'
     value: '0.$(Build.BuildNumber)'
+  - name: 'Prerelease'
+    value: 'none'
 
 stages:
   - stage: Build
