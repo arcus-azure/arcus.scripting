@@ -4,7 +4,7 @@ InModuleScope Arcus.Scripting.Security {
     Describe "Arcus Azure security integration tests" {
         Context "Get cached access token" {
             BeforeEach {
-                $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+                $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
                 & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
             }
             It "Get cached access token from current active authenticated Azure session succeeds without assigning global variables" {

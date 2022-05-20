@@ -100,10 +100,7 @@ function global:Retry-Function ($func, $retryCount = 5, $retryIntervalSeconds = 
 InModuleScope Arcus.Scripting.Sql {
     Describe "Arcus Azure SQL integration tests" {
         BeforeAll {
-            
-            $filePath = "$PSScriptRoot\appsettings.json"
-            [string]$appsettings = Get-Content $filePath
-            $config = ConvertFrom-Json $appsettings
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             $params = @{
                 'ServerInstance'  = $config.Arcus.Sql.ServerName
                 'Database'        = $config.Arcus.Sql.DatabaseName

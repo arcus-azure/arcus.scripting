@@ -4,7 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 InModuleScope Arcus.Scripting.Management {
     Describe "Arcus Azure Management integration tests" {
         BeforeEach {
-            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "Remove soft deleted Azure API Management service" {

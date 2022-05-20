@@ -3,9 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAc
 InModuleScope Arcus.Scripting.IntegrationAccount {
     Describe "Arcus Azure Integration Account integration tests" {
         BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.json"
-            [string]$appsettings = Get-Content $filePath
-            $config = ConvertFrom-Json $appsettings
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             
             $clientSecret = ConvertTo-SecureString $config.Arcus.ServicePrincipal.ClientSecret -AsPlainText -Force
             $pscredential = New-Object -TypeName System.Management.Automation.PSCredential($config.Arcus.ServicePrincipal.ClientId, $clientSecret)

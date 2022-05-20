@@ -3,10 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
 InModuleScope Arcus.Scripting.DevOps {
     Describe "Arcus Azure DevOps integration tests" {
         BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.json"
-            [string]$appsettings = Get-Content $filePath
-            $config = ConvertFrom-Json $appsettings
-            
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "Save Azure DevOps build" {
