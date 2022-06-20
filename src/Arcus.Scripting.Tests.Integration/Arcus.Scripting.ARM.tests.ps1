@@ -6,6 +6,8 @@ InModuleScope Arcus.Scripting.ARM {
             It "Replaces file path with inline file contents" {
                 # Arrange
                 $armTemplateFile = "$PSScriptRoot\Files\arm-template-inline.json"
+                $originalContents = Get-Content $armTemplateFile
+
                 try {
                     # Act
                     Inject-ArmContent -Path $armTemplateFile
@@ -15,14 +17,14 @@ InModuleScope Arcus.Scripting.ARM {
                     $actual = Get-Content $armTemplateFile
                     $actual[7] | Should -Be '    "value": "this is a test value",'
                 } finally {
-                    $originalFile = "$PSScriptRoot\Files\arm-template-inline-org.json"
-                    Get-Content $originalFile | Out-File -FilePath $armTemplateFile
+                    $originalContents | Out-File -FilePath $armTemplateFile
                 }
             }
             if ([Environment]::OSVersion.VersionString -like "*Windows*") {
                 It "Replaces relative file path with file contents as JSON object (windows)" {
                     # Arrange
                     $armTemplateFile = "$PSScriptRoot\Files\arm-template-object (windows).json"
+                    $originalContents = Get-Content $armTemplateFile
                     try {
                         # Act
                         Inject-ArmContent -Path $armTemplateFile
@@ -32,17 +34,16 @@ InModuleScope Arcus.Scripting.ARM {
                         $actual = Get-Content $armTemplateFile
                         $actual[7] | Should -Be '    "value": "{\r\n   \"test\": \"this is a test value\"\r\n}",'
                     } finally {
-                        $originalFile = "$PSScriptRoot\Files\arm-template-object-org (windows).json"
-                        Get-Content $originalFile | Out-File -FilePath $armTemplateFile
+                        $originalContents | Out-File -FilePath $armTemplateFile
                     }
                 }
                 It "Replaces absolute file path with file contents as JSON object (windows)" {
                     # Arrange
                     $armTemplateFile = "$PSScriptRoot\Files\arm-template-object-absolutepath (windows).json"
                     $armTemplateDirectory = Split-Path $armTemplateFile -Parent
-                    $armTemplate = Get-Content -path $armTemplateFile -Raw
-                    $armTemplate = $armTemplate -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory
-                    $armTemplate | Set-Content -Path $armTemplateFile
+                    $originalContents = Get-Content $armTemplateFile
+                    $armTemplate = $originalContents -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory
+                    $armTemplate | Out-File -FilePath $armTemplateFile
 
                     try {
                         # Act
@@ -53,14 +54,14 @@ InModuleScope Arcus.Scripting.ARM {
                         $actual = Get-Content $armTemplateFile
                         $actual[7] | Should -Be '    "value": "{\r\n   \"test\": \"this is a test value\"\r\n}",'
                     } finally {
-                        $originalFile = "$PSScriptRoot\Files\arm-template-object-absolutepath-org (windows).json"
-                        Get-Content $originalFile | Out-File -FilePath $armTemplateFile
+                        $originalContents | Out-File -FilePath $armTemplateFile
                     }
                 }
             } else {
                 It "Replaces relative file path with file contents as JSON object (linux)" {
                     # Arrange
                     $armTemplateFile = "$PSScriptRoot\Files\arm-template-object (linux).json"
+                    $originalContents = Get-Content $armTemplateFile
                     try {
                         # Act
                         Inject-ArmContent -Path $armTemplateFile
@@ -70,17 +71,16 @@ InModuleScope Arcus.Scripting.ARM {
                         $actual = Get-Content $armTemplateFile
                         $actual[7] | Should -Be '    "value": "{\n   \"test\": \"this is a test value\"\n}",'
                     } finally {
-                        $originalFile = "$PSScriptRoot\Files\arm-template-object-org (linux).json"
-                        Get-Content $originalFile | Out-File -FilePath $armTemplateFile
+                        $originalContents | Out-File -FilePath $armTemplateFile
                     }
                 }
                 It "Replaces absolute file path with file contents as JSON object (linux)" {
                     # Arrange
                     $armTemplateFile = "$PSScriptRoot\Files\arm-template-object-absolutepath (linux).json"
                     $armTemplateDirectory = Split-Path $armTemplateFile -Parent
-                    $armTemplate = Get-Content -path $armTemplateFile -Raw
-                    $armTemplate = $armTemplate -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory
-                    $armTemplate | Set-Content -Path $armTemplateFile
+                    $originalContents = Get-Content -Path $armTemplateFile
+                    $armTemplate = $originalContents -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory
+                    $armTemplate | OutFile -FilePath $armTemplateFile
 
                     try {
                         # Act
@@ -91,14 +91,14 @@ InModuleScope Arcus.Scripting.ARM {
                         $actual = Get-Content $armTemplateFile
                         $actual[7] | Should -Be '    "value": "{\n   \"test\": \"this is a test value\"\n}",'
                     } finally {
-                        $originalFile = "$PSScriptRoot\Files\arm-template-object-absolutepath-org (linux).json"
-                        Get-Content $originalFile | Out-File -FilePath $armTemplateFile
+                        $originalContents | Out-File -FilePath $armTemplateFile
                     }
                 }
             }
             It "Replaces file path with file contents as escaped JSON and replaced special characters" {
                 # Arrange
                 $armTemplateFile = "$PSScriptRoot\Files\arm-template-escape.json"
+                $originalContents = Get-Content $armTemplateFile
                 try {
                     # Act
                     Inject-ArmContent -Path $armTemplateFile
@@ -108,8 +108,7 @@ InModuleScope Arcus.Scripting.ARM {
                     $actual = Get-Content $armTemplateFile
                     $actual[7] | Should -Be '    "value": "<Operation value=\"this is a test value\" />",'
                 } finally {
-                    $originalFile = "$PSScriptRoot\Files\arm-template-escape-org.json"
-                    Get-Content $originalFile | Out-File -FilePath $armTemplateFile
+                    $originalContents | Out-File -FilePath $armTemplateFile
                 }
             }
         }
