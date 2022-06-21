@@ -1,7 +1,6 @@
 ---
 title: "Azure security"
 layout: default
-label: "Azure security"
 ---
 
 # Azure Security

@@ -1,7 +1,6 @@
 ---
 title: "Azure App Service"
 layout: default
-label: "Azure Web"
 ---
 
 # Azure App Service
