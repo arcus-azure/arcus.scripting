@@ -1,5 +1,5 @@
 ---
-title: " Azure Key Vault"
+title: "Azure Key Vault"
 layout: default
 ---
 
