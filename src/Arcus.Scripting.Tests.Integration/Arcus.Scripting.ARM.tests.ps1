@@ -80,7 +80,7 @@ InModuleScope Arcus.Scripting.ARM {
                     $armTemplateDirectory = Split-Path $armTemplateFile -Parent
                     $originalContents = Get-Content -Path $armTemplateFile
                     $armTemplate = $originalContents -replace '#{ArmTemplateDirectory}#', $armTemplateDirectory
-                    $armTemplate | OutFile -FilePath $armTemplateFile
+                    $armTemplate | Out-File -FilePath $armTemplateFile
 
                     try {
                         # Act
