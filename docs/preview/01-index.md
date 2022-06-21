@@ -12,11 +12,6 @@ Take a quick look at these categories to find more information on the resource o
 
 # Features
 
-| Category     | Modules      |
-| ------------ | ------------ |
-| Azure Web    | <ul><li>Azure API Management</li><li>App Service</li></ul> |
-| Azure DevOps | <ul><li>ARM</li><>
-
 * Automate Azure API Management tasks ([powershell](./02-Features/powershell/azure-api-management.md))
 * Automate Azure App Service tasks ([powershell](./02-Features/powershell/azure-app-service.md))
 * Automate Azure Data Factory tasks ([powershell](./02-Features/powershell/azure-data-factory.md))
