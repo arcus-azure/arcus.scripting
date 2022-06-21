@@ -5,18 +5,17 @@ slug: /
 sidebar_label: Welcome
 ---
 
-# Installation
+# Introduction
+Arcus Scripting provides an answer to many frequently-used, repeated tasks in Azure. Categorized in separate PowerShell modules, these functions help with backing up your API Management service, removing resource locks, disabling Logic Apps, injecting content in ARM templates, and many more!
 
-The Arcus.Scripting modules can be found on the PowerShell gallery.
-Install the latest version of a module by executing the following command:
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.All
-```
-
-For more granular packages we recommend reading the documentation.
+Take a quick look at these categories to find more information on the resource or topic you're working with.
 
 # Features
+
+| Category     | Modules      |
+| ------------ | ------------ |
+| Azure Web    | <ul><li>Azure API Management</li><li>App Service</li></ul> |
+| Azure DevOps | <ul><li>ARM</li><>
 
 * Automate Azure API Management tasks ([powershell](./02-Features/powershell/azure-api-management.md))
 * Automate Azure App Service tasks ([powershell](./02-Features/powershell/azure-app-service.md))

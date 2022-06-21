@@ -1,6 +1,7 @@
 ---
-title: " Azure Key Vault"
+title: "Azure Key Vault"
 layout: default
+label: "Azure security"
 ---
 
 # Azure Key Vault

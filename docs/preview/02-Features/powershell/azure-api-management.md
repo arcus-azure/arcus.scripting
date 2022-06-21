@@ -1,6 +1,7 @@
 ---
-title: " Azure API Management"
+title: "Azure API Management"
 layout: default
+label: "Azure Web"
 ---
 
 # Azure API Management
