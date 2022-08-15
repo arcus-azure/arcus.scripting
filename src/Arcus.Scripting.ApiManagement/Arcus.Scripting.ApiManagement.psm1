@@ -108,6 +108,77 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
 
 <#
  .Synopsis
+  Creates a user in Azure API Management.
+
+ .Description
+  Creates a user in Azure API Management.
+
+ .Parameter ResourceGroupName
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter FirstName
+  The first name of the user.
+
+ .Parameter LastName
+  The last name of the user.
+
+ .Parameter MailAddress
+  The e-mail address of the user.
+
+ .Parameter UserId
+  [Optional] The UserId the user should get in API Management.
+
+ .Parameter Password
+  [Optional] The password for the user.
+
+ .Parameter Note
+  [Optional] The note that should be added to the user in API Management.
+
+ .Parameter SendNotification
+  [Optional] Whether or not to send a notification to the user. 
+
+ .Parameter ConfirmationType
+  [Optional] The confirmation type to use when creating the user, this can be set to 'invite' or 'signup'.
+
+ .Parameter ApiVersion
+  [Optional] The version of the api to be used.
+
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure API Management service. When not provided, it will be retrieved from the current context (Get-AzContext).
+
+ .Parameter AccessToken
+  [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
+#>
+function Create-AzApiManagementUser {
+    param(
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
+        [string][parameter(Mandatory = $true)] $FirstName = $(throw "The first name of the user is required"),
+        [string][parameter(Mandatory = $true)] $LastName = $(throw "The last name of the user is required"),
+        [string][parameter(Mandatory = $true)] $MailAddress = $(throw "The mail-address of the user is required"),
+        [string][parameter(Mandatory = $false)] $UserId = $($MailAddress -replace '\W', '-'),
+        [string][parameter(Mandatory = $false)] $Password,
+        [string][parameter(Mandatory = $false)] $Note,
+        [switch][parameter(Mandatory = $false)] $SendNotification = $false,
+        [string][parameter(Mandatory = $false)][ValidateSet('invite', 'signup')] $ConfirmationType = "invite",
+        [string][parameter(Mandatory = $false)] $ApiVersion = "2021-08-01",
+        [string][parameter(Mandatory = $false)] $SubscriptionId,
+        [string][parameter(Mandatory = $false)] $AccessToken
+    )
+    if ($SendNotification) {
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken -SendNotification
+    } else {
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+    }
+}
+
+Export-ModuleMember -Function Create-AzApiManagementUser
+
+<#
+ .Synopsis
   Import a policy to a product in Azure API Management.
 
  .Description
