@@ -4,7 +4,10 @@ param(
 )
 
 Write-Host "Start removing Azure API Management defaults..."
-$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
+$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
+if ($apimContext -eq $null) {
+    throw "Unable to find the Azure API Management Instance '$ServiceName' in resource group $ResourceGroupName"
+}
 $exceptionOccurred = $false
 $failedActions = @()
 

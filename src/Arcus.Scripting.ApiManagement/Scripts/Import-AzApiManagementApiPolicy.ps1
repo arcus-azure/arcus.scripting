@@ -6,6 +6,9 @@ param(
 )
 
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
+if ($apimContext -eq $null) {
+    throw "Unable to find the Azure API Management Instance '$ServiceName' in resource group $ResourceGroupName"
+}
 
 Write-Host "Updating policy of API '$ApiId'"
 $result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -PolicyFilePath $policyFilePath

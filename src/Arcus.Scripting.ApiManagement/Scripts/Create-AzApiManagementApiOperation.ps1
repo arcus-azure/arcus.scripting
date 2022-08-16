@@ -11,6 +11,9 @@ param(
 )
 
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
+if ($apimContext -eq $null) {
+    throw "Unable to find the Azure API Management Instance '$ServiceName' in resource group $ResourceGroupName"
+}
 
 New-AzApiManagementOperation -Context $apimContext -ApiId $ApiId -OperationId $OperationId -Name $OperationName -Method $Method -UrlTemplate $UrlTemplate -Description $Description
 Write-Host "New API operation '$OperationName' on API Management instance was added."
