@@ -10,7 +10,7 @@ This module provides the following capabilities:
   - [Installation](#installation)
   - [Backing up an API Management service](#backing-up-an-api-management-service)
   - [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
-  - [Creating a new user in an API Managment service](#creating-a-new-user-in-an-azure-api-management-service)
+  - [Creating a new user in an Azure API Management service](#creating-a-new-user-in-an-azure-api-management-service)
   - [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
   - [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
   - [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
@@ -87,7 +87,7 @@ PS> Create-AzApiManagementApiOperation -ResourceGroupName $ResourceGroup -Servic
 # New API operation '$OperationName' on API Management instance was added.
 ```	
 
-## Creating a new user in an API Managment service
+## Creating a new user in an Azure API Management service
 
 Signup or invite a new user in an existing API in Azure API Management.
 
