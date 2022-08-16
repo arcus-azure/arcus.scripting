@@ -73,7 +73,7 @@ try
     {
         Write-Host "Account has been created for $FirstName $LastName ($mailAddress)"
         if($Password -eq $null -or $Password -eq ""){
-            Write-Host "Since no password was provided, one has been generated. Please advice the user to change this password the first time logging in"
+            Write-Host "Since no password was provided, one has been generated. Please advise the user to change this password the first time logging in"
         }
     }
 
