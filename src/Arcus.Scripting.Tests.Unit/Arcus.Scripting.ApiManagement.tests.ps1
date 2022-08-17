@@ -1053,7 +1053,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
-                Assert-MockCalled Invoke-WebRequest -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite'
+                }
             }
             It "Signup a user in Azure API Management without a password is OK" {
                 # Arrange
@@ -1074,7 +1079,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 200 -force
 
                     return $response
-                }
+                } -Verifiable 
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
@@ -1095,7 +1100,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
-                Assert-MockCalled Invoke-WebRequest -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'signup'
+                }
             }
             It "Signup a user in Azure API Management with a password is OK" {
                 # Arrange
@@ -1104,6 +1114,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $firstName = "John"
                 $lastName = "Doe"
                 $mailAddress = "john.doe@contoso.com"
+                $password = "testpassword"
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
                 Mock Get-AzApiManagement {
@@ -1132,13 +1143,19 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -LastName $lastName `
                     -MailAddress $mailAddress `
                     -ConfirmationType 'signup' `
-                    -Password 'testpassword'
+                    -Password $password
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
-                Assert-MockCalled Invoke-WebRequest -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'signup' -and 
+                    ($Body | ConvertFrom-Json).properties.password -eq $password
+                }
             }
             It "Inviting a user in Azure API Management with a notification is OK" {
                 # Arrange
@@ -1180,7 +1197,13 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
-                Assert-MockCalled Invoke-WebRequest -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite' -and
+                    $Uri -like '*notify=True*'
+                }
             }
             It "Inviting a user in Azure API Management and include a note is OK" {
                 # Arrange
@@ -1189,6 +1212,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $firstName = "John"
                 $lastName = "Doe"
                 $mailAddress = "john.doe@contoso.com"
+                $note = 'this is a note'
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
                 Mock Get-AzApiManagement {
@@ -1216,13 +1240,19 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -FirstName $firstName `
                     -LastName $lastName `
                     -MailAddress $mailAddress `
-                    -Note 'this is a note'
+                    -Note $note
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
-                Assert-MockCalled Invoke-WebRequest -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite' -and
+                    ($Body | ConvertFrom-Json).properties.note -eq $note
+                }
             }
             It "Inviting a user in Azure API Management and specify a UserId is OK" {
                 # Arrange
@@ -1231,6 +1261,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $firstName = "John"
                 $lastName = "Doe"
                 $mailAddress = "john.doe@contoso.com"
+                $userId = '12345'
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
                 Mock Get-AzApiManagement {
@@ -1258,13 +1289,19 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -FirstName $firstName `
                     -LastName $lastName `
                     -MailAddress $mailAddress `
-                    -UserId '12345'
+                    -UserId $userId
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
-                Assert-MockCalled Invoke-WebRequest -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite' -and
+                    $Uri -like "*users/$userId*"
+                }
             }
             It "Inviting a user in Azure API Management with wrong confirmation type fails" {
                 # Arrange
