@@ -5,10 +5,11 @@ param(
     [Parameter(Mandatory = $true)][string] $CertificatePassword = $(throw "Password for certificate is required")
 )
 
-$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
-if ($apimContext -eq $null) {
-    throw "Unable to find the Azure API Management Instance '$ServiceName' in resource group $ResourceGroupName"
+$apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
+if ($apim -eq $null) {
+    throw "Unable to find the Azure API Management Instance $ServiceName in resource group $ResourceGroupName"
 }
+$apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 
 Write-Verbose "Uploading private certificate at '$CertificateFilePath'..."
