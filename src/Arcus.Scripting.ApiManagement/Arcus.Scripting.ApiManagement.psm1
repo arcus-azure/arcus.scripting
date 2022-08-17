@@ -179,6 +179,43 @@ Export-ModuleMember -Function Create-AzApiManagementUser
 
 <#
  .Synopsis
+  Removes a user from Azure API Management.
+
+ .Description
+  Remove a user from Azure API Management based on e-mail address.
+
+ .Parameter ResourceGroupName
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter MailAddress
+  The e-mail address of the user.
+
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure API Management service. When not provided, it will be retrieved from the current context (Get-AzContext).
+
+ .Parameter AccessToken
+  [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
+#>
+function Remove-AzApiManagementUser {
+    param(
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
+        [string][parameter(Mandatory = $true)] $MailAddress = $(throw "The mail-address of the user is required"),
+        [string][parameter(Mandatory = $false)] $SubscriptionId,
+        [string][parameter(Mandatory = $false)] $AccessToken
+    )
+
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -MailAddress $MailAddress
+
+}
+
+Export-ModuleMember -Function Remove-AzApiManagementUser
+
+<#
+ .Synopsis
   Import a policy to a product in Azure API Management.
 
  .Description
