@@ -158,6 +158,29 @@ PS> Create-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $S
 # Account has been created for FirstName $LastName ($MailAddress)
 ```
 
+## Removing a user from an Azure API Management service
+
+Remove a user from an existing Azure API Management instance based on e-mail address.
+
+| Parameter           | Mandatory | Description                                                                                                                                                         |
+| ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance                                                                                                     |
+| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure                                                                                                      |
+| `MailAddress`       | yes       | The email address of the user that is to be removed                                                                                                                 |
+| `SubscriptionId`    | no        | The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).          |
+| `AccessToken`       | no        | The access token to be used to add the user to the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext). |
+
+**Example**
+
+Remove a user from an existing Azure API Management instance.
+
+```powershell
+PS> Remove-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -MailAddress $MailAddress
+# Retrieving the user account with e-mail '$MailAddress'
+# Attempting to remove the user account with e-mail '$MailAddress' and id '1'
+# Removed the user account with e-mail '$MailAddress' and id '1'
+```
+
 ## Importing a policy to a product in the Azure API Management instance
 
 Imports a policy from a file to a product in Azure API Management.
