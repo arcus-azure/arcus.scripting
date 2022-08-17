@@ -33,6 +33,7 @@
     <Compile Include="Arcus.Scripting.ApiManagement.psm1" />
     <Compile Include="Scripts\Backup-AzApiManagementService.ps1" />
     <Compile Include="Scripts\Create-AzApiManagementApiOperation.ps1" />
+    <Compile Include="Scripts\Create-AzApiManagementUser.ps1" />
     <Compile Include="Scripts\Import-AzApiManagementProductPolicy.ps1" />
     <Compile Include="Scripts\Remove-AzApiManagementDefaults.ps1" />
     <Compile Include="Scripts\Import-AzApiManagementApiPolicy.ps1" />

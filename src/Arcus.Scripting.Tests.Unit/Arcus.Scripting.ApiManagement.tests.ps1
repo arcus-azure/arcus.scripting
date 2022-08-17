@@ -1013,5 +1013,347 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled Set-AzApiManagement -Times 0
             }
         }
+        Context "Create Azure API Management User" {
+            It "Inviting a user in Azure API Management is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Invoke-WebRequest -MockWith {
+                    $status = [System.Net.WebExceptionStatus]::Success
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 200 -force
+
+                    return $response
+                }
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite'
+                }
+            }
+            It "Signup a user in Azure API Management without a password is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Invoke-WebRequest -MockWith {
+                    $status = [System.Net.WebExceptionStatus]::Success
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 200 -force
+
+                    return $response
+                } -Verifiable 
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress `
+                    -ConfirmationType 'signup'
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'signup'
+                }
+            }
+            It "Signup a user in Azure API Management with a password is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+                $password = "testpassword"
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Invoke-WebRequest -MockWith {
+                    $status = [System.Net.WebExceptionStatus]::Success
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 200 -force
+
+                    return $response
+                }
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress `
+                    -ConfirmationType 'signup' `
+                    -Password $password
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'signup' -and 
+                    ($Body | ConvertFrom-Json).properties.password -eq $password
+                }
+            }
+            It "Inviting a user in Azure API Management with a notification is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Invoke-WebRequest -MockWith {
+                    $status = [System.Net.WebExceptionStatus]::Success
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 200 -force
+
+                    return $response
+                }
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress `
+                    -SendNotification
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite' -and
+                    $Uri -like '*notify=True*'
+                }
+            }
+            It "Inviting a user in Azure API Management and include a note is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+                $note = 'this is a note'
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Invoke-WebRequest -MockWith {
+                    $status = [System.Net.WebExceptionStatus]::Success
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 200 -force
+
+                    return $response
+                }
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress `
+                    -Note $note
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite' -and
+                    ($Body | ConvertFrom-Json).properties.note -eq $note
+                }
+            }
+            It "Inviting a user in Azure API Management and specify a UserId is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+                $userId = '12345'
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock Invoke-WebRequest -MockWith {
+                    $status = [System.Net.WebExceptionStatus]::Success
+                    $response = New-Object -type 'System.Net.HttpWebResponse'
+                    $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 200 -force
+
+                    return $response
+                }
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress `
+                    -UserId $userId
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Invoke-WebRequest -Times 1 -ParameterFilter { 
+                    ($Body | ConvertFrom-Json).properties.firstName -eq $firstName -and
+                    ($Body | ConvertFrom-Json).properties.lastName -eq $lastName -and
+                    ($Body | ConvertFrom-Json).properties.email -eq $mailAddress -and
+                    ($Body | ConvertFrom-Json).properties.confirmation -eq 'invite' -and
+                    $Uri -like "*users/$userId*"
+                }
+            }
+            It "Inviting a user in Azure API Management with wrong confirmation type fails" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+
+                # Act
+                { 
+                   Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress `
+                    -ConfirmationType 'wrongvalue'
+                } | Should -Throw -ExpectedMessage 'Cannot validate argument on parameter ''ConfirmationType''. The argument "wrongvalue" does not belong to the set "invite,signup" specified by the ValidateSet attribute. Supply an argument that is in the set and then try the command again.'
+
+
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Inviting a user in Azure API Management to non-existing Azure API Management fails" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $firstName = "John"
+                $lastName = "Doe"
+                $mailAddress = "john.doe@contoso.com"
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $null } -Verifiable
+
+                # Act
+                { 
+                   Create-AzApiManagementUser `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -FirstName $firstName `
+                    -LastName $lastName `
+                    -MailAddress $mailAddress
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management Instance $serviceName in resource group $resourceGroup"
+
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+            }
+        }
     }
 }
