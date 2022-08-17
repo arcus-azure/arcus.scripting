@@ -111,7 +111,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   Creates a user in Azure API Management.
 
  .Description
-  Signup or invite a new user in an existing API in Azure API Management.
+  Signup or invite a new user in an existing Azure API Management instance.
 
  .Parameter ResourceGroupName
   The resource group containing the API Management service.
