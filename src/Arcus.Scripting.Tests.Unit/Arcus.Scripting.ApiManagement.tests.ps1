@@ -212,7 +212,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -253,7 +253,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -283,7 +283,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -312,7 +312,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -357,7 +357,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -385,7 +385,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -422,7 +422,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -468,7 +468,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -518,7 +518,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -567,7 +567,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -620,7 +620,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -649,7 +649,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -685,7 +685,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -716,7 +716,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -930,7 +930,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
@@ -962,7 +962,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $stubContext = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
-				Mock Get-AzApiManagement {
+                Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
                     return $stubApiManagement } -Verifiable
