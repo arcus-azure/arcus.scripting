@@ -169,7 +169,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $method = "POST"
                 $urlTemplate = "https://{host}.com/{path}{query}"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -187,6 +192,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 0
@@ -203,7 +210,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $description = "API that can process posted orders"
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -225,6 +237,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
@@ -238,7 +251,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $productId = "shopping-API"
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -263,7 +281,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $productId = "shopping-API"
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -287,7 +310,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
@@ -314,6 +342,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
@@ -326,7 +355,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
@@ -340,6 +374,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
             }
@@ -348,7 +383,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
@@ -369,6 +409,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
@@ -379,7 +420,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
@@ -407,6 +453,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
@@ -419,7 +466,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     $errorDetails = '{"code": 1, "message": "NotFound", "more_info": "", "status": 404}'
@@ -452,6 +504,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
                 Assert-MockCalled Remove-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
@@ -463,7 +516,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
@@ -495,6 +553,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
@@ -506,7 +565,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $resourceGroup = "shopping"
                 $serviceName = "shopping-API-management"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock Get-AzApiManagementApi {
                     $Context | Should -Be $context
                     return $null } -Verifiable -ParameterFilter { $ApiId -eq "echo-api" }
@@ -538,6 +602,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled Get-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Remove-AzApiManagementApi -Times 1 -ParameterFilter { $ApiId -eq "echo-api" }
                 Assert-MockCalled Get-AzApiManagementProduct -Times 1 -ParameterFilter { $ProductId -eq "starter" }
@@ -553,7 +618,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $apiId = "shopping-API"
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -577,7 +647,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $apiId = "shopping-API"
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -594,6 +669,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
@@ -607,7 +683,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $operationId = "orders"
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -633,7 +714,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $operationId = "orders"
                 $policyFilePath = "/file-path/operation-policy"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -842,7 +928,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $apiKeyHeaderName = "header-name"
                 $apiKeyQueryParamName = "query-param-name"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
 
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $ServiceName | Should -Be $serviceName
@@ -869,6 +960,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $filePath = "c:\temp\certificate.pfx"
                 $password = "P@ssw0rd"
                 $stubContext = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
 
                 Mock New-AzApiManagementContext {
                     $ResourceGroupName | Should -Be $resourceGroup
