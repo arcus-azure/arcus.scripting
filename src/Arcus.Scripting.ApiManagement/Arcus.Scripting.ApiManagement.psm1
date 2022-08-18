@@ -152,7 +152,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
  .Parameter AccessToken
   [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
 #>
-function Create-AzApiManagementUser {
+function Create-AzApiManagementUserAccount {
     param(
         [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
@@ -169,13 +169,13 @@ function Create-AzApiManagementUser {
         [string][parameter(Mandatory = $false)] $AccessToken
     )
     if ($SendNotification) {
-        . $PSScriptRoot\Scripts\Create-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken -SendNotification
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken -SendNotification
     } else {
-        . $PSScriptRoot\Scripts\Create-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
     }
 }
 
-Export-ModuleMember -Function Create-AzApiManagementUser
+Export-ModuleMember -Function Create-AzApiManagementUserAccount
 
 <#
  .Synopsis
@@ -199,7 +199,7 @@ Export-ModuleMember -Function Create-AzApiManagementUser
  .Parameter AccessToken
   [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
 #>
-function Remove-AzApiManagementUser {
+function Remove-AzApiManagementUserAccount {
     param(
         [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
@@ -208,11 +208,11 @@ function Remove-AzApiManagementUser {
         [string][parameter(Mandatory = $false)] $AccessToken
     )
 
-    . $PSScriptRoot\Scripts\Remove-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -MailAddress $MailAddress
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -MailAddress $MailAddress
 
 }
 
-Export-ModuleMember -Function Remove-AzApiManagementUser
+Export-ModuleMember -Function Remove-AzApiManagementUserAccount
 
 <#
  .Synopsis

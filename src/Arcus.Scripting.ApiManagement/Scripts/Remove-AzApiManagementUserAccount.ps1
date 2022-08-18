@@ -28,7 +28,7 @@ try {
         $apimUserId = $apimUser.UserId
 
         Write-Host "Attempting to remove the user account with e-mail '$mailAddress' and id '$apimUserId'"
-        Az.ApiManagement\Remove-AzApiManagementUser -Context $apimContext -UserId $apimUserId
+        Remove-AzApiManagementUser -Context $apimContext -UserId $apimUserId
         Write-Host "Removed the user account with e-mail '$mailAddress' and id '$apimUserId'"
     } else {
         Write-Host "User account with e-mail '$mailAddress' not found in the APIM instance '$ServiceName'"

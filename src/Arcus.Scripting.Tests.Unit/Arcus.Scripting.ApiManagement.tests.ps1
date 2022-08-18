@@ -1042,7 +1042,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1088,7 +1088,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1136,7 +1136,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1185,7 +1185,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1234,7 +1234,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1283,7 +1283,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1313,7 +1313,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Create-AzApiManagementUser `
+                   Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1341,7 +1341,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Create-AzApiManagementUser `
+                   Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1386,13 +1386,13 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $Context | Should -Be $context
                     $Email | Should -Be $mailAddress
                     return $apiUser } -Verifiable
-                Mock Az.ApiManagement\Remove-AzApiManagementUser {
+                Mock Remove-AzApiManagementUser {
                     $Context | Should -Be $context
                     $UserId | Should -Be $userId
                     return $null } -Verifiable
 
                 # Act
-                Arcus.Scripting.ApiManagement\Remove-AzApiManagementUser `
+                Remove-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -MailAddress $mailAddress
@@ -1403,7 +1403,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzApiManagementUser -Times 1 
-                Assert-MockCalled Az.ApiManagement\Remove-AzApiManagementUser -Times 1 
+                Assert-MockCalled Remove-AzApiManagementUser -Times 1 
             }
             It "Removing a user from Azure API Management that does not exist is OK" {
                 # Arrange
@@ -1433,7 +1433,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     return $null } -Verifiable
 
                 # Act
-                Arcus.Scripting.ApiManagement\Remove-AzApiManagementUser `
+                Remove-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -MailAddress $mailAddress
@@ -1458,7 +1458,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Arcus.Scripting.ApiManagement\Remove-AzApiManagementUser `
+                   Remove-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -MailAddress $mailAddress
