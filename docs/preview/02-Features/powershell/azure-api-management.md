@@ -89,7 +89,7 @@ PS> Create-AzApiManagementApiOperation -ResourceGroupName $ResourceGroup -Servic
 
 ## Creating a new user in an Azure API Management service
 
-Signup or invite a new user in an existing API in Azure API Management.
+Signup or invite a new user in an existing Azure API Management instance.
 
 | Parameter           | Mandatory | Description                                                                                                                                                         |
 | ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -109,53 +109,76 @@ Signup or invite a new user in an existing API in Azure API Management.
 
 **Example**
 
-Invite a new user in an existing API in Azure API Management.
+Invite a new user in an existing Azure API Management instance.
 
 ```powershell
-PS> Create-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress
+PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
 
-Invite a new user in an existing API in Azure API Management and specify a UserId.
+Invite a new user in an existing Azure API Management instance and specify a UserId.
 
 ```powershell
-PS> Create-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId
+PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
 
-Invite a new user in an existing API in Azure API Management and include a note.
+Invite a new user in an existing Azure API Management instance and include a note.
 
 ```powershell
-PS> Create-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -Note $Note
+PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -Note $Note
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
 
-Invite a new user in an existing API in Azure API Management and send a notification.
+Invite a new user in an existing Azure API Management instance and send a notification.
 
 ```powershell
-PS> Create-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -SendNotification
+PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -SendNotification
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
 
-Signup a new user in an existing API in Azure API Management.
+Signup a new user in an existing Azure API Management instance.
 
 ```powershell
-PS> Create-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -ConfirmationType signup
+PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -ConfirmationType signup
 # Attempting to create account for FirstName $LastName ($MailAddress)
 # Account has been created for FirstName $LastName ($MailAddress)
 # Since no password was provided, one has been generated. Please advise the user to change this password the first time logging in
 ```
 
-Signup a new user in an existing API in Azure API Management and specify a password.
+Signup a new user in an existing Azure API Management instance and specify a password.
 
 ```powershell
-PS> Create-AzApiManagementUser -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -Password $Password -ConfirmationType signup
+PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -Password $Password -ConfirmationType signup
 # Attempting to create account for FirstName $LastName ($MailAddress)
 # Account has been created for FirstName $LastName ($MailAddress)
+```
+
+## Removing a user from an Azure API Management service
+
+Remove a user from an existing Azure API Management instance based on e-mail address.
+
+| Parameter           | Mandatory | Description                                                                                                                                                         |
+| ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance                                                                                                     |
+| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure                                                                                                      |
+| `MailAddress`       | yes       | The email address of the user that is to be removed                                                                                                                 |
+| `SubscriptionId`    | no        | The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).          |
+| `AccessToken`       | no        | The access token to be used to add the user to the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext). |
+
+**Example**
+
+Remove a user from an existing Azure API Management instance.
+
+```powershell
+PS> Remove-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -MailAddress $MailAddress
+# Retrieving the user account with e-mail '$MailAddress'
+# Attempting to remove the user account with e-mail '$MailAddress' and id '1'
+# Removed the user account with e-mail '$MailAddress' and id '1'
 ```
 
 ## Importing a policy to a product in the Azure API Management instance

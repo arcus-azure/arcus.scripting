@@ -111,7 +111,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   Creates a user in Azure API Management.
 
  .Description
-  Signup or invite a new user in an existing API in Azure API Management.
+  Signup or invite a new user in an existing Azure API Management instance.
 
  .Parameter ResourceGroupName
   The resource group containing the API Management service.
@@ -152,7 +152,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
  .Parameter AccessToken
   [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
 #>
-function Create-AzApiManagementUser {
+function Create-AzApiManagementUserAccount {
     param(
         [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
@@ -169,13 +169,50 @@ function Create-AzApiManagementUser {
         [string][parameter(Mandatory = $false)] $AccessToken
     )
     if ($SendNotification) {
-        . $PSScriptRoot\Scripts\Create-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken -SendNotification
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken -SendNotification
     } else {
-        . $PSScriptRoot\Scripts\Create-AzApiManagementUser.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId -Password $Password -Note $Note -ConfirmationType $ConfirmationType -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
     }
 }
 
-Export-ModuleMember -Function Create-AzApiManagementUser
+Export-ModuleMember -Function Create-AzApiManagementUserAccount
+
+<#
+ .Synopsis
+  Removes a user from Azure API Management.
+
+ .Description
+  Remove a user from Azure API Management based on e-mail address.
+
+ .Parameter ResourceGroupName
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter MailAddress
+  The e-mail address of the user.
+
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure API Management service. When not provided, it will be retrieved from the current context (Get-AzContext).
+
+ .Parameter AccessToken
+  [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
+#>
+function Remove-AzApiManagementUserAccount {
+    param(
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
+        [string][parameter(Mandatory = $true)] $MailAddress = $(throw "The mail-address of the user is required"),
+        [string][parameter(Mandatory = $false)] $SubscriptionId,
+        [string][parameter(Mandatory = $false)] $AccessToken
+    )
+
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -MailAddress $MailAddress
+
+}
+
+Export-ModuleMember -Function Remove-AzApiManagementUserAccount
 
 <#
  .Synopsis

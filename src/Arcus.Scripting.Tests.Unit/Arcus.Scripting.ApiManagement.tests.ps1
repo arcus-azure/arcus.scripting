@@ -1139,7 +1139,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1185,7 +1185,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1233,7 +1233,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1282,7 +1282,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1331,7 +1331,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1380,7 +1380,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 }
 
                 # Act
-                Create-AzApiManagementUser `
+                Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1410,7 +1410,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Create-AzApiManagementUser `
+                   Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
@@ -1438,11 +1438,126 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Create-AzApiManagementUser `
+                   Create-AzApiManagementUserAccount `
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -FirstName $firstName `
                     -LastName $lastName `
+                    -MailAddress $mailAddress
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management Instance $serviceName in resource group $resourceGroup"
+
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+            }
+        }
+        Context "Remove Azure API Management User" {
+            It "Removing a user from Azure API Management is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $mailAddress = "john.doe@contoso.com"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+                $userId = 1
+                $apiUser = [pscustomobject] @{
+                        UserId = $userId;
+                    };
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock New-AzApiManagementContext {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                } 
+                Mock Get-AzApiManagementUser {
+                    $Context | Should -Be $context
+                    $Email | Should -Be $mailAddress
+                    return $apiUser } -Verifiable
+                Mock Remove-AzApiManagementUser {
+                    $Context | Should -Be $context
+                    $UserId | Should -Be $userId
+                    return $null } -Verifiable
+
+                # Act
+                Remove-AzApiManagementUserAccount `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -MailAddress $mailAddress
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled New-AzApiManagementContext -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Get-AzApiManagementUser -Times 1 
+                Assert-MockCalled Remove-AzApiManagementUser -Times 1 
+            }
+            It "Removing a user from Azure API Management that does not exist is OK" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $mailAddress = "john.doe@contoso.com"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock New-AzApiManagementContext {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                } 
+                Mock Get-AzApiManagementUser {
+                    $Context | Should -Be $context
+                    $Email | Should -Be $mailAddress
+                    return $null } -Verifiable
+
+                # Act
+                Remove-AzApiManagementUserAccount `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
+                    -MailAddress $mailAddress
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled New-AzApiManagementContext -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Get-AzApiManagementUser -Times 1 
+            }
+            It "Removing a user from a non-existing Azure API Management fails" {
+                # Arrange
+                $resourceGroup = "contoso"
+                $serviceName = "contosoApi"
+                $mailAddress = "john.doe@contoso.com"
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $null } -Verifiable
+
+                # Act
+                { 
+                   Remove-AzApiManagementUserAccount `
+                    -ResourceGroupName $resourceGroup `
+                    -ServiceName $serviceName `
                     -MailAddress $mailAddress
                 } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management Instance $serviceName in resource group $resourceGroup"
 
