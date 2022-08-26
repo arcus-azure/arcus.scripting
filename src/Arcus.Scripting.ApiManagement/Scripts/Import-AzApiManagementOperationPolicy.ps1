@@ -13,7 +13,7 @@ if ($apim -eq $null) {
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 
 Write-Host "Updating policy of the operation '$OperationId' in API '$ApiId'"
-$result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+$result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath -PassThru
 if ($result) {
     Write-Host "Successfully updated the operation policy"
 } else {
