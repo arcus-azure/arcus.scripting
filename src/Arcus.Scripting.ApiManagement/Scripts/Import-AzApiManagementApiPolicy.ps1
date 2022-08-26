@@ -2,7 +2,7 @@ param(
    [Parameter(Mandatory = $true)][string] $ResourceGroupName,
    [Parameter(Mandatory = $true)][string] $ServiceName,
    [Parameter(Mandatory = $true)][string] $ApiId,
-   [Parameter(Mandatory = $true)][string] $policyFilePath
+   [Parameter(Mandatory = $true)][string] $PolicyFilePath
 )
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
@@ -12,7 +12,7 @@ if ($apim -eq $null) {
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 
 Write-Host "Updating policy of API '$ApiId'"
-$result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -PolicyFilePath $policyFilePath
+$result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -PolicyFilePath $PolicyFilePath -PassThru
 if ($result) {
     Write-Host "Successfully updated API policy"
 } else {
