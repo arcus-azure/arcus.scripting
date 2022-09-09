@@ -1,5 +1,5 @@
 ---
-title: "ARM templates"
+title: "ARM Templates"
 layout: default
 ---
 

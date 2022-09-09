@@ -1,5 +1,5 @@
 ---
-title: "Azure security"
+title: "Azure Security"
 layout: default
 ---
 
