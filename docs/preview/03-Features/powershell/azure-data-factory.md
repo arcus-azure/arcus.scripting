@@ -5,12 +5,6 @@ layout: default
 
 # Azure Data Factory
 
-This module provides the following capabilities:
-- [Azure Data Factory](#azure-data-factory)
-  - [Installation](#installation)
-  - [Enabling a trigger of an Azure Data Factory pipeline](#enabling-a-trigger-of-an-azure-data-factory-pipeline)
-  - [Disabling a trigger of an Azure Data Factory pipeline](#disabling-a-trigger-of-an-azure-data-factory-pipeline)
-
 ## Installation
 
 To have access to the following features, you have to import the module:

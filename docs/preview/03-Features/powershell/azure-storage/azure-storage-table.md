@@ -5,11 +5,6 @@ layout: default
 
 # Azure Storage - Tables
 
-This module provides the following capabilities:
-- [Azure Storage - Tables](#azure-storage---tables)
-  - [Installation](#installation)
-  - [Creating a new table in an Azure Storage Account](#creating-a-new-table-in-an-azure-storage-account)
-
 ## Installation
 
 To have access to the following features, you have to import the module:

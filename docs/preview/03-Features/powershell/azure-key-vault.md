@@ -5,13 +5,6 @@ layout: default
 
 # Azure Key Vault
 
-This module provides the following capabilities:
-- [Azure Key Vault](#azure-key-vault)
-  - [Installation](#installation)
-  - [Getting all access policies for an Azure Key Vault](#getting-all-access-policies-for-an-azure-key-vault)
-  - [Setting a secret value from file into Azure Key Vault](#setting-a-secret-value-from-file-into-azure-key-vault)
-  - [Setting a secret value with BASE64 encoded file-content into Azure Key Vault](#setting-a-secret-value-with-base64-encoded-file-content-into-azure-key-vault)
-
 ## Installation
 
 To have access to the following features, you have to import the module:

@@ -5,13 +5,6 @@ layout: default
 
 # Azure SQL
 
-This module provides the following capabilities:
-- [Azure SQL](#azure-sql)
-  - [Installation](#installation)
-  - [Invoke a database migration](#invoke-a-database-migration)
-    - [Adding SQL scripts so they can be picked up by the script](#adding-sql-scripts-so-they-can-be-picked-up-by-the-script)
-    - [Compatibility](#compatibility)
-
 ## Installation
 
 To have access to the following features, you have to import the module:

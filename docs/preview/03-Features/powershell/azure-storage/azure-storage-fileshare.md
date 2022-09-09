@@ -5,12 +5,6 @@ layout: default
 
 # Azure Storage for file shares
 
-This module provides the following capabilities:
-- [Azure Storage for file shares](#azure-storage-for-file-shares)
-  - [Installation](#installation)
-  - [Creating a folder on an Azure file share](#creating-a-folder-on-an-azure-file-share)
-  - [Uploading files to a folder on an Azure file share](#uploading-files-to-a-folder-on-an-azure-file-share)
-
 ## Installation
 
 To have access to the following features, you have to import the module:

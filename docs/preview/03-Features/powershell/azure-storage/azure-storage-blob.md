@@ -5,11 +5,6 @@ layout: default
 
 # Azure Blob Storage
 
-This module provides the following capabilities:
-- [Azure Blob Storage](#azure-blob-storage)
-  - [Installation](#installation)
-  - [Uploading files to a Azure Storage Blob container](#uploading-files-to-a-azure-storage-blob-container)
-
 ## Installation
 
 To have access to the following features, you have to import the module:
