@@ -5,12 +5,6 @@ layout: default
 
 # Azure Management
 
-This module provides the following capabilities:
-- [Azure Management](#azure-management)
-  - [Installation](#installation)
-  - [Removing a soft deleted API Management instance](#removing-a-soft-deleted-api-management-instance)
-  - [Restoring a soft deleted API Management instance](#restoring-a-soft-deleted-api-management-instance)
-
 ## Installation
 
 To have access to the following features, you have to import the module:

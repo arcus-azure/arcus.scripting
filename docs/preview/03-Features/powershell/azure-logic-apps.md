@@ -5,14 +5,6 @@ layout: default
 
 # Azure Logic Apps
 
-This module provides the following capabilities:
-- [Azure Logic Apps](#azure-logic-apps)
-  - [Installation](#installation)
-  - [Disable an Azure Logic App](#disable-an-azure-logic-app)
-  - [Enable an Azure Logic App](#enable-an-azure-logic-app)
-  - [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
-  - [Enabling Azure Logic Apps from configuration file](#enabling-azure-logic-apps-from-configuration-file)
-
 ## Installation
 
 To have access to the following features, you have to import the module:
