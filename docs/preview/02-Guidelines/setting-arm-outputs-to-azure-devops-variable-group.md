@@ -13,7 +13,7 @@ For example, think of a use-case where your vital infrastructure components are 
 
 ## Example
 ### Specify Output Parameters
-So how does this work in practice? Let's take an example where we will deploy a very basic Application Insights instance and specify the `Id` and `InstrumentationKey` of the Application Insights instance as output parameters. 
+So how does this work in practice? Let's take an example where we will deploy a very basic Application Insights instance and specify the `Id` and `ConnectionString` of the Application Insights instance as output parameters. 
 
 Our Bicep template looks like this:
 ``` bicep
@@ -29,10 +29,10 @@ resource applicationInsight 'microsoft.insights/components@2020-02-02' = {
 }
 
 output ApplicationInsights_Id string = applicationInsight.id
-output ApplicationInsights_InstrumentationKey string = reference(applicationInsight.id, '2015-05-01').InstrumentationKey
+output ApplicationInsights_ConnectionString string = reference(applicationInsight.id, '2020-02-02').ConnectionString
 ```
 
-This Bicep template will deploy the Application Insights instance and place the `Id` and `InstrumentationKey` in the output parameters. 
+This Bicep template will deploy the Application Insights instance and place the `Id` and `ConnectionString` in the output parameters. 
 
 ### Updating The Variable Group
 Now all we need to do is execute our [script](../03-Features/powershell/azure-devops.md#setting-arm-outputs-to-azure-devops-variable-group) which will update the Azure DevOps variable group.
