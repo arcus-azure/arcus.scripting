@@ -44,7 +44,7 @@ Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName 'myVariableGroup'
 ```
 
 ### Combining It All In A Pipeline
-Now that we have walked through both steps let's take a look on how to combine this all into a pipeline that can be executed in Azure DevOps.
+Now that we have walked through both steps, let's take a look on how to combine all this into an Azure DevOps pipeline.
 For this we use YAML and define two tasks, the first will deploy our Application Insights instance and the second will update our variable group.
 
 ``` yaml
