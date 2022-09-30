@@ -84,3 +84,10 @@ Using this setup we are able to deploy a Bicep template and update an Azure DevO
 > ⚠ Before running your pipeline, make sure the variable group already exists in Azure DevOps and the permissions below are set:
 > - Project Collection Build Service (`<your devops org name>`) - Administrator
 > - `<your devops project name>` Build Service (`<your devops org name>`) - Administrator
+
+## Further Reading
+- [Arcus Scripting Azure DevOps documentation](../03-Features/powershell/azure-devops.md)
+  - [Setting ARM outputs to Azure DevOps variable group](../03-Features/powershell/azure-devops.md#setting-arm-outputs-to-azure-devops-variable-group)
+  - [Setting ARM outputs to Azure DevOps pipeline variables](../03-Features/powershell/azure-devops.md#setting-arm-outputs-to-azure-devops-pipeline-variables)
+- [Bicep Outputs](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/outputs/)
+- [Azure DevOps Variable Groups](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=yaml)
