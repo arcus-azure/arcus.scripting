@@ -35,7 +35,7 @@ This Bicep template will deploy the Application Insights instance and place the 
 ### Updating The Variable Group
 Now all we need to do is execute our [script](https://scripting.arcus-azure.net/Features/powershell/azure-devops#setting-arm-outputs-to-azure-devops-variable-group) which will update the Azure DevOps variable group.
 
-From an Azure DevOps Pipeline this can be done like so:
+From an Azure DevOps pipeline this can be done like so:
 ``` powershell
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 Install-Module -Name Arcus.Scripting.DevOps -AllowClobber
