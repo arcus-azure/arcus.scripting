@@ -33,7 +33,7 @@ output ApplicationInsights_InstrumentationKey string = reference(applicationInsi
 This Bicep template will deploy the Application Insights instance and place the `Id` and `InstrumentationKey` in the output parameters. 
 
 ### Updating The Variable Group
-Now all we need to do is execute our [script](https://scripting.arcus-azure.net/Features/powershell/azure-devops#setting-arm-outputs-to-azure-devops-variable-group) which will update the Azure DevOps variable group.
+Now all we need to do is execute our [script](../03-Features/powershell/azure-devops.md#setting-arm-outputs-to-azure-devops-variable-group) which will update the Azure DevOps variable group.
 
 From an Azure DevOps pipeline this can be done like so:
 ``` powershell
