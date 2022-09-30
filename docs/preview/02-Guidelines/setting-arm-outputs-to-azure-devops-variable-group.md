@@ -81,6 +81,6 @@ Finally we use `system_accesstoken: $(System.AccessToken)` in the `Powershell@2`
 ## Closing Up
 Using this setup we are able to deploy a Bicep template and update an Azure DevOps variable group with the specified output parameters!
 
-> 💡 Before running your pipeline, make sure the variable group already exists in Azure DevOps and the permissions below are set:
+> ⚠ Before running your pipeline, make sure the variable group already exists in Azure DevOps and the permissions below are set:
 > - Project Collection Build Service (`<your devops org name>`) - Administrator
 > - `<your devops project name>` Build Service (`<your devops org name>`) - Administrator
