@@ -67,7 +67,7 @@ For this we use YAML and define two tasks, the first will deploy our Application
     targetType: 'inline'
     script: |
       Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-      Install-Module -Name Arcus.Scripting.DevOps  -AllowClobber
+      Install-Module -Name Arcus.Scripting.DevOps -AllowClobber
 
       Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName 'myVariableGroup' -ArmOutputsEnvironmentVariableName 'ArmOutputs' -UpdateVariablesForCurrentJob
 ```
