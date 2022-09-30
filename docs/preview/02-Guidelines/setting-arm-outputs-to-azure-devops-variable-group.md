@@ -38,7 +38,7 @@ Now all we need to do is execute our [script](https://scripting.arcus-azure.net/
 From an Azure DevOps Pipeline this can be done like so:
 ``` powershell
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-Install-Module -Name Arcus.Scripting.DevOps  -AllowClobber
+Install-Module -Name Arcus.Scripting.DevOps -AllowClobber
 
 Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName 'myVariableGroup'
 ```
