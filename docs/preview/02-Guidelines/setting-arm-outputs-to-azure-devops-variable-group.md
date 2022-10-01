@@ -7,7 +7,7 @@ layout: default
 
 In ARM and Bicep templates it is possible to specify [output parameters](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/outputs), this enables you to return values from the deployed resources. 
 
-To enable maximum re-use of these output parameters within your environment we developed [this script](https://scripting.arcus-azure.net/Features/powershell/azure-devops#setting-arm-outputs-to-azure-devops-variable-group) which is available in the `Arcus.Scripting.DevOps` PowerShell module. It allows you to store those output parameters in an Azure DevOps variable group, this helps you in making sure certain parameters are available throughout your Azure DevOps environment.
+To enable maximum re-use of these output parameters within your environment we developed [this script](https://scripting.arcus-azure.net/Features/powershell/azure-devops#setting-arm-outputs-to-azure-devops-variable-group) which is available in the `Arcus.Scripting.DevOps` PowerShell module. It allows you to store those output parameters in an Azure DevOps variable group. This helps you in making sure certain parameters are available throughout your Azure DevOps environment.
 
 For example, think of a use-case where your vital infrastructure components are deployed in a seperate Azure DevOps pipeline and need to be referenced from other components. Storing the necessary information such as identifiers, locations or names of these components in an Azure DevOps variable group allows you to easily use these values from other components.
 
