@@ -31,7 +31,10 @@ PS> Install-Module -Name Arcus.Scripting.Storage.Table
 With non-existing table:
 
 ```powershell
-PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products"
+PS> Create-AzStorageTable `
+-ResourceGroupName "stock" `
+-StorageAccountName "admin" `
+-TableName "products"
 # Azure storage account context has been retrieved
 # Azure storage table 'products' does not exist yet in the Azure storage account, so will create one
 # Azure storage table 'products' created
@@ -40,7 +43,12 @@ PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin"
 With existing table and re-create:
 
 ```powershell
-PS> Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -Recreate -RetryIntervalSeconds 3
+PS> Create-AzStorageTable `
+-ResourceGroupName "stock" `
+-StorageAccountName "admin" `
+-TableName "products" `
+-Recreate `
+-RetryIntervalSeconds 3
 # Azure storage account context has been retrieved
 # Azure storage table 'products' has been removed
 # Failed to re-create the Azure storage table 'products', retrying in 5 seconds...

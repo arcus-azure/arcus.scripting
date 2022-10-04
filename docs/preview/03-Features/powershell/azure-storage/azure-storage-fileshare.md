@@ -28,7 +28,10 @@ When a folder already exists with the provided name, it will be skipped. No exce
 **Example**
 
 ```powershell
-PS> Create-AzFileShareStorageFolder -ResourceGroupName "shipping-resources" -StorageAccountName "tracking-account-storage" -FileShareName "returned" -FolderName "containers"
+PS> Create-AzFileShareStorageFolder `
+-ResourceGroupName "shipping-resources" `
+-StorageAccountName "tracking-account-storage" `
+-FileShareName "returned" -FolderName "containers"
 # Creating Azure FileShare storage folder 'containers' in file share 'returned'..
 # Created Azure FileShare storage folder 'containers' in file share 'returned'
 ```
@@ -49,7 +52,11 @@ Upload a set of files from a given folder, optionally matching a specific file m
 **Example**
 
 ```powershell
-PS> Upload-AzFileShareStorageFiles -ResourceGroupName "shipping-resources" -StorageAccountName "tracking-account-storage" -FileShareName "returned" -SourceFolderPath "containers" -DestinationFolderName "containers"
+PS> Upload-AzFileShareStorageFiles `
+-ResourceGroupName "shipping-resources" `
+-StorageAccountName "tracking-account-storage" `
+-FileShareName "returned" -SourceFolderPath "containers" `
+-DestinationFolderName "containers"
 # Upload files to Azure FileShare storage 'returned'...
 # Uploaded the '[fileName]' file to Azure FileShare 'returned'
 # Uploaded the '[fileName]' file to Azure FileShare 'returned'

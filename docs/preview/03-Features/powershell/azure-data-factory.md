@@ -27,12 +27,19 @@ Enable a Data Factory V2 Trigger.
 **Example**
 
 ```powershell
-PS> Enable-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "my-data-factory-trigger-name"
+PS> Enable-AzDataFactoryTrigger `
+-ResourceGroupName "my-resource-group" `
+-DataFactoryName "my-data-factory-name" `
+-DataFactoryTriggerName "my-data-factory-trigger-name"
 # The trigger 'my-data-factory-trigger-name' has been enabled.
 ```
 
 ```powershell
-PS> Enable-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "unknown-data-factory-trigger-name" -FailWhenTriggerIsNotFound
+PS> Enable-AzDataFactoryTrigger `
+-ResourceGroupName "my-resource-group" `
+-DataFactoryName "my-data-factory-name" `
+-DataFactoryTriggerName "unknown-data-factory-trigger-name" `
+-FailWhenTriggerIsNotFound
 # Error: Error retrieving trigger 'unknown-data-factory-trigger-name' in data factory 'my-data-factory'.
 ```
 
@@ -51,11 +58,18 @@ Disable a Data Factory V2 Trigger.
 **Example**
 
 ```powershell
-PS> Disable-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "my-data-factory-trigger-name"
+PS> Disable-AzDataFactoryTrigger `
+-ResourceGroupName "my-resource-group" `
+-DataFactoryName "my-data-factory-name" `
+-DataFactoryTriggerName "my-data-factory-trigger-name"
 # The trigger 'my-data-factory-trigger-name' has been disabled.
 ```
 
 ```powershell
-PS> Disable-AzDataFactoryTrigger -ResourceGroupName "my-resource-group" -DataFactoryName "my-data-factory-name" -DataFactoryTriggerName "unknown-data-factory-trigger-name" -FailWhenTriggerIsNotFound
+PS> Disable-AzDataFactoryTrigger `
+-ResourceGroupName "my-resource-group" `
+-DataFactoryName "my-data-factory-name" `
+-DataFactoryTriggerName "unknown-data-factory-trigger-name" `
+-FailWhenTriggerIsNotFound
 # Error: Error retrieving trigger 'unknown-data-factory-trigger-name' in data factory 'my-data-factory'.
 ```

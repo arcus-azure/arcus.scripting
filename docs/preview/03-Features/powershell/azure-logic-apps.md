@@ -33,7 +33,9 @@ Using this script to enable a specific Azure Logic App.
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, without providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Disable-AzLogicApp -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
+PS> Disable-AzLogicApp `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp"
 # Access-token and subscriptionId retrieved
 # Attempting to disable rcv-shopping-order-sftp
 
@@ -43,7 +45,11 @@ PS> Disable-AzLogicApp -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-sho
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, with providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Disable-AzLogicApp -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
+PS> Disable-AzLogicApp `
+-SubscriptionId $SubscriptionId `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp" `
+-AccessToken $AccessToken
 # Attempting to disable rcv-shopping-order-sftp
 
 # Successfully disabled rcv-shopping-order-sftp
@@ -69,7 +75,9 @@ Using this script to enable a specific Azure Logic App.
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, without providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Enable-AzLogicApp -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp"
+PS> Enable-AzLogicApp `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp"
 # Access-token and subscriptionId retrieved
 # Attempting to enable rcv-shopping-order-sftp
 
@@ -79,7 +87,11 @@ PS> Enable-AzLogicApp -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shop
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, with providing the subscriptionId or accesstoken.  
 
 ```powershell
-PS> Enable-AzLogicApp -SubscriptionId $SubscriptionId -ResourceGroupName "rg-common-dev" -LogicAppName "rcv-shopping-order-sftp" -AccessToken $AccessToken
+PS> Enable-AzLogicApp `
+-SubscriptionId $SubscriptionId `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp" `
+-AccessToken $AccessToken
 # Attempting to enable rcv-shopping-order-sftp
 
 # Successfully enabled rcv-shopping-order-sftp
@@ -160,7 +172,9 @@ Disables all the Logic Apps based on the `./deploy-orderControl.json` configurat
 Uses the sample configuration file here above.
 
 ```powershell
-PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -ResourceGroupName "my-resource-group"
+PS> Disable-AzLogicAppsFromConfig `
+-DeployFilename "./deploy-orderControl" `
+-ResourceGroupName "my-resource-group"
 # Executing batch: Protocol Receiver(s)
 # ==========================
 # > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
@@ -209,7 +223,10 @@ Disables all the Logic Apps based on the `./deploy-orderControl.json` configurat
 Uses the sample configuration file here above.
 
 ```powershell
-PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -ResourceGroupName "my-resource-group" -ResourcePrefix "la-cod-dev-we-"
+PS> Disable-AzLogicAppsFromConfig `
+-DeployFilename "./deploy-orderControl" `
+-ResourceGroupName "my-resource-group" `
+-ResourcePrefix "la-cod-dev-we-"
 # Executing batch: Protocol Receiver(s)
 # ==========================
 # > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
@@ -329,7 +346,9 @@ Enables all the Logic Apps based on the `./deploy-orderControl.json` configurati
 Uses the sample configuration file here above.
 
 ```powershell
-PS> Enable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -ResourceGroupName "my-resource-group"
+PS> Enable-AzLogicAppsFromConfig `
+-DeployFilename "./deploy-orderControl" `
+-ResourceGroupName "my-resource-group"
 # Executing batch: 'Sender(s)'
 # ==========================
 # > Reverting StopType 'Immediate' for Logic App 'snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
@@ -375,7 +394,10 @@ Enables all the Logic Apps based on the `./deploy-orderControl.json` configurati
 Uses the sample configuration file here above.
 
 ```powershell
-PS> Enable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -ResourceGroupName "my-resource-group" -ResourcePrefix "la-cod-dev-we-"
+PS> Enable-AzLogicAppsFromConfig `
+-DeployFilename "./deploy-orderControl" `
+-ResourceGroupName "my-resource-group" `
+-ResourcePrefix "la-cod-dev-we-"
 # Executing batch: 'Sender(s)'
 # ==========================
 # > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'

@@ -29,7 +29,11 @@ Create/update a single application setting within an Azure App Service.
 
 Setting an application setting within an Azure App Service.  
 ```powershell
-PS> Set-AzAppServiceSetting -ResourceGroupName 'my-resource-group' -AppServiceName 'my-app-service' -AppServiceSettingName 'my-app-setting' -AppServiceSettingValue 'my-value'
+PS> Set-AzAppServiceSetting `
+-ResourceGroupName 'my-resource-group' `
+-AppServiceName 'my-app-service' `
+-AppServiceSettingName 'my-app-setting' `
+-AppServiceSettingValue 'my-value'
 # Checking if the App Service with name 'my-app-service' can be found in the resource group 'my-resource-group'
 # App service has been found
 # Extracting the existing application settings
