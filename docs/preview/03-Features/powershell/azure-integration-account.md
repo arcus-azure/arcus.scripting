@@ -30,27 +30,41 @@ Upload/update a single, or multiple schemas into an Azure Integration Account.
 
 Uploading a *single schema* into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -SchemaFilePath "C:\Schemas\MySchema.xsd"
+PS> Set-AzIntegrationAccountSchemas `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-SchemaFilePath "C:\Schemas\MySchema.xsd"
 # Uploading schema 'MySchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'MySchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading a *single schema* into an Integration Account and remove the file-extension.  
 ```powershell
-PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -SchemaFilePath "C:\Schemas\MySchema.xsd" -RemoveFileExtensions
+PS> Set-AzIntegrationAccountSchemas `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-SchemaFilePath "C:\Schemas\MySchema.xsd" `
+-RemoveFileExtensions
 # Uploading schema 'MySchema' into the Azure Integration Account 'my-integration-account'
 # Schema 'MySchema' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 Uploading a *single schema* into an Integration Account and set add a prefix to the name of the schema within the Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -SchemaFilePath "C:\Schemas\MySchema.xsd" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountSchemas `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-SchemaFilePath "C:\Schemas\MySchema.xsd" `
+-ArtifactsPrefix 'dev-'
 # Uploading schema 'dev-MySchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'dev-MySchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading *all schemas* located in a specific folder into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -SchemasFolder "C:\Schemas"
+PS> Set-AzIntegrationAccountSchemas `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-SchemasFolder "C:\Schemas"
 # Uploading schema 'MyFirstSchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'MyFirstSchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -61,7 +75,11 @@ PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name
 
 Uploading *all schemas* located in a specific folder into an Integration Account and remove the file-extension.  
 ```powershell
-PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -SchemasFolder "C:\Schemas" -RemoveFileExtensions
+PS> Set-AzIntegrationAccountSchemas `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-SchemasFolder "C:\Schemas" `
+-RemoveFileExtensions
 # Uploading schema 'MyFirstSchema' into the Azure Integration Account 'my-integration-account'
 # Schema 'MyFirstSchema' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -72,7 +90,11 @@ PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name
 
 Uploading *all schemas* located in a specific folder into an Integration Account and set add a prefix to the name of the schemas.
 ```powershell
-PS> Set-AzIntegrationAccountSchemas -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -SchemasFolder "C:\Schemas" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountSchemas `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-SchemasFolder "C:\Schemas" `
+-ArtifactsPrefix 'dev-'
 # Uploading schema 'dev-MyFirstSchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'dev-MyFirstSchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -100,27 +122,41 @@ Upload/update a single, or multiple maps into an Azure Integration Account.
 
 Uploading a *single map* into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapFilePath "C:\Maps\MyMap.xslt"
+PS> Set-AzIntegrationAccountMaps `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-MapFilePath "C:\Maps\MyMap.xslt"
 # Uploading map 'MyMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'MyMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading a *single map* into an Integration Account and remove the file-extension.  
 ```powershell
-PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapFilePath "C:\Maps\MyMap.xslt" -RemoveFileExtensions
+PS> Set-AzIntegrationAccountMaps `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-MapFilePath "C:\Maps\MyMap.xslt" `
+-RemoveFileExtensions
 # Uploading map 'MyMap' into the Azure Integration Account 'my-integration-account'
 # Map 'MyMap' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 Uploading a *single map* into an Integration Account and set add a prefix to the name of the schema within the Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapFilePath "C:\Maps\MyMap.xslt" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountMaps `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-MapFilePath "C:\Maps\MyMap.xslt" `
+-ArtifactsPrefix 'dev-'
 # Uploading map 'dev-MyMap.xsd' into the Azure Integration Account 'my-integration-account'
 # Map 'dev-MyMap.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading *all maps* located in a specific folder into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapsFolder "C:\Maps"
+PS> Set-AzIntegrationAccountMaps `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-MapsFolder "C:\Maps"
 # Uploading map 'MyFirstMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'MyFirstMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -131,7 +167,11 @@ PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'm
 
 Uploading *all maps* located in a specific folder into an Integration Account and remove the file-extension.  
 ```powershell
-PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapsFolder "C:\Maps" -RemoveFileExtensions
+PS> Set-AzIntegrationAccountMaps `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-MapsFolder "C:\Maps" `
+-RemoveFileExtensions
 # Uploading map 'MyFirstMap' into the Azure Integration Account 'my-integration-account'
 # Map 'MyFirstMap' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -142,7 +182,11 @@ PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'm
 
 Uploading *all maps* located in a specific folder into an Integration Account and set add a prefix to the name of the maps.
 ```powershell
-PS> Set-AzIntegrationAccountMaps -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -MapsFolder "C:\Maps" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountMaps `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-MapsFolder "C:\Maps" `
+-ArtifactsPrefix 'dev-'
 # Uploading map 'dev-MyFirstMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'dev-MyFirstMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -167,21 +211,31 @@ Upload/update a single, or multiple assemblies into an Azure Integration Account
 
 Uploading a *single assembly* into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssemblyFilePath "C:\Assemblies\MyAssembly.dll"
+PS> Set-AzIntegrationAccountAssemblies `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AssemblyFilePath "C:\Assemblies\MyAssembly.dll"
 # Uploading assembly 'MyAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'MyAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading a *single assembly* into an Integration Account and set add a prefix to the name of the assembly within the Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssemblyFilePath "C:\Assemblies\MyAssembly.dll" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountAssemblies `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AssemblyFilePath "C:\Assemblies\MyAssembly.dll" `
+-ArtifactsPrefix 'dev-'
 # Uploading assembly 'dev-MyAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'dev-MyAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading *all assemblies* located in a specific folder into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssembliesFolder "C:\Assemblies"
+PS> Set-AzIntegrationAccountAssemblies `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AssembliesFolder "C:\Assemblies"
 # Uploading assembly 'MyFirstAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'MyFirstAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -192,7 +246,11 @@ PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -N
 
 Uploading *all assemblies* located in a specific folder into an Integration Account and set add a prefix to the name of the assemblies.
 ```powershell
-PS> Set-AzIntegrationAccountAssemblies -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AssembliesFolder "C:\Assemblies" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountAssemblies `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AssembliesFolder "C:\Assemblies" `
+-ArtifactsPrefix 'dev-'
 # Uploading assembly 'dev-MyFirstAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'dev-MyFirstAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -221,21 +279,34 @@ Upload/update a single, or multiple certificates into an Azure Integration Accou
 
 Uploading a *single public certificate* into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificateFilePath "C:\Certificates\MyCertificate.cer"
+PS> Set-AzIntegrationAccountCertificates `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-CertificateType 'Public' `
+-CertificateFilePath "C:\Certificates\MyCertificate.cer"
 # Uploading certificate 'MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading a *single public certificate* into an Integration Account and set add a prefix to the name of the certificate within the Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificateFilePath "C:\Certificates\MyCertificate.cer" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountCertificates `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-CertificateType 'Public' `
+-CertificateFilePath "C:\Certificates\MyCertificate.cer" `
+-ArtifactsPrefix 'dev-'
 # Uploading certificate 'dev-MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading *all public certificates* located in a specific folder into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificatesFolder "C:\Certificates"
+PS> Set-AzIntegrationAccountCertificates `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-CertificateType 'Public' `
+-CertificatesFolder "C:\Certificates"
 # Uploading certificate 'MyFirstCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'MyFirstCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -246,7 +317,12 @@ PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' 
 
 Uploading *all public assemblies* located in a specific folder into an Integration Account and set add a prefix to the name of the certificates.
 ```powershell
-PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Public' -CertificatesFolder "C:\Certificates" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountCertificates `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-CertificateType 'Public' `
+-CertificatesFolder "C:\Certificates" `
+-ArtifactsPrefix 'dev-'
 # Uploading certificate 'dev-MyFirstCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MyFirstCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -257,14 +333,29 @@ PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' 
 
 Uploading a *single private certificate* into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Private' -CertificateFilePath "C:\Certificates\MyCertificate.cer" -KeyName 'MyKey' -KeyVersion 'MyKeyVersion' -KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
+PS> Set-AzIntegrationAccountCertificates `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-CertificateType 'Private' `
+-CertificateFilePath "C:\Certificates\MyCertificate.cer" `
+-KeyName 'MyKey' `
+-KeyVersion 'MyKeyVersion' `
+-KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
 # Uploading certificate 'MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading a *single private certificate* into an Integration Account and set add a prefix to the name of the certificate within the Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountCertificates -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -CertificateType 'Private' -CertificateFilePath "C:\Certificates\MyCertificate.cer" -ArtifactsPrefix 'dev-' -KeyName 'MyKey' -KeyVersion 'MyKeyVersion' -KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
+PS> Set-AzIntegrationAccountCertificates `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-CertificateType 'Private' `
+-CertificateFilePath "C:\Certificates\MyCertificate.cer" `
+-ArtifactsPrefix 'dev-' `
+-KeyName 'MyKey' `
+-KeyVersion 'MyKeyVersion' `
+-KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
 # Uploading certificate 'dev-MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
@@ -285,21 +376,31 @@ Upload/update a single, or multiple partners into an Azure Integration Account.
 
 Uploading a *single partner* into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnerFilePath "C:\Partners\MyPartner.json"
+PS> Set-AzIntegrationAccountPartners `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-PartnerFilePath "C:\Partners\MyPartner.json"
 # Uploading partner 'MyPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'MyPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading a *single partner* into an Integration Account and set add a prefix to the name of the partner within the Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnerFilePath "C:\Partners\MyPartner.json" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountPartners `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-PartnerFilePath "C:\Partners\MyPartner.json" `
+-ArtifactsPrefix 'dev-'
 # Uploading partner 'dev-MyPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'dev-MyPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading *all partners* located in a specific folder into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnersFolder "C:\Partners"
+PS> Set-AzIntegrationAccountPartners `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-PartnersFolder "C:\Partners"
 # Uploading partner 'MyFirstPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'MyFirstPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -310,7 +411,11 @@ PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Nam
 
 Uploading *all partners* located in a specific folder into an Integration Account and set add a prefix to the name of the partners.
 ```powershell
-PS> Set-AzIntegrationAccountPartners -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -PartnersFolder "C:\Partners" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountPartners `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-PartnersFolder "C:\Partners" `
+-ArtifactsPrefix 'dev-'
 # Uploading partner 'dev-MyFirstPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'dev-MyFirstPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -368,21 +473,31 @@ Upload/update a single, or multiple agreements into an Azure Integration Account
 
 Uploading a *single agreement* into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementFilePath "C:\Agreements\MyAgreement.json"
+PS> Set-AzIntegrationAccountAgreements `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AgreementFilePath "C:\Agreements\MyAgreement.json"
 # Uploading agreement 'MyAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'MyAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading a *single agreement* into an Integration Account and set add a prefix to the name of the agreement within the Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementFilePath "C:\Agreements\MyAgreement.json" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountAgreements `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AgreementFilePath "C:\Agreements\MyAgreement.json" `
+-ArtifactsPrefix 'dev-'
 # Uploading agreement 'dev-MyAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'dev-MyAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
 Uploading *all agreements* located in a specific folder into an Integration Account.  
 ```powershell
-PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementsFolder "C:\Agreements"
+PS> Set-AzIntegrationAccountAgreements `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AgreementsFolder "C:\Agreements"
 # Uploading agreement 'MyFirstAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'MyFirstAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------
@@ -393,7 +508,11 @@ PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -N
 
 Uploading *all agreements* located in a specific folder into an Integration Account and set add a prefix to the name of the agreements.
 ```powershell
-PS> Set-AzIntegrationAccountAgreements -ResourceGroupName 'my-resource-group' -Name 'my-integration-account' -AgreementsFolder "C:\Agreements" -ArtifactsPrefix 'dev-'
+PS> Set-AzIntegrationAccountAgreements `
+-ResourceGroupName 'my-resource-group' `
+-Name 'my-integration-account' `
+-AgreementsFolder "C:\Agreements" `
+-ArtifactsPrefix 'dev-'
 # Uploading agreement 'dev-MyFirstAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'dev-MyFirstAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
 # ----------

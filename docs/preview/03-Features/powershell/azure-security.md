@@ -40,7 +40,9 @@ PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name"
 When you want to remove a specific resource lock, with a given name:
 
 ```powershell
-PS> Remove-AzResourceGroupLocks -ResourceGroupName "your-resource-group-name" -LockName "your-resource-lock-name"
+PS> Remove-AzResourceGroupLocks `
+-ResourceGroupName "your-resource-group-name" `
+-LockName "your-resource-lock-name"
 # Retrieving all locks in resourceGroup 'your-resource-group-name' with name 'your-resource-lock-name'
 # Start removing all locks in resourceGroup 'your-resource-group-name'
 # Removing the lock: 'your-resource-lock-name'
@@ -96,7 +98,11 @@ This function allows you to assign an Azure built-in role to a resource upon a r
 **Usage**
 
 ```powershell
-PS> New-AzResourceGroupRoleAssignment -TargetResourceGroupName "to-gain-access-resource-group" -ResourceGroupName "to-assign-role-resource-group" -ResourceName "to-assign-resource" -RoleAssignmentDefinition "Contributor"
+PS> New-AzResourceGroupRoleAssignment `
+-TargetResourceGroupName "to-gain-access-resource-group" `
+-ResourceGroupName "to-assign-role-resource-group" `
+-ResourceName "to-assign-resource" `
+-RoleAssignmentDefinition "Contributor"
 # Assigning Contributor-rights to the 'to-assign-role-resource' in the resource group 'to-assign-resource-group to gain access to the 'to-gain-access-resource-group'
 # Contributor access granted!
 ```

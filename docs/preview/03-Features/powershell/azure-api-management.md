@@ -33,7 +33,12 @@ Backs up an API Management service (with built-in storage context retrieval).
 Simplest way to back up an API Management service.
 
 ```powershell
-PS> Backup-AzApiManagementService -ResourceGroupName "my-resource-group" -StorageAccountResourceGroupName "my-storage-account-resource-group" -StorageAccountName "my-storage-account" -ServiceName "my-service" -ContainerName "my-target-blob-container"
+PS> Backup-AzApiManagementService `
+-ResourceGroupName "my-resource-group" `
+-StorageAccountResourceGroupName "my-storage-account-resource-group" `
+-StorageAccountName "my-storage-account" `
+-ServiceName "my-service" `
+-ContainerName "my-target-blob-container"
 # Getting Azure storage account key..
 # Got Azure storage key!
 # Create new Azure storage context with storage key...
@@ -63,14 +68,29 @@ Create an operation on an existing API in Azure API Management.
 Creates a new API operation on the Azure API Management instance with using the default base operation policy.
 
 ```powershell
-PS> Create-AzApiManagementApiOperation -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate
+PS> Create-AzApiManagementApiOperation `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ApiId $ApiId `
+-OperationId $OperationId `
+-Method $Method `
+-UrlTemplate $UrlTemplate
 # New API operation '$OperationName' on Azure API Management instance was added.
 ```
 
 Creates a new API operation on the Azure API Management instance with using a specific operation policy.
 
 ```powershell
-PS> Create-AzApiManagementApiOperation -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -Method $Method -UrlTemplate $UrlTemplate -OperationName $OperationName -Description $Description -PolicyFilePath $PolicyFilePath
+PS> Create-AzApiManagementApiOperation `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ApiId $ApiId `
+-OperationId $OperationId `
+-Method $Method `
+-UrlTemplate $UrlTemplate `
+-OperationName $OperationName `
+-Description $Description `
+-PolicyFilePath $PolicyFilePath
 # New API operation '$OperationName' on API Management instance was added.
 ```	
 
@@ -99,7 +119,12 @@ Signup or invite a new user in an existing Azure API Management instance.
 Invite a new user in an existing Azure API Management instance.
 
 ```powershell
-PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress
+PS> Create-AzApiManagementUserAccount `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-FirstName $FirstName `
+-LastName $LastName `
+-MailAddress $MailAddress
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
@@ -107,7 +132,13 @@ PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -Service
 Invite a new user in an existing Azure API Management instance and specify a UserId.
 
 ```powershell
-PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -UserId $UserId
+PS> Create-AzApiManagementUserAccount `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-FirstName $FirstName `
+-LastName $LastName `
+-MailAddress $MailAddress `
+-UserId $UserId
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
@@ -115,7 +146,13 @@ PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -Service
 Invite a new user in an existing Azure API Management instance and include a note.
 
 ```powershell
-PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -Note $Note
+PS> Create-AzApiManagementUserAccount `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-FirstName $FirstName `
+-LastName $LastName `
+-MailAddress $MailAddress `
+-Note $Note
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
@@ -123,7 +160,13 @@ PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -Service
 Invite a new user in an existing Azure API Management instance and send a notification.
 
 ```powershell
-PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -SendNotification
+PS> Create-AzApiManagementUserAccount `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-FirstName $FirstName `
+-LastName $LastName `
+-MailAddress $MailAddress `
+-SendNotification
 # Attempting to invite $FirstName $LastName ($MailAddress)
 # Invitation has been sent to FirstName $LastName ($MailAddress)
 ```
@@ -131,7 +174,13 @@ PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -Service
 Signup a new user in an existing Azure API Management instance.
 
 ```powershell
-PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -ConfirmationType signup
+PS> Create-AzApiManagementUserAccount `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-FirstName $FirstName `
+-LastName $LastName `
+-MailAddress $MailAddress `
+-ConfirmationType signup
 # Attempting to create account for FirstName $LastName ($MailAddress)
 # Account has been created for FirstName $LastName ($MailAddress)
 # Since no password was provided, one has been generated. Please advise the user to change this password the first time logging in
@@ -140,7 +189,14 @@ PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -Service
 Signup a new user in an existing Azure API Management instance and specify a password.
 
 ```powershell
-PS> Create-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -FirstName $FirstName -LastName $LastName -MailAddress $MailAddress -Password $Password -ConfirmationType signup
+PS> Create-AzApiManagementUserAccount `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-FirstName $FirstName `
+-LastName $LastName `
+-MailAddress $MailAddress `
+-Password $Password `
+-ConfirmationType signup
 # Attempting to create account for FirstName $LastName ($MailAddress)
 # Account has been created for FirstName $LastName ($MailAddress)
 ```
@@ -162,7 +218,10 @@ Remove a user from an existing Azure API Management instance based on e-mail add
 Remove a user from an existing Azure API Management instance.
 
 ```powershell
-PS> Remove-AzApiManagementUserAccount -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -MailAddress $MailAddress
+PS> Remove-AzApiManagementUserAccount `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-MailAddress $MailAddress
 # Retrieving the user account with e-mail '$MailAddress'
 # Attempting to remove the user account with e-mail '$MailAddress' and id '1'
 # Removed the user account with e-mail '$MailAddress' and id '1'
@@ -180,7 +239,11 @@ Imports a policy from a file to a product in Azure API Management.
 | `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |
 
 ```powershell
-PS> Import-AzApiManagementProductPolicy -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -ProductId $ProductId -PolicyFilePath $PolicyFilePath
+PS> Import-AzApiManagementProductPolicy `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ProductId $ProductId `
+-PolicyFilePath $PolicyFilePath
 # Updating policy of the product '$ProductId'
 ```
 
@@ -196,7 +259,11 @@ Imports a base-policy from a file to an API in Azure API Management.
 | `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy        |
 
 ```powershell
-PS> Import-AzApiManagementApiPolicy -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -PolicyFilePath $PolicyFilePath
+PS> Import-AzApiManagementApiPolicy `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ApiId $ApiId `
+-PolicyFilePath $PolicyFilePath
 # Updating policy of the API '$ApiId'
 ```
 
@@ -213,7 +280,12 @@ Imports a policy from a file to an API operation in Azure API Management.
 | `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |   
 
 ```powershell
-PS> Import-AzApiManagementOperationPolicy -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+PS> Import-AzApiManagementOperationPolicy `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ApiId $ApiId `
+-OperationId $OperationId `
+-PolicyFilePath $PolicyFilePath
 # Updating policy of the operation '$OperationId' in API '$ApiId'
 ```
 
@@ -227,7 +299,9 @@ Remove all default API's and products from the Azure API Management instance ('e
 | `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure  |
 
 ```powershell
-PS> Remove-AzApiManagementDefaults -ResourceGroupName $ResourceGroup -ServiceName $ServiceName
+PS> Remove-AzApiManagementDefaults `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName
 # Removing Echo Api...
 # Removing Starter product...
 # Removing Unlimited product...
@@ -249,7 +323,13 @@ The Restore-AzApiManagement cmdlet restores an API Management Service from the s
 | `DefaultProfile`                  | no        | The credentials, account, tenant, and subscription used for communication with azure.                                     |
 
 ```powershell
-PS> Restore-AzApiManagementService -ResourceGroupName $ResourceGroupName -$StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
+PS> Restore-AzApiManagementService `
+-ResourceGroupName $ResourceGroupName `
+-$StorageAccountResourceGroupName `
+-StorageAccountName $StorageAccountName `
+-ServiceName $ServiceName `
+-ContainerName $ContainerName `
+-BlobName $BlobName
 # Getting Azure storage account key...
 # Got Azure storage key!
 # Create new Azure storage context with storage key...
@@ -273,7 +353,10 @@ Sets the subscription header/query parameter name to an API in Azure API Managem
 **Using default**
 
 ```powershell
-PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId
+PS> Set-AzApiManagementApiSubscriptionKey `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ApiId $ApiId
 Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroup'"
 Write-Host "Subscription key header 'x-api-key' was assigned"
 Write-Host "Subscription key query parameter 'apiKey' was assigned"
@@ -282,7 +365,12 @@ Write-Host "Subscription key query parameter 'apiKey' was assigned"
 **User-defined values**
 
 ```powershell
-PS> Set-AzApiManagementApiSubscriptionKey -ResourceGroupName $ResourceGroup -ServiceName $ServiceName -ApiId $ApiId -HeaderName "my-api-key" -QueryParamName "myApiKey"
+PS> Set-AzApiManagementApiSubscriptionKey `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ApiId $ApiId `
+-HeaderName "my-api-key" `
+-QueryParamName "myApiKey"
 Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroup'"
 Write-Host "Subscription key header 'my-api-key' was assigned"
 Write-Host "Subscription key query parameter 'myApiKey' was assigned"
@@ -302,7 +390,11 @@ Uploads a private certificate to the Azure API Management certificate store, all
 **Example**
 
 ```powershell
-PS> Upload-AzApiManagementCertificate -ResourceGroupName "my-resource-group" -ServiceName "my-api-management-instance' -CertificateFilePath "c:\temp\certificate.pfx" -CertificatePassword "P@ssw0rd"
+PS> Upload-AzApiManagementCertificate `
+-ResourceGroupName "my-resource-group" `
+-ServiceName "my-api-management-instance" `
+-CertificateFilePath "c:\temp\certificate.pfx" `
+-CertificatePassword "P@ssw0rd"
 # Using API Management instance 'my-api-management-instance' in resource group 'my-resource-group'
 # Uploaded private certificate at 'c:\temp\certificate.pfx'
 ```

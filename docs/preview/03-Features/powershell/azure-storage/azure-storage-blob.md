@@ -34,7 +34,11 @@ Uploads a set of files located in a given directory to a container on a Azure Bl
 With existing blob container:
 
 ```powershell
-PS> Upload-AzFilesToBlobStorage -ResourceGroupName "resource-group" -StorageAccountName "account-name" -TargetFolderPath "./directory" -ContainerName "blob-container"
+PS> Upload-AzFilesToBlobStorage `
+-ResourceGroupName "resource-group" `
+-StorageAccountName "account-name" `
+-TargetFolderPath "./directory" `
+-ContainerName "blob-container"
 # Try using existing Azure Storage Container blob-container...
 # Using existing Azure Storage Container blob-container
 # Uploading files from ./directory
@@ -44,7 +48,11 @@ PS> Upload-AzFilesToBlobStorage -ResourceGroupName "resource-group" -StorageAcco
 With non-existing blob container:
 
 ```powershell
-PS> Upload-AzFilesToBlobStorage -ResourceGroupName "resource-group" -StorageAccountName "account-name" -TargetFolderPath "./directory" -ContainerName "blob-container"
+PS> Upload-AzFilesToBlobStorage `
+-ResourceGroupName "resource-group" `
+-StorageAccountName "account-name" `
+-TargetFolderPath "./directory" `
+-ContainerName "blob-container"
 # Try using existing Azure Storage Container blob-container...
 # Creating Storage Container blob-container
 # Uploading files from ./directory

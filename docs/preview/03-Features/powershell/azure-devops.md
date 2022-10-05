@@ -55,7 +55,9 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 Include updating the variables in the current job running the pipeline, to immediately make them available to the next pipeline tasks:
 
 ```powershell
-PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group" -UpdateVariablesForCurrentJob
+PS> Set-AzDevOpsArmOutputsToVariableGroup `
+-VariableGroupName "my-variable-group" `
+-UpdateVariablesForCurrentJob
 # Get ARM outputs from 'ArmOutputs' environment variable
 # Adding variable $output.Name with value $variableValue to variable group my-variable-group
 # Retrieving project details
@@ -67,7 +69,9 @@ PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group"
 Include user-defined environment variable for the ARM outputs:
 
 ```powershell
-PS> Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName "my-variable-group" -ArmOutputsEnvironmentVariableName "MyArmOutputs"
+PS> Set-AzDevOpsArmOutputsToVariableGroup `
+-VariableGroupName "my-variable-group" `
+-ArmOutputsEnvironmentVariableName "MyArmOutputs"
 # Get ARM outputs from 'MyArmOutputs' environment variable
 # Adding variable $output.Name with value $variableValue to variable group my-variable-group
 # Retrieving project details
@@ -169,7 +173,9 @@ Saves/retains a specific Azure DevOps pipeline run.
 **Example**
 
 ```powershell
-PS> Save-AzDevOpsBuild -ProjectId $(System.TeamProjectId) -BuildId $(Build.BuildId)
+PS> Save-AzDevOpsBuild `
+-ProjectId $(System.TeamProjectId) `
+-BuildId $(Build.BuildId)
 # The variables $(System.TeamProjectId) and $(Build.BuildId) are predefined Azure DevOps variables
 # Information on them can be found here: https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
 ```
