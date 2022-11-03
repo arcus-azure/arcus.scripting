@@ -24,7 +24,6 @@ try {
             }
         }
     }
-}
 } catch {
     throw "Retrieving the roles for the Active Directory Application with ClientId '$ClientId' failed. Details: $($_.Exception.Message)"
 }
