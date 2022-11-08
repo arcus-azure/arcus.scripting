@@ -31,6 +31,7 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.ActiveDirectory.psd1" />
     <Compile Include="Arcus.Scripting.ActiveDirectory.psm1" />
+    <Compile Include="Scripts\Add-AzADAppRoleAssignments.ps1" />
     <Compile Include="Scripts\Get-AzADAppRoleAssignments.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
