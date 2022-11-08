@@ -67,5 +67,5 @@ try {
          Write-Host "Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)' already contains a role assignment for the '$Role'"
     }
 } catch {
-    throw "Retrieving the roles for the Active Directory Application with ClientId '$ClientId' failed. Details: $($_.Exception.Message)"
+    throw "Adding the role '$Role' for the Active Directory Application with ClientId '$ClientId' failed. Details: $($_.Exception.Message)"
 }

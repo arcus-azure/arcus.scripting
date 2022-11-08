@@ -47,3 +47,39 @@ function Add-AzADAppRoleAssignment {
 }
 
 Export-ModuleMember -Function Add-AzADAppRoleAssignment
+
+<#
+ .Synopsis
+  Remove a role assignment from an Azure Active Directory Application Registration.
+
+ .Description
+  Remove a role assignment from an Azure Active Directory Application Registration and optionally remove the role if no role assignments are left.
+
+ .Parameter ClientId
+  The client id of the Azure Active Directory Application Registration on which the role is present.
+
+ .Parameter Role
+  The name of the role to remove the assignment for.
+
+ .Parameter RemoveRoleFromClientId
+  The client id of the Azure Active Directory Application Registration for wich the role assignment will be removed.
+
+ .Parameter PassThru
+  Indicates that the role will be removed from the Azure Active Directory Application Registration if no role assigments are left.
+#>
+function Remove-AzADAppRoleAssignment {
+    param(
+        [Parameter(Mandatory = $true)][string] $ClientId = $(throw "ClientId is required"),
+        [Parameter(Mandatory = $true)][string] $Role = $(throw "Role is required"),
+        [Parameter(Mandatory = $true)][string] $RemoveRoleFromClientId = $(throw "ClientId to remove the role from is required"),
+        [Parameter(Mandatory = $false)][switch] $RemoveRoleIfNoAssignmentsAreLeft = $false
+    )
+    
+    if ($RemoveRoleIfNoAssignmentsAreLeft) {
+        . $PSScriptRoot\Scripts\Remove-AzADAppRoleAssignment.ps1 -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId -RemoveRoleIfNoAssignmentsAreLeft
+    } else {
+        . $PSScriptRoot\Scripts\Remove-AzADAppRoleAssignment.ps1 -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
+    }
+}
+
+Export-ModuleMember -Function Remove-AzADAppRoleAssignment
