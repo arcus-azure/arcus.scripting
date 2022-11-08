@@ -27,13 +27,13 @@ try {
     foreach ($appRole in $adApplication.AppRole) {
         Write-Host "Found role '$($appRole.Value)' on Active Directory Application '$($adApplication.DisplayName)':" -ForegroundColor Green
         if ($RolesAssignedToClientId -ne '') {
-            $serviceAppRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object {($_.AppRoleId -eq $appRole.Id) -and ($_.PrincipalId -eq $adServicePrincipalRolesAssignedTo.Id)}
+            $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object {($_.AppRoleId -eq $appRole.Id) -and ($_.PrincipalId -eq $adServicePrincipalRolesAssignedTo.Id)}
         } else {
-            $serviceAppRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object AppRoleId -eq $appRole.Id 
+            $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object AppRoleId -eq $appRole.Id 
         }
 
-        if ($serviceAppRoleAssignments) {
-            foreach ($serviceAppRoleAssignment in $serviceAppRoleAssignments) {
+        if ($appRoleAssignments) {
+            foreach ($serviceAppRoleAssignment in $appRoleAssignments) {
                 $servicePrincipal = Get-AzADServicePrincipal -ObjectId $serviceAppRoleAssignment.PrincipalId
                 if ($servicePrincipal -ne $null) {
                     Write-Host "Role '$($appRole.Value)' is assigned to the Active Directory Application '$($serviceAppRoleAssignment.PrincipalDisplayName)' with id '$($servicePrincipal.AppId)'" -ForegroundColor White        
