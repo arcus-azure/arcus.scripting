@@ -47,8 +47,13 @@ try {
                 Write-Host "Role '$Role' on Active Directory Application '$($adApplication.DisplayName)' has been disabled as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set"
 
                 $appRoles = $adApplication.AppRole | Where-Object Id -ne $appRole.Id
-                Update-AzADApplication -ObjectId $adApplication.Id -AppRole $appRoles
-                Write-Host "Role '$Role' removed from Active Directory Application '$($adApplication.DisplayName)' as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set"
+                if ($appRoles) {
+                    Update-AzADApplication -ObjectId $adApplication.Id -AppRole $appRoles
+                    Write-Host "Role '$Role' removed from Active Directory Application '$($adApplication.DisplayName)' as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set"
+                } else {
+                    Update-AzADApplication -ObjectId $adApplication.Id -AppRole @()
+                    Write-Host "Role '$Role' removed from Active Directory Application '$($adApplication.DisplayName)' as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set"
+                }
             }
         }
     }
