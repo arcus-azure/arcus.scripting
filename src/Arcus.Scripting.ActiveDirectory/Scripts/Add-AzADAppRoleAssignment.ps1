@@ -38,7 +38,7 @@ try {
         $adApplication.AppRole += $newRole
 
         Update-AzADApplication -ObjectId $adApplication.Id -AppRole $adApplication.AppRole
-        Write-Host "Added Role '$Role' to Active Directory Application '$($adApplication.DisplayName)'"
+        Write-Host "Added role '$Role' to Active Directory Application '$($adApplication.DisplayName)'"
 
         $currentAppRole = $newRole
     } else {
@@ -62,7 +62,7 @@ try {
         }
 
         $newRoleAssignment = New-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $adServicePrincipalRoleAssignTo.Id -PrincipalId $adServicePrincipalRoleAssignTo.Id -ResourceId $adServicePrincipal.Id -AppRoleId $currentAppRole.Id
-        Write-Host "Role Assignment for the '$Role' added to the Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)'"
+        Write-Host "Role Assignment for the role '$Role' added to the Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)'"
     } else {
         Write-Host "Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)' already contains a role assignment for the role '$Role'"
     }
