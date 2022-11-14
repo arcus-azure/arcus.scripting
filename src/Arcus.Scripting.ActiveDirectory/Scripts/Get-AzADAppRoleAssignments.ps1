@@ -24,6 +24,11 @@ if ($RolesAssignedToClientId -ne '') {
 }
 
 try {
+    if ($adApplication.AppRole.Count -eq 0)
+    {
+        Write-Host "No roles found"
+    }
+
     foreach ($appRole in $adApplication.AppRole) {
         Write-Host "Found role '$($appRole.Value)' on Active Directory Application '$($adApplication.DisplayName)'" -ForegroundColor Green
         if ($RolesAssignedToClientId -ne '') {
