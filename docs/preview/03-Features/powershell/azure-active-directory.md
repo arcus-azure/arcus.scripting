@@ -13,6 +13,20 @@ To have access to the following features, you have to import the module:
 PS> Install-Module -Name Arcus.Scripting.ActiveDirectory
 ```
 
+## Access Rights to Azure Active Directory
+
+To interact with Azure Active Directory these scripts use the [Microsoft.Graph.Applications](https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.applications/?view=graph-powershell-1.0) module, import this module:
+
+```powershell
+PS> Install-Module -Name Microsoft.Graph.Applications
+```
+
+After importing this module, make sure you are connected to Microsoft Graph with the following scopes:
+
+```powershell
+PS> Connect-MgGraph -Scopes "Application.Read.All,AppRoleAssignment.ReadWrite.All"
+```
+
 ## Getting a list of Roles and Role Assignments for an Azure Active Directory Application
 
 Gets a list of roles and role assignments for an Azure Active Directory Application.
