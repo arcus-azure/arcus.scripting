@@ -6,10 +6,10 @@
   Return the app roles that are present in an Azure Active Directory Application Registration and list the applications they are assigned to.
 
  .Parameter ClientId
-  The client id of the Azure Active Directory Application Registration from which the role assignments are to be retrieved.
+  The client ID of the Azure Active Directory Application Registration from which the role assignments are to be retrieved.
 
  .Parameter RolesAssignedToClientId
-  The client id of the Azure Active Directory Application Registration to which roles are assigned.
+  The client ID of the Azure Active Directory Application Registration to which roles are assigned.
 #>
 function Get-AzADAppRoleAssignments {
     param(
@@ -29,13 +29,13 @@ Export-ModuleMember -Function Get-AzADAppRoleAssignments
   Add a role to an Azure Active Directory Application Registration and assign the role to a different Active Directory Application Registration.
 
  .Parameter ClientId
-  The client id of the Azure Active Directory Application Registration to which the role will be added.
+  The client ID of the Azure Active Directory Application Registration to which the role will be added.
 
  .Parameter Role
   The name of the role to add and assign.
 
  .Parameter AssignRoleToClientId
-  The client id of the Azure Active Directory Application Registration to which the role will be assigned.
+  The client ID of the Azure Active Directory Application Registration to which the role will be assigned.
 #>
 function Add-AzADAppRoleAssignment {
     param(
@@ -56,13 +56,13 @@ Export-ModuleMember -Function Add-AzADAppRoleAssignment
   Remove a role assignment from an Azure Active Directory Application Registration and optionally remove the role if no role assignments are left.
 
  .Parameter ClientId
-  The client id of the Azure Active Directory Application Registration on which the role is present.
+  The client ID of the Azure Active Directory Application Registration on which the role is present.
 
  .Parameter Role
   The name of the role to remove the assignment for.
 
  .Parameter RemoveRoleFromClientId
-  The client id of the Azure Active Directory Application Registration for wich the role assignment will be removed.
+  The client ID of the Azure Active Directory Application Registration for which the role assignment will be removed.
 
  .Parameter PassThru
   Indicates that the role will be removed from the Azure Active Directory Application Registration if no role assigments are left.
