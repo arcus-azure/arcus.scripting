@@ -44,10 +44,10 @@ Retrieving all information for a Client Id.
 PS> Get-AzADAppRoleAssignments `
 -ClientId "b885c208-6067-44bd-aba9-4010c62b7d85"
 #Found role 'FirstRole' on Active Directory Application 'main-application'
-#Role 'FirstRole' is assigned to the Active Directory Application 'client-application-one' with id '6ea09bbd-c21c-460c-b58a-f4a720f51826'
-#Role 'FirstRole' is assigned to the Active Directory Application 'client-application-two' with id 'ebafc99d-cbf4-4bd2-9295-f2b785cfc1a1'
+#Role 'FirstRole' is assigned to the Active Directory Application 'client-application-one' with ID '6ea09bbd-c21c-460c-b58a-f4a720f51826'
+#Role 'FirstRole' is assigned to the Active Directory Application 'client-application-two' with ID 'ebafc99d-cbf4-4bd2-9295-f2b785cfc1a1'
 #Found role 'SecondRole' on Active Directory Application 'arcus-scripting-test-main'
-#Role 'SecondRole' is assigned to the Active Directory Application 'client-application-one' with id '6ea09bbd-c21c-460c-b58a-f4a720f51826'
+#Role 'SecondRole' is assigned to the Active Directory Application 'client-application-one' with ID '6ea09bbd-c21c-460c-b58a-f4a720f51826'
 ```
 
 Retrieving all information for a Client Id and a specific role.

@@ -41,7 +41,7 @@ try {
             foreach ($serviceAppRoleAssignment in $appRoleAssignments) {
                 $servicePrincipal = Get-AzADServicePrincipal -ObjectId $serviceAppRoleAssignment.PrincipalId
                 if ($servicePrincipal -ne $null) {
-                    Write-Host "Role '$($appRole.Value)' is assigned to the Active Directory Application '$($serviceAppRoleAssignment.PrincipalDisplayName)' with id '$($servicePrincipal.AppId)'" -ForegroundColor White
+                    Write-Host "Role '$($appRole.Value)' is assigned to the Active Directory Application '$($serviceAppRoleAssignment.PrincipalDisplayName)' with ID '$($servicePrincipal.AppId)'" -ForegroundColor White
                 }
             }
         } else {
