@@ -24,7 +24,7 @@ PS> Install-Module -Name Microsoft.Graph.Applications
 After importing this module, make sure you are connected to Microsoft Graph with the following scopes:
 
 ```powershell
-PS> Connect-MgGraph -Scopes "Application.Read.All,AppRoleAssignment.ReadWrite.All"
+PS> Connect-MgGraph -Scopes "Application.ReadWrite.All,AppRoleAssignment.ReadWrite.All"
 ```
 
 ## Getting a list of Roles and Role Assignments for an Azure Active Directory Application
