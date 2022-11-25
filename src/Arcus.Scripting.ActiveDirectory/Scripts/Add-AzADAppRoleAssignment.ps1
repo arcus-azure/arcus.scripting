@@ -23,7 +23,7 @@ if (!$adServicePrincipalRoleAssignTo) {
 }
 
 try {
-    if (-not ($adApplication.AppRole.Value -contains $Role)) {
+    if ($adApplication.AppRole.Value -notcontains $Role) {
         Write-Host "Active Directory Application '$($adApplication.DisplayName)' does not contain the role '$Role', adding the role"
 
         $newRole = @{
@@ -47,10 +47,10 @@ try {
     }
 
     $currentRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object AppRoleId -eq $currentAppRole.Id 
-    if (-not ($currentRoleAssignments.AppRoleId -contains $currentAppRole.Id)) {
+    if ($currentRoleAssignments.AppRoleId -notcontains $currentAppRole.Id) {
         $updatedAdServicePrincipal = Get-MgServicePrincipal -ServicePrincipalId $adServicePrincipal.Id
 
-        while (-not ($updatedAdServicePrincipal.AppRoles.Value -contains $Role) -and $counter -lt 10) {
+        while ($updatedAdServicePrincipal.AppRoles.Value -notcontains $Role -and $counter -lt 10) {
             Write-Host "Role '$Role' has been added to Active Directory Application '$($adApplication.DisplayName)' but not yet available for use, waiting 10 seconds to retry..."
             Start-Sleep -Seconds 10
             $counter++

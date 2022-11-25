@@ -24,7 +24,7 @@ if (!$adServicePrincipalRoleRemoveFrom) {
 }
 
 try {
-    if (-not ($adApplication.AppRole.Value -contains $Role)) {
+    if ($adApplication.AppRole.Value -notcontains $Role) {
         Write-Host "Active Directory Application '$($adApplication.DisplayName)' does not contain the role '$Role', skipping removal"
     } else {
         $appRole = $adApplication.AppRole | Where-Object {($_.DisplayName -eq $Role)}
