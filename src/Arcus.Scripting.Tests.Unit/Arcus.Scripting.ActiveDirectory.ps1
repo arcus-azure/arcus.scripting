@@ -417,7 +417,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-MockCalled Get-MgServicePrincipalAppRoleAssignedTo -Times 1
                 Assert-MockCalled Get-MgServicePrincipal -Times 1
                 Assert-MockCalled New-MgServicePrincipalAppRoleAssignment -Times 1
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Role Assignment for the '$RoleName' added to the Active Directory Application '$AssignRoleToAppName'" }
+                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Role Assignment for the role '$RoleName' added to the Active Directory Application '$AssignRoleToAppName'" }
             }
             It "Providing a role that does not exist should succeed" {
                 # Arrange
@@ -491,7 +491,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-MockCalled Get-MgServicePrincipalAppRoleAssignedTo -Times 1
                 Assert-MockCalled Get-MgServicePrincipal -Times 1
                 Assert-MockCalled New-MgServicePrincipalAppRoleAssignment -Times 1
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Role Assignment for the '$RoleName' added to the Active Directory Application '$AssignRoleToAppName'" }
+                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Role Assignment for the role '$RoleName' added to the Active Directory Application '$AssignRoleToAppName'" }
             }
         }
         Context "Remove an Active Directory Application Role Assignment" {
