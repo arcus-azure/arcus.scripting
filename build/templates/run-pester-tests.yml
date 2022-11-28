@@ -1,6 +1,4 @@
-parameters:
-  projectName: ''
-
+parameters:  projectName: ''
 steps:
   - bash: |
       if [ -z "$PROJECT_NAME" ]; then
@@ -32,7 +30,7 @@ steps:
                   where { $_.ModuleName -ne $null -and $_.ModuleName -notlike 'Arcus.Scripting.*' -and $_.ModuleVersion -ne "#{Package.Version}#" } |
                   % { Write-Host "Install $($_.ModuleName) module $($_.ModuleVersion)"
                       Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -AllowClobber -Force -SkipPublisherCheck } }
-      Install-Module -Name Az -Force -AllowClobber -SkipPublisherCheck -MaximumVersion 5.6.0
+      Install-Module -Name Az -Force -AllowClobber -SkipPublisherCheck -MaximumVersion 9.1.1
       Install-Module -Name AzTable -Force -SkipPublisherCheck -MaximumVersion 2.1.0
       Write-Host "Done installing, start importing modules"
     displayName: 'Install Pester test framework and Az required modules'
