@@ -1,4 +1,6 @@
-parameters:  projectName: ''
+parameters:
+  projectName: ''
+
 steps:
   - bash: |
       if [ -z "$PROJECT_NAME" ]; then
