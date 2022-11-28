@@ -1,3 +1,4 @@
+Import-Module Microsoft.Graph.Applications
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ActiveDirectory -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.ActiveDirectory {

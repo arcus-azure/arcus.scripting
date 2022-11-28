@@ -34,6 +34,7 @@ steps:
                       Install-Module $_.ModuleName -MaximumVersion $_.ModuleVersion -AllowClobber -Force -SkipPublisherCheck } }
       Install-Module -Name Az -Force -AllowClobber -SkipPublisherCheck -MaximumVersion 9.1.1
       Install-Module -Name AzTable -Force -SkipPublisherCheck -MaximumVersion 2.1.0
+      Install-Module -Name Microsoft.Graph.Applications -Force -SkipPublisherCheck -MaximumVersion 1.15.0
       Write-Host "Done installing, start importing modules"
     displayName: 'Install Pester test framework and Az required modules'
   - powershell: |
