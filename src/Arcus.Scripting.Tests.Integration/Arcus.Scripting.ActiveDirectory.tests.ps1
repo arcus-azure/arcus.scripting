@@ -1,4 +1,5 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ActiveDirectory -ErrorAction Stop
+Import-Module -Name Microsoft.Graph.Applications -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.ActiveDirectory {
     Describe "Arcus Azure Active Directory integration tests" {
