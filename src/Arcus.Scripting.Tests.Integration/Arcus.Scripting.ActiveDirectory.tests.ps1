@@ -6,6 +6,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
         BeforeEach {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+            & $PSScriptRoot\Connect-MgGraphFromConfig.ps1 -config $config
         }
         Context "Add an Active Directory Application Role Assignment" {
             It "Creating a new role and assigning it should succeed" {
