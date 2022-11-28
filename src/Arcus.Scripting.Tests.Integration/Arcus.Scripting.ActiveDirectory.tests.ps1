@@ -11,51 +11,66 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
         Context "Add an Active Directory Application Role Assignment" {
             It "Creating a new role and assigning it should succeed" {
                 # Arrange
-                $ClientId = $config.Arcus.ActiveDirectory.MainAppClientId
+                $MainAppClientId = $config.Arcus.ActiveDirectory.MainAppClientId
                 $RoleName = 'SomeRole'
-                $AssignRoleToClientId = $config.Arcus.ActiveDirectory.ClientAppClientId
+                $ClientAppClientId = $config.Arcus.ActiveDirectory.ClientAppClientId
 
-                # Act
-                {
-                   Add-AzADAppRoleAssignment -ClientId $ClientId -Role $RoleName -AssignRoleToClientId $AssignRoleToClientId
-                } | Should -Not -Throw
+                try {
+                    # Act
+                    {
+                       Add-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -AssignRoleToClientId $ClientAppClientId
+                    } | Should -Not -Throw
 
-                # Assert
-                $adApplication = Get-AzADApplication -Filter "AppId eq '$ClientId'"
-                $RoleName | Should -BeIn $adApplication.AppRole.Value
+                    # Assert
+                    $adApplication = Get-AzADApplication -Filter "AppId eq '$MainAppClientId'"
+                    $RoleName | Should -BeIn $adApplication.AppRole.Value
 
-                $adServicePrincipal = Get-AzADServicePrincipal -Filter "AppId eq '$ClientId'"
-                $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id
-                $appRoleAssignments.Count | Should -Be 1
+                    $adServicePrincipal = Get-AzADServicePrincipal -Filter "AppId eq '$MainAppClientId'"
+                    $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id
+                    $appRoleAssignments.Count | Should -Be 1
+                } finally {
+                    Remove-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -RemoveRoleFromClientId $ClientAppClientId -RemoveRoleIfNoAssignmentsAreLeft
+                }
             }
             It "Get the role and assignment should succeed" {
                 # Arrange
-                $ClientId = $config.Arcus.ActiveDirectory.MainAppClientId
-                $RolesAssignedToClientId = $config.Arcus.ActiveDirectory.ClientAppClientId
+                $MainAppClientId = $config.Arcus.ActiveDirectory.MainAppClientId
+                $RoleName = 'SomeRole'
+                $ClientAppClientId = $config.Arcus.ActiveDirectory.ClientAppClientId
+                Add-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -AssignRoleToClientId $ClientAppClientId
 
-                # Act
-                {
-                   List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
-                } | Should -Not -Throw
+                try {
+                    # Act
+                    {
+                       List-AzADAppRoleAssignments -ClientId $MainAppClientId -RolesAssignedToClientId $ClientAppClientId
+                    } | Should -Not -Throw
+                } finally {
+                    Remove-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -RemoveRoleFromClientId $ClientAppClientId -RemoveRoleIfNoAssignmentsAreLeft
+                }
             }
             It "Removing a role assignment and role should succeed" {
                 # Arrange
-                $ClientId = $config.Arcus.ActiveDirectory.MainAppClientId
+                $MainAppClientId = $config.Arcus.ActiveDirectory.MainAppClientId
                 $RoleName = 'SomeRole'
-                $RemoveRoleFromClientId = $config.Arcus.ActiveDirectory.ClientAppClientId
+                $ClientAppClientId = $config.Arcus.ActiveDirectory.ClientAppClientId
+                Add-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -AssignRoleToClientId $ClientAppClientId
 
-                # Act
-                {
-                   Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $RoleName -RemoveRoleFromClientId $RemoveRoleFromClientId -RemoveRoleIfNoAssignmentsAreLeft
-                } | Should -Not -Throw
+                try {
+                    # Act
+                    {
+                       Remove-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -RemoveRoleFromClientId $ClientAppClientId -RemoveRoleIfNoAssignmentsAreLeft
+                    } | Should -Not -Throw
 
-                # Assert
-                $adApplication = Get-AzADApplication -Filter "AppId eq '$ClientId'"
-                $RoleName | Should -Not -BeIn $adApplication.AppRole.Value
+                    # Assert
+                    $adApplication = Get-AzADApplication -Filter "AppId eq '$MainAppClientId'"
+                    $RoleName | Should -Not -BeIn $adApplication.AppRole.Value
 
-                $adServicePrincipal = Get-AzADServicePrincipal -Filter "AppId eq '$ClientId'"
-                $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id
-                $appRoleAssignments.Count | Should -Be 0
+                    $adServicePrincipal = Get-AzADServicePrincipal -Filter "AppId eq '$MainAppClientId'"
+                    $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id
+                    $appRoleAssignments.Count | Should -Be 0
+                } finally {
+                    Remove-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -RemoveRoleFromClientId $ClientAppClientId -RemoveRoleIfNoAssignmentsAreLeft
+                }
             }
         }
     }
