@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.ActiveDirectory.ps1" />
+    <Compile Include="Arcus.Scripting.ActiveDirectory.tests.ps1" />
     <Compile Include="Arcus.Scripting.Management.tests.ps1" />
     <Compile Include="Arcus.Scripting.ARM.tests.ps1" />
     <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
