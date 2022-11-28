@@ -11,15 +11,15 @@
  .Parameter RolesAssignedToClientId
   The client ID of the Azure Active Directory Application Registration to which roles are assigned.
 #>
-function Get-AzADAppRoleAssignments {
+function List-AzADAppRoleAssignments {
     param(
        [Parameter(Mandatory = $true)][string] $ClientId = $(throw "ClientId is required"),
        [Parameter(Mandatory = $false)][string] $RolesAssignedToClientId
     )
-    . $PSScriptRoot\Scripts\Get-AzADAppRoleAssignments.ps1 -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
+    . $PSScriptRoot\Scripts\List-AzADAppRoleAssignments.ps1 -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
 }
 
-Export-ModuleMember -Function Get-AzADAppRoleAssignments
+Export-ModuleMember -Function List-AzADAppRoleAssignments
 
 <#
  .Synopsis

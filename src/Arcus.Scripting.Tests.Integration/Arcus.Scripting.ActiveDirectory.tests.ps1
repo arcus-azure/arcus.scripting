@@ -35,7 +35,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 {
-                   Get-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
+                   List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
                 } | Should -Not -Throw
             }
             It "Removing a role assignment and role should succeed" {

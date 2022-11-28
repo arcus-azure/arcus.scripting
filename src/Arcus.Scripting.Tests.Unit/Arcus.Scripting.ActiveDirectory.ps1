@@ -14,7 +14,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Get-AzADAppRoleAssignments -ClientId $ClientId
+                   List-AzADAppRoleAssignments -ClientId $ClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -35,7 +35,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Get-AzADAppRoleAssignments -ClientId $ClientId
+                   List-AzADAppRoleAssignments -ClientId $ClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -62,7 +62,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Get-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
+                   List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$RolesAssignedToClientId' could not be found"
 
                 # Assert
@@ -93,7 +93,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Get-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
+                   List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$RolesAssignedToClientId' could not be found"
 
                 # Assert
@@ -130,7 +130,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                     return $null}
 
                 # Act
-                Get-AzADAppRoleAssignments -ClientId $ClientId
+                List-AzADAppRoleAssignments -ClientId $ClientId
 
                 # Assert
                 Assert-VerifiableMock
@@ -181,7 +181,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 };
 
                 # Act
-                Get-AzADAppRoleAssignments -ClientId $ClientId
+                List-AzADAppRoleAssignments -ClientId $ClientId
 
                 # Assert
                 Assert-VerifiableMock

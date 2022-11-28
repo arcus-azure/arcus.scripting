@@ -27,9 +27,9 @@ After importing this module, make sure you are connected to Microsoft Graph with
 PS> Connect-MgGraph -Scopes "Application.ReadWrite.All,AppRoleAssignment.ReadWrite.All"
 ```
 
-## Getting a list of Roles and Role Assignments for an Azure Active Directory Application
+## Listing the Roles and Role Assignments for an Azure Active Directory Application
 
-Gets a list of roles and role assignments for an Azure Active Directory Application.
+Lists the roles and role assignments for an Azure Active Directory Application.
 
 | Parameter                 | Mandatory | Description                                                                                                                                                                                |
 | ------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -41,7 +41,7 @@ Gets a list of roles and role assignments for an Azure Active Directory Applicat
 Retrieving all information for a Client Id.
 
 ```powershell
-PS> Get-AzADAppRoleAssignments `
+PS> List-AzADAppRoleAssignments `
 -ClientId "b885c208-6067-44bd-aba9-4010c62b7d85"
 #Found role 'FirstRole' on Active Directory Application 'main-application'
 #Role 'FirstRole' is assigned to the Active Directory Application 'client-application-one' with ID '6ea09bbd-c21c-460c-b58a-f4a720f51826'
@@ -53,7 +53,7 @@ PS> Get-AzADAppRoleAssignments `
 Retrieving all information for a Client Id and a specific role.
 
 ```powershell
-PS> Get-AzADAppRoleAssignments `
+PS> List-AzADAppRoleAssignments `
 -ClientId 'b885c208-6067-44bd-aba9-4010c62b7d85' `
 -RolesAssignedToClientId '6ea09bbd-c21c-460c-b58a-f4a720f51826'
 #Found role 'FirstRole' on Active Directory Application 'main-application'
