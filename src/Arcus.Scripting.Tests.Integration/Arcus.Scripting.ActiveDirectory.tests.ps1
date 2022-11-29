@@ -55,22 +55,18 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 $ClientAppClientId = $config.Arcus.ActiveDirectory.ClientAppClientId
                 Add-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -AssignRoleToClientId $ClientAppClientId
 
-                try {
-                    # Act
-                    {
-                       Remove-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -RemoveRoleFromClientId $ClientAppClientId -RemoveRoleIfNoAssignmentsAreLeft
-                    } | Should -Not -Throw
-
-                    # Assert
-                    $adApplication = Get-AzADApplication -Filter "AppId eq '$MainAppClientId'"
-                    $RoleName | Should -Not -BeIn $adApplication.AppRole.Value
-
-                    $adServicePrincipal = Get-AzADServicePrincipal -Filter "AppId eq '$MainAppClientId'"
-                    $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id
-                    $appRoleAssignments.Count | Should -Be 0
-                } finally {
+                # Act
+                {
                     Remove-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -RemoveRoleFromClientId $ClientAppClientId -RemoveRoleIfNoAssignmentsAreLeft
-                }
+                } | Should -Not -Throw
+
+                # Assert
+                $adApplication = Get-AzADApplication -Filter "AppId eq '$MainAppClientId'"
+                $RoleName | Should -Not -BeIn $adApplication.AppRole.Value
+
+                $adServicePrincipal = Get-AzADServicePrincipal -Filter "AppId eq '$MainAppClientId'"
+                $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id
+                $appRoleAssignments.Count | Should -Be 0
             }
         }
     }
