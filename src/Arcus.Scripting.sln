@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32916.344
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5C8B7391-D202-4B09-8991-3EBAC09A585E}"
 EndProject
@@ -39,7 +39,9 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Integration
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.AppService", "Arcus.Scripting.AppService\Arcus.Scripting.AppService.pssproj", "{342747E9-6406-4DA8-B238-37335ADBA79C}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Management", "Arcus.Scripting.Management\Arcus.Scripting.Management.pssproj", "{76C88760-52FA-45EB-BCFE-C6DE0E58C812}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Management", "Arcus.Scripting.Management\Arcus.Scripting.Management.pssproj", "{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.ActiveDirectory", "Arcus.Scripting.ActiveDirectory\Arcus.Scripting.ActiveDirectory.pssproj", "{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,10 +117,14 @@ Global
 		{342747E9-6406-4DA8-B238-37335ADBA79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{342747E9-6406-4DA8-B238-37335ADBA79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{342747E9-6406-4DA8-B238-37335ADBA79C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76C88760-52FA-45EB-BCFE-C6DE0E58C812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76C88760-52FA-45EB-BCFE-C6DE0E58C812}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76C88760-52FA-45EB-BCFE-C6DE0E58C812}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76C88760-52FA-45EB-BCFE-C6DE0E58C812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
