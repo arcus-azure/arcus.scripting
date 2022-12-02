@@ -5,7 +5,8 @@ module.exports = {
   themeConfig: {
     ...buildConfig.themeConfig,
     algolia: {
-      apiKey: process.env.ALGOLIA_API_KEY,
+      appId:'73S9SS6EV4',
+      apiKey: '9c4aed39bcccd5054cea70ae1035e839',
       indexName: 'arcus-azure',
       // Set `contextualSearch` to `true` when having multiple versions!!!
       contextualSearch: true,
