@@ -6,14 +6,17 @@ layout: default
 # Azure SQL
 
 This module provides the following capabilities:
-- [Invoke a database migration](#invoke-a-database-migration)
+- [Azure SQL](#azure-sql)
+  - [Installation](#installation)
+  - [Invoke a database migration](#invoke-a-database-migration)
+    - [Adding SQL scripts so they can be picked up by the script](#adding-sql-scripts-so-they-can-be-picked-up-by-the-script)
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.SQL
+PS> Install-Module -Name Arcus.Scripting.SQL -RequiredVersion 0.4.0
 ```
 
 ## Invoke a database migration

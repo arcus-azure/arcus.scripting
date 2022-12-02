@@ -6,15 +6,17 @@ layout: default
 # Azure Security
 
 This module provides the following capabilities:
-- [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
-- [Retrieve the current Az Access token](#retrieve-the-current-az-access-token)
+- [Azure Security](#azure-security)
+  - [Installation](#installation)
+  - [Removing resource locks from an Azure resource group](#removing-resource-locks-from-an-azure-resource-group)
+  - [Retrieve the current Az Access token](#retrieve-the-current-az-access-token)
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Import-Module -Name Arcus.Scripting.Security
+PS> Import-Module -Name Arcus.Scripting.Security -RequiredVersion 0.3.0
 ```
 
 ## Removing resource locks from an Azure resource group

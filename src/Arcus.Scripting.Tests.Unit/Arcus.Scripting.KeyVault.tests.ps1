@@ -1,7 +1,9 @@
-﻿Describe "Arcus" {
-    Context "KeyVault" {
-        InModuleScope Arcus.Scripting.KeyVault {
-            It "Get Key Vault access policies" {
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
+
+InModuleScope Arcus.Scripting.KeyVault {
+    Describe "Arcus Azure Key Vault unit tests" {
+        Context "Getting Azure Key Vault access policies" {
+            It "Get Key Vault access policies based on vault name and resource group name succeeds" {
                 # Arrange
                 $tenantId = "my tenant"
                 $objectId = "my object"
@@ -20,7 +22,7 @@
                 Mock Get-AzKeyVault { return [pscustomobject]@{ accessPolicies = @($accessPolicy) }  }
                 
                 # Act
-                $accessPoliciesParameter = Get-AzKeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name"
+                $accessPoliciesParameter = Get-AzKeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name" -verbose
                 
                 # Assert
                 $accessPolicies = $accessPoliciesParameter.list

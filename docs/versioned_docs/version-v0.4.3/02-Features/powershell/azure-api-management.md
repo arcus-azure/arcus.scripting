@@ -6,23 +6,24 @@ layout: default
 # Azure API Management
 
 This module provides the following capabilities:
-- [Backing up an API Management service](#backing-up-an-api-management-service)
-- [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
-- [Importing a policy to a product in the Azure API Management instance](#importing-a-policy-to-a-product-in-the-azure-api-management-instance)
-- [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
-- [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
-- [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
-- [Restoring an API Management service](#restoring-an-api-management-service)
-- [Setting authentication keys to an API in the Azure API Management instance](#setting-authentication-keys-to-an-api-in-the-azure-api-management-instance)
-- [Uploading private certificates to the Azure API Management certificate store](#uploading-private-certificates-to-the-azure-api-management-certificate-store)
-- [Uploading public CA certificate to the Azure API Management certificate store](#uploading-public-ca-certificate-to-the-azure-api-management-certificate-store)
+- [Azure API Management](#azure-api-management)
+  - [Installation](#installation)
+  - [Backing up an API Management service](#backing-up-an-api-management-service)
+  - [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
+  - [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
+  - [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
+  - [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
+  - [Restoring an API Management service](#restoring-an-api-management-service)
+  - [Setting authentication keys to an API in the Azure API Management instance](#setting-authentication-keys-to-an-api-in-the-azure-api-management-instance)
+  - [Uploading private certificates to the Azure API Management certificate store](#uploading-private-certificates-to-the-azure-api-management-certificate-store)
+  - [Uploading public CA certificate to the Azure API Management certificate store](#uploading-public-ca-certificate-to-the-azure-api-management-certificate-store)
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ApiManagement
+PS> Install-Module -Name Arcus.Scripting.ApiManagement -RequiredVersion 0.4.3
 ```
 
 ## Backing up an API Management service
@@ -150,7 +151,7 @@ PS> Remove-AzApiManagementDefaults -ResourceGroupName $ResourceGroup -ServiceNam
 # Removing Unlimited product...
 ```
 
-# Restoring an API Management service
+## Restoring an API Management service
 
 The Restore-AzApiManagement cmdlet restores an API Management Service from the specified backup residing in an Azure Storage blob.
 
@@ -166,7 +167,7 @@ The Restore-AzApiManagement cmdlet restores an API Management Service from the s
 | `DefaultProfile`                  | no        | The credentials, account, tenant, and subscription used for communication with azure.                                     |
 
 ```powershell
-PS> Restore-AzApiManagementService -ResourceGroupName $ResourceGroupName -$StorageAcountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
+PS> Restore-AzApiManagementService -ResourceGroupName $ResourceGroupName -$StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
 # Getting Azure storage account key...
 # Got Azure storage key!
 # Create new Azure storage context with storage key...
@@ -222,7 +223,7 @@ PS> Upload-AzApiManagementCertificate -ResourceGroupName "my-resource-group" -Se
 # Uploaded private certificate at 'c:\temp\certificate.pfx'
 ```
 
-# Uploading public CA certificate to the Azure API Management certificate store
+## Uploading public CA certificate to the Azure API Management certificate store
 Uploads a public CA certificate to the Azure API management Root certificate store, allowing certificate validation in the Azure API Management service policy.
 
 | Parameter            | Mandatory | Description                                                                                          |

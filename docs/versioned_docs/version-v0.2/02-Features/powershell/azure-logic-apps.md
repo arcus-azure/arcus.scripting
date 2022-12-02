@@ -6,14 +6,16 @@ layout: default
 # Azure Logic Apps
 
 This module provides the following capabilities:
-- [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
+- [Azure Logic Apps](#azure-logic-apps)
+  - [Installation](#installation)
+  - [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.LogicApps
+PS> Install-Module -Name Arcus.Scripting.LogicApps --RequiredVersion 0.2.0
 ```
 
 ## Disabling Azure Logic Apps from configuration file
@@ -91,7 +93,7 @@ PS> Disable-AzLogicAppsFromConfig -DeployFilename "./deploy-orderControl" -Resou
 # Executing batch: Protocol Receiver(s)
 # ==========================
 # > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
-# Executing Check 'None' => peforming no check and executing stopType
+# Executing Check 'None' => performing no check and executing stopType
 
 # > Executing StopType 'None' for Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
 # Attempting to disable rcv-shopping-order-ftp

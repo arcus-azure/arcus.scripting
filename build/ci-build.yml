@@ -3,7 +3,7 @@ name: $(date:yyyyMMdd)$(rev:.r)
 trigger:
   branches:
     include:
-      - master
+      - main
   paths:
     include:
       - src/*
@@ -34,26 +34,17 @@ variables:
   - template: ./variables/build.yml
   - name: 'Package.Version'
     value: '0.$(Build.BuildNumber)'
+  - name: 'Prerelease'
+    value: 'none'
 
 stages:
   - stage: Build
     jobs:
       - job: Compile
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
-          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace package version tokens'
-            inputs:
-              rootDirectory: 'src/'
-              targetFiles: '**/*.psd1'
-              encoding: 'auto'
-              verbosity: 'detailed'
-              writeBOM: true
-              actionOnMissing: 'fail'
-              keepToken: false
-              tokenPrefix: '#{'
-              tokenSuffix: '}#'
+          - template: 'templates/replace-tokens.yml'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
@@ -75,7 +66,7 @@ stages:
       - job: RunUnitTests
         displayName: 'Run unit tests'
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
@@ -93,8 +84,15 @@ stages:
     jobs:
       - job: RunIntegrationTests
         displayName: 'Run integration tests'
+        strategy:
+          maxParallel: 1
+          matrix:
+            linux:
+              imageName: ${{ variables['Vm.Linux.Image']}}
+            windows:
+              imageName: ${{ variables['Vm.Windows.Image']}}
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(imageName)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'
@@ -115,7 +113,7 @@ stages:
       - job: PushToMyGet
         displayName: 'Push to MyGet'
         pool:
-          vmImage: 'windows-2019'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
           - task: DownloadPipelineArtifact@2
             displayName: 'Download build artifacts'

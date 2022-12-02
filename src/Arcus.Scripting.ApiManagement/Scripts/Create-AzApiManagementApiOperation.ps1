@@ -10,6 +10,10 @@ param(
    [Parameter(Mandatory = $false)][string] $PolicyFilePath = ""
 )
 
+$apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
+if ($apim -eq $null) {
+    throw "Unable to find the Azure API Management Instance $ServiceName in resource group $ResourceGroupName"
+}
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 
 New-AzApiManagementOperation -Context $apimContext -ApiId $ApiId -OperationId $OperationId -Name $OperationName -Method $Method -UrlTemplate $UrlTemplate -Description $Description

@@ -6,22 +6,24 @@ layout: default
 # Azure Logic Apps
 
 This module provides the following capabilities:
-- [Disable an Azure Logic App](#disable-an-azure-logic-app)
-- [Enable an Azure Logic App](#enable-an-azure-logic-app)
-- [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
-- [Enabling Azure Logic Apps from configuration file](#enabling-azure-logic-apps-from-configuration-file)
+- [Azure Logic Apps](#azure-logic-apps)
+  - [Installation](#installation)
+  - [Disable an Azure Logic App](#disable-an-azure-logic-app)
+  - [Enable an Azure Logic App](#enable-an-azure-logic-app)
+  - [Disabling Azure Logic Apps from configuration file](#disabling-azure-logic-apps-from-configuration-file)
+  - [Enabling Azure Logic Apps from configuration file](#enabling-azure-logic-apps-from-configuration-file)
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.LogicApps
+PS> Install-Module -Name Arcus.Scripting.LogicApps -RequiredVersion 0.4.3
 ```
 
 ## Disable an Azure Logic App
 
-Using this script to enabel a specific Azure Logic App.  
+Using this script to disable a specific Azure Logic App.  
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |

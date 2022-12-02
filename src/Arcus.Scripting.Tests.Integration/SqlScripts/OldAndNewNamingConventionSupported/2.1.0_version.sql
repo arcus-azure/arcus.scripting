@@ -1,0 +1,2 @@
+ALTER TABLE [Customer]
+    ALTER COLUMN [Address] VARCHAR(250) NOT NULL

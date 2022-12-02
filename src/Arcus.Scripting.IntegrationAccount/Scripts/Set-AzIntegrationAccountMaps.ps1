@@ -15,7 +15,7 @@ if ($MapFilePath -ne '' -and $MapsFolder -ne '') {
 function UploadMap {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Map
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Map
     )
 
     $mapName = $Map.Name
@@ -25,16 +25,16 @@ function UploadMap {
     if ($ArtifactsPrefix -ne '') {
         $mapName = $ArtifactsPrefix + $mapName
     }
-    Write-Host "Uploading map '$mapName' into the Integration Account '$Name'."
+    Write-Host "Uploading map '$mapName' into the Azure Integration Account '$Name'"
 
     $existingMap = $null
     try {
-        Write-Verbose "Checking if the map '$mapName' already exists in the Integration Account '$Name'."
+        Write-Verbose "Checking if the map '$mapName' already exists in the Azure Integration Account '$Name'"
         $existingMap = Get-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -ErrorAction Stop
     }
     catch {
         if ($_.Exception.Message.Contains('could not be found')) {
-            Write-Verbose "No map '$mapName' could not be found in Azure Integration Account '$Name'."
+            Write-Verbose "No map '$mapName' could not be found in Azure Integration Account '$Name'"
         }
         else {
             throw $_.Exception
@@ -52,14 +52,13 @@ function UploadMap {
             $updatedMap = Set-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -MapFilePath $Map.FullName -ErrorAction Stop -Force
             Write-Verbose ($updatedMap | Format-List -Force | Out-String)
         }
-        Write-Host "Map '$mapName' has been uploaded into the Azure Integration Account '$Name'."
+        Write-Host "Map '$mapName' has been uploaded into the Azure Integration Account '$Name'"
     }
     catch {
-        Write-Error "Failed to upload map '$mapName' in Azure Integration Account '$Name': '$($_.Exception.Message)_'"
+        Write-Error "Failed to upload map '$mapName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
 
-# Verify if Integration Account can be found based on the given information
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"

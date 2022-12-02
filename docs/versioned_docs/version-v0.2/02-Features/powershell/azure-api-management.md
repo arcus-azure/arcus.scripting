@@ -6,19 +6,21 @@ layout: default
 # Azure API Management
 
 This module provides the following capabilities:
-- [Backing up an API Management service](#backing-up-an-api-management-service)
-- [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
-- [Importing a policy to a product in the Azure API Management instance](#importing-a-policy-to-a-product-in-the-azure-api-management-instance)
-- [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
-- [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
-- [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
+- [Azure API Management](#azure-api-management)
+  - [Installation](#installation)
+  - [Backing up an API Management service](#backing-up-an-api-management-service)
+  - [Creating a new API operation in the Azure API Management instance](#creating-a-new-api-operation-in-the-azure-api-management-instance)
+  - [Importing a policy to an API in the Azure API Management instance](#importing-a-policy-to-an-api-in-the-azure-api-management-instance)
+  - [Importing a policy to an operation in the Azure API Management instance](#importing-a-policy-to-an-operation-in-the-azure-api-management-instance)
+  - [Removing all Azure API Management defaults from the instance](#removing-all-azure-api-management-defaults-from-the-instance)
+  - [Setting authentication keys to an API in the Azure API Management instance](#setting-authentication-keys-to-an-api-in-the-azure-api-management-instance)
 
 ## Installation
 
 To have access to the following features, you have to import the module:
 
 ```powershell
-PS> Install-Module -Name Arcus.Scripting.ApiManagement
+PS> Install-Module -Name Arcus.Scripting.ApiManagement --RequiredVersion 0.2.0
 ```
 
 ## Backing up an API Management service
@@ -147,7 +149,8 @@ PS> Remove-AzApiManagementDefaults -ResourceGroup $ResourceGroup -ServiceName $S
 ```
 
 ## Setting authentication keys to an API in the Azure API Management instance
-Sets the subscription header/query paramenter name to an API in Azure API Management.
+
+Sets the subscription header/query parameter name to an API in Azure API Management.
 
 | Parameter        | Mandatory | Description                                                                                   |
 | ---------------- | --------- | --------------------------------------------------------------------------------------------- |

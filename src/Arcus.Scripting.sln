@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32916.344
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5C8B7391-D202-4B09-8991-3EBAC09A585E}"
 EndProject
@@ -34,6 +34,14 @@ EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Storage.All", "Arcus.Scripting.Storage.All\Arcus.Scripting.Storage.All.pssproj", "{40345308-5871-4BDC-8D77-07E7B702F169}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.All", "Arcus.Scripting.All\Arcus.Scripting.All.pssproj", "{A3FD9C88-5283-40BB-81D0-44708C8313D8}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.IntegrationAccount", "Arcus.Scripting.IntegrationAccount\Arcus.Scripting.IntegrationAccount.pssproj", "{AFCEA845-372E-4000-85FD-5672D7551527}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.AppService", "Arcus.Scripting.AppService\Arcus.Scripting.AppService.pssproj", "{342747E9-6406-4DA8-B238-37335ADBA79C}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Management", "Arcus.Scripting.Management\Arcus.Scripting.Management.pssproj", "{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.ActiveDirectory", "Arcus.Scripting.ActiveDirectory\Arcus.Scripting.ActiveDirectory.pssproj", "{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +109,22 @@ Global
 		{A3FD9C88-5283-40BB-81D0-44708C8313D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3FD9C88-5283-40BB-81D0-44708C8313D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3FD9C88-5283-40BB-81D0-44708C8313D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCEA845-372E-4000-85FD-5672D7551527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCEA845-372E-4000-85FD-5672D7551527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCEA845-372E-4000-85FD-5672D7551527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCEA845-372E-4000-85FD-5672D7551527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342747E9-6406-4DA8-B238-37335ADBA79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
