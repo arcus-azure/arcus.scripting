@@ -6,31 +6,31 @@ param(
     [Parameter(Mandatory = $false)][switch] $PrintSettingValuesIfVerbose = $false
 )
 
-Write-Host "Checking if the App Service with name '$AppServiceName' can be found in the resource group '$ResourceGroupName'"
+Write-Verbose "Checking if the Azure App Service with name '$AppServiceName' can be found in the resource group '$ResourceGroupName'..."
 $appService = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $AppServiceName -ErrorAction Ignore
 
 if ($appService -eq $null) {
-    throw "No App Service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
+    throw "No Azure App Service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
 }
 
-Write-Host "Azure App service has been found for name '$AppServiceName' in the resource group '$ResourceGroupName'"
-Write-Host "Extracting the existing application settings from Azure App Service"
+Write-Host "Azure App service has been found for name '$AppServiceName' in the resource group '$ResourceGroupName'" -ForegroundColor Green
+Write-Verbose "Extracting the existing application settings from the Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName'..."
 $appServiceSettings = $appService.SiteConfig.AppSettings
 
 $existingSettings = @{ }
-Write-Verbose "Existing Azure App Service application settings:"
+Write-Verbose "Existing Azure App Service application settings from the Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName':"
 foreach ($setting in $appServiceSettings) {
     $existingSettings[$setting.Name] = $setting.value
     if ($PrintSettingValuesIfVerbose) {
-        Write-Verbose "$($setting.Name): $($setting.Value)"
+        Write-Verbose "$($setting.Name): $($setting.Value) (Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName')"
     } else {
-        Write-Verbose "$($setting.Name)"
+        Write-Verbose "$($setting.Name) (Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName')"
     }
 }
 
 $existingSettings[$AppServiceSettingName] = $AppServiceSettingValue
 
-Write-Host "Setting the application setting '$AppServiceSettingName'"
+Write-Verbose "Setting the application setting '$AppServiceSettingName' for the Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName'"
 try 
 {
     $updatedAppService = Set-AzWebApp -ResourceGroupName $ResourceGroupName -Name $appServiceName -AppSettings $existingSettings
@@ -44,7 +44,7 @@ try
         }
     }
 } catch {
-    throw "The Azure App Service settings could not be updated. Details: $($_.Exception.Message)"
+    throw "The Azure App Service settings could not be updated for the Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
 }
 
-Write-Host "Successfully set the application setting '$AppServiceSettingName' of the Azure App Service '$AppServiceName' within Azure resource group '$ResourceGroupName'"
+Write-Host "Successfully set the application setting '$AppServiceSettingName' of the Azure App Service '$AppServiceName' in resource group '$ResourceGroupName'"

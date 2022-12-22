@@ -11,8 +11,8 @@ if ($apim -eq $null) {
     throw "Unable to find the Azure API Management Instance $ServiceName in resource group $ResourceGroupName"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
-Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
+Write-Verbose "Using Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 
 Set-AzApiManagementApi -Context $apimContext -ApiId $ApiId -SubscriptionKeyHeaderName $HeaderName -SubscriptionKeyQueryParamName $QueryParamName
-Write-Host "Subscription key header '$HeaderName' was assigned"
-Write-Host "Subscription key query parameter '$QueryParamName' was assigned"
+Write-Host "Subscription key header '$HeaderName' was assigned for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+Write-Host "Subscription key query parameter '$QueryParamName' was assigned for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"

@@ -10,8 +10,8 @@ if ($apim -eq $null) {
     throw "Unable to find the Azure API Management Instance $ServiceName in resource group $ResourceGroupName"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
-Write-Host "Using API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
+Write-Verbose "Using Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 
-Write-Verbose "Uploading private certificate at '$CertificateFilePath'..."
+Write-Verbose "Uploading private certificate at '$CertificateFilePath' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
 New-AzApiManagementCertificate -Context $apimContext -PfxFilePath $CertificateFilePath -PfxPassword $CertificatePassword
-Write-Host "Uploaded private certificate at '$CertificateFilePath'"
+Write-Host "Uploaded private certificate at '$CertificateFilePath' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
