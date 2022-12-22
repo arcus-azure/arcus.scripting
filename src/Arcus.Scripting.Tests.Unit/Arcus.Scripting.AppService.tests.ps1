@@ -17,7 +17,7 @@ InModuleScope Arcus.Scripting.AppService {
                 # Act
                 { 
                    Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue
-                } | Should -Throw -ExpectedMessage "No app service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
+                } | Should -Throw -ExpectedMessage "No Azure App Service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
 
                 # Assert
                 Assert-VerifiableMock

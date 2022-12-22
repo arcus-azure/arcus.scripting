@@ -1444,7 +1444,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -FirstName $firstName `
                     -LastName $lastName `
                     -MailAddress $mailAddress
-                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management Instance $serviceName in resource group $resourceGroup"
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management service '$($serviceName)' in resource group '$($resourceGroup)'"
 
 
                 # Assert
@@ -1559,7 +1559,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -MailAddress $mailAddress
-                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management Instance $serviceName in resource group $resourceGroup"
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management service '$serviceName' in resource group '$resourceGroup'"
 
 
                 # Assert
