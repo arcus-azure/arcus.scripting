@@ -36,5 +36,5 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
             Restore-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -SourceContainerName $ContainerName -SourceBlobName $BlobName
         }
     }
-    Write-Host "Azure API Management service '$ServiceName' in resource group '$ResourceGroupName' is restored!"
+    Write-Host "Azure API Management service '$ServiceName' in resource group '$ResourceGroupName' is restored!" -ForegroundColor Green
 }

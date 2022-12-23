@@ -27,4 +27,4 @@ if ($AsJob) {
 } else {
     Set-AzApiManagement -InputObject $apimContext -PassThru
 }
-Write-Host "Uploaded public CA certificate '$CertificateFilePath' into the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+Write-Host "Uploaded public CA certificate '$CertificateFilePath' into the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green

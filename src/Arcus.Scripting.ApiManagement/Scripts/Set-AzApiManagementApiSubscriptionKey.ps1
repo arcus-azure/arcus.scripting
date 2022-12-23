@@ -14,5 +14,5 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName 
 Write-Verbose "Using Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 
 Set-AzApiManagementApi -Context $apimContext -ApiId $ApiId -SubscriptionKeyHeaderName $HeaderName -SubscriptionKeyQueryParamName $QueryParamName
-Write-Host "Subscription key header '$HeaderName' was assigned for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
-Write-Host "Subscription key query parameter '$QueryParamName' was assigned for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+Write-Host "Subscription key header '$HeaderName' was assigned for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
+Write-Host "Subscription key query parameter '$QueryParamName' was assigned for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green

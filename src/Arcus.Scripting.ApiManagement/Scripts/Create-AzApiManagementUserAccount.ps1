@@ -67,11 +67,11 @@ try
 
     if($ConfirmationType -eq 'invite')
     {
-        Write-Host "Invitation has been sent to $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+        Write-Host "Invitation has been sent to $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     }
     else
     {
-        Write-Host "Account has been created for $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+        Write-Host "Account has been created for $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
         if($Password -eq $null -or $Password -eq ""){
             Write-Host "Since no password was provided, one has been generated. Please advise the user to change this password the first time logging in for the Azure API Management service '$($ServiceName)' in resource group '$($ResourceGroupName)'" -ForegroundColor Yellow
         }

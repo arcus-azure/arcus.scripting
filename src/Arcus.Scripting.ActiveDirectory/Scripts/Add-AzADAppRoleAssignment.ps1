@@ -51,7 +51,7 @@ try {
         $updatedAdServicePrincipal = Get-MgServicePrincipal -ServicePrincipalId $adServicePrincipal.Id
 
         while ($updatedAdServicePrincipal.AppRoles.Value -notcontains $Role -and $counter -lt 10) {
-            Write-Verbose "Role '$Role' has been added to Active Directory Application '$($adApplication.DisplayName)' but not yet available for use, waiting 10 seconds to retry..."
+            Write-Versbose "Role '$Role' has been added to Active Directory Application '$($adApplication.DisplayName)' but not yet available for use, waiting 10 seconds to retry..."
             Start-Sleep -Seconds 10
             $counter++
             $updatedAdServicePrincipal = Get-MgServicePrincipal -ServicePrincipalId $adServicePrincipal.Id
@@ -62,7 +62,7 @@ try {
         }
 
         $newRoleAssignment = New-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $adServicePrincipalRoleAssignTo.Id -PrincipalId $adServicePrincipalRoleAssignTo.Id -ResourceId $adServicePrincipal.Id -AppRoleId $currentAppRole.Id
-        Write-Host "Role Assignment for the role '$Role' added to the Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)'" -ForegroundColor White
+        Write-Host "Role Assignment for the role '$Role' added to the Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)'" -ForegroundColor Green
     } else {
         Write-Host "Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)' already contains a role assignment for the role '$Role'" -ForegroundColor Yellow
     }

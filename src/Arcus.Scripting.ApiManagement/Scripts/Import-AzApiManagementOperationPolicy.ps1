@@ -15,7 +15,7 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName 
 Write-Verbose "Updating policy of the operation '$OperationId' in API '$ApiId' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 $result = Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath -PassThru
 if ($result) {
-    Write-Host "Successfully updated the operation policy for the Azure API Management service $ServiceName in resource group $ResourceGroupName"
+    Write-Host "Successfully updated the operation policy for the Azure API Management service $ServiceName in resource group $ResourceGroupName" -ForegroundColor Green
 } else {
     throw "Failed to update the operation policy for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName', please check parameters"
 }

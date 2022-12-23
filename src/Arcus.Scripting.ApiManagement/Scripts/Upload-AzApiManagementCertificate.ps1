@@ -14,4 +14,4 @@ Write-Verbose "Using Azure API Management service '$ServiceName' in resource gro
 
 Write-Verbose "Uploading private certificate at '$CertificateFilePath' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
 New-AzApiManagementCertificate -Context $apimContext -PfxFilePath $CertificateFilePath -PfxPassword $CertificatePassword
-Write-Host "Uploaded private certificate at '$CertificateFilePath' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+Write-Host "Uploaded private certificate at '$CertificateFilePath' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green

@@ -53,5 +53,5 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
         }
     }
 
-    Write-Host "Azure API management service '$($ServiceName)' in resource group '$($ResourceGroupName)' is backed-up!"
+    Write-Host "Azure API management service '$($ServiceName)' in resource group '$($ResourceGroupName)' is backed-up!" -ForegroundColor Green
 }

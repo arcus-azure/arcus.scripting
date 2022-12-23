@@ -14,7 +14,7 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName 
 Write-Verbose "Updating policy of product '$ProductId' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 $result = Set-AzApiManagementPolicy -Context $apimContext -ProductId $ProductId -PolicyFilePath $PolicyFilePath -PassThru
 if ($result) {
-    Write-Host "Successfully updated the product policy for the Azure API Management service $ServiceName in resource group $ResourceGroupName"
+    Write-Host "Successfully updated the product policy for the Azure API Management service $ServiceName in resource group $ResourceGroupName" -ForegroundColor Green
 } else {
     throw "Failed to update the product policy for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 }

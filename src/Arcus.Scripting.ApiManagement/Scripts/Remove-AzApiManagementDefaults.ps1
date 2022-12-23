@@ -32,7 +32,7 @@ if ($echoExists) {
     try {
         Write-Verbose "Removing 'echo' API in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
         Remove-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop | Out-Null
-        Write-Host "Removed 'echo' API in the Azure API Management service $ServiceName in resource group $ResourceGroupName"
+        Write-Host "Removed 'echo' API in the Azure API Management service $ServiceName in resource group $ResourceGroupName" -ForegroundColor Green
     }
     catch {
         Write-Error "Failed to remove the 'echo' API in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
@@ -61,7 +61,7 @@ if ($starterExists) {
     try {
         Write-Verbose "Removing 'starter' product in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
         Remove-AzApiManagementProduct -Context $apimContext -ProductId 'starter' -DeleteSubscriptions -ErrorAction Stop | Out-Null
-        Write-Host "Removed 'starter' product in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+        Write-Host "Removed 'starter' product in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     }
     catch {
         Write-Error "Failed to remove the 'starter' product in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
@@ -90,7 +90,7 @@ if ($unlimitedExists) {
     try {
         Write-Verbose "Removing 'unlimited' product in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
         Remove-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -DeleteSubscriptions -ErrorAction Stop | Out-Null
-        Write-Host "Removed 'unlimited' product in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+        Write-Host "Removed 'unlimited' product in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     }
     catch {
         Write-Error "Failed to remove the 'unlimited' product"

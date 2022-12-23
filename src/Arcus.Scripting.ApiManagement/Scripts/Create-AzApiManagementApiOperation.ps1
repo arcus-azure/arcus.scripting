@@ -21,10 +21,11 @@ Write-Host "New API operation '$OperationName' was added on Azure API Management
 
 if($OperationId -eq "" -or $PolicyFilePath -eq "")
 {
-    Write-Host "No policy has been defined for Azure API Management service '$($ServiceName)' in resource group '$($ResourceGroupName)'"
+    Write-Host "No policy has been defined for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Yellow
 }
 else
 {
-    Write-Host "Updating policy of the operation '$OperationId' in API '$ApiId' of the Azure API Management service '$($ServiceName)' in resource group '$($ResourceGroupName)'"
+    Write-Verbose "Updating policy of the operation '$OperationId' in API '$ApiId' of the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
     Set-AzApiManagementPolicy -Context $apimContext -ApiId $ApiId -OperationId $OperationId -PolicyFilePath $PolicyFilePath
+    Write-Host "Updated policy of the operation '$OperationId' in API '$ApiId' of the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
 }
