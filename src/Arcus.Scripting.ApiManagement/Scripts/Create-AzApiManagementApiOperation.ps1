@@ -12,7 +12,7 @@ param(
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
 if ($apim -eq $null) {
-    throw "Unable to find the Azure API Management service '$($ServiceName)' in resource group '$($ResourceGroupName)'"
+    throw "Unable to find the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 
