@@ -5,21 +5,21 @@ param(
 
 $adApplication = Get-AzADApplication -Filter "AppId eq '$ClientId'"
 if (!$adApplication) { 
-    throw "Active Directory Application for the ClientId '$ClientId' could not be found" 
+    throw "Active Directory Application for the ClientId '$ClientId' could not be found"
 }
 $adServicePrincipal = Get-AzADServicePrincipal -Filter "AppId eq '$ClientId'"
 if (!$adServicePrincipal) { 
-    throw "Active Directory Service Principal for the ClientId '$ClientId' could not be found" 
+    throw "Active Directory Service Principal for the ClientId '$ClientId' could not be found"
 }
 
 if ($RolesAssignedToClientId -ne '') {
-    $adApplicationRolesAssignedTo = Get-AzADApplication -Filter "AppId eq '$RolesAssignedToClientId'"    
+    $adApplicationRolesAssignedTo = Get-AzADApplication -Filter "AppId eq '$RolesAssignedToClientId'"
     if (!$adApplicationRolesAssignedTo) { 
-        throw "Active Directory Application for the ClientId '$RolesAssignedToClientId' could not be found" 
+        throw "Active Directory Application for the ClientId '$RolesAssignedToClientId' could not be found"
     }
     $adServicePrincipalRolesAssignedTo = Get-AzADServicePrincipal -Filter "AppId eq '$RolesAssignedToClientId'"
     if (!$adServicePrincipalRolesAssignedTo) { 
-        throw "Active Directory Service Principal for the ClientId '$RolesAssignedToClientId' could not be found" 
+        throw "Active Directory Service Principal for the ClientId '$RolesAssignedToClientId' could not be found"
     }
 }
 
