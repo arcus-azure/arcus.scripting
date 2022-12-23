@@ -8,7 +8,7 @@ param(
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
 if ($apim -eq $null) {
-    throw "Unable to find the Azure API Management Instance $ServiceName in resource group $ResourceGroupName"
+    throw "Unable to find the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 
@@ -21,20 +21,20 @@ if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
 }
 
 try {
-    Write-Host "Retrieving the user account with e-mail '$mailAddress'"
+    Write-Verbose "Retrieving the user account with e-mail '$mailAddress' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
     $apimUser = Get-AzApiManagementUser -Context $apimContext -Email $MailAddress
 
     if ($apimUser -ne $null) {
         $apimUserId = $apimUser.UserId
 
-        Write-Host "Attempting to remove the user account with e-mail '$mailAddress' and id '$apimUserId'"
+        Write-Verbose "Attempting to remove the user account with e-mail '$mailAddress' and ID '$apimUserId' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
         Remove-AzApiManagementUser -Context $apimContext -UserId $apimUserId
-        Write-Host "Removed the user account with e-mail '$mailAddress' and id '$apimUserId'"
+        Write-Host "Removed the user account with e-mail '$MailAddress' and ID '$apimUserId' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     } else {
-        Write-Host "User account with e-mail '$mailAddress' not found in the APIM instance '$ServiceName'"
+        Write-Host "User account with e-mail '$MailAddress' not found in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
     }    
 }
 catch {
     Write-Host $_
-    throw "Failed to remove the user account for '$MailAddress' in the APIM instance '$ServiceName'"
+    throw "Failed to remove the user account for '$MailAddress' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 }

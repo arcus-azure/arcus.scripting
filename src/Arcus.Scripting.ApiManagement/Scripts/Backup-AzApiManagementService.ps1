@@ -9,20 +9,20 @@ param(
     [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null
 )
 
-Write-Host "Getting Azure storage account key..."
+Write-Verbose "Getting Azure storage account key for storage account '$($StorageAccountName)' in resource group '$($StorageAccountResourceGroupName)'..."
 $storageKeys = Get-AzStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName
 
 if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
-    Write-Error "Cannot backup API Management service because no access keys found for storage account '$StorageAccountName'"
+    Write-Error "Cannot backup API Management service because no access keys found for storage account '$StorageAccountName' in resource group '$($StorageAccountResourceGroupName)'"
 } else {
-    Write-Host "Got Azure storage key!"
+    Write-Host "Got Azure storage key for storage account '$($StorageAccountName)' in resource group '$($StorageAccountResourceGroupName)'!" -ForegroundColor Green
     $storageKey = $storageKeys[0]
     
-    Write-Host "Create new Azure storage context with storage key..."
+    Write-Verbose "Create new Azure storage context for storage account '$($StorageAccountName)' with storage key..."
     $storageContext = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageKey.Value
-    Write-Host "New Azure storage context with storage key created!"
+    Write-Host "New Azure storage context for storage account '$($StorageAccountName)' with storage key created!" -ForegroundColor Green
 
-    Write-Host "Start backing up API management service..."
+    Write-Verbose "Start backing up Azure API management service '$($ServiceName)' in resource group '$($ResourceGroupName)'..."
     if ($BlobName -ne $null) {
         if ($PassThru) {
             if ($DefaultProfile -ne $null) {
@@ -53,5 +53,5 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
         }
     }
 
-    Write-Host "API management service is backed-up!"
+    Write-Host "Azure API management service '$($ServiceName)' in resource group '$($ResourceGroupName)' is backed-up!" -ForegroundColor Green
 }
