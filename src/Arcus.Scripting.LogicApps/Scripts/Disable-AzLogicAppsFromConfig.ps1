@@ -76,7 +76,7 @@ function ExecuteCheckType() {
                             Write-Verbose "Found no more waiting or running runs for Azure Logic App '$logicApp', executing stopType for Logic App"
                             ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppName $logicApp -stopType $batch.stopType
                         }                    
-                        Write-Host "Check 'NoWaitingOrRunningRuns' executed successfully on Azure Logic APp '$logicApp'" -ForegroundColor Green
+                        Write-Host "Check 'NoWaitingOrRunningRuns' executed successfully on Azure Logic App '$logicApp'" -ForegroundColor Green
                     }
                     catch {
                         Write-Warning "Failed to perform check 'NoWaitingOrRunningRuns' for Azure Logic App '$logicApp'"
