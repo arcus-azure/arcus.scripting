@@ -36,7 +36,7 @@ try {
     $putUri = "$resourceManagerUrl" + "$serviceId" + "?api-version=$ApiVersion"
     $restoreService = Invoke-RestMethod -Method PUT -Uri $putUri -ContentType 'application/json' -Headers $authHeader -Body $body
 } catch {
-    throw "Soft deleted Azure API Management serivce '$Name' could not be restored. Details: $($_.Exception.Message)"
+    throw "Soft deleted Azure API Management service '$Name' could not be restored. Details: $($_.Exception.Message)"
 }
 
 Write-Host "Successfully restored the soft deleted API Management service '$Name'"
