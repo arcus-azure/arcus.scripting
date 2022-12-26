@@ -163,7 +163,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Restore-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "The soft deleted Azure API Management service '$Name' could not be restored. Details: some error"
+                } | Should -Throw -ExpectedMessage "Soft deleted Azure API Management serivce '$Name' could not be restored. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock
