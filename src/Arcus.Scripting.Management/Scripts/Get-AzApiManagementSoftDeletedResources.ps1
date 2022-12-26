@@ -6,7 +6,7 @@ param(
     [Parameter(Mandatory = $true)][string] $ApiVersion
 )
 
-Write-Verbose "Checking if the zure API Management service '$Name' is listed as a soft deleted service..."
+Write-Verbose "Checking if the Azure API Management service '$Name' is listed as a soft deleted service..."
 $getUri = "$ResourceManagerUrl" + "subscriptions/$SubscriptionId/providers/Microsoft.ApiManagement/deletedservices" + "?api-version=$ApiVersion"
 
 $deletedServices = (Invoke-RestMethod -Method GET -Uri $getUri -Headers $AuthHeader)
