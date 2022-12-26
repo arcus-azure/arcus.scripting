@@ -9,7 +9,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to enable $logicAppName"  }
+                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"  }
                 Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
                 Mock Invoke-WebRequest -MockWith {
                     $status = [System.Net.WebExceptionStatus]::ConnectionClosed
@@ -33,7 +33,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to enable Azure Logic App '$logicAppName'" }
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
@@ -83,7 +83,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to disable $logicAppName"  }
+                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"  }
                 Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
                 Mock Invoke-WebRequest -MockWith {
                     $status = [System.Net.WebExceptionStatus]::ConnectionClosed
@@ -107,7 +107,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to disable Azure Logic App '$logicAppName'" }
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
