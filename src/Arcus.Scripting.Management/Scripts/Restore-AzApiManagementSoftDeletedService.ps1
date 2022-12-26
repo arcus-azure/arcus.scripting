@@ -39,4 +39,4 @@ try {
     throw "Soft deleted Azure API Management service '$Name' could not be restored. Details: $($_.Exception.Message)"
 }
 
-Write-Host "Successfully restored the soft deleted API Management service '$Name'"
+Write-Host "Successfully restored the soft deleted API Management service '$Name'" -ForegroundColor Green
