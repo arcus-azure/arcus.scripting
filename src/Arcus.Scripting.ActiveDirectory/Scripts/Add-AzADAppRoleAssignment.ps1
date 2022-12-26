@@ -38,7 +38,7 @@ try {
         $adApplication.AppRole += $newRole
 
         Update-AzADApplication -ObjectId $adApplication.Id -AppRole $adApplication.AppRole
-        Write-Host "Added role '$Role' to Active Directory Application '$($adApplication.DisplayName)e'"
+        Write-Host "Added role '$Role' to Active Directory Application '$($adApplication.DisplayName)'"
 
         $currentAppRole = $newRole
     } else {
