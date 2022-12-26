@@ -32,16 +32,16 @@ function UploadCertificate {
     if ($ArtifactsPrefix -ne '') {
         $certificateName = $ArtifactsPrefix + $certificateName
     }
-    Write-Host "Uploading certificate '$certificateName' into the Azure Integration Account '$Name'"
+    Write-Host "Uploading certificate '$certificateName' into the Azure Integration Account '$Name'..."
 
     $existingCertificate = $null
     try {
-        Write-Verbose "Checking if the certificate '$certificateName' already exists in the Azure Integration Account '$Name'"
+        Write-Verbose "Checking if the certificate '$certificateName' already exists in the Azure Integration Account '$Name'..."
         $existingCertificate = Get-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -ErrorAction Stop
     }
     catch {
         if ($_.Exception.Message.Contains('could not be found')) {
-            Write-Verbose "No certificate '$certificateName' could not be found in Azure Integration Account '$Name'"
+            Write-Warning "No certificate '$certificateName' could not be found in Azure Integration Account '$Name'"
         }
         else {
             throw $_.Exception
@@ -50,26 +50,26 @@ function UploadCertificate {
         
     try {
         if ($existingCertificate -eq $null) {
-            Write-Verbose "Creating certificate '$certificateName' in Azure Integration Account '$Name'"
+            Write-Verbose "Creating certificate '$certificateName' in Azure Integration Account '$Name'..."
             if ($CertificateType -eq 'Public') {
                 $createdCertificate = New-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -ErrorAction Stop
             }
             else {
                 $createdCertificate = New-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -KeyName $KeyName -KeyVersion $KeyVersion -KeyVaultId $KeyVaultId -ErrorAction Stop
             }
-            Write-Verbose ($createdCertificate | Format-List -Force | Out-String)
+            Write-Debug ($createdCertificate | Format-List -Force | Out-String)
         }
         else {
-            Write-Verbose "Updating certificate '$certificateName' in Azure Integration Account '$Name'"
+            Write-Verbose "Updating certificate '$certificateName' in Azure Integration Account '$Name'..."
             if ($CertificateType -eq 'Public') {
                 $updatedCertificate = Set-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -Force -ErrorAction Stop
             }
             else {
                 $updatedCertificate = Set-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -KeyName $KeyName -KeyVersion $KeyVersion -KeyVaultId $KeyVaultId -Force -ErrorAction Stop
             }
-            Write-Verbose ($updatedCertificate | Format-List -Force | Out-String)
+            Write-Debug ($updatedCertificate | Format-List -Force | Out-String)
         }
-        Write-Host "Certificate '$certificateName' has been uploaded into the Azure Integration Account '$Name'"
+        Write-Host "Certificate '$certificateName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
     }
     catch {
         Write-Error "Failed to upload certificate '$certificateName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
@@ -84,7 +84,6 @@ else {
     if ($CertificatesFolder -ne '' -and $CertificateFilePath -eq '') {
         foreach ($certificate in Get-ChildItem($CertificatesFolder) -File) {
             UploadCertificate -Certificate $certificate
-            Write-Host '----------'
         }
     }
     elseif ($CertificatesFolder -eq '' -and $CertificateFilePath -ne '') {

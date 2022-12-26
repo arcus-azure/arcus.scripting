@@ -28,8 +28,8 @@ catch
     }
     else 
     {
-        Write-Host $message
-        Write-Host "Skipping the '$Action'-operation."
+        Write-Warning $message
+        Write-verbose "Skipping the '$Action'-operation."
         return
     }
 }
@@ -41,12 +41,12 @@ if($Action -eq "Start")
         if($null -ne $DataFactoryTrigger)
         {
             $succeeded = Start-AzDataFactoryV2Trigger -ResourceGroupName $ResourceGroupName -DataFactoryName $DataFactoryName -Name $DataFactoryTriggerName -Force -ErrorAction Stop
-            Write-Host "The trigger '$DataFactoryTriggerName' has been started."
+            Write-Host "Started Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'" -ForegroundColor Green
         }
     }
     catch 
     {
-        throw "Error starting trigger '$DataFactoryTriggerName' in data factory '$DataFactoryName'"
+        throw "Error starting Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'"
     }
 }
 
@@ -57,11 +57,11 @@ if($Action -eq "Stop")
         if($null -ne $DataFactoryTrigger)
         {
             $succeeded = Stop-AzDataFactoryV2Trigger -ResourceGroupName $ResourceGroupName -DataFactoryName $DataFactoryName -Name $DataFactoryTriggerName -Force -ErrorAction Stop
-            Write-Host "The trigger '$DataFactoryTriggerName' has been stopped."
+            Write-Host "Stopped Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'" -ForegroundColor Green
         }
     }
     catch 
     {
-        throw "Error stopping trigger '$DataFactoryTrigger' in data factory '$DataFactoryName'"
+        throw "Error stopping Azure Data Factory trigger '$DataFactoryTrigger' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'"
     }
 }

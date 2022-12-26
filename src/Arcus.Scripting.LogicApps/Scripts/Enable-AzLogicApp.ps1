@@ -18,20 +18,20 @@ try{
     
     $fullUrl = . $PSScriptRoot\Get-AzLogicAppResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -Action enable
     
-    Write-Host "Attempting to enable $LogicAppName"
+    Write-Verbose "Attempting to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'..."
     $params = @{
         Method = 'Post'
         Headers = @{ 
-	        'authorization'="Bearer $AccessToken"
+            'authorization'="Bearer $AccessToken"
         }
         URI = $fullUrl
     }
 
     $web = Invoke-WebRequest @params -ErrorAction Stop
-    Write-Host "Successfully enabled $LogicAppName" 
+    Write-Host "Successfully enabled Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green
 }
 catch {
-    Write-Warning "Failed to enable $LogicAppName"
+    Write-Warning "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
     $ErrorMessage = $_.Exception.Message
-    Write-Warning "Error: $ErrorMessage"
+    Write-Debug "Error: $ErrorMessage"
 } 

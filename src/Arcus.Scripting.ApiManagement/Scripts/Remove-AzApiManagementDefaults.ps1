@@ -12,7 +12,7 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName 
 $exceptionOccurred = $false
 $failedActions = @()
 
-Write-Host "Checking if 'echo' API exists in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
+Write-Verbose "Checking if 'echo' API exists in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
 $echoExists = $true
 try {
     Get-AzApiManagementApi -Context $apimContext -ApiId 'echo-api' -ErrorAction Stop | Out-Null
@@ -70,7 +70,7 @@ if ($starterExists) {
     }
 }
 
-Write-Host "Checking if 'unlimited' product exists..."
+Write-Verbose "Checking if 'unlimited' product exists in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
 $unlimitedExists = $true
 try {
     Get-AzApiManagementProduct -Context $apimContext -ProductId 'unlimited' -ErrorAction Stop | Out-Null

@@ -18,7 +18,7 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
     Write-Host "Got Azure storage key for storage account '$($StorageAccountName)' in resource group '$($StorageAccountResourceGroupName)'!" -ForegroundColor Green
     $storageKey = $storageKeys[0]
     
-    Write-Verbose "Create new Azure storage context for storage account '$($StorageAccountName)' with storage key..."
+    Write-Verbose "Creating new Azure storage context for storage account '$($StorageAccountName)' with storage key..."
     $storageContext = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageKey.Value
     Write-Host "New Azure storage context for storage account '$($StorageAccountName)' with storage key created!" -ForegroundColor Green
 

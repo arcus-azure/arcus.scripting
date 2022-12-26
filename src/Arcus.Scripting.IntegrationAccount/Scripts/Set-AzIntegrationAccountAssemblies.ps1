@@ -20,16 +20,16 @@ function UploadAssembly {
     if ($ArtifactsPrefix -ne '') {
         $assemblyName = $ArtifactsPrefix + $assemblyName
     }
-    Write-Host "Uploading assembly '$assemblyName' into the Azure Integration Account '$Name'"
+    Write-Verbose "Uploading assembly '$assemblyName' into the Azure Integration Account '$Name'..."
 
     $existingAssembly = $null
     try {
-        Write-Verbose "Checking if the assembly '$assemblyName' already exists in the Azure Integration Account '$Name'"
+        Write-Verbose "Checking if the assembly '$assemblyName' already exists in the Azure Integration Account '$Name'..."
         $existingAssembly = Get-AzIntegrationAccountAssembly -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -Name $assemblyName -ErrorAction Stop
     }
     catch {
         if ($_.Exception.Message.Contains('could not be found')) {
-            Write-Verbose "No assembly '$assemblyName' could not be found in Azure Integration Account '$Name'"
+            Write-Warning "No assembly '$assemblyName' could not be found in Azure Integration Account '$Name'"
         }
         else {
             throw $_.Exception
@@ -38,14 +38,14 @@ function UploadAssembly {
         
     try {
         if ($existingAssembly -eq $null) {
-            Write-Verbose "Creating assembly '$assemblyName' in Azure Integration Account '$Name'"
+            Write-Verbose "Creating assembly '$assemblyName' in Azure Integration Account '$Name'..."
             $createdAssembly = New-AzIntegrationAccountAssembly -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -Name $assemblyName -AssemblyFilePath $Assembly.FullName -ErrorAction Stop
-            Write-Verbose ($createdAssembly | Format-List -Force | Out-String)
+            Write-Debug ($createdAssembly | Format-List -Force | Out-String)
         }
         else {
-            Write-Verbose "Updating assembly '$assemblyName' in Azure Integration Account '$Name'"
+            Write-Verbose "Updating assembly '$assemblyName' in Azure Integration Account '$Name'..."
             $updatedAssembly = Set-AzIntegrationAccountAssembly -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -Name $assemblyName -AssemblyFilePath $Assembly.FullName -ErrorAction Stop
-            Write-Verbose ($updatedAssembly | Format-List -Force | Out-String)
+            Write-Debug ($updatedAssembly | Format-List -Force | Out-String)
         }
         Write-Host "Assembly '$assemblyName' has been uploaded into the Azure Integration Account '$Name'"
     }
@@ -62,7 +62,6 @@ else {
     if ($AssembliesFolder -ne '' -and $AssemblyFilePath -eq '') {
         foreach ($assembly in Get-ChildItem($AssembliesFolder) -File) {
             UploadAssembly -Assembly $assembly
-            Write-Host '----------'
         }
     }
     elseif ($AssembliesFolder -eq '' -and $AssemblyFilePath -ne '') {

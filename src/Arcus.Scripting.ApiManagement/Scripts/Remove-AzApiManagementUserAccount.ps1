@@ -31,7 +31,7 @@ try {
         Remove-AzApiManagementUser -Context $apimContext -UserId $apimUserId
         Write-Host "Removed the user account with e-mail '$MailAddress' and ID '$apimUserId' for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     } else {
-        Write-Host "User account with e-mail '$MailAddress' not found in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+        Write-Warning "User account with e-mail '$MailAddress' not found in the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
     }    
 }
 catch {

@@ -17,9 +17,9 @@ function ReverseStopType() {
         [System.Array][parameter(Mandatory = $true)]$batch
     )
     BEGIN {
-        Write-Host("> Reverting stopType '$($batch.stopType)' for batch '$($batch.description)' in resource group '$ResourceGroupName'")
-        If ($batch.stopType -Match "Immediate") {
-            If ($batch.logicApps.Length -gt 0 ) {
+        Write-Verbose "Reverting stopType '$($batch.stopType)' for batch '$($batch.description)' in resource group '$ResourceGroupName'"
+        if ($batch.stopType -Match "Immediate") {
+            if ($batch.logicApps.Length -gt 0 ) {
                 $batch.logicApps | ForEach-Object {
                     $LogicAppName = $_;
                     if($ResourcePrefix.Length -gt 0){
@@ -29,21 +29,21 @@ function ReverseStopType() {
                         Enable-AzLogicApp -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $Global:accessToken
                     }
                     catch {
-                        Write-Warning "Failed to enable $LogicAppName"
+                        Write-Warning "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
                         $ErrorMessage = $_.Exception.Message 
-                        Write-Warning "Error: $ErrorMessage"
+                        Write-Debug "Error: $ErrorMessage"
                     }           
                 }
             }
             else {
-                Write-Warning "No Logic Apps specified."
+                Write-Warning "No Azure Logic Apps specified to enable"
             }
         }
-        ElseIf ($batch.stopType -Match "None") {
+        elseIf ($batch.stopType -Match "None") {
             Write-Host "StopType equals 'None', performing no enable action on the Logic App(s)"
         }
         else {
-            Write-Warning "StopType '$($batch.stopType)' has no known implementation, doing nothing.." 
+            Write-Warning "StopType '$($batch.stopType)' has no known implementation, doing nothing"
         }        
     }
 }
@@ -58,12 +58,9 @@ if($json.Length -gt 0){
 $json | ForEach-Object { 
     $batch = $_;    
     $batchDescription = $batch.description
-    Write-Host("Executing batch: '$batchDescription'")
-    Write-Host("====================================")
+    Write-Verbose "Executing batch: '$batchDescription'"
     #Call the ReverseStopType function which will revert the executed stopType
     ReverseStopType -resourceGroupName $resourceGroupName -batch $batch
 
-    ## Wrap up
-    Write-Host("-> Batch: '$batchDescription' has been executed")
-    Write-Host("")
+    Write-Host "Batch: '$batchDescription' has been executed" -ForegroundColor Green
 }

@@ -13,7 +13,7 @@ if ($appService -eq $null) {
     throw "No Azure App Service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
 }
 
-Write-Host "Azure App service has been found for name '$AppServiceName' in the resource group '$ResourceGroupName'" -ForegroundColor Green
+Write-Host "Azure App service has been found for name '$AppServiceName' in the resource group '$ResourceGroupName'"
 Write-Verbose "Extracting the existing application settings from the Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName'..."
 $appServiceSettings = $appService.SiteConfig.AppSettings
 
@@ -47,4 +47,4 @@ try
     throw "The Azure App Service settings could not be updated for the Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
 }
 
-Write-Host "Successfully set the application setting '$AppServiceSettingName' of the Azure App Service '$AppServiceName' in resource group '$ResourceGroupName'"
+Write-Host "Successfully set the application setting '$AppServiceSettingName' of the Azure App Service '$AppServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green

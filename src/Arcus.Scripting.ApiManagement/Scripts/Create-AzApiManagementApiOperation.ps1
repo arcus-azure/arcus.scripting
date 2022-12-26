@@ -21,7 +21,7 @@ Write-Host "New API operation '$OperationName' was added on Azure API Management
 
 if($OperationId -eq "" -or $PolicyFilePath -eq "")
 {
-    Write-Host "No policy has been defined for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Yellow
+    Write-Warning "No policy has been defined for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 }
 else
 {

@@ -26,7 +26,7 @@ if ($RolesAssignedToClientId -ne '') {
 try {
     if ($adApplication.AppRole.Count -eq 0)
     {
-        Write-Host "No roles found in Active Directory Application '$($adApplication.DisplayName)'" -ForegroundColor Yellow
+        Write-Warning "No roles found in Active Directory Application '$($adApplication.DisplayName)'"
     }
 
     foreach ($appRole in $adApplication.AppRole) {
@@ -45,7 +45,7 @@ try {
                 }
             }
         } else {
-            Write-Host "No role assignments found in Active Directory Application '$($adApplication.DisplayName)'" -ForegroundColor Yellow
+            Write-Warning "No role assignments found in Active Directory Application '$($adApplication.DisplayName)'"
         }
     }
 } catch {

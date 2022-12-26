@@ -13,7 +13,7 @@ if($resourceGroupName -eq '') {
 }
 
 $armAccessPolicies = @()
-if($keyVault) {    
+if($keyVault) {
     Write-Verbose "Found Azure Key Vault '$keyVaultName'"
     
     $keyVaultAccessPolicies = $keyVault.accessPolicies
@@ -33,13 +33,13 @@ if($keyVault) {
           }
 
           Write-Verbose "Azure Key Vault access policy successfully retrieved for TenantId: $($armAccessPolicy.tenantId) and ObjectId: $($armAccessPolicy.ObjectId)"
-          Write-Verbose ($armAccessPolicyPermissions | Format-list | Out-String) 
+          Write-Debug ($armAccessPolicyPermissions | Format-list | Out-String) 
 
           $armAccessPolicy | Add-Member -MemberType NoteProperty -Name permissions -Value $armAccessPolicyPermissions
           $armAccessPolicies += $armAccessPolicy
        }       
        
-        Write-Host "Successfully retrieved Azure Key Vault access policies"
+        Write-Host "Successfully retrieved Azure Key Vault access policies" -ForegroundColor Green
     }    
 } else {
     Write-Warning "Azure Key Vault '$keyVaultName' could not be found, please check if the provided vault name and/or resource group name is correct."

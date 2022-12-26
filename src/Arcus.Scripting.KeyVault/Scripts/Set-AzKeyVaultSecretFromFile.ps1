@@ -34,4 +34,4 @@ if ($Expires -ne $null) {
 }
 
 $version = $secret.Version
-Write-Host "Azure Key Vault Secret '$SecretName' (Version: '$version') has been created."
+Write-Host "Azure Key Vault Secret '$SecretName' (Version: '$version') has been created" -ForegroundColor Green

@@ -16,11 +16,11 @@ if ($collectionUri.EndsWith('/') -eq $false) {
 
 $requestUri = "$collectionUri" + "$ProjectId/_apis/build/builds/" + $BuildId + "?api-version=6.0"
 
-Write-Verbose "Saving Azure DevOps build with build ID $BuildId in project $ProjectId by posting $requestBody to $requestUri"
+Write-Verbose "Saving Azure DevOps build with build ID $BuildId in project $ProjectId by posting '$requestBody' to '$requestUri'..."
 $response = Invoke-WebRequest -Uri $requestUri -Method Patch -Body $requestBody -ContentType "application/json" -Headers @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
 
 if ($response.StatusCode -ne 200) {
-    throw "Unable to retain build indefinetely. API request returned statuscode $($response.StatusCode)"
+    throw "Unable to retain Azure DevOps build indefinetely with build ID $BuildId in project $ProjectId. API request returned statuscode $($response.StatusCode)"
 }
 
-Write-Host "Azure DevOps build with build ID $BuildId in project $ProjectId saved"
+Write-Host "Saved Azure DevOps build with build ID $BuildId in project $ProjectId" -ForegroundColor Green
