@@ -32,7 +32,6 @@ PS> Create-AzFileShareStorageFolder `
 -ResourceGroupName "shipping-resources" `
 -StorageAccountName "tracking-account-storage" `
 -FileShareName "returned" -FolderName "containers"
-# Creating Azure FileShare storage folder 'containers' in file share 'returned'..
 # Created Azure FileShare storage folder 'containers' in file share 'returned'
 ```
 
@@ -57,8 +56,7 @@ PS> Upload-AzFileShareStorageFiles `
 -StorageAccountName "tracking-account-storage" `
 -FileShareName "returned" -SourceFolderPath "containers" `
 -DestinationFolderName "containers"
-# Upload files to Azure FileShare storage 'returned'...
 # Uploaded the '[fileName]' file to Azure FileShare 'returned'
 # Uploaded the '[fileName]' file to Azure FileShare 'returned'
-# Files have been uploaded to Azure FileShare storage 'returned'
+# Files have been uploaded to Azure FileShare storage 'returned' 
 ```

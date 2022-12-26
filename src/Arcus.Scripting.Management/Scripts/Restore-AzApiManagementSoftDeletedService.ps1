@@ -22,7 +22,7 @@ $resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.p
 
 $deletedServices = . $PSScriptRoot\Get-AzApiManagementSoftDeletedResources.ps1 -Name $Name -SubscriptionId $SubscriptionId -ResourceManagerUrl $resourceManagerUrl -AuthHeader $authHeader -ApiVersion $ApiVersion
 
-Write-Host "Restoring the soft deleted Azure API Management service '$Name'..."
+Write-Verbose "Restoring the soft deleted Azure API Management service '$Name'..."
 try {
     $location = ($deletedServices.value | Where-Object name -eq $Name).location
     $serviceId = ($deletedServices.value | Where-Object name -eq $Name).properties.serviceId

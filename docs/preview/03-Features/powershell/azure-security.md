@@ -103,6 +103,5 @@ PS> New-AzResourceGroupRoleAssignment `
 -ResourceGroupName "to-assign-role-resource-group" `
 -ResourceName "to-assign-resource" `
 -RoleAssignmentDefinition "Contributor"
-# Assigning Contributor-rights to the 'to-assign-role-resource' in the resource group 'to-assign-resource-group to gain access to the 'to-gain-access-resource-group'
-# Contributor access granted!
+# Granted Contributor-rights to the 'to-assign-role-resource' in the resource group 'to-assign-resource-group to gain access to the 'to-gain-access-resource-group'!
 ```

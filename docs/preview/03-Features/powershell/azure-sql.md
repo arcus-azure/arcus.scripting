@@ -44,7 +44,8 @@ PS> Invoke-AzSqlDatabaseMigration `
 -DatabaseName "my-database-name" `
 -Username "my-sql-username" `
 -Password "my-sql-password"
-# Looking for SQL scripts in folder: ./sqlScripts
+# DB migration 1.0.0 applied!
+# Done migrating database. Current Database version is 1.0.0
 ```
 
 **Example with custom values**
@@ -58,7 +59,8 @@ PS> Invoke-AzSqlDatabaseMigration `
 -ScriptsFolder "$PSScriptRoot/sql-scripts" `
 -ScriptsFileFilter "*.MyScript.sql" `
 -DatabaseSchema "custom"
-# Looking for SQL scripts in folder: ./sql-scripts
+# DB migration 1.0.0 applied!
+# Done migrating database. Current Database version is 1.0.0
 ```
 
 ### Adding SQL scripts so they can be picked up by the script

@@ -33,10 +33,7 @@ For more information on API Management and soft deletion see [here](https://docs
 **Example**
 ```powershell
 PS> Remove-AzApiManagementSoftDeletedService -Name "my-apim"
-# Checking if the API Management instance with name 'my-apim' is listed as a soft deleted service
-# API Management instance has been found for name 'my-apim' as a soft deleted service
-# Removing the soft deleted API Management instance 'my-apim'
-# Successfully removed the soft deleted API Management instance 'my-apim'
+# Successfully removed the soft deleted Azure API Management service 'my-apim'
 ```
 
 ## Restoring a soft deleted API Management instance
@@ -59,8 +56,5 @@ For more information on API Management and soft deletion see [here](https://docs
 **Example**
 ```powershell
 PS> Restore-AzApiManagementSoftDeletedService -Name "my-apim"
-# Checking if the API Management instance with name 'my-apim' is listed as a soft deleted service
-# API Management instance has been found for name 'my-apim' as a soft deleted service
-# Restoring the soft deleted API Management instance 'my-apim'
-# Successfully restored the soft deleted API Management instance 'my-apim'
+# Successfully restored the soft deleted API Management service 'my-apim'
 ```
