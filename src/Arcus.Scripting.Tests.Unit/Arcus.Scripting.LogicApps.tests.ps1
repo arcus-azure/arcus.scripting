@@ -33,7 +33,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to enable $logicAppName" }
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to enable Azure Logic App '$logicAppName'" }
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
@@ -107,7 +107,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to disable $logicAppName" }
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to disable Azure Logic App '$logicAppName'" }
                 Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
