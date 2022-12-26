@@ -9,8 +9,8 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"  }
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
+                Mock Write-Warning -MockWith { }
+                Mock Write-Debug -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
                 Mock Invoke-WebRequest -MockWith {
                     $status = [System.Net.WebExceptionStatus]::ConnectionClosed
                     $response = New-Object -type 'System.Net.HttpWebResponse'
@@ -33,8 +33,8 @@ InModuleScope Arcus.Scripting.LogicApps {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
+                Assert-MockCalled Write-Debug -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
         Context "Enable Logic Apps with configuration" {
@@ -83,8 +83,8 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"  }
-                Mock Write-Warning -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
+                Mock Write-Warning -MockWith { }
+                Mock Write-Debug -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
                 Mock Invoke-WebRequest -MockWith {
                     $status = [System.Net.WebExceptionStatus]::ConnectionClosed
                     $response = New-Object -type 'System.Net.HttpWebResponse'
@@ -107,8 +107,8 @@ InModuleScope Arcus.Scripting.LogicApps {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to disable Azure Logic App '$LogicAppName'" }
+                Assert-MockCalled Write-Debug -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
         Context "Disable Logic Apps with configuration" {
