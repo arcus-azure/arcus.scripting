@@ -3,7 +3,7 @@ param(
 )
 
 try {
-    $resourceManagerUrl = ""   
+    $resourceManagerUrl = ""
     
     $environments = (Get-AzEnvironment).Name
     if ($EnvironmentName -notin $environments) {
@@ -28,5 +28,5 @@ try {
 catch {
     Write-Warning "Failed to retrieve the resource management endpoint"
     $ErrorMessage = $_.Exception.Message
-    Write-Warning "Error: $ErrorMessage"
+    Write-Debug "Error: $ErrorMessage"
 }
