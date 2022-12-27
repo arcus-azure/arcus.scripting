@@ -15,7 +15,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Remove-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
+                } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
             }
         }
         Context "Restore soft deleted Azure API Management service" {
@@ -26,7 +26,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Restore-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
+                } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
             }
         }
     }

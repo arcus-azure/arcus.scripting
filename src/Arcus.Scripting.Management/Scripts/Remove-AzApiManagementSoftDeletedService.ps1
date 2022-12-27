@@ -22,13 +22,13 @@ $resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.p
 
 $deletedServices = . $PSScriptRoot\Get-AzApiManagementSoftDeletedResources.ps1 -Name $Name -SubscriptionId $SubscriptionId -ResourceManagerUrl $resourceManagerUrl -AuthHeader $authHeader -ApiVersion $ApiVersion
 
-Write-Host "Removing the soft deleted API Management instance '$Name'"
+Write-Verbose "Removing the soft deleted Azure API Management instance '$Name'..."
 try {
     $serviceId = ($deletedServices.value | Where-Object name -eq $Name).id
     $deleteUri = "$resourceManagerUrl" + "$serviceId" + "?api-version=$ApiVersion"
     $removeService = Invoke-RestMethod -Method DELETE -Uri $deleteUri -Headers $authHeader
 } catch {
-    throw "The soft deleted API Management instance '$Name' could not be removed. Details: $($_.Exception.Message)"
+    throw "Soft deleted Azure API Management service '$Name' could not be removed. Details: $($_.Exception.Message)"
 }
 
-Write-Host "Successfully removed the soft deleted API Management instance '$Name'"
+Write-Host "Successfully removed the soft deleted Azure API Management service '$Name'" -ForegroundColor Green

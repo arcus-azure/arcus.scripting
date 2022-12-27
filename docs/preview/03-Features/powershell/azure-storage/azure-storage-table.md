@@ -35,9 +35,8 @@ PS> Create-AzStorageTable `
 -ResourceGroupName "stock" `
 -StorageAccountName "admin" `
 -TableName "products"
-# Azure storage account context has been retrieved
-# Azure storage table 'products' does not exist yet in the Azure storage account, so will create one
-# Azure storage table 'products' created
+# Azure storage table 'products' does not exist yet in the Azure storage account 'admin', so will create one
+# Azure storage table 'products' created in Azure storage account 'admin'
 ```
 
 With existing table and re-create:
@@ -49,9 +48,8 @@ PS> Create-AzStorageTable `
 -TableName "products" `
 -Recreate `
 -RetryIntervalSeconds 3
-# Azure storage account context has been retrieved
-# Azure storage table 'products' has been removed
-# Failed to re-create the Azure storage table 'products', retrying in 5 seconds...
-# Failed to re-create the Azure storage table 'products', retrying in 5 seconds...
-# Azure storage table 'products' created
+# Azure storage table 'products' has been removed from Azure storage account 'admin'
+# Failed to re-create the Azure storage table 'products' in Azure storage account 'admin', retrying in 5 seconds...
+# Failed to re-create the Azure storage table 'products' in Azure storage account 'admin', retrying in 5 seconds...
+# Azure storage table 'products' created in Azure storage account 'admin'
 ```

@@ -13,8 +13,7 @@ function VerifyAzureFileShareExists {
         return $true
     } catch [Microsoft.Azure.Storage.StorageException] {
         if ($Error[0].Exception.Message -like "*does not exist*") {
-            Write-Host "The given file-share '$FileShareName' does not seem to exist in storage account '$StorageAccountName'."
-            Write-Error "The given file-share '$FileShareName' does not seem to exist in storage account '$StorageAccountName'."
+            Write-Warning "No files can be uploaded because no Azure file-share '$FileShareName' seem to exist in Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
             return $false
         } else {
             throw
@@ -25,14 +24,14 @@ function VerifyAzureFileShareExists {
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
 $context = $storageAccount.Context
 
-Write-Verbose "Upload files to Azure FileShare storage '$FileShareName'..."
+Write-Verbose "Upload files to Azure FileShare storage '$FileShareName' in resource group '$ResourceGroupName'..."
 
 if (VerifyAzureFileShareExists) {
     foreach ($file in Get-ChildItem ("$SourceFolderPath") -File) {
         try {
             if ($file.Name.EndsWith($FileMask, "CurrentCultureIgnoreCase")) {
                 Set-AzStorageFileContent -Context $context -ShareName $FileShareName -Source $file.FullName -Path $DestinationFolderName -Force 
-                Write-Host "Uploaded the '$($file.Name)' file to Azure FileShare '$FileShareName'"
+                Write-Host "Uploaded the '$($file.Name)' file to Azure FileShare '$FileShareName'" -ForegroundColor Green
             }
         } catch {
             $ErrorMessage = $_.Exception.Message
@@ -41,5 +40,5 @@ if (VerifyAzureFileShareExists) {
         
     }
 
-    Write-Host "Files have been uploaded to Azure FileShare storage '$FileShareName'" 
+    Write-Host "Files have been uploaded to Azure FileShare storage '$FileShareName' in resource group '$ResourceGroupName'"
 }

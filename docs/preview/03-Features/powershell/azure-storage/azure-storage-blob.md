@@ -39,10 +39,7 @@ PS> Upload-AzFilesToBlobStorage `
 -StorageAccountName "account-name" `
 -TargetFolderPath "./directory" `
 -ContainerName "blob-container"
-# Try using existing Azure Storage Container blob-container...
-# Using existing Azure Storage Container blob-container
-# Uploading files from ./directory
-# Uploaded the file to Azure Blob Storage: [file]
+# Uploaded the file [file] to Azure Blob storage container: [Blob URL]
 ```
 
 With non-existing blob container:
@@ -53,8 +50,5 @@ PS> Upload-AzFilesToBlobStorage `
 -StorageAccountName "account-name" `
 -TargetFolderPath "./directory" `
 -ContainerName "blob-container"
-# Try using existing Azure Storage Container blob-container...
-# Creating Storage Container blob-container
-# Uploading files from ./directory
-# Uploaded the file to Azure Blob Storage: [file]
+# Uploaded the file [file\ to Azure Blob storage container: [Blob URL]
 ```

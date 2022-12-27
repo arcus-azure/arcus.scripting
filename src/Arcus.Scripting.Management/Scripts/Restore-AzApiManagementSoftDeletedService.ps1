@@ -22,7 +22,7 @@ $resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.p
 
 $deletedServices = . $PSScriptRoot\Get-AzApiManagementSoftDeletedResources.ps1 -Name $Name -SubscriptionId $SubscriptionId -ResourceManagerUrl $resourceManagerUrl -AuthHeader $authHeader -ApiVersion $ApiVersion
 
-Write-Host "Restoring the soft deleted API Management instance '$Name'"
+Write-Verbose "Restoring the soft deleted Azure API Management service '$Name'..."
 try {
     $location = ($deletedServices.value | Where-Object name -eq $Name).location
     $serviceId = ($deletedServices.value | Where-Object name -eq $Name).properties.serviceId
@@ -36,7 +36,7 @@ try {
     $putUri = "$resourceManagerUrl" + "$serviceId" + "?api-version=$ApiVersion"
     $restoreService = Invoke-RestMethod -Method PUT -Uri $putUri -ContentType 'application/json' -Headers $authHeader -Body $body
 } catch {
-    throw "The soft deleted API Management instance '$Name' could not be restored. Details: $($_.Exception.Message)"
+    throw "Soft deleted Azure API Management service '$Name' could not be restored. Details: $($_.Exception.Message)"
 }
 
-Write-Host "Successfully restored the soft deleted API Management instance '$Name'"
+Write-Host "Successfully restored the soft deleted API Management service '$Name'" -ForegroundColor Green

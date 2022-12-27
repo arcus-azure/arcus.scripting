@@ -23,7 +23,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Remove-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
+                } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
 
                 # Assert
                 Assert-VerifiableMock
@@ -57,7 +57,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Remove-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "The soft deleted API Management instance '$Name' could not be removed. Details: some error"
+                } | Should -Throw -ExpectedMessage "Soft deleted Azure API Management service '$Name' could not be removed. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock
@@ -129,7 +129,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Restore-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "API Management instance with name '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
+                } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
 
                 # Assert
                 Assert-VerifiableMock
@@ -163,7 +163,7 @@ InModuleScope Arcus.Scripting.Management {
                 # Act
                 { 
                    Restore-AzApiManagementSoftDeletedService -Name $Name
-                } | Should -Throw -ExpectedMessage "The soft deleted API Management instance '$Name' could not be restored. Details: some error"
+                } | Should -Throw -ExpectedMessage "Soft deleted Azure API Management service '$Name' could not be restored. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock

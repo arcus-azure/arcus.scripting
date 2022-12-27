@@ -21,5 +21,5 @@ if($AssignGlobalVariables) {
     Write-Host "Global variable 'accessToken' assigned"
 }
 
-Write-Host "Azure access token and subscription ID retrieved from current active Azure authenticated session"
+Write-Host "Azure access token and subscription ID retrieved from current active Azure authenticated session" -ForegroundColor Green
 return New-Object psobject -Property @{ SubscriptionId = $currentAzureContext.Subscription.Id; AccessToken = $token.AccessToken }
