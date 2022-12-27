@@ -12,11 +12,11 @@ if ($false -eq $isFileFound) {
     throw "Cannot set an Azure Key Vault secret because no file containing the secret certificate was found"
 }
 
-Write-Verbose "Creating Azure Key Vault secret from file..."
+Write-Verbose "Creating Azure Key Vault secret '$SecretName' from file in Azure Key vault '$KeyVaultName'..."
 
 $secretValue = $null
 if ($Base64) {
-    Write-Verbose "Use BASE64 format as secret format"
+    Write-Verbose "Use BASE64 format as format to create Azure Key vault secret '$SecretName' in Azure Key vault '$KeyVaultName'"
     $content = Get-Content $filePath -Raw
     $bytes = [System.Text.Encoding]::UTF8.GetBytes($content)
     $contentBase64 = [System.Convert]::ToBase64String($bytes)
@@ -34,4 +34,4 @@ if ($Expires -ne $null) {
 }
 
 $version = $secret.Version
-Write-Host "Azure Key Vault Secret '$SecretName' (Version: '$version') has been created."
+Write-Host "Azure Key Vault secret '$SecretName' (Version: '$version') has been created in Azure Key vault '$KeyVaultName'" -ForegroundColor Green

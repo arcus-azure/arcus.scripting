@@ -33,7 +33,7 @@ function InjectFile {
         [string] $filePath
     )
 
-    Write-Host "Checking file $filePath" 
+    Write-Verbose "Checking ARM template file '$filePath' for injection tokens..." 
 
     $replaceContentDelegate = {
         param($match)
@@ -58,7 +58,7 @@ function InjectFile {
         # Inject content recursively first
         InjectFile($fullPathOfFileToInject)
 
-        Write-Host "`t Injecting content of $fullPathOfFileToInject into $filePath" 
+        Write-Verbose "`t Injecting content of '$fullPathOfFileToInject' into '$filePath'" 
 
         $newString = Get-Content -Path $fullPathOfFileToInject -Raw
 
@@ -98,13 +98,13 @@ function InjectFile {
             if ($optionParts.Contains("InjectAsJsonObject")) {
                 try {
                     # Test if content is valid JSON
-                    Write-Host "Test if valid JSON: $newString"
+                    Write-Verbose "Test if valid JSON: $newString"
                     ConvertFrom-Json $newString
 
                     $surroundContentWithDoubleQuotes = $False
                 }
                 catch {
-                    Write-Warning "Content to inject cannot be parsed as a JSON object!"
+                    Write-Warning "Content to inject into ARM template file '$filePath' cannot be parsed as a JSON object!"
                 }
             }
         }
@@ -122,7 +122,7 @@ function InjectFile {
     $injectionInstructionRegex = [regex] '"?\${(.+)}\$"?';
     $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -NoNewline -Encoding UTF8
     
-    Write-Host "Done checking file $filePath" 
+    Write-Host "Done checking ARM template file '$filePath' for injection tokens" -ForegroundColor Green 
 }
 
 
@@ -133,9 +133,9 @@ if ($false -eq $PathIsFound) {
     throw "Passed along path '$Path' doesn't point to valid file path"
 }
 
-Write-Host "Starting $psScriptFileName script on path $Path"
+Write-Verbose "Starting '$psScriptFileName' script on path '$Path'..."
 
 $armTemplates = Get-ChildItem -Path $Path -Recurse -Include *.json
 $armTemplates | ForEach-Object { InjectFile($_.FullName) }
 
-Write-Host "Finished script $psScriptFileName"
+Write-Host "Finished script '$psScriptFileName' on path '$Path'" -ForegroundColor Green

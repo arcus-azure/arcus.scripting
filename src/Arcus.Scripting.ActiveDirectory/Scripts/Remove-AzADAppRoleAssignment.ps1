@@ -25,16 +25,16 @@ if (!$adServicePrincipalRoleRemoveFrom) {
 
 try {
     if ($adApplication.AppRole.Value -notcontains $Role) {
-        Write-Host "Active Directory Application '$($adApplication.DisplayName)' does not contain the role '$Role', skipping removal" -ForegroundColor Yellow
+        Write-Warning "Active Directory Application '$($adApplication.DisplayName)' does not contain the role '$Role', skipping removal"
     } else {
         $appRole = $adApplication.AppRole | Where-Object {($_.DisplayName -eq $Role)}
         $appRoleAssignment = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object {($_.AppRoleId -eq $appRole.Id) -and ($_.PrincipalId -eq $adServicePrincipalRoleRemoveFrom.Id)}
 
         if ($appRoleAssignment) {
             Remove-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $adServicePrincipalRoleRemoveFrom.Id -AppRoleAssignmentId $appRoleAssignment.Id
-            Write-Host "Role assignment for '$Role' has been removed from Active Directory Application '$($adApplicationRoleRemoveFrom.DisplayName)'"
+            Write-Host "Role assignment for '$Role' has been removed from Active Directory Application '$($adApplicationRoleRemoveFrom.DisplayName)'" -ForegroundColor Green
         } else {
-            Write-Host "Role '$Role' is not assigned to Active Directory Application '$($adApplicationRoleRemoveFrom.DisplayName)', skipping role assignment removal" -ForegroundColor Yellow
+            Write-Warning "Role '$Role' is not assigned to Active Directory Application '$($adApplicationRoleRemoveFrom.DisplayName)', skipping role assignment removal"
         }
 
         if ($RemoveRoleIfNoAssignmentsAreLeft) {
@@ -49,10 +49,10 @@ try {
                 $appRoles = $adApplication.AppRole | Where-Object Id -ne $appRole.Id
                 if ($appRoles) {
                     Update-AzADApplication -ObjectId $adApplication.Id -AppRole $appRoles
-                    Write-Host "Role '$Role' with App Role '$appRoles' removed from Active Directory Application '$($adApplication.DisplayName)' as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set"
+                    Write-Host "Role '$Role' with App Role '$appRoles' removed from Active Directory Application '$($adApplication.DisplayName)' as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set" -ForegroundColor Green
                 } else {
                     Update-AzADApplication -ObjectId $adApplication.Id -AppRole @()
-                    Write-Host "Role '$Role' removed from Active Directory Application '$($adApplication.DisplayName)' as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set"
+                    Write-Host "Role '$Role' removed from Active Directory Application '$($adApplication.DisplayName)' as no more role assignments were left and the option 'RemoveRoleIfNoAssignmentsAreLeft' is set" -ForegroundColor Green
                 }
             }
         }

@@ -18,15 +18,15 @@ function ExecuteStopType() {
         [string][parameter(Mandatory = $true)]$stopType
     )
     BEGIN {
-        Write-Host("> Executing StopType '$stopType' for Logic App '$LogicAppName' in resource group '$ResourceGroupName'")
+        Write-Verbose "Executing StopType '$stopType' for Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'..."
         If ($stopType -Match "Immediate") {
             try {
                 Disable-AzLogicApp -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $Global:accessToken
             }
             catch {
-                Write-Warning "Failed to disable $LogicAppName"
+                Write-Warning "Failed to disable Azure Logic App '$LogicAppName'"
                 $ErrorMessage = $_.Exception.Message
-                Write-Warning "Error: $ErrorMessage"
+                Write-Debug "Error: $ErrorMessage"
             }            
         }
         ElseIf ($stopType -Match "None") {
@@ -46,10 +46,10 @@ function ExecuteCheckType() {
         [System.Array][parameter(Mandatory = $true)]$batch
     )
     BEGIN {
-        Write-Host("> Executing CheckType '$($batch.checkType)' for batch '$($batch.description)' in resource group '$ResourceGroupName'")
-        If ($batch.checkType -Match "NoWaitingOrRunningRuns") {
+        Write-Verbose "Executing CheckType '$($batch.checkType)' for batch '$($batch.description)' in resource group '$ResourceGroupName'..."
+        if ($batch.checkType -Match "NoWaitingOrRunningRuns") {
             Write-Host "Executing Check 'NoWaitingOrRunningRuns'"
-            If ($batch.logicApps.Length -gt 0 ) {
+            if ($batch.logicApps.Length -gt 0 ) {
                 $batch.logicApps | ForEach-Object {
                     $logicApp = $_;
                     if($ResourcePrefix.Length -gt 0){
@@ -61,35 +61,35 @@ function ExecuteCheckType() {
                         $WaitingRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -ErrorAction Stop | Where-Object Status -eq "Waiting" | Measure-Object | ForEach-Object { $_.Count }
                         if ($RunningRunsCount -ne 0 -and $WaitingRunsCount -ne 0) {
                             while ($RunningRunsCount -ne 0 -and $WaitingRunsCount -ne 0) {
-                                Write-Host "Logic App '$logicApp' has Running and/or Waiting Runs, waiting 10 seconds and checking again.."
-                                Write-Host "Number of running runs: $RunningRunsCount"
-                                Write-Host "Number of waiting runs: $WaitingRunsCount"
+                                Write-Verbose "Azure Logic App '$logicApp' has Running and/or Waiting Runs, waiting 10 seconds and checking again..."
+                                Write-Debug "Number of running runs: $RunningRunsCount"
+                                Write-Debug "Number of waiting runs: $WaitingRunsCount"
                                 Start-Sleep -Second 10                               
                                 $RunningRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -ErrorAction Stop | Where-Object Status -eq "Running" | Measure-Object | ForEach-Object { $_.Count }
                                 $WaitingRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -ErrorAction Stop | Where-Object Status -eq "Waiting" | Measure-Object | ForEach-Object { $_.Count }
                                 if ($RunningRunsCount -eq 0 -and $WaitingRunsCount -eq 0) {
-                                    Write-Host("Found no more waiting or running runs for '$logicApp', executing stopType for Logic App")
+                                    Write-Verbose "Found no more waiting or running runs for Azure Logic App '$logicApp', executing stopType for Logic App"
                                     ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppName $logicApp -stopType $batch.stopType
                                 }
                             }
-                        }else{
-                            Write-Host("Found no more waiting or running runs for '$logicApp', executing stopType for Logic App")
+                        } else{
+                            Write-Verbose "Found no more waiting or running runs for Azure Logic App '$logicApp', executing stopType for Logic App"
                             ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppName $logicApp -stopType $batch.stopType
                         }                    
-                        Write-Host("> Check 'NoWaitingOrRunningRuns' executed successfully on '$logicApp'")   
+                        Write-Host "Check 'NoWaitingOrRunningRuns' executed successfully on Azure Logic App '$logicApp'" -ForegroundColor Green
                     }
                     catch {
-                        Write-Warning "Failed to perform check 'NoWaitingOrRunningRuns' for $logicApp"
+                        Write-Warning "Failed to perform check 'NoWaitingOrRunningRuns' for Azure Logic App '$logicApp'"
                         $ErrorMessage = $_.Exception.Message
-                        Write-Warning "Error: $ErrorMessage"
-                    }                         
+                        Write-Debug "Error: $ErrorMessage"
+                    }
                 }
             }
             else {
-                Write-Warning "No Logic Apps specified."
+                Write-Warning "No Azure Logic Apps specified to disable"
             }
         }
-        ElseIf ($batch.checkType -Match "None") {
+        elseIf ($batch.checkType -Match "None") {
             Write-Host "Executing Check 'None' => peforming no check and executing stopType"
             $batch.logicApps | ForEach-Object {
                 $logicApp = $_;
@@ -100,7 +100,7 @@ function ExecuteCheckType() {
             }
         }
         else {
-            Write-Warning "CheckType '$batch.checkType' has no known implementation, performing no check or stop on the Logic App.." 
+            Write-Warning "CheckType '$batch.checkType' has no known implementation, performing no check or stop on the Azure Logic App '$logicApp' in resource group '$ResourceGroupName'..." 
         }
     }
 }
@@ -119,12 +119,9 @@ if($json.Length -gt 0){
 $json | ForEach-Object { 
     $batch = $_;    
     $batchDescription = $batch.description
-    Write-Host("Executing batch: '$batchDescription'")
-    Write-Host("====================================")
+    Write-Verbose "Executing batch: '$batchDescription'"
     #Call the ExecuteCheckType function which will call the ExecuteStopType function after a check for a Logic App has completed
     ExecuteCheckType -resourceGroupName $ResourceGroupName -batch $batch
 
-    ## Wrap up
-    Write-Host("-> Batch: '$batchDescription' has been executed")
-    Write-Host("")
+    Write-Host "Batch: '$batchDescription' has been executed" -ForegroundColor Green
 }

@@ -16,19 +16,14 @@ function Add-VariableGroupVariable()
     )
     BEGIN
     {
-        #Retrieve project details
-        Write-Host Retrieving project details
-        
+        Write-Verbose "Retrieving Azure DevOps project details for variable group '$VariableGroupName'..."
         [String]$project = "$env:SYSTEM_TEAMPROJECT"
         [String]$projectUri = "$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"
         [String]$apiVersion = "4.1-preview.1"
-        
-        Write-Host Project: $project
-        Write-Host ProjectUri: $projectUri
+        Write-Debug "Using Azure DevOps project: $project, project URI: $projectUri"
         
 
-        #Set authorization headers 
-        Write-Host Set authorization headers
+        Write-Verbose "Setting authorization headers to retrieve potential existing Azure DevOps variable group '$VariableGroupName'..."
         if ([string]::IsNullOrEmpty($env:SYSTEM_ACCESSTOKEN))
         {
             Write-Error "The SYSTEM_ACCESSTOKEN environment variable is empty. Remember to explicitly allow the build job to access the OAuth Token!"
@@ -36,10 +31,10 @@ function Add-VariableGroupVariable()
         $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
 
 
-        #Get variable group
-        Write-Host Get variable group
+        Write-Verbose "Getting Azure DevOps variable group '$VariableGroupName'..."
         $getVariableGroupUrl= $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion + "&groupName=" + $VariableGroupName
-        $variableGroup = (Invoke-RestMethod -Uri $getVariableGroupUrl -Headers $headers -Verbose) 
+        $variableGroup = (Invoke-RestMethod -Uri $getVariableGroupUrl -Headers $headers -Verbose)
+
         $releaseName = $env:RELEASE_RELEASENAME
         if ([string]::IsNullOrEmpty($releaseName))
         {
@@ -48,34 +43,30 @@ function Add-VariableGroupVariable()
         
         if($variableGroup.value)
         {
-            #Set properties for update of existing variable group
-            Write-Host Set properties for update of existing variable group
+            Write-Host "Set properties for update of existing Azure DevOps variable group '$variableGroupName'"
             $variableGroup = $variableGroup.value[0]
-			$variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by release '$releaseName'." -Force
+            $variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by release '$releaseName'." -Force
             $method = "Put"
             $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion    
         }
         else
         {
-            #Set properties for creation of new variable group
-            Write-Host Set properties for creation of new variable group
+            Write-Host "Set properties for creation of new Azure DevOps variable group '$VariableGroupName'"
             $variableGroup = @{name=$VariableGroupName;type="Vsts";description="Variable group that got auto-updated by release '$releaseName'.";variables=New-Object PSObject;}
             $method = "Post"
             $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion
         }
 
-        #Add variable
         $variableGroup.variables | Add-Member -Name $variableName -MemberType NoteProperty -Value @{value=$variableValue} -Force
 
-        #Upsert variable group
-        Write-Host Upsert variable group
+        Write-Verbose "Upserting Azure DevOps variable group '$variableGroupName'..."
         $body = $variableGroup | ConvertTo-Json -Depth 10 -Compress
-        Write-Host $body
+        Write-Debug $body
         Invoke-RestMethod $upsertVariableGroupUrl -Method $method -Body $body -Headers $headers -ContentType 'application/json; charset=utf-8' -Verbose
     }
 }
 
-Write-Host "Get ARM outputs from '$ArmOutputsEnvironmentVariableName' environment variable"
+Write-Verbose "Geting ARM outputs from '$ArmOutputsEnvironmentVariableName' environment variable..."
 $json = [System.Environment]::GetEnvironmentVariable($ArmOutputsEnvironmentVariableName)
 $armOutputs = ConvertFrom-Json $json
 
@@ -89,7 +80,7 @@ foreach ($output in $armOutputs.PSObject.Properties) {
   }
 
   if ($UpdateVariablesForCurrentJob) {
-	Write-Host The pipeline variable $variableName will be updated to value $variableValue, so it can be used in subsequent tasks of the current job. 
+	Write-Host "The pipeline variable $variableName will be updated to value $variableValue, so it can be used in subsequent tasks of the current job"
 	Write-Host "##vso[task.setvariable variable=$variableName]$variableValue"
   }
 }

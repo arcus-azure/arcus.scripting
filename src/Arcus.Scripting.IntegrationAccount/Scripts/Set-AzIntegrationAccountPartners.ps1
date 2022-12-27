@@ -25,7 +25,7 @@ function UploadPartner {
     if ($ArtifactsPrefix -ne '') {
         $partnerName = $ArtifactsPrefix + $partnerName
     }
-    Write-Host "Uploading partner '$partnerName' into the Azure Integration Account '$Name'"
+    Write-Verbose "Uploading partner '$partnerName' into the Azure Integration Account '$Name'..."
 
     $businessIdentities = $null
     foreach ($businessIdentity in $partnerData.properties.content.b2b.businessIdentities) {
@@ -41,12 +41,12 @@ function UploadPartner {
 
     $existingPartner = $null
     try {
-        Write-Verbose "Checking if the partner '$partnerName' already exists in the Azure Integration Account '$Name'"
+        Write-Verbose "Checking if the partner '$partnerName' already exists in the Azure Integration Account '$Name'..."
         $existingPartner = Get-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -ErrorAction Stop
     }
     catch {
         if ($_.Exception.Message.Contains('could not be found')) {
-            Write-Verbose "No partner '$partnerName' could not be found in Azure Integration Account '$Name'"
+            Write-Warning "No partner '$partnerName' could not be found in Azure Integration Account '$Name'"
         }
         else {
             throw $_.Exception
@@ -55,16 +55,16 @@ function UploadPartner {
         
     try {
         if ($existingPartner -eq $null) {
-            Write-Verbose "Creating partner '$partnerName' in Azure Integration Account '$Name'"
+            Write-Verbose "Creating partner '$partnerName' in Azure Integration Account '$Name'..."
             $createdPartner = New-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -BusinessIdentities $businessIdentities -ErrorAction Stop
-            Write-Verbose ($createdPartner | Format-List -Force | Out-String)
+            Write-Debug ($createdPartner | Format-List -Force | Out-String)
         }
         else {
-            Write-Verbose "Updating partner '$partnerName' in Azure Integration Account '$Name'"
+            Write-Verbose "Updating partner '$partnerName' in Azure Integration Account '$Name'..."
             $updatedPartner = Set-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -BusinessIdentities $businessIdentities -Force -ErrorAction Stop 
-            Write-Verbose ($updatedPartner | Format-List -Force | Out-String)
+            Write-Debug ($updatedPartner | Format-List -Force | Out-String)
         }
-        Write-Host "Partner '$partnerName' has been uploaded into the Azure Integration Account '$Name'"
+        Write-Host "Partner '$partnerName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
     }
     catch {
         Write-Error "Failed to upload partner '$partnerName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
@@ -79,7 +79,6 @@ else {
     if ($PartnersFolder -ne '' -and $PartnerFilePath -eq '') {
         foreach ($partner in Get-ChildItem($PartnersFolder) -File) {
             UploadPartner -Partner $partner
-            Write-Host '----------'
         }
     }
     elseif ($PartnersFolder -eq '' -and $PartnerFilePath -ne '') {

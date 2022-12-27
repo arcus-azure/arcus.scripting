@@ -38,11 +38,11 @@ try {
         $adApplication.AppRole += $newRole
 
         Update-AzADApplication -ObjectId $adApplication.Id -AppRole $adApplication.AppRole
-        Write-Host "Added role '$Role' to Active Directory Application '$($adApplication.DisplayName)'" -ForegroundColor White
+        Write-Host "Added role '$Role' to Active Directory Application '$($adApplication.DisplayName)'"
 
         $currentAppRole = $newRole
     } else {
-        Write-Host "Active Directory Application '$($adApplication.DisplayName)' already contains the role '$Role'" -ForegroundColor Yellow
+        Write-Warning "Active Directory Application '$($adApplication.DisplayName)' already contains the role '$Role'"
         $currentAppRole = $adApplication.AppRole | Where-Object Value -eq $Role
     }
 
@@ -64,7 +64,7 @@ try {
         $newRoleAssignment = New-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $adServicePrincipalRoleAssignTo.Id -PrincipalId $adServicePrincipalRoleAssignTo.Id -ResourceId $adServicePrincipal.Id -AppRoleId $currentAppRole.Id
         Write-Host "Role Assignment for the role '$Role' added to the Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)'" -ForegroundColor Green
     } else {
-        Write-Host "Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)' already contains a role assignment for the role '$Role'" -ForegroundColor Yellow
+        Write-Warning "Active Directory Application '$($adApplicationRoleAssignTo.DisplayName)' already contains a role assignment for the role '$Role'"
     }
 } catch {
     throw "Adding the role '$Role' for the Active Directory Application with ClientId '$ClientId' failed. Details: $($_.Exception.Message)"

@@ -36,10 +36,7 @@ Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sft
 PS> Disable-AzLogicApp `
 -ResourceGroupName "rg-common-dev" `
 -LogicAppName "rcv-shopping-order-sftp"
-# Access-token and subscriptionId retrieved
-# Attempting to disable rcv-shopping-order-sftp
-
-# Successfully disabled rcv-shopping-order-sftp
+# Successfully disabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, with providing the subscriptionId or accesstoken.  
@@ -50,9 +47,7 @@ PS> Disable-AzLogicApp `
 -ResourceGroupName "rg-common-dev" `
 -LogicAppName "rcv-shopping-order-sftp" `
 -AccessToken $AccessToken
-# Attempting to disable rcv-shopping-order-sftp
-
-# Successfully disabled rcv-shopping-order-sftp
+# Successfully disabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
 ## Enable an Azure Logic App
@@ -78,10 +73,7 @@ Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sft
 PS> Enable-AzLogicApp `
 -ResourceGroupName "rg-common-dev" `
 -LogicAppName "rcv-shopping-order-sftp"
-# Access-token and subscriptionId retrieved
-# Attempting to enable rcv-shopping-order-sftp
-
-# Successfully enabled rcv-shopping-order-sftp
+# Successfully enabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
 Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, with providing the subscriptionId or accesstoken.  
@@ -92,9 +84,7 @@ PS> Enable-AzLogicApp `
 -ResourceGroupName "rg-common-dev" `
 -LogicAppName "rcv-shopping-order-sftp" `
 -AccessToken $AccessToken
-# Attempting to enable rcv-shopping-order-sftp
-
-# Successfully enabled rcv-shopping-order-sftp
+# Successfully enabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
 ## Disabling Azure Logic Apps from configuration file
@@ -176,47 +166,33 @@ PS> Disable-AzLogicAppsFromConfig `
 -DeployFilename "./deploy-orderControl" `
 -ResourceGroupName "my-resource-group"
 # Executing batch: Protocol Receiver(s)
-# ==========================
-# > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
+# Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
 # Executing Check 'None' => performing no check and executing stopType
 
-# > Executing StopType 'Immediate' for Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
-# Attempting to disable rcv-shopping-order-ftp
-# Successfully disabled rcv-shopping-order-ftp
+# Executing StopType 'Immediate' for Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
 
-# > Executing StopType 'Immediate' for Logic App 'rcv-shopping-order-sftp' in resource group 'my-resource-group'
-# Attempting to disable rcv-shopping-order-sftp
-# Successfully disabled rcv-shopping-order-sftp
+# Executing StopType 'Immediate' for Logic App 'rcv-shopping-order-sftp' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'my-resource-group'
 
-# > Executing StopType 'Immediate' for Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
-# Attempting to disable rcv-shopping-order-file
-# Successfully disabled rcv-shopping-order-file
-
-# -> Batch: 'Protocol Receiver(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
+# Batch: 'Protocol Receiver(s)' has been executed
 
 # Executing batch: 'Generic Receiver(s)'
-# ==========================
-# > Executing StopType 'Immediate' for Logic App 'rcv-shopping-order' in resource group 'my-resource-group'
-# Attempting to disable rcv-shopping-order
-# Successfully disabled rcv-shopping-order
-
-# -> Batch: 'Generic Receiver(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'rcv-shopping-order' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'rcv-shopping-order' in resource group 'my-resource-group'
+# Batch: 'Generic Receiver(s)' has been executed
 
 # Executing batch: 'Orchestrator(s)'
-# ==========================
-# > Executing StopType 'Immediate' for Logic App 'orc-shopping-order-processing' in resource group 'my-resource-group'
-# Attempting to disable orc-shopping-order-processing
-# Successfully disabled orc-shopping-order-processing
-
-# -> Batch: 'Orchestrator(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'orc-shopping-order-processing' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'orc-shopping-order-processing' in resource group 'my-resource-group'
+# Batch: 'Orchestrator(s)' has been executed
 
 # Executing batch: 'Sender(s)'
-# ==========================
-# > Executing StopType 'Immediate' for Logic App 'snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
-# Attempting to disable snd-shopping-order-confirmation-smtp
-# Successfully disabled snd-shopping-order-confirmation-smtp
-
-# -> Batch: 'Sender(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'snd-shopping-order-smtp' in resource group 'my-resource-group'
+# Batch: 'Sender(s)' has been executed
 ```
 
 Disables all the Logic Apps based on the `./deploy-orderControl.json` configuration file with specifying a resource-prefix.
@@ -228,47 +204,33 @@ PS> Disable-AzLogicAppsFromConfig `
 -ResourceGroupName "my-resource-group" `
 -ResourcePrefix "la-cod-dev-we-"
 # Executing batch: Protocol Receiver(s)
-# ==========================
-# > Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
+# Executing CheckType 'None' for batch 'Protocol Receiver(s)' in resource group 'my-resource-group'"
 # Executing Check 'None' => performing no check and executing stopType
 
-# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
-# Attempting to disable la-cod-dev-we-rcv-shopping-order-ftp
-# Successfully disabled la-cod-dev-we-rcv-shopping-order-ftp
+# Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
 
-# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
-# Attempting to disable la-cod-dev-we-rcv-shopping-order-sftp
-# Successfully disabled la-cod-dev-we-rcv-shopping-order-sftp
+# Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
 
-# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
-# Attempting to disable la-cod-dev-we-rcv-shopping-order-file
-# Successfully disabled la-cod-dev-we-rcv-shopping-order-file
-
-# -> Batch: 'Protocol Receiver(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
+# Batch: 'Protocol Receiver(s)' has been executed
 
 # Executing batch: 'Generic Receiver(s)'
-# ==========================
-# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
-# Attempting to disable la-cod-dev-we-rcv-shopping-order
-# Successfully disabled la-cod-dev-we-rcv-shopping-order
-
-# -> Batch: 'Generic Receiver(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
+# Successfully disabled  Azure Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
+# Batch: 'Generic Receiver(s)' has been executed
 
 # Executing batch: 'Orchestrator(s)'
-# ==========================
-# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
-# Attempting to disable la-cod-dev-we-orc-shopping-order-processing
-# Successfully disabled la-cod-dev-we-orc-shopping-order-processing
-
-# -> Batch: 'Orchestrator(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
+# Batch: 'Orchestrator(s)' has been executed
 
 # Executing batch: 'Sender(s)'
-# ==========================
-# > Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
-# Attempting to disable la-cod-dev-we-snd-shopping-order-confirmation-smtp
-# Successfully disabled la-cod-dev-we-snd-shopping-order-confirmation-smtp
-
-# -> Batch: 'Sender(s)' has been executed
+# Executing StopType 'Immediate' for Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Successfully disabled Azure Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Batch: 'Sender(s)' has been executed
 ```
 
 ## Enabling Azure Logic Apps from configuration file  
@@ -350,44 +312,30 @@ PS> Enable-AzLogicAppsFromConfig `
 -DeployFilename "./deploy-orderControl" `
 -ResourceGroupName "my-resource-group"
 # Executing batch: 'Sender(s)'
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
-# Attempting to enable snd-shopping-order-confirmation-smtp
-# Successfully enabled snd-shopping-order-confirmation-smtp
-
-# -> Batch: 'Sender(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Batch: 'Sender(s)' has been executed
 
 # Executing batch: 'Orchestrator(s)'
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'orc-shopping-order-processing' in resource group 'my-resource-group'
-# Attempting to enable orc-shopping-order-processing
-# Successfully enabled orc-shopping-order-processing
-
-# -> Batch: 'Orchestrator(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'orc-shopping-order-processing' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'orc-shopping-order-processing' in resource group 'my-resource-group'
+# Batch: 'Orchestrator(s)' has been executed
 
 # Executing batch: 'Generic Receiver(s)'
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order' in resource group 'my-resource-group'
-# Attempting to enable rcv-shopping-order
-# Successfully enabled rcv-shopping-order
-
-# -> Batch: 'Generic Receiver(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'rcv-shopping-order' in resource group 'my-resource-group'
+# Batch: 'Generic Receiver(s)' has been executed
 
 # Executing batch: Protocol Receiver(s)
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
-# Attempting to enable rcv-shopping-order-ftp
-# Successfully enabled rcv-shopping-order-ftp
+# Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'rcv-shopping-order-ftp' in resource group 'my-resource-group'
 
-# > Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order-sftp' in resource group 'my-resource-group'
-# Attempting to enable rcv-shopping-order-sftp
+# Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order-sftp' in resource group 'my-resource-group'
 # Successfully enabled rcv-shopping-order-sftp
 
-# > Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
-# Attempting to enable rcv-shopping-order-file
-# Successfully enabled rcv-shopping-order-file
-
-# -> Batch: 'Protocol Receiver(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'rcv-shopping-order-file' in resource group 'my-resource-group'
+# Batch: 'Protocol Receiver(s)' has been executed
 ```
 
 Enables all the Logic Apps based on the `./deploy-orderControl.json` configuration file with specifying a resource-prefix.
@@ -399,42 +347,28 @@ PS> Enable-AzLogicAppsFromConfig `
 -ResourceGroupName "my-resource-group" `
 -ResourcePrefix "la-cod-dev-we-"
 # Executing batch: 'Sender(s)'
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
-# Attempting to enable la-cod-dev-we-snd-shopping-order-confirmation-smtp
-# Successfully enabled la-cod-dev-we-snd-shopping-order-confirmation-smtp
-
-# -> Batch: 'Sender(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'la-cod-dev-we-snd-shopping-order-confirmation-smtp' in resource group 'my-resource-group'
+# Batch: 'Sender(s)' has been executed
 
 # Executing batch: 'Orchestrator(s)'
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
-# Attempting to enable la-cod-dev-we-orc-shopping-order-processing
-# Successfully enabled la-cod-dev-we-orc-shopping-order-processing
-
-# -> Batch: 'Orchestrator(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'la-cod-dev-we-orc-shopping-order-processing' in resource group 'my-resource-group'
+# Batch: 'Orchestrator(s)' has been executed
 
 # Executing batch: 'Generic Receiver(s)'
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
-# Attempting to enable la-cod-dev-we-rcv-shopping-order
-# Successfully enabled la-cod-dev-we-rcv-shopping-order
-
-# -> Batch: 'Generic Receiver(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'la-cod-dev-we-rcv-shopping-order' in resource group 'my-resource-group'
+# Batch: 'Generic Receiver(s)' has been executed
 
 # Executing batch: Protocol Receiver(s)
-# ==========================
-# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
-# Attempting to enable la-cod-dev-we-rcv-shopping-order-ftp
-# Successfully enabled la-cod-dev-we-rcv-shopping-order-ftp
+# Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'la-cod-dev-we-rcv-shopping-order-ftp' in resource group 'my-resource-group'
 
-# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
-# Attempting to enable la-cod-dev-we-rcv-shopping-order-sftp
-# Successfully enabled la-cod-dev-we-rcv-shopping-order-sftp
+# Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'la-cod-dev-we-rcv-shopping-order-sftp' in resource group 'my-resource-group'
 
-# > Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
-# Attempting to enable la-cod-dev-we-rcv-shopping-order-file
-# Successfully enabled la-cod-dev-we-rcv-shopping-order-file
-
-# -> Batch: 'Protocol Receiver(s)' has been executed
+# Reverting StopType 'Immediate' for Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
+# Successfully enabled Azure Logic App 'la-cod-dev-we-rcv-shopping-order-file' in resource group 'my-resource-group'
+# Batch: 'Protocol Receiver(s)' has been executed
 ```
