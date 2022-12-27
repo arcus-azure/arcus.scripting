@@ -91,7 +91,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $response | Add-Member -MemberType noteProperty -Name 'StatusCode' -Value 404 -force
                     $exception = New-Object System.Net.WebException $errorContent , $null, $status, $response
         
-                    Throw $exception
+                    throw $exception
                 }
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
@@ -107,7 +107,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to disable Azure Logic App '$LogicAppName'" }
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
                 Assert-MockCalled Write-Debug -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
