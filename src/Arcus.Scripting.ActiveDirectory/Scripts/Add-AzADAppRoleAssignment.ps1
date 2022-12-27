@@ -51,7 +51,7 @@ try {
         $updatedAdServicePrincipal = Get-MgServicePrincipal -ServicePrincipalId $adServicePrincipal.Id
 
         while ($updatedAdServicePrincipal.AppRoles.Value -notcontains $Role -and $counter -lt 10) {
-            Write-Versbose "Role '$Role' has been added to Active Directory Application '$($adApplication.DisplayName)' but not yet available for use, waiting 10 seconds to retry..."
+            Write-Verbose "Role '$Role' has been added to Active Directory Application '$($adApplication.DisplayName)' but not yet available for use, waiting 10 seconds to retry..."
             Start-Sleep -Seconds 10
             $counter++
             $updatedAdServicePrincipal = Get-MgServicePrincipal -ServicePrincipalId $adServicePrincipal.Id
