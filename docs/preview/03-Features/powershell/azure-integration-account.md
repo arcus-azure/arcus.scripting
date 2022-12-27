@@ -34,7 +34,6 @@ PS> Set-AzIntegrationAccountSchemas `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -SchemaFilePath "C:\Schemas\MySchema.xsd"
-# Uploading schema 'MySchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'MySchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -45,7 +44,6 @@ PS> Set-AzIntegrationAccountSchemas `
 -Name 'my-integration-account' `
 -SchemaFilePath "C:\Schemas\MySchema.xsd" `
 -RemoveFileExtensions
-# Uploading schema 'MySchema' into the Azure Integration Account 'my-integration-account'
 # Schema 'MySchema' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 Uploading a *single schema* into an Integration Account and set add a prefix to the name of the schema within the Integration Account.  
@@ -55,7 +53,6 @@ PS> Set-AzIntegrationAccountSchemas `
 -Name 'my-integration-account' `
 -SchemaFilePath "C:\Schemas\MySchema.xsd" `
 -ArtifactsPrefix 'dev-'
-# Uploading schema 'dev-MySchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'dev-MySchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -65,12 +62,8 @@ PS> Set-AzIntegrationAccountSchemas `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -SchemasFolder "C:\Schemas"
-# Uploading schema 'MyFirstSchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'MyFirstSchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading schema 'MySecondSchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'MySecondSchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all schemas* located in a specific folder into an Integration Account and remove the file-extension.  
@@ -80,12 +73,8 @@ PS> Set-AzIntegrationAccountSchemas `
 -Name 'my-integration-account' `
 -SchemasFolder "C:\Schemas" `
 -RemoveFileExtensions
-# Uploading schema 'MyFirstSchema' into the Azure Integration Account 'my-integration-account'
 # Schema 'MyFirstSchema' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading schema 'MySecondSchema' into the Azure Integration Account 'my-integration-account'
 # Schema 'MySecondSchema' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all schemas* located in a specific folder into an Integration Account and set add a prefix to the name of the schemas.
@@ -95,14 +84,9 @@ PS> Set-AzIntegrationAccountSchemas `
 -Name 'my-integration-account' `
 -SchemasFolder "C:\Schemas" `
 -ArtifactsPrefix 'dev-'
-# Uploading schema 'dev-MyFirstSchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'dev-MyFirstSchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading schema 'dev-MySecondSchema.xsd' into the Azure Integration Account 'my-integration-account'
 # Schema 'dev-MySecondSchema.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
-
 
 ## Uploading maps into an Azure Integration Account
 
@@ -126,7 +110,6 @@ PS> Set-AzIntegrationAccountMaps `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -MapFilePath "C:\Maps\MyMap.xslt"
-# Uploading map 'MyMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'MyMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -137,7 +120,6 @@ PS> Set-AzIntegrationAccountMaps `
 -Name 'my-integration-account' `
 -MapFilePath "C:\Maps\MyMap.xslt" `
 -RemoveFileExtensions
-# Uploading map 'MyMap' into the Azure Integration Account 'my-integration-account'
 # Map 'MyMap' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 Uploading a *single map* into an Integration Account and set add a prefix to the name of the schema within the Integration Account.  
@@ -147,7 +129,6 @@ PS> Set-AzIntegrationAccountMaps `
 -Name 'my-integration-account' `
 -MapFilePath "C:\Maps\MyMap.xslt" `
 -ArtifactsPrefix 'dev-'
-# Uploading map 'dev-MyMap.xsd' into the Azure Integration Account 'my-integration-account'
 # Map 'dev-MyMap.xsd' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -157,12 +138,8 @@ PS> Set-AzIntegrationAccountMaps `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -MapsFolder "C:\Maps"
-# Uploading map 'MyFirstMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'MyFirstMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading map 'MySecondMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'MySecondMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all maps* located in a specific folder into an Integration Account and remove the file-extension.  
@@ -172,12 +149,8 @@ PS> Set-AzIntegrationAccountMaps `
 -Name 'my-integration-account' `
 -MapsFolder "C:\Maps" `
 -RemoveFileExtensions
-# Uploading map 'MyFirstMap' into the Azure Integration Account 'my-integration-account'
 # Map 'MyFirstMap' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading map 'MySecondMap' into the Azure Integration Account 'my-integration-account'
 # Map 'MySecondMap' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all maps* located in a specific folder into an Integration Account and set add a prefix to the name of the maps.
@@ -187,12 +160,8 @@ PS> Set-AzIntegrationAccountMaps `
 -Name 'my-integration-account' `
 -MapsFolder "C:\Maps" `
 -ArtifactsPrefix 'dev-'
-# Uploading map 'dev-MyFirstMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'dev-MyFirstMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading map 'dev-MySecondMap.xslt' into the Azure Integration Account 'my-integration-account'
 # Map 'dev-MySecondMap.xslt' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 ## Uploading assemblies into an Azure Integration Account
@@ -215,7 +184,6 @@ PS> Set-AzIntegrationAccountAssemblies `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -AssemblyFilePath "C:\Assemblies\MyAssembly.dll"
-# Uploading assembly 'MyAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'MyAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -226,7 +194,6 @@ PS> Set-AzIntegrationAccountAssemblies `
 -Name 'my-integration-account' `
 -AssemblyFilePath "C:\Assemblies\MyAssembly.dll" `
 -ArtifactsPrefix 'dev-'
-# Uploading assembly 'dev-MyAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'dev-MyAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -236,12 +203,8 @@ PS> Set-AzIntegrationAccountAssemblies `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -AssembliesFolder "C:\Assemblies"
-# Uploading assembly 'MyFirstAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'MyFirstAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading assembly 'MySecondAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'MySecondAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all assemblies* located in a specific folder into an Integration Account and set add a prefix to the name of the assemblies.
@@ -251,12 +214,8 @@ PS> Set-AzIntegrationAccountAssemblies `
 -Name 'my-integration-account' `
 -AssembliesFolder "C:\Assemblies" `
 -ArtifactsPrefix 'dev-'
-# Uploading assembly 'dev-MyFirstAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'dev-MyFirstAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading assembly 'dev-MySecondAssembly.dll' into the Azure Integration Account 'my-integration-account'
 # Assembly 'dev-MySecondAssembly.dll' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 ## Uploading certificates into an Azure Integration Account
@@ -284,7 +243,6 @@ PS> Set-AzIntegrationAccountCertificates `
 -Name 'my-integration-account' `
 -CertificateType 'Public' `
 -CertificateFilePath "C:\Certificates\MyCertificate.cer"
-# Uploading certificate 'MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -296,7 +254,6 @@ PS> Set-AzIntegrationAccountCertificates `
 -CertificateType 'Public' `
 -CertificateFilePath "C:\Certificates\MyCertificate.cer" `
 -ArtifactsPrefix 'dev-'
-# Uploading certificate 'dev-MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -307,12 +264,8 @@ PS> Set-AzIntegrationAccountCertificates `
 -Name 'my-integration-account' `
 -CertificateType 'Public' `
 -CertificatesFolder "C:\Certificates"
-# Uploading certificate 'MyFirstCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'MyFirstCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading certificate 'MySecondCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'MySecondCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all public assemblies* located in a specific folder into an Integration Account and set add a prefix to the name of the certificates.
@@ -323,12 +276,8 @@ PS> Set-AzIntegrationAccountCertificates `
 -CertificateType 'Public' `
 -CertificatesFolder "C:\Certificates" `
 -ArtifactsPrefix 'dev-'
-# Uploading certificate 'dev-MyFirstCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MyFirstCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading certificate 'dev-MySecondCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MySecondCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading a *single private certificate* into an Integration Account.  
@@ -341,7 +290,6 @@ PS> Set-AzIntegrationAccountCertificates `
 -KeyName 'MyKey' `
 -KeyVersion 'MyKeyVersion' `
 -KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
-# Uploading certificate 'MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -356,7 +304,6 @@ PS> Set-AzIntegrationAccountCertificates `
 -KeyName 'MyKey' `
 -KeyVersion 'MyKeyVersion' `
 -KeyVaultId '/subscriptions/<subscriptionId>/resourcegroups/<resourceGroup>/providers/microsoft.keyvault/vaults/<keyVault>'
-# Uploading certificate 'dev-MyCertificate.cer' into the Azure Integration Account 'my-integration-account'
 # Certificate 'dev-MyCertificate.cer' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -380,7 +327,6 @@ PS> Set-AzIntegrationAccountPartners `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -PartnerFilePath "C:\Partners\MyPartner.json"
-# Uploading partner 'MyPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'MyPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -391,7 +337,6 @@ PS> Set-AzIntegrationAccountPartners `
 -Name 'my-integration-account' `
 -PartnerFilePath "C:\Partners\MyPartner.json" `
 -ArtifactsPrefix 'dev-'
-# Uploading partner 'dev-MyPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'dev-MyPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -401,12 +346,8 @@ PS> Set-AzIntegrationAccountPartners `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -PartnersFolder "C:\Partners"
-# Uploading partner 'MyFirstPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'MyFirstPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading partner 'MySecondPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'MySecondPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all partners* located in a specific folder into an Integration Account and set add a prefix to the name of the partners.
@@ -416,12 +357,8 @@ PS> Set-AzIntegrationAccountPartners `
 -Name 'my-integration-account' `
 -PartnersFolder "C:\Partners" `
 -ArtifactsPrefix 'dev-'
-# Uploading partner 'dev-MyFirstPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'dev-MyFirstPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading partner 'dev-MySecondPartner.json' into the Azure Integration Account 'my-integration-account'
 # Partner 'dev-MySecondPartner.json' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 **Partner JSON Example**
@@ -477,7 +414,6 @@ PS> Set-AzIntegrationAccountAgreements `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -AgreementFilePath "C:\Agreements\MyAgreement.json"
-# Uploading agreement 'MyAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'MyAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -488,7 +424,6 @@ PS> Set-AzIntegrationAccountAgreements `
 -Name 'my-integration-account' `
 -AgreementFilePath "C:\Agreements\MyAgreement.json" `
 -ArtifactsPrefix 'dev-'
-# Uploading agreement 'dev-MyAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'dev-MyAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
 ```
 
@@ -498,12 +433,8 @@ PS> Set-AzIntegrationAccountAgreements `
 -ResourceGroupName 'my-resource-group' `
 -Name 'my-integration-account' `
 -AgreementsFolder "C:\Agreements"
-# Uploading agreement 'MyFirstAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'MyFirstAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading agreement 'MySecondAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'MySecondAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 Uploading *all agreements* located in a specific folder into an Integration Account and set add a prefix to the name of the agreements.
@@ -513,12 +444,8 @@ PS> Set-AzIntegrationAccountAgreements `
 -Name 'my-integration-account' `
 -AgreementsFolder "C:\Agreements" `
 -ArtifactsPrefix 'dev-'
-# Uploading agreement 'dev-MyFirstAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'dev-MyFirstAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
-# Uploading agreement 'dev-MySecondAgreement' into the Azure Integration Account 'my-integration-account'
 # Agreement 'dev-MySecondAgreement' has been uploaded into the Azure Integration Account 'my-integration-account'
-# ----------
 ```
 
 **Agreement JSON Example**

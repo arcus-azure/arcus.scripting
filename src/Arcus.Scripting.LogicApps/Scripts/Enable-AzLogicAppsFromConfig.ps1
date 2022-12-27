@@ -32,7 +32,7 @@ function ReverseStopType() {
                         Write-Warning "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
                         $ErrorMessage = $_.Exception.Message 
                         Write-Debug "Error: $ErrorMessage"
-                    }           
+                    }
                 }
             }
             else {

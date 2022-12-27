@@ -124,7 +124,7 @@ With default `ArmOutputs` environment variable containing: `"my-variable": "my-v
 
 ```powershell
 PS> Set-AzDevOpsArmOutputsToPipelineVariables
-# Get ARM outputs from 'ArmOutputs' environment variable
+# Getting ARM outputs from 'ArmOutputs' environment variable...
 # The pipeline variable my-variable will be updated to value my-value, so it can be used in subsequent tasks of the current job. 
 # ##vso[task.setvariable variable=my-variable]my-value
 ```
@@ -133,7 +133,7 @@ With custom `MyArmOutputs` environment variable containing: `"my-variable": "my-
 
 ```powershell
 PS> Set-AzDevOpsArmOutputsToPipelineVariables -ArmOutputsEnvironmentVariableName "MyArmOutputs"
-# Get ARM outputs from 'MyArmOutputs' environment variable
+# Getting ARM outputs from 'MyArmOutputs' environment variable...
 # The pipeline variable my-variable will be updated to value my-value, so it can be used in subsequent tasks of the current job. 
 # ##vso[task.setvariable variable=my-variable]my-value
 ```
@@ -176,9 +176,10 @@ Saves/retains a specific Azure DevOps pipeline run.
 PS> Save-AzDevOpsBuild `
 -ProjectId $(System.TeamProjectId) `
 -BuildId $(Build.BuildId)
-# The variables $(System.TeamProjectId) and $(Build.BuildId) are predefined Azure DevOps variables
-# Information on them can be found here: https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+# Saved Azure DevOps build with build ID $BuildId in project $ProjectId
 ```
+
+> 💡 The variables $(System.TeamProjectId) and $(Build.BuildId) are predefined Azure DevOps variables. Information on them can be found here: https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
 
 **Azure DevOps Example**
 This function is intended to be used from an Azure DevOps pipeline. Internally, it uses some predefined Azure DevOps variables.

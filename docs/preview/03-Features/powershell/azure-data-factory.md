@@ -31,7 +31,7 @@ PS> Enable-AzDataFactoryTrigger `
 -ResourceGroupName "my-resource-group" `
 -DataFactoryName "my-data-factory-name" `
 -DataFactoryTriggerName "my-data-factory-trigger-name"
-# The trigger 'my-data-factory-trigger-name' has been enabled.
+# Started Azure Data Factory trigger 'my-data-factory-trigger-name' of data factory 'my-data-factory-name' in resource group 'my-resource-group'
 ```
 
 ```powershell
@@ -62,7 +62,7 @@ PS> Disable-AzDataFactoryTrigger `
 -ResourceGroupName "my-resource-group" `
 -DataFactoryName "my-data-factory-name" `
 -DataFactoryTriggerName "my-data-factory-trigger-name"
-# The trigger 'my-data-factory-trigger-name' has been disabled.
+# Stopped Azure Data Factory trigger 'my-data-factory-trigger-name' of data factory 'my-data-factory-name' in resource group 'my-resource-group'
 ```
 
 ```powershell

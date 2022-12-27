@@ -18,7 +18,7 @@ try{
 
     $fullUrl = . $PSScriptRoot\Get-AzLogicAppResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -Action "disable"
     
-    Write-Verbose "Attempting to disable Azure Logic App '$LogicAppName'..."
+    Write-Verbose "Attempting to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'..."
     $params = @{
         Method = 'Post'
         Headers = @{ 
@@ -28,10 +28,10 @@ try{
     }
 
     $web = Invoke-WebRequest @params -ErrorAction Stop
-    Write-Host "Successfully disabled Azure Logic App '$LogicAppName'" -ForegroundColor Green 
+    Write-Host "Successfully disabled Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green 
 }
 catch {
-    Write-Warning "Failed to disable Azure Logic App '$LogicAppName'"
+    Write-Warning "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
     $ErrorMessage = $_.Exception.Message
     Write-Debug "Error: $ErrorMessage"
 }
