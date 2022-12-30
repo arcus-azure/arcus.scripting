@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.32916.344
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5C8B7391-D202-4B09-8991-3EBAC09A585E}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Management", "Arcus.Scripting.Management\Arcus.Scripting.Management.pssproj", "{A7B00F0F-4E7B-48D3-9A3E-6AE99602D2CD}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.ActiveDirectory", "Arcus.Scripting.ActiveDirectory\Arcus.Scripting.ActiveDirectory.pssproj", "{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.IotHub", "Arcus.Scripting.IotHub\Arcus.Scripting.IotHub.pssproj", "{336AA7BF-1BD2-4067-BBF7-F2844766A8DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +127,10 @@ Global
 		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336AA7BF-1BD2-4067-BBF7-F2844766A8DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336AA7BF-1BD2-4067-BBF7-F2844766A8DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336AA7BF-1BD2-4067-BBF7-F2844766A8DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336AA7BF-1BD2-4067-BBF7-F2844766A8DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
