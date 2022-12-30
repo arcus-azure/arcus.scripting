@@ -25,7 +25,7 @@ steps:
   - powershell: |
       Write-Host "Installing Pester test framework and Az required modules"
       Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
-      Get-ChildItem ./src -Filter *.psd1 -Recurse -Exclude "*.All.psd1" |
+      Get-ChildItem ./src -Filter *.psd1 -Recurse |
           % { Write-Host "Inspect PowerShell '$($_.Name)' datafile"
               $content = Import-PowerShellDataFile $_.FullName
               $content.RequiredModules |
@@ -39,7 +39,7 @@ steps:
     displayName: 'Install Pester test framework and Az required modules'
   - powershell: |
       Import-Module ./src/Arcus.Scripting.Security
-      Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
+      Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*" |
         % { Write-Host "Import $($_.DirectoryName) module"
             Import-Module -Name $_.DirectoryName -ErrorAction Stop }
       Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
