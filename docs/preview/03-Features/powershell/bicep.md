@@ -68,5 +68,5 @@ ${ FileToInject = ".\Parent Directory\file.xml", ReplaceSpecialChars, InjectAsBi
 ${ FileToInject = '.\Parent Directory\file.json', InjectAsBicepObject }$
 ```
 
-### Recommendations
+### 🥇 Recommendations
 Always inject the content in your Bicep template as soon as possible, preferably during release build that creates the artifact.
