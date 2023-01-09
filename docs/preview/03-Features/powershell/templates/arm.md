@@ -1,4 +1,4 @@
----
+﻿---
 title: "ARM Templates"
 layout: default
 ---
@@ -72,5 +72,5 @@ ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars
 ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
 ```
 
-### Recommendations
+### 🥇 Recommendations
 Always inject the content in your ARM template as soon as possible, preferably during release build that creates the artifact

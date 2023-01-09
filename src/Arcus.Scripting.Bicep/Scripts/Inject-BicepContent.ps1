@@ -73,7 +73,7 @@ function InjectFile {
             $optionParts = $instructionParts | select -Skip 1
 
             if ($optionParts.Contains("ReplaceSpecialChars")) {
-                Write-Host "`t Replacing special characters"
+                Write-Verbose "`t Replacing special characters"
 
                 # Replace newline characters with literal equivalents
                 if ([Environment]::OSVersion.VersionString -like "*Windows*") {
@@ -95,7 +95,7 @@ function InjectFile {
         }
 
         if ($surroundContentWithSingleQuotes) {
-            Write-Host "`t Surrounding content in double quotes"
+            Write-Verbose "`t Surrounding content in double quotes"
 
             $newString = '''' + $newString + ''''
         }
