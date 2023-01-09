@@ -69,7 +69,7 @@ InModuleScope Arcus.Scripting.Bicep {
                         # Assert
                         $expected = Get-Content "$PSScriptRoot\Files\bicep-template-object-value (linux).json"
                         $actual = Get-Content $bicepTemplateFile
-                        $actual[5] | Should -Be '    value: ''{\n   \"test\": \"this is a test value\"\n}'''
+                        $actual[5] | Should -Be '    value: ''{\n   "test": "this is a test value"\n}'''
                     } finally {
                         $originalContents | Out-File -FilePath $bicepTemplateFile
                     }
@@ -89,7 +89,7 @@ InModuleScope Arcus.Scripting.Bicep {
                         # Assert
                         $expected = Get-Content "$PSScriptRoot\Files\bicep-template-object-value (linux).json"
                         $actual = Get-Content $bicepTemplateFile
-                        $actual[5] | Should -Be '    value: ''{\n   \"test\": \"this is a test value\"\n}'''
+                        $actual[5] | Should -Be '    value: ''{\n   "test": "this is a test value"\n}'''
                     } finally {
                         $originalContents | Out-File -FilePath $bicepTemplateFile
                     }
