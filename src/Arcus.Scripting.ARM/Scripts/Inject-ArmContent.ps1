@@ -72,7 +72,7 @@ function InjectFile {
             $optionParts = $instructionParts | select -Skip 1
 
             if ($optionParts.Contains("ReplaceSpecialChars")) {
-                Write-Host "`t Replacing special characters"
+                Write-Verbose "`t Replacing special characters"
 
                 # Replace newline characters with literal equivalents
                 if ([Environment]::OSVersion.VersionString -like "*Windows*") {
@@ -89,7 +89,7 @@ function InjectFile {
             }
 
             if ($optionParts.Contains("EscapeJson")) {
-                Write-Host "`t JSON-escaping file content"
+                Write-Verbose "`t JSON-escaping file content"
 
                 # Use regex negative lookbehind to replace double quotes not preceded by a backslash with escaped quotes
                 $newString = $newString -replace '(?<!\\)"', '\"'
@@ -110,7 +110,7 @@ function InjectFile {
         }
 
         if ($surroundContentWithDoubleQuotes) {
-            Write-Host "`t Surrounding content in double quotes"
+            Write-Verbose "`t Surrounding content in double quotes"
 
             $newString = '"' + $newString + '"'
         }
