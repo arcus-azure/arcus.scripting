@@ -41,8 +41,6 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Management"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.ActiveDirectory", "Arcus.Scripting.ActiveDirectory\Arcus.Scripting.ActiveDirectory.pssproj", "{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Arcus.Scripting.Bicep", "Arcus.Scripting.Bicep\Arcus.Scripting.Bicep.pssproj", "{E256737A-7319-420A-B21A-3986AF8EF049}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,10 +119,6 @@ Global
 		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C0379AD-D886-491F-9E1C-FCE0A7D144E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E256737A-7319-420A-B21A-3986AF8EF049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E256737A-7319-420A-B21A-3986AF8EF049}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E256737A-7319-420A-B21A-3986AF8EF049}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E256737A-7319-420A-B21A-3986AF8EF049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
