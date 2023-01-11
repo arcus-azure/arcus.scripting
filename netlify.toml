@@ -68,6 +68,10 @@ from = "/features/powershell/azure-storage"
 to = "/features/powershell/azure-storage/azure-storage-table"
 
 [[redirects]]
+from = "/features/powershell/arm"
+to = "/features/powershell/templates/arm"
+
+[[redirects]]
 from = "/preview/features/powershell/azure-api-management"
 to = "/features/powershell/azure-api-management"
 # Production context: all deploys from the Production branch set in your site's
