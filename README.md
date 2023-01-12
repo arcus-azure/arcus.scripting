@@ -1,6 +1,6 @@
 # Arcus Scripting
 [![Build Status](https://dev.azure.com/codit/Arcus/_apis/build/status/Commit%20builds/CI%20-%20Arcus.Scripting?branchName=master)](https://dev.azure.com/codit/Arcus/_build/latest?definitionId=843&branchName=master)
-[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.All)](https://www.powershellgallery.com/packages/Arcus.Scripting.All/)
+[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.ARM)](https://www.powershellgallery.com/packages/Arcus.Scripting.ARM/)
 
 Scripting with Microsoft Azure in a breeze.
 
