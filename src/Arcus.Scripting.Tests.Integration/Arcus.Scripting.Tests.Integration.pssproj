@@ -27,7 +27,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Arcus.Scripting.ActiveDirectory.tests.ps1" />
-    <Compile Include="Arcus.Scripting.Bicep.tests.ps1" />
     <Compile Include="Arcus.Scripting.Management.tests.ps1" />
     <Compile Include="Arcus.Scripting.ARM.tests.ps1" />
     <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
@@ -82,16 +81,6 @@
     <Content Include="Files\arm-template-object %28windows%29.json" />
     <Content Include="Files\arm-template-inline.json" />
     <Content Include="Files\arm-template-inline-value.json" />
-    <Content Include="Files\bicep-template-replacespecialchars-value.xml" />
-    <Content Include="Files\bicep-template-replacespecialchars.bicep" />
-    <Content Include="Files\bicep-template-inline-value.json" />
-    <Content Include="Files\bicep-template-inline.bicep" />
-    <Content Include="Files\bicep-template-object %28linux%29.bicep" />
-    <Content Include="Files\bicep-template-object %28windows%29.bicep" />
-    <Content Include="Files\bicep-template-object-absolutepath %28linux%29.bicep" />
-    <Content Include="Files\bicep-template-object-absolutepath %28windows%29.bicep" />
-    <Content Include="Files\bicep-template-object-value %28linux%29.json" />
-    <Content Include="Files\bicep-template-object-value %28windows%29.json" />
     <Content Include="Files\IntegrationAccount\Agreements\agreement1.json" />
     <Content Include="Files\IntegrationAccount\Agreements\agreement2.json" />
     <Content Include="Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll" />
