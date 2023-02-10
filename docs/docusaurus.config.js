@@ -75,7 +75,7 @@ module.exports = {
           sidebarCollapsible: false,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/arcus-azure/arcus.scripting/edit/master/docs',
+            'https://github.com/arcus-azure/arcus.scripting/edit/main/docs',
           includeCurrentVersion:process.env.CONTEXT !== 'production',
         },
         theme: {
