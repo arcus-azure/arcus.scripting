@@ -1,11 +1,5 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAction Stop
 
-function global:Replace-FileToken ($Path, $FileToken, $Replacement) {
-    $contents = Get-Content -Path $Path
-    $contents = $contents -replace $FileToken, $Replacement
-    $contents | Out-File -FilePath $Path
-}
-
 function global:New-PartnerFile () {
     $partnerName = "Partner-$([System.Guid]::NewGuid())"
     $path = "$PSScriptRoot\Files\IntegrationAccount\Partners\$($partnerName).json"
