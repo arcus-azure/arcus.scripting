@@ -122,9 +122,9 @@ Make sure that you provide the correct metadata information in the `.psd1` file:
   PrivateData = @{ 
     PSData = @{
         Tags = 'Azure','DevOps', 'Arcus'
-        LicenseUri = 'https://github.com/arcus-azure/arcus.scripting/blob/master/LICENSE'
+        LicenseUri = 'https://github.com/arcus-azure/arcus.scripting/blob/main/LICENSE'
         ProjectUri = 'https://github.com/arcus-azure/arcus.scripting'
-        IconUri = 'https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png'
+        IconUri = 'https://raw.githubusercontent.com/arcus-azure/arcus/main/media/arcus.png'
         ReleaseNotes = 'https://github.com/arcus-azure/arcus.scripting/releases/tag/v#{Package.Version}#'
     }
   }
