@@ -150,7 +150,14 @@ stages:
             displayName: 'Install NuGet'
           - powershell: |
               Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
-                % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate }
+                % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate | Out-File log.txt -Append }
+              
+              $log = Get-Content log.txt
+              cat $log
+              if ($log -match "BadRequest") {
+                echo "##vso[task.logissue type=error]Not all PowerShell modules were pushed correctly to the PowerShell Gallery"
+                exit 1
+              }
             displayName: 'Push to PowerShell Gallery'
             env:
               ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
