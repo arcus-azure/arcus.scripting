@@ -5,10 +5,14 @@ param(
 
 try{
     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName | 
-        Where-Object {$_.Status -eq 'Running'} | 
-        Stop-AzLogicAppRun -ResourceGroupName $ResourceGroupName -Name $LogicAppName -RunName {$_.Name} -Force
+        Where-Object {$_.Status -eq 'Running'}
 
-    Write-Host "Successfully cancelled all running instances of the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green 
+    foreach ($run in $runs) {
+        Stop-AzLogicAppRun -ResourceGroupName $ResourceGroupName -Name $LogicAppName -RunName $run.Name -Force
+        Write-Verbose "Cancelled run $run.Name for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+    }
+
+    Write-Host "Successfully cancelled all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green
 } catch {
-    throw "Failed to cancel all running instances of the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
+    throw "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
 }

@@ -324,7 +324,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
-                    Should -Throw -ExpectedMessage "Failed to cancel all running instances of the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: some error"
+                    Should -Throw -ExpectedMessage "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock

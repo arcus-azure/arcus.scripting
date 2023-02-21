@@ -30,140 +30,140 @@ InModuleScope Arcus.Scripting.LogicApps {
               "contentVersion": "1.0.0.0"
             }'
         }
-        #Context "Enabling Logic Apps without configuration" {
-        #    It "Enables a specific Logic App"{
-        #        # Arrange
-        #        $resourceGroupName = $config.Arcus.ResourceGroupName
-        #        $logicAppName = Create-AzLogicAppName
+        Context "Enabling Logic Apps without configuration" {
+            It "Enables a specific Logic App"{
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
 
-        #        New-AzLogicApp `
-        #            -ResourceGroupName $resourceGroupName `
-        #            -Location westeurope `
-        #            -Name $logicAppName `
-        #            -Definition $workflowDefinition `
-        #            -State Disabled
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Disabled
 
-        #        try {
-        #            # Act
-        #            Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+                try {
+                    # Act
+                    Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
 
-        #            # Assert
-        #            $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
-        #            $logicApp | Should -Not -Be $null
-        #            $logicApp.State | Should -Be "Enabled"
-        #        } finally {
-        #            Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
-        #        }
-        #    }
-        #}
-        #Context "Disabling Logic Apps without configuration" {
-        #    It "Disables a specific Logic App"{
-        #        # Arrange
-        #        $resourceGroupName = $config.Arcus.ResourceGroupName
-        #        $logicAppName = Create-AzLogicAppName
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Enabled"
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                }
+            }
+        }
+        Context "Disabling Logic Apps without configuration" {
+            It "Disables a specific Logic App"{
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
 
-        #        New-AzLogicApp `
-        #            -ResourceGroupName $resourceGroupName `
-        #            -Location westeurope `
-        #            -Name $logicAppName `
-        #            -Definition $workflowDefinition `
-        #            -State Enabled
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Enabled
 
-        #        try {
-        #            # Act
-        #            Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+                try {
+                    # Act
+                    Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
 
-        #            # Assert
-        #            $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
-        #            $logicApp | Should -Not -Be $null
-        #            $logicApp.State | Should -Be "Disabled"
-        #        }
-        #        finally {
-        #            Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
-        #        }
-        #    }
-        #}
-        #Context "Disabling Logic Apps with configuration" {
-        #    It "Disable logic app when stopType = Immediate" {
-        #        # Arrange
-        #        $resourceGroupName = $config.Arcus.ResourceGroupName
-        #        $logicAppName = Create-AzLogicAppName
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Disabled"
+                }
+                finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                }
+            }
+        }
+        Context "Disabling Logic Apps with configuration" {
+            It "Disable logic app when stopType = Immediate" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
 
-        #        $filePath = [System.IO.Path]::GetTempFileName()
-        #        $json = '[
-        #          {
-        #            "description": "Sender(s)",
-        #            "checkType": "None",
-        #            "stopType": "Immediate",
-        #            "logicApps": [
-        #              "' + $logicAppName + '"
-        #            ]
-        #          }
-        #        ]'
-        #        Set-Content $filePath $json
+                $filePath = [System.IO.Path]::GetTempFileName()
+                $json = '[
+                  {
+                    "description": "Sender(s)",
+                    "checkType": "None",
+                    "stopType": "Immediate",
+                    "logicApps": [
+                      "' + $logicAppName + '"
+                    ]
+                  }
+                ]'
+                Set-Content $filePath $json
                
-        #        New-AzLogicApp `
-        #            -ResourceGroupName $resourceGroupName `
-        #            -Location westeurope `
-        #            -Name $logicAppName `
-        #            -Definition $workflowDefinition `
-        #            -State Enabled
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Enabled
 
-        #        try {
-        #            # Act
-        #            Disable-AzLogicAppsFromConfig -DeployFileName $filePath -ResourceGroupName $resourceGroupName
+                try {
+                    # Act
+                    Disable-AzLogicAppsFromConfig -DeployFileName $filePath -ResourceGroupName $resourceGroupName
 
-        #            # Assert
-        #            $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
-        #            $logicApp | Should -Not -Be $null
-        #            $logicApp.State | Should -Be "Disabled"
-        #        } finally {
-        #            Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
-        #            Remove-Item $filePath -Force
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Disabled"
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                    Remove-Item $filePath -Force
 
-        #        }
-        #    }
-        #}
-        #Context "Enabling Logic Apps with configuration" {
-        #    It "Enable logic app when stopType = Immediate" {
-        #        # Arrange
-        #        $resourceGroupName = $config.Arcus.ResourceGroupName
-        #        $logicAppName = Create-AzLogicAppName
+                }
+            }
+        }
+        Context "Enabling Logic Apps with configuration" {
+            It "Enable logic app when stopType = Immediate" {
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
                
-        #        $filePath = [System.IO.Path]::GetTempFileName()
-        #        $json = '[
-        #          {
-        #            "description": "Sender(s)",
-        #            "checkType": "None",
-        #            "stopType": "Immediate",
-        #            "logicApps": [
-        #              "' + $logicAppName + '"
-        #            ]
-        #          }
-        #        ]'
-        #        Set-Content $filePath $json
+                $filePath = [System.IO.Path]::GetTempFileName()
+                $json = '[
+                  {
+                    "description": "Sender(s)",
+                    "checkType": "None",
+                    "stopType": "Immediate",
+                    "logicApps": [
+                      "' + $logicAppName + '"
+                    ]
+                  }
+                ]'
+                Set-Content $filePath $json
 
-        #        New-AzLogicApp `
-        #            -ResourceGroupName $resourceGroupName `
-        #            -Location westeurope `
-        #            -Name $logicAppName `
-        #            -Definition $workflowDefinition `
-        #            -State Disabled
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Disabled
 
-        #        try {
-        #            # Act
-        #            Enable-AzLogicAppsFromConfig -DeployFileName $filePath -ResourceGroupName $resourceGroupName
+                try {
+                    # Act
+                    Enable-AzLogicAppsFromConfig -DeployFileName $filePath -ResourceGroupName $resourceGroupName
 
-        #            # Assert
-        #            $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
-        #            $logicApp | Should -Not -Be $null
-        #            $logicApp.State | Should -Be "Enabled"
-        #        } finally {
-        #            Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
-        #            Remove-Item $filePath -Force
-        #        }
-        #    }
-        #}
+                    # Assert
+                    $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
+                    $logicApp | Should -Not -Be $null
+                    $logicApp.State | Should -Be "Enabled"
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                    Remove-Item $filePath -Force
+                }
+            }
+        }
         Context "Cancel Logic Apps runs" {
             It "Cancel all running instances for a Logic App"{
                 # Arrange
