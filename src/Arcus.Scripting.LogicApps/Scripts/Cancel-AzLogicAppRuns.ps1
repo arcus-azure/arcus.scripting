@@ -9,9 +9,6 @@ try{
         Stop-AzLogicAppRun -ResourceGroupName $ResourceGroupName -Name $LogicAppName -RunName {$_.Name} -Force
 
     Write-Host "Successfully cancelled all running instances of the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green 
-}
-catch {
-    Write-Warning "Failed to cancel all running instances of the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
-    $ErrorMessage = $_.Exception.Message
-    Write-Debug "Error: $ErrorMessage"
+} catch {
+    throw "Failed to cancel all running instances of the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
 }
