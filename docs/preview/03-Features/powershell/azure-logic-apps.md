@@ -17,10 +17,10 @@ PS> Install-Module -Name Arcus.Scripting.LogicApps
 
 Use this script to cancel all running instances for a specific Azure Logic App. 
 
-| Parameter         | Mandatory | Description                                        |
-| ----------------- | --------- | -------------------------------------------------- |
-| ResourceGroupName | yes       | The resource group containing the Azure Logic App. |
-| LogicAppName      | yes       | The name of the Azure Logic App to be disabled.    |
+| Parameter           | Mandatory | Description                                        |
+| ------------------- | --------- | -------------------------------------------------- |
+| `ResourceGroupName` | yes       | The resource group containing the Azure Logic App. |
+| `LogicAppName`      | yes       | The name of the Azure Logic App to be disabled.    |
 
 **Example**
 

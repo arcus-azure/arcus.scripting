@@ -286,7 +286,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
         }
         Context "Cancel Logic Apps runs" {
-             It "Cancelling all runs should succeed" {
+             It "Cancelling all runs from Logic App history should succeed" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
@@ -311,12 +311,12 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 1
             }
-             It "Cancelling all runs should fail" {
+             It "Cancelling all runs should fail when retrieving Logic App history fails" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
 
-                Mock Get-AzLogicAppRunHistory { Throw 'some error' }
+                Mock Get-AzLogicAppRunHistory { throw 'some error' }
 
                 Mock Stop-AzLogicAppRun -MockWith {
                    return $null
