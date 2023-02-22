@@ -164,5 +164,68 @@ InModuleScope Arcus.Scripting.LogicApps {
                 }
             }
         }
+        Context "Cancel Logic Apps runs" {
+            It "Cancel all running instances for a Logic App"{
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
+                $workflowDefinition = '{
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "actions": {
+                        "Delay": {
+                            "inputs": {
+                                "interval": {
+                                    "count": 5,
+                                    "unit": "Minute"
+                                }
+                            },
+                            "runAfter": {},
+                            "type": "wait"
+                        }
+                    },
+                    "outputs": {},
+                    "parameters": {},
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "frequency": "Second",
+                                "interval": 1
+                            },
+                            "type": "recurrence"
+                        }
+                    },
+                    "contentVersion": "1.0.0.0"
+                }'
+
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Enabled
+
+                Start-Sleep -Seconds 5
+
+                try {
+                    Set-AzLogicApp `
+                        -ResourceGroupName $resourceGroupName `
+                        -Name $logicAppName `
+                        -State Disabled `
+                        -Force
+
+                    # Act
+                    Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
+
+                    # Assert
+                    $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
+                        Where-Object {$_.Status -eq 'Cancelled'} | measure
+
+                    $runs.Count | Should -BeGreaterThan 0
+
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                }
+            }
+        }
     }
 }

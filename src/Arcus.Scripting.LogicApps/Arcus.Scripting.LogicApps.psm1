@@ -1,5 +1,30 @@
 <#
  .Synopsis
+  Cancel all running instances of a specific Logic App.
+  
+ .Description
+  Cancel all running instances of a specific Logic App.
+  
+ .Parameter ResourceGroupName
+  The resource group containing the Azure Logic App.
+  
+ .Parameter LogicAppName
+  The name of the Azure Logic App.
+
+#>
+function Cancel-AzLogicAppRuns {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
+        [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required")
+    )
+    
+    . $PSScriptRoot\Scripts\Cancel-AzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName
+}
+
+Export-ModuleMember -Function Cancel-AzLogicAppRuns
+
+<#
+ .Synopsis
   Disable a specific Logic App.
   
  .Description
