@@ -206,13 +206,13 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 Start-Sleep -Seconds 5
 
-                Set-AzLogicApp `
-                    -ResourceGroupName $resourceGroupName `
-                    -Name $logicAppName `
-                    -State Disabled `
-                    -Force
-
                 try {
+                    Set-AzLogicApp `
+                        -ResourceGroupName $resourceGroupName `
+                        -Name $logicAppName `
+                        -State Disabled `
+                        -Force
+
                     # Act
                     Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
 
