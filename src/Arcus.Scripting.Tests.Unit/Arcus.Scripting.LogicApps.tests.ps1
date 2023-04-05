@@ -285,5 +285,52 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
             }
         }
+        Context "Cancel Logic Apps runs" {
+             It "Cancelling all runs from Logic App history should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+
+                Mock Get-AzLogicAppRunHistory -MockWith {
+                    return @{
+                        Name = "test"
+                        Status = "Running"
+                    }
+                }
+
+                Mock Stop-AzLogicAppRun -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 1
+            }
+             It "Cancelling all runs should fail when retrieving Logic App history fails" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+
+                Mock Get-AzLogicAppRunHistory { throw 'some error' }
+
+                Mock Stop-AzLogicAppRun -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
+                    Should -Throw -ExpectedMessage "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: some error"
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 0
+            }
+        }
     }
 }

@@ -1,5 +1,13 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.IntegrationAccount -ErrorAction Stop
 
+function global:New-PartnerFile () {
+    $partnerName = "Partner-$([System.Guid]::NewGuid())"
+    $path = "$PSScriptRoot\Files\IntegrationAccount\Partners\$($partnerName).json"
+    $contents = "{ ""name"": ""$($partnerName)"", ""properties"": { ""partnerType"": ""B2B"", ""content"": { ""b2b"": { ""businessIdentities"": [{ ""qualifier"": ""1"", ""value"": ""12345"" }, { ""qualifier"": ""1"", ""value"": ""54321""} ]} } }}"
+    $contents | Out-File -FilePath $path
+    return Get-ChildItem ($path) -File
+}
+
 InModuleScope Arcus.Scripting.IntegrationAccount {
     Describe "Arcus Azure Integration Account integration tests" {
         BeforeEach {
@@ -771,8 +779,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\partner1.json"
-                $partner = Get-ChildItem($partnerFilePath) -File
+                $partner = New-PartnerFile
                 $expectedPartnerName = $partner.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
@@ -788,14 +795,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 } finally {
                     Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                    Remove-Item -Path $partner.FullName
                 }
             }
             It "Update a single partner in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\partner1.json"
-                $partner = Get-ChildItem($partnerFilePath) -File
+                $partner = New-PartnerFile
                 $expectedPartnerName = $partner.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
@@ -814,14 +821,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 } finally {
                     Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                    Remove-Item -Path $partner.FullName
                 }
             }
             It "Create a single partner, with prefix, in an Integration Account succeeds" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $integrationAccountName = $config.Arcus.IntegrationAccount.Name
-                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\partner1.json"
-                $partner = Get-ChildItem($partnerFilePath) -File
+                $partner = New-PartnerFile
                 $artifactsPrefix = "dev-"
                 $expectedPartnerName = $artifactsPrefix + $partner.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
@@ -838,6 +845,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 } finally {
                     Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                    Remove-Item -Path $partner.FullName
                 }
             }
             It "Create multiple partners located in a folder in an Integration Account succeeds" {

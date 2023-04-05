@@ -13,9 +13,30 @@ To have access to the following features, you have to import the module:
 PS> Install-Module -Name Arcus.Scripting.LogicApps
 ```
 
+## Cancel running instances for an Azure Logic App
+
+Use this script to cancel all running instances for a specific Azure Logic App. 
+
+| Parameter           | Mandatory | Description                                        |
+| ------------------- | --------- | -------------------------------------------------- |
+| `ResourceGroupName` | yes       | The resource group containing the Azure Logic App. |
+| `LogicAppName`      | yes       | The name of the Azure Logic App to be disabled.    |
+
+**Example**
+
+Taking an example in which a specific Azure Logic App (`"rcv-shopping-order-sftp"`) needs to have all its runs cancelled.  
+
+```powershell
+PS> Cancel-AzLogicAppRuns `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp"
+# Successfully cancelled all running instances for the Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
+```
+
+
 ## Disable an Azure Logic App
 
-Using this script to enable a specific Azure Logic App.  
+Use this script to enable a specific Azure Logic App.  
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -52,7 +73,7 @@ PS> Disable-AzLogicApp `
 
 ## Enable an Azure Logic App
 
-Using this script to enable a specific Azure Logic App.  
+Use this script to enable a specific Azure Logic App.  
 
 | Parameter         | Mandatory | Description                                                                                                         |
 | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
