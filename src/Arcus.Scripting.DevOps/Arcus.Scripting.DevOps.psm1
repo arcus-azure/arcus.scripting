@@ -14,10 +14,15 @@
 function Set-AzDevOpsVariable {
     param(
         [parameter(Mandatory=$true)][string] $Name = $(throw "Name is required"),
-        [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required")
+        [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required"),
+        [parameter(Mandatory=$false)][switch] $SetVariableAsSecret = $false
     )
     
-    Write-Host "#vso[task.setvariable variable=$Name] $Value"
+    if ($SetVariableAsSecret) {
+        Write-Host "##vso[task.setvariable variable=$Name;issecret=true] $Value"
+    } else {
+        Write-Host "##vso[task.setvariable variable=$Name] $Value"
+    }
 }
 
 Export-ModuleMember -Function Set-AzDevOpsVariable

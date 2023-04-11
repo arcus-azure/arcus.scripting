@@ -5,10 +5,20 @@ InModuleScope Arcus.Scripting.DevOps {
         Context "Setting ARM outputs to Azure DevOps variable group" {
             It "Setting DevOps variable should write to host" {
                 # Arrange
-                Mock Write-Host { $Object | Should -Be "#vso[task.setvariable variable=test] value" } -Verifiable
+                Mock Write-Host { $Object | Should -Be "##vso[task.setvariable variable=test] value" } -Verifiable
                 
                 # Act
                 Set-AzDevOpsVariable "test" "value"
+                
+                # Assert
+                Assert-VerifiableMock
+            }
+            It "Setting DevOps variable as secret should write to host" {
+                # Arrange
+                Mock Write-Host { $Object | Should -Be "##vso[task.setvariable variable=test;issecret=true] value" } -Verifiable
+                
+                # Act
+                Set-AzDevOpsVariable "test" "value" -SetVariableAsSecret
                 
                 # Assert
                 Assert-VerifiableMock
