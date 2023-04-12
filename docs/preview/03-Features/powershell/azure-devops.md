@@ -18,16 +18,26 @@ PS> Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClob
 
 Assign a value to a DevOps pipeline variable during the execution of this pipeline.
 
-| Parameter       | Mandatory | Description                                       |
-| --------------- | --------- | ------------------------------------------------- |
-| `Name`          | yes       | The name of the variable to set in the pipeline   |
-| `Value`         | yes       | The value of the variable to set in the pipeline  |
+| Parameter             | Mandatory | Description                                       |
+| --------------------- | --------- | ------------------------------------------------- |
+| `Name`                | yes       | The name of the variable to set in the pipeline   |
+| `Value`               | yes       | The value of the variable to set in the pipeline  |
+| `AsSecret`            | no        | The switch to set the variable as a secret        |
 
 **Example**
 
+Setting a variable:
+
 ```powershell
 PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
-# #vso[task.setvariable variable=my-variable] my-variable-value
+##vso[task.setvariable variable=my-variable] my-variable-value
+```
+
+Setting a variable as a secret:
+
+```powershell
+PS> Set-AzDevOpsVariable "my-variable" "my-variable-value" -AsSecret
+##vso[task.setvariable variable=my-variable;issecret=true] ***
 ```
 
 ## Setting ARM outputs to Azure DevOps variable group
