@@ -22,7 +22,7 @@ Assign a value to a DevOps pipeline variable during the execution of this pipeli
 | --------------------- | --------- | ------------------------------------------------- |
 | `Name`                | yes       | The name of the variable to set in the pipeline   |
 | `Value`               | yes       | The value of the variable to set in the pipeline  |
-| `SetVariableAsSecret` | no        | The switch to set the variable as a secret        |
+| `AsSecret`            | no        | The switch to set the variable as a secret        |
 
 **Example**
 
@@ -36,7 +36,7 @@ PS> Set-AzDevOpsVariable "my-variable" "my-variable-value"
 Setting a variable as a secret:
 
 ```powershell
-PS> Set-AzDevOpsVariable "my-variable" "my-variable-value" -SetVariableAsSecret
+PS> Set-AzDevOpsVariable "my-variable" "my-variable-value" -AsSecret
 ##vso[task.setvariable variable=my-variable;issecret=true] ***
 ```
 

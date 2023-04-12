@@ -15,10 +15,10 @@ function Set-AzDevOpsVariable {
     param(
         [parameter(Mandatory=$true)][string] $Name = $(throw "Name is required"),
         [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required"),
-        [parameter(Mandatory=$false)][switch] $SetVariableAsSecret = $false
+        [parameter(Mandatory=$false)][switch] $AsSecret = $false
     )
     
-    if ($SetVariableAsSecret) {
+    if ($AsSecret) {
         Write-Host "##vso[task.setvariable variable=$Name;issecret=true] $Value"
     } else {
         Write-Host "##vso[task.setvariable variable=$Name] $Value"

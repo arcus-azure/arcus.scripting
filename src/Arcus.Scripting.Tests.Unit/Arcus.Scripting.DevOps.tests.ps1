@@ -18,7 +18,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 Mock Write-Host { $Object | Should -Be "##vso[task.setvariable variable=test;issecret=true] value" } -Verifiable
                 
                 # Act
-                Set-AzDevOpsVariable "test" "value" -SetVariableAsSecret
+                Set-AzDevOpsVariable "test" "value" -AsSecret
                 
                 # Assert
                 Assert-VerifiableMock
