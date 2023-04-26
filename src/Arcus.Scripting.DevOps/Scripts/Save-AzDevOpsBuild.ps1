@@ -5,7 +5,7 @@ param(
 )
 
 if ($DaysToKeep -eq '' -Or $DaysToKeep -eq 0) {
-    $daysValid = 36501
+    $daysValid = 99999
 } else {
     $daysValid = $DaysToKeep
 }
