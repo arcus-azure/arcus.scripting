@@ -98,10 +98,11 @@ Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
 function Save-AzDevOpsBuild {
     param(        
         [Parameter(Mandatory = $true)][string] $ProjectId = $(throw "ProjectId is required"),
-        [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required")
+        [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required"),
+        [Parameter(Mandatory = $false)][int] $DaysToKeep
     )
 
-    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -ProjectId $ProjectId -BuildId $BuildId
+    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -ProjectId $ProjectId -BuildId $BuildId -DaysToKeep $DaysToKeep
 }
 
 Export-ModuleMember -Function Save-AzDevOpsBuild
