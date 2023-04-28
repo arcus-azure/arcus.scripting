@@ -205,7 +205,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 # Act and Assert
                 { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId  } | Should -Throw
             }
-            It "Save-AzDevOpsBuild succeeds when API call does return success-code" {
+            It "Save-AzDevOpsBuild indefinitely succeeds when API call does return success-code" {
                 # Arrange
                 $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
                 $env:ACCESS_TOKEN = "mocking accesstoken"
@@ -220,6 +220,22 @@ InModuleScope Arcus.Scripting.DevOps {
 
                 # Act and Assert
                 { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId } | Should -Not -Throw
+            }
+            It "Save-AzDevOpsBuild for 10 days succeeds when API call does return success-code" {
+                # Arrange
+                $env:SYSTEM_COLLECTIONURI = "https://dev.azure.com/myorganization/"
+                $env:ACCESS_TOKEN = "mocking accesstoken"
+                $projectId = "abc123"
+                $buildId = 128
+
+                Mock Invoke-WebRequest {
+                    $statusCode = 200
+                    $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+                    return $response
+                 } -ModuleName Arcus.Scripting.DevOps
+
+                # Act and Assert
+                { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId -DaysToKeep 10} | Should -Not -Throw
             }
             It "Save-AzDevOpsBuild correctly builds API endpoint when CollectionUri has trailing slash" {
                 # Arrange
