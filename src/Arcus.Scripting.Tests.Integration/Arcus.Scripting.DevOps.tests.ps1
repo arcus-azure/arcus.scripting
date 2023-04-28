@@ -21,8 +21,7 @@ InModuleScope Arcus.Scripting.DevOps {
                     # Assert
                     $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                     $json = ConvertFrom-Json $getResponse.Content
-                    foreach ($lease in $json.value)
-                    {
+                    foreach ($lease in $json.value) {
                         $lease.protectPipeline | Should -Be $true
                         $date = Get-Date -Year 2200 -Month 1 -Day 1
                         $lease.validUntil | Should -BeGreaterThan $date
@@ -30,8 +29,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 } finally {
                     $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                     $json = ConvertFrom-Json $getResponse.Content
-                    foreach ($lease in $json.value)
-                    {
+                    foreach ($lease in $json.value) {
                         $deleteUri = "$collectionUri" + "$projectId/_apis/build/retention/leases?ids=" + $lease.leaseId + "&api-version=7.0"
                         $deleteResponse = Invoke-WebRequest -Uri $deleteUri -Method Delete -Headers $headers
                         $deleteResponse.StatusCode | Should -Be 204
@@ -52,8 +50,7 @@ InModuleScope Arcus.Scripting.DevOps {
                     # Assert
                     $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                     $json = ConvertFrom-Json $getResponse.Content
-                    foreach ($lease in $json.value)
-                    {
+                    foreach ($lease in $json.value) {
                         $lease.protectPipeline | Should -Be $true
                         $dateGreaterThan = (Get-Date).AddDays(9)
                         $dateLessThan = (Get-Date).AddDays(11)
@@ -63,8 +60,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 } finally {
                     $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                     $json = ConvertFrom-Json $getResponse.Content
-                    foreach ($lease in $json.value)
-                    {
+                    foreach ($lease in $json.value) {
                         $deleteUri = "$collectionUri" + "$projectId/_apis/build/retention/leases?ids=" + $lease.leaseId + "&api-version=7.0"
                         $deleteResponse = Invoke-WebRequest -Uri $deleteUri -Method Delete -Headers $headers
                         $deleteResponse.StatusCode | Should -Be 204
