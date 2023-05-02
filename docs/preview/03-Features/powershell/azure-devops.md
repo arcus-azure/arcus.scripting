@@ -175,18 +175,31 @@ Example of how to use this function in an Azure DevOps pipeline:
 
 Saves/retains a specific Azure DevOps pipeline run.
 
-| Parameter       | Mandatory | Description                                                                |
-| --------------- | --------- | ---------------------------------------------------------------------------|
-| `ProjectId`     | yes       | The Id of the Project where the build that must be retained can be found   |
-| `BuildId`       | yes       | The Id of the build that must be retained                                  |
+| Parameter       | Mandatory | Description                                                                                                                        |
+| --------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `ProjectId`     | yes       | The Id of the project where the build that must be retained can be found                                                           |
+| `BuildId`       | yes       | The Id of the build that must be retained                                                                                          |
+| `DaysToKeep`    | no        | The number of days to keep the Azure DevOps pipeline run, if not supplied the Azure DevOps pipeline run will be saved indefinitely |
 
 **Example**
+
+Saving an Azure DevOps pipeline run indefinitely
 
 ```powershell
 PS> Save-AzDevOpsBuild `
 -ProjectId $(System.TeamProjectId) `
 -BuildId $(Build.BuildId)
-# Saved Azure DevOps build with build ID $BuildId in project $ProjectId
+# Saved Azure DevOps build indefinitely with build ID $BuildId in project $ProjectId
+```
+
+Saving an Azure DevOps pipeline run for 10 days
+
+```powershell
+PS> Save-AzDevOpsBuild `
+-ProjectId $(System.TeamProjectId) `
+-BuildId $(Build.BuildId) `
+-DaysToKeep 10
+# Saved Azure DevOps build for 10 days with build ID $BuildId in project $ProjectId
 ```
 
 > 💡 The variables $(System.TeamProjectId) and $(Build.BuildId) are predefined Azure DevOps variables. Information on them can be found here: https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
