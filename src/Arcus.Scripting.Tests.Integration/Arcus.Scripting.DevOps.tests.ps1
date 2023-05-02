@@ -53,7 +53,8 @@ InModuleScope Arcus.Scripting.DevOps {
                     foreach ($lease in $json.value) {
                         $lease.protectPipeline | Should -Be $true
                         $expectedDate = (Get-Date).AddDays(10)
-                        $lease.validUntil.ToUniversalTime().ToString("yyyy-MM-dd") |  Should -Be $expectedDate.ToUniversalTime().ToString("yyyy-MM-dd")
+                        $actualDate = [DateTime]$lease.validUntil
+                        $actualDate.ToUniversalTime().ToString("yyyy-MM-dd") |  Should -Be $expectedDate.ToUniversalTime().ToString("yyyy-MM-dd")
                     }
                 } finally {
                     $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
