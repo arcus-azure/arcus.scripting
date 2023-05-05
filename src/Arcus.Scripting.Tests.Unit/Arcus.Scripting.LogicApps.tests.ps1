@@ -286,7 +286,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
         }
         Context "Cancel Logic Apps runs" {
-             It "Cancelling all runs from Logic App history should succeed" {
+            It "Cancelling all runs from Logic App history should succeed" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
@@ -311,7 +311,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 1
             }
-             It "Cancelling all runs should fail when retrieving Logic App history fails" {
+            It "Cancelling all runs should fail when retrieving Logic App history fails" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
@@ -333,7 +333,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
         }
         Context "Resubmitting failed Logic Apps runs" {
-             It "Resubmitting failed runs from Logic App history should succeed" {
+            It "Resubmitting a single failed run from Logic App history should succeed" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
@@ -368,7 +368,42 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
              }
-             It "Resubmitting failed runs should fail when retrieving Logic App history fails" {
+            It "Resubmitting multiple failed runs from Logic App history should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $startTime = '2023-01-01 00:00:00'
+
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+
+                $logicAppRunHistory = @([pscustomobject]@{Name="Test1";Status="Failed";StartTime="2023-01-01 01:00:00"},
+                                      [pscustomobject]@{Name="Test2";Status="Failed";StartTime="2023-01-01 01:00:00"})
+
+                Mock Get-AzLogicAppRunHistory -MockWith {
+                    return $logicAppRunHistory
+                }
+
+                Mock Invoke-WebRequest -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 2
+             }
+            It "Resubmitting failed runs should fail when retrieving Logic App history fails" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
