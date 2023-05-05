@@ -25,6 +25,39 @@ Export-ModuleMember -Function Cancel-AzLogicAppRuns
 
 <#
  .Synopsis
+  Resubmit all failed instances of a specific Logic App.
+  
+ .Description
+  Resubmit all failed instances of a specific Logic App within a specified start and end time.
+  
+ .Parameter ResourceGroupName
+  The resource group containing the Azure Logic App.
+  
+ .Parameter LogicAppName
+  The name of the Azure Logic App.
+
+ .Parameter StartTime
+  The start time of the failed instances of the Azure Logic App.
+
+ .Parameter EndTime
+  The end time of the failed instances of the Azure Logic App.
+
+#>
+function Resubmit-FailedAzLogicAppRuns {
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
+        [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
+        [Parameter(Mandatory = $true)][datetime] $StartTime = $(throw "Start time is required"),
+        [Parameter(Mandatory = $false)][datetime] $EndTime
+    )
+    
+    . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName
+}
+
+Export-ModuleMember -Function Resubmit-FailedAzLogicAppRuns
+
+<#
+ .Synopsis
   Disable a specific Logic App.
   
  .Description
