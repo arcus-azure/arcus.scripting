@@ -257,7 +257,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     "contentVersion": "1.0.0.0"
                 }'
 
-                $startTime = Get-Date -AsUTC
+                $startTime = [datetime]::Now.ToUniversalTime()
 
                 New-AzLogicApp `
                     -ResourceGroupName $resourceGroupName `
