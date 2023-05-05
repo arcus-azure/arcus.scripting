@@ -227,5 +227,61 @@ InModuleScope Arcus.Scripting.LogicApps {
                 }
             }
         }
+        Context "Resubmit Failed Logic Apps runs" {
+            It "Resubmit all failed instances for a Logic App"{
+                # Arrange
+                $resourceGroupName = $config.Arcus.ResourceGroupName
+                $logicAppName = Create-AzLogicAppName
+                $workflowDefinition = '{
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "actions": {
+                        "Terminate": {
+                            "inputs": {
+                                "runStatus": "Failed"
+                            },
+                            "runAfter": {},
+                            "type": "Terminate"
+                        }
+                    },
+                    "outputs": {},
+                    "parameters": {},
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "frequency": "Minute",
+                                "interval": 1
+                            },
+                            "type": "recurrence"
+                        }
+                    },
+                    "contentVersion": "1.0.0.0"
+                }'
+
+                $startTime = Get-Date -AsUTC
+
+                New-AzLogicApp `
+                    -ResourceGroupName $resourceGroupName `
+                    -Location westeurope `
+                    -Name $logicAppName `
+                    -Definition $workflowDefinition `
+                    -State Enabled
+
+                Start-Sleep -Seconds 5
+
+                try {
+                    # Act                    
+                    Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime
+
+                    # Assert
+                    $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
+                        Where-Object {$_.StartTime -ge $startTime} | measure
+
+                    $runs.Count | Should -BeGreaterThan 0
+
+                } finally {
+                    Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
+                }
+            }
+        }
     }
 }
