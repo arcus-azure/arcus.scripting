@@ -1,9 +1,9 @@
 <#
  .Synopsis
-  Cancel all running instances of a specific Logic App.
+  Cancel all running instances of a specific Azure Logic App.
   
  .Description
-  Cancel all running instances of a specific Logic App.
+  Cancel all running instances of a specific Azure Logic App.
   
  .Parameter ResourceGroupName
   The resource group containing the Azure Logic App.
@@ -25,10 +25,10 @@ Export-ModuleMember -Function Cancel-AzLogicAppRuns
 
 <#
  .Synopsis
-  Resubmit all failed instances of a specific Logic App.
+  Resubmit all failed instances of a specific Azure Logic App.
   
  .Description
-  Resubmit all failed instances of a specific Logic App within a specified start and end time.
+  Resubmit all failed instances of a specific Azure Logic App within a specified start and end time.
   
  .Parameter ResourceGroupName
   The resource group containing the Azure Logic App.
