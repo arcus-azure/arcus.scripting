@@ -51,7 +51,11 @@ function Resubmit-FailedAzLogicAppRuns {
         [Parameter(Mandatory = $false)][datetime] $EndTime
     )
     
-    . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName
+    if ($EndTime) {
+        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime -EndTime $EndTime
+    } else {
+        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime
+    }
 }
 
 Export-ModuleMember -Function Resubmit-FailedAzLogicAppRuns

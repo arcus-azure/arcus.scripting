@@ -332,5 +332,55 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 0
             }
         }
+        Context "Resubmitting failed Logic Apps runs" {
+             It "Resubmitting failed runs from Logic App history should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $startTime = '2023-01-01 00:00:00'
+
+                Mock Get-AzLogicAppRunHistory -MockWith {
+                    return @{
+                        Name = "test"
+                        Status = "Failed"
+                        StartTime = "2023-01-01 01:00:00"
+                    }
+                }
+
+                Mock Invoke-WebRequest -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
+             }
+             It "Resubmitting failed runs should fail when retrieving Logic App history fails" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $startTime = '01/01/2023 00:00:00'
+
+                Mock Get-AzLogicAppRunHistory { throw 'some error' }
+
+                Mock Invoke-WebRequest -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
+                    Should -Throw -ExpectedMessage "Failed to resubmit all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$startTime'. Details: some error"
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 0
+            }
+        }
     }
 }
