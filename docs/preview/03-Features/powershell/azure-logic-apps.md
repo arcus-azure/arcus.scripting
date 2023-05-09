@@ -35,7 +35,7 @@ PS> Cancel-AzLogicAppRuns `
 
 ## Resubmitting failed instances for an Azure Logic App
 
-Use this script to resubmit failed instances for a specific Azure Logic App. 
+Use this script to re-run a failed Azure Logic App run. 
 
 | Parameter           | Mandatory | Description                                                                                                |
 | ------------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
