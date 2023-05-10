@@ -33,6 +33,39 @@ PS> Cancel-AzLogicAppRuns `
 # Successfully cancelled all running instances for the Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
+## Resubmitting failed instances for an Azure Logic App
+
+Use this script to re-run a failed Azure Logic App run. 
+
+| Parameter           | Mandatory | Description                                                                                                |
+| ------------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName` | yes       | The resource group containing the Azure Logic App.                                                         |
+| `LogicAppName`      | yes       | The name of the Azure Logic App to be disabled.                                                            |
+| `StartTime`         | yes       | The start time in UTC for retrieving the failed instances.                                                 |
+| `EndTime`           | no        | The end time in UTC for retrieving the failed instances, if not supplied it will use the current datetime. |
+
+**Example**
+
+Taking an example in which a specific Azure Logic App (`"rcv-shopping-order-sftp"`) needs to have all its failed runs resubmitted from 2023-05-01 00:00:00.  
+
+```powershell
+PS> Resubmit-FailedAzLogicAppRuns `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp" `
+-StartTime "2023-05-01 00:00:00"
+# Successfully resubmitted all failed instances for the Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev' from '2023-05-01 00:00:00'
+```
+
+Taking an example in which a specific Azure Logic App (`"rcv-shopping-order-sftp"`) needs to have all its failed runs resubmitted from 2023-05-01 00:00:00 until 2023-05-01 10:00:00.  
+
+```powershell
+PS> Resubmit-FailedAzLogicAppRuns `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp" `
+-StartTime "2023-05-01 00:00:00" `
+-EndTime "2023-05-01 10:00:00"
+# Successfully resubmitted all failed instances for the Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev' from '2023-05-01 00:00:00' and until '2023-05-01 10:00:00'
+```
 
 ## Disable an Azure Logic App
 
