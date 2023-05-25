@@ -4,7 +4,7 @@ param(
 )
 
 try{
-    $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName | 
+    $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink | 
         Where-Object {$_.Status -eq 'Running'}
 
     foreach ($run in $runs) {

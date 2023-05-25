@@ -57,16 +57,16 @@ function ExecuteCheckType() {
                     }
 
                     try {
-                        $RunningRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -ErrorAction Stop | Where-Object Status -eq "Running" | Measure-Object | ForEach-Object { $_.Count }
-                        $WaitingRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -ErrorAction Stop | Where-Object Status -eq "Waiting" | Measure-Object | ForEach-Object { $_.Count }
+                        $RunningRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -ErrorAction Stop | Where-Object Status -eq "Running" | Measure-Object | ForEach-Object { $_.Count }
+                        $WaitingRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -ErrorAction Stop | Where-Object Status -eq "Waiting" | Measure-Object | ForEach-Object { $_.Count }
                         if ($RunningRunsCount -ne 0 -and $WaitingRunsCount -ne 0) {
                             while ($RunningRunsCount -ne 0 -and $WaitingRunsCount -ne 0) {
                                 Write-Verbose "Azure Logic App '$logicApp' has Running and/or Waiting Runs, waiting 10 seconds and checking again..."
                                 Write-Debug "Number of running runs: $RunningRunsCount"
                                 Write-Debug "Number of waiting runs: $WaitingRunsCount"
                                 Start-Sleep -Second 10                               
-                                $RunningRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -ErrorAction Stop | Where-Object Status -eq "Running" | Measure-Object | ForEach-Object { $_.Count }
-                                $WaitingRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -ErrorAction Stop | Where-Object Status -eq "Waiting" | Measure-Object | ForEach-Object { $_.Count }
+                                $RunningRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -ErrorAction Stop | Where-Object Status -eq "Running" | Measure-Object | ForEach-Object { $_.Count }
+                                $WaitingRunsCount = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -ErrorAction Stop | Where-Object Status -eq "Waiting" | Measure-Object | ForEach-Object { $_.Count }
                                 if ($RunningRunsCount -eq 0 -and $WaitingRunsCount -eq 0) {
                                     Write-Verbose "Found no more waiting or running runs for Azure Logic App '$logicApp', executing stopType for Logic App"
                                     ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppName $logicApp -stopType $batch.stopType
