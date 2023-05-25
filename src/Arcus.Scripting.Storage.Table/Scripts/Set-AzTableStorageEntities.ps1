@@ -15,62 +15,67 @@ if ($MaxRetryCount -le 0) {
     throw "Maximum retry-cycle count should be greater than zero"
 }
 
-# Retrieve Azure storage Account / table
-Write-Host "Retrieving Azure storage account..."
+if ((Test-Path -Path $ConfigurationFile) -eq $false) {
+    throw "Configuration file not found"
+}
+
+# Retrieve Azure storage Account
+Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
+if ($storageAccount -eq $null)
+{
+    throw "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
+}
 $ctx = $storageAccount.Context
-Write-Host "Azure storage account has been retrieved"
+Write-Verbose "Azure storage account context has been retrieved for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 
-Write-Verbose "Retrieving Azure table..."
-$storageTable = Get-AzStorageTable -Name $TableName  -Context $ctx
+# Retrieve Azure storage table
+Write-Verbose "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
+$storageTable = Get-AzStorageTable -Name $TableName -Context $ctx
+if ($storageTable -eq $null)
+{
+    throw "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
+}
 $cloudTable = ($storageTable).CloudTable
-Write-Host "Azure table has been retrieved"
-
+Write-Verbose "Azure storage table '$TableName' has been retrieved for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 
 # Delete all existing entities 
-Write-Host "Deleting all existing entities..."
-$entitiesToDelete = Get-AzTableRow `
-                        -table $cloudTable `
+Write-Host "Deleting all existing entities in Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
+$entitiesToDelete = Get-AzTableRow -table $cloudTable
+$deletedEntities = $entitiesToDelete | Remove-AzTableRow -table $cloudTable
+Write-Host "Successfully deleted all existing entities in Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 
-$entitiesToDelete | Remove-AzTableRow -table $cloudTable
-Write-Host "Succesfully deleted all entities"
-
-
-#Create all new entities specified in json file
+# Create all new entities specified in json file
 $configFile = Get-Content -Path $ConfigurationFile | ConvertFrom-Json
-foreach ($entityToAdd in $configFile.entities)
-{
-    #Check if PartitionKey provided
-    if($entityToAdd.PartitionKey -ne $null)
-    {
+foreach ($entityToAdd in $configFile.entities) {
+    # Check if PartitionKey provided
+    if ($entityToAdd.PartitionKey -ne $null) {
         $partitionKey = $entityToAdd.PartitionKey
         $entityToAdd.PSObject.Properties.Remove('PartitionKey')
-    }
-    else{
+    } else {
         $partitionKey = New-Guid
     }
 
-    #Check if RowKey provided
-    if($entityToAdd.RowKey -ne $null)
-    {
+    # Check if RowKey provided
+    if ($entityToAdd.RowKey -ne $null) {
         $rowKey = $entityToAdd.RowKey
         $entityToAdd.PSObject.Properties.Remove('RowKey')
-    }
-    else{
+    } else {
         $rowKey = New-Guid
     }
 
-    #Convert psObject to hashtable
+    # Convert psObject to hashtable
     $entityHash=@{}
     $entityToAdd.PSObject.Properties | Foreach { $entityHash[$_.Name] = $_.Value }
 
-    #Create entity in table storage
-    Add-AzTableRow `
+    # Create entity in table storage
+    $addedRow = Add-AzTableRow `
     -table $cloudTable `
     -partitionKey $partitionKey `
     -rowKey $rowKey `
     -property $entityHash
+
+    Write-Verbose "Successfully added row with PartitionKey '$partitionKey' and RowKey '$rowKey' to Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 }
 
-Write-Host "Succesfully added all entities"
-
+Write-Host "Successfully added all entities in Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
