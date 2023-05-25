@@ -1,63 +1,10 @@
 # Arcus Scripting
-[![Build Status](https://dev.azure.com/codit/Arcus/_apis/build/status/Commit%20builds/CI%20-%20Arcus.Scripting?branchName=master)](https://dev.azure.com/codit/Arcus/_build/latest?definitionId=843&branchName=master)
-[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.All)](https://www.powershellgallery.com/packages/Arcus.Scripting.All/)
+[![Build Status](https://dev.azure.com/codit/Arcus/_apis/build/status/Commit%20builds/CI%20-%20Arcus.Scripting?branchName=main)](https://dev.azure.com/codit/Arcus/_build/latest?definitionId=843&branchName=main)
+[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Arcus.Scripting.ARM)](https://www.powershellgallery.com/packages/Arcus.Scripting.ARM/)
 
 Scripting with Microsoft Azure in a breeze.
 
 ![Arcus](https://raw.githubusercontent.com/arcus-azure/arcus/master/media/arcus.png)
-
-# Installation
-Easy to install it via PowerShell gallery:
-
-- **ARM**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.ARM
-```
-
-- **Azure API Management**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.ApiManagement
-```
-
-- **Azure Data Factory**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.DataFactory
-```
-
-- **Azure DevOps**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.DevOps
-```
-
-- **Azure Key Vault**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.KeyVault
-```
-
-- **Azure Logic Apps**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.LogicApps
-```
-
-- **Azure SQL**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.SQL
-```
-
-- **Azure Table Storage**
-
-```powershell
-PS> Install-Module -Name Arcus.Scripting.Storage.Table
-```
-
-For a more thorough overview, we recommend reading our [documentation](#documentation).
 
 # Documentation
 All documentation can be found on [here](https://scripting.arcus-azure.net/).

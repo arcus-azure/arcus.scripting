@@ -26,8 +26,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Arcus.Scripting.ActiveDirectory.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Management.tests.ps1" />
     <Compile Include="Arcus.Scripting.ARM.tests.ps1" />
     <Compile Include="Arcus.Scripting.DevOps.tests.ps1" />
+    <Compile Include="Arcus.Scripting.AppService.tests.ps1" />
     <Compile Include="Arcus.Scripting.IntegrationAccount.tests.ps1" />
     <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
@@ -36,6 +39,7 @@
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
+    <Compile Include="Connect-MgGraphFromConfig.ps1" />
     <Compile Include="Connect-AzAccountFromConfig.ps1" />
     <Compile Include="Load-JsonAppsettings.ps1" />
   </ItemGroup>
@@ -51,6 +55,10 @@
     <Folder Include="Blobs\" />
     <Folder Include="Files\IntegrationAccount\" />
     <Folder Include="Files\IntegrationAccount\Maps\" />
+    <Folder Include="Files\IntegrationAccount\Assemblies\" />
+    <Folder Include="Files\IntegrationAccount\Certificates\" />
+    <Folder Include="Files\IntegrationAccount\Agreements\" />
+    <Folder Include="Files\IntegrationAccount\Partners\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
     <Folder Include="SqlScripts\" />
@@ -63,26 +71,26 @@
     <Content Include="appsettings.local.json" />
     <Content Include="appsettings.json" />
     <Content Include="Blobs\arcus.png" />
-    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
-    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
-    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
-    <Content Include="Files\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" />
-    <Content Include="Files\deploy-orderControl-immediateWithoutCheck.json" />
-    <Content Include="Files\deploy-orderControl-unknownStopType.json" />
-    <Content Include="Files\deploy-orderControl-none.json" />
-    <Content Include="Files\deploy-orderControl-unknownCheckType.json" />
-    <Content Include="Files\deploy-orderControl.json" />
+    <Content Include="Files\arm-template-object %28linux%29.json" />
+    <Content Include="Files\arm-template-object-absolutepath %28linux%29.json" />
+    <Content Include="Files\arm-template-object-absolutepath %28windows%29.json" />
+    <Content Include="Files\arm-template-object-value %28linux%29.json" />
     <Content Include="Files\arm-template-escape-value.xml" />
     <Content Include="Files\arm-template-escape.json" />
-    <Content Include="Files\arm-template-escape-org.json" />
-    <Content Include="Files\arm-template-object-value.json" />
-    <Content Include="Files\arm-template-object.json" />
-    <Content Include="Files\arm-template-object-org.json" />
+    <Content Include="Files\arm-template-object-value %28windows%29.json" />
+    <Content Include="Files\arm-template-object %28windows%29.json" />
     <Content Include="Files\arm-template-inline.json" />
     <Content Include="Files\arm-template-inline-value.json" />
-    <Content Include="Files\arm-template-inline-org.json" />
+    <Content Include="Files\IntegrationAccount\Agreements\agreement1.json" />
+    <Content Include="Files\IntegrationAccount\Agreements\agreement2.json" />
+    <Content Include="Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomething.dll" />
+    <Content Include="Files\IntegrationAccount\Assemblies\AssemblyThatDoesSomethingElse.dll" />
+    <Content Include="Files\IntegrationAccount\Certificates\certificate1.cer" />
+    <Content Include="Files\IntegrationAccount\Certificates\certificate2.cer" />
     <Content Include="Files\IntegrationAccount\Maps\BankTransfer_Canonical-to-BankTransfer_PKO.xslt" />
     <Content Include="Files\IntegrationAccount\Maps\BankTransfer_CSV-to-BankTransfer_Canonical.xslt" />
+    <Content Include="Files\IntegrationAccount\Partners\partner1.json" />
+    <Content Include="Files\IntegrationAccount\Partners\partner2.json" />
     <Content Include="Files\IntegrationAccount\Schemas\NestedSchema.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Acknowledgement.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Common\NestedSchemaRoot.xsd" />

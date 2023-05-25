@@ -14,10 +14,15 @@
 function Set-AzDevOpsVariable {
     param(
         [parameter(Mandatory=$true)][string] $Name = $(throw "Name is required"),
-        [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required")
+        [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required"),
+        [parameter(Mandatory=$false)][switch] $AsSecret = $false
     )
     
-    Write-Host "#vso[task.setvariable variable=$Name] $Value"
+    if ($AsSecret) {
+        Write-Host "##vso[task.setvariable variable=$Name;issecret=true] $Value"
+    } else {
+        Write-Host "##vso[task.setvariable variable=$Name] $Value"
+    }
 }
 
 Export-ModuleMember -Function Set-AzDevOpsVariable
@@ -93,10 +98,11 @@ Export-ModuleMember -Function Set-AzDevOpsArmOutputsToPipelineVariables
 function Save-AzDevOpsBuild {
     param(        
         [Parameter(Mandatory = $true)][string] $ProjectId = $(throw "ProjectId is required"),
-        [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required")
+        [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required"),
+        [Parameter(Mandatory = $false)][int] $DaysToKeep
     )
 
-    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -ProjectId $ProjectId -BuildId $BuildId
+    . $PSScriptRoot\Scripts\Save-AzDevOpsBuild.ps1 -ProjectId $ProjectId -BuildId $BuildId -DaysToKeep $DaysToKeep
 }
 
 Export-ModuleMember -Function Save-AzDevOpsBuild

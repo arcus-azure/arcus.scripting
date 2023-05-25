@@ -8,9 +8,8 @@ param(
     [Parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
 )
 
-Write-Host "Looking for SQL scripts in folder: $ScriptsFolder"
+Write-Verbose "Looking for SQL scripts in folder: $ScriptsFolder..."
 
-#Functions for repeated use
 function Execute-DbCommand($params, [string]$query) {
     $result = Invoke-Sqlcmd @params -Query $query -Verbose -QueryTimeout 180 -ErrorAction Stop -ErrorVariable err
     
@@ -29,9 +28,9 @@ function Execute-DbCommandWithResult($params, [string] $query) {
 }
 
 function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName, [string] $Password) {
-    Write-Host "databasename = $DatabaseName"
-    Write-Host "serverinstance = $serverInstance"
-    Write-Host "username = $UserName"
+    Write-Debug "databasename = $DatabaseName"
+    Write-Debug "serverinstance = $serverInstance"
+    Write-Debug "username = $UserName"
     
     return $params = @{
       'Database' = $DatabaseName
@@ -48,22 +47,20 @@ function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName) {
     return $query = Get-Content $currentfilepath
 }
 
-#Group params needed to connect to database for ease of use
 $params = Create-DbParams $DatabaseName $ServerName $UserName $Password
 
-# Create the DatabaseVersion table if it doesn't exist yet
 $createDatabaseVersionTable = "IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DatabaseVersion' AND TABLE_SCHEMA = '$DatabaseSchema' ) " +
                               "BEGIN " +
-	                          "CREATE TABLE [$DatabaseSchema].[DatabaseVersion] " +
-	                          "( " +
-	                          "   [MajorVersionNumber] INT NOT NULL, " +
-		                      "   [MinorVersionNumber] INT NOT NULL, " +
-		                      "   [PatchVersionNumber] INT NOT NULL, " +
-		                      "   [MigrationDescription] [nvarchar](256) NOT NULL, " +
+                              "CREATE TABLE [$DatabaseSchema].[DatabaseVersion] " +
+                              "( " +
+                              "   [MajorVersionNumber] INT NOT NULL, " +
+                              "   [MinorVersionNumber] INT NOT NULL, " +
+                              "   [PatchVersionNumber] INT NOT NULL, " +
+                              "   [MigrationDescription] [nvarchar](256) NOT NULL, " +
                               "   [MigrationDate] DATETIME NOT NULL " +
-		                      "   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
-                              "				WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
-	                          ") " +
+                              "   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
+                              "                WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
+                              ") " +
                               "END " +
                               "ELSE " +
                               "BEGIN " +
@@ -107,13 +104,13 @@ for ($i = 0; $i -lt $files.Count; $i++) {
     $fileNameParts = $fileName.Split('_')
 
     if ($fileNameParts.Length -lt 2) {
-        Write-Host "File $fileName skipped for not having all required name sections (version and description)."
+        Write-Warning "File $fileName skipped for not having all required name sections (version and description)"
         continue;
     }
 
     # The version number in the 'version' part of the filename should be one integer number or a semantic version number.
     if ( ($fileNameParts[0] -match "^\d+.\d+.\d+$" -eq $false) -and  ($fileNameParts[0] -match "^\d+$" -eq $false)) {
-        Write-Host "File $fileName skipped because version is not valid."
+        Write-Warning "File $fileName skipped because version is not valid"
         continue;
     }
 
@@ -136,21 +133,21 @@ for ($i = 0; $i -lt $files.Count; $i++) {
     Execute-DbCommand $params $migrationScript
 
     if ($migrationDescription.Length -gt 256) {
-		Write-Host "Need to truncate the migration description because its size is" $scriptVersionDescription.Length "while the maximum size is 256"
+        Write-Warning "Need to truncate the migration description because its size is" $scriptVersionDescription.Length "while the maximum size is 256"
         $migrationDescription = $migrationDescription.Substring(0, 256)
     }
-	
+    
     $updateVersionQuery = "INSERT INTO [$DatabaseSchema].[DatabaseVersion] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) " +
                           "SELECT $($scriptVersionNumber.MajorVersionNumber), $($scriptVersionNumber.MinorVersionNumber), $($scriptVersionNumber.PatchVersionNumber), '$migrationDescription', getdate()"
     
     Execute-DbCommand $params $updateVersionQuery
 
-    Write-Host "DB migration " $scriptVersionNumber " applied!"
+    Write-Host "DB migration " $scriptVersionNumber " applied!" -ForegroundColor Green
 
     $databaseVersion = $scriptVersionNumber    
 }
 
-#Get New Database Version Number
+# Get New Database Version Number
 $databaseVersionNumberDataRow = Execute-DbCommandWithResult $params $getCurrentDbVersionQuery  
 $databaseVersionNumber = [DatabaseVersion]::new([convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[0]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[1]), [convert]::ToInt32($databaseVersionNumberDataRow.ItemArray[2]))    
-Write-Host "Done migrating database. Current Database version is $databaseVersionNumber."
+Write-Host "Done migrating database. Current Database version is $databaseVersionNumber" -ForegroundColor Green

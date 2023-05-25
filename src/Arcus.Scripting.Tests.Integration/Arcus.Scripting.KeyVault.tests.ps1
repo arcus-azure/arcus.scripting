@@ -4,10 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
 InModuleScope Arcus.Scripting.KeyVault {
     Describe "Arcus Azure Key Vault integration tests" {
         BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.json"
-            [string]$appsettings = Get-Content $filePath
-            $config = ConvertFrom-Json $appsettings
-            
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "Set secret from file" {

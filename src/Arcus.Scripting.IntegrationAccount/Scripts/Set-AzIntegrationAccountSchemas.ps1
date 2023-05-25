@@ -14,7 +14,7 @@ if ($SchemaFilePath -ne '' -and $SchemasFolder -ne '') {
 function UploadSchema {
     param
     (
-        [System.IO.FileInfo][parameter(Mandatory = $true)]$Schema
+        [Parameter(Mandatory = $true)][System.IO.FileInfo] $Schema
     )
 
     $schemaName = $Schema.Name
@@ -24,17 +24,16 @@ function UploadSchema {
     if ($ArtifactsPrefix -ne '') {
         $schemaName = $ArtifactsPrefix + $schemaName
     }
-    Write-Host "Uploading schema '$schemaName' into the Integration Account '$Name'."
+    Write-Verbose "Uploading schema '$schemaName' into the Azure Integration Account '$Name'..."
 
-    ## Check if the schema already exists
     $existingSchema = $null
     try {
-        Write-Verbose "Checking if the schema '$schemaName' already exists in the Integration Account '$Name'."
+        Write-Verbose "Checking if the schema '$schemaName' already exists in the Azure Integration Account '$Name'"
         $existingSchema = Get-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -ErrorAction Stop
     }
     catch {
         if ($_.Exception.Message.Contains('could not be found')) {
-            Write-Verbose "No schema '$schemaName' could not be found in Azure Integration Account '$Name'."
+            Write-Warning "No schema '$schemaName' could not be found in Azure Integration Account '$Name'"
         }
         else {
             throw $_.Exception
@@ -43,25 +42,22 @@ function UploadSchema {
         
     try {
         if ($existingSchema -eq $null) {
-            # Create the schema
-            Write-Verbose "Creating schema '$schemaName' in Azure Integration Account '$Name'"
+            Write-Verbose "Creating schema '$schemaName' in Azure Integration Account '$Name'..."
             $createdSchema = New-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -SchemaFilePath $schema.FullName -ErrorAction Stop
-            Write-Verbose ($createdSchema | Format-List -Force | Out-String)
+            Write-Debug ($createdSchema | Format-List -Force | Out-String)
         }
         else {
-            # Update the schema
-            Write-Verbose "Updating schema '$schemaName' in Azure Integration Account '$Name'"
+            Write-Verbose "Updating schema '$schemaName' in Azure Integration Account '$Name'..."
             $updatedSchema = Set-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -SchemaFilePath $schema.FullName -ErrorAction Stop -Force
-            Write-Verbose ($updatedSchema | Format-List -Force | Out-String)
+            Write-Debug ($updatedSchema | Format-List -Force | Out-String)
         }
-        Write-Host "Schema '$schemaName' has been uploaded into the Azure Integration Account '$Name'."
+        Write-Host "Schema '$schemaName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
     }
     catch {
-        Write-Error "Failed to upload schema '$schemaName' in Azure Integration Account '$Name': '$($_.Exception.Message)_'"
+        Write-Error "Failed to upload schema '$schemaName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
 
-# Verify if Integration Account can be found based on the given information
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
@@ -70,7 +66,6 @@ else {
     if ($SchemasFolder -ne '' -and $SchemaFilePath -eq '') {
         foreach ($schema in Get-ChildItem($schemasFolder) -File) {
             UploadSchema -Schema $schema
-            Write-Host '----------'
         }
     }
     elseif ($schemasFolder -eq '' -and $SchemaFilePath -ne '') {

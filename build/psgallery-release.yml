@@ -37,27 +37,7 @@ stages:
         pool:
           vmImage: '$(Vm.Linux.Image)'
         steps:
-          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace package version tokens'
-            inputs:
-              rootDirectory: 'src/'
-              targetFiles: '**/*.psd1'
-              encoding: 'auto'
-              verbosity: 'detailed'
-              writeBOM: true
-              actionOnMissing: 'fail'
-              keepToken: false
-              tokenPrefix: '#{'
-              tokenSuffix: '}#'
-          - powershell: |
-              if ('$(Prerelease)' -ne 'none') {
-                Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
-                  % { Write-Host "Insert prerelease '$(Prerelease)' into PowerShell $($_.Name) datafile"
-                      $contents = Get-Content $_.FullName
-                      $contents = $contents -replace "# Prerelease = ''", "Prerelease = '$(Prerelease)'"
-                      $contents | Out-File $_.FullName -Force }
-              }
-            displayName: 'Set prerelease version'
+          - template: 'templates/replace-tokens.yml'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:
@@ -140,10 +120,20 @@ stages:
             parameters:
               repositoryName: '$(Repository)'
               releaseNotes: |
-                Install new version via [PowerShell Gallery](https://www.powershellgallery.com/packages?q=$(Project).ARM)
+                Install the $(Project) packages that you need via PowerShell Gallery, for instance [$(Project).ARM](https://www.powershellgallery.com/packages/$(Project).ARM/$(Build.BuildNumber)):
                 ```shell
                 PS > Install-Module -Name $(Project).ARM --Version $(Build.BuildNumber)
                 ```
+                For a complete list of all $(Project) packages see the [documentation](https://scripting.arcus-azure.net/).
+                ## What's new?
+                ### Features
+                * Provide the capability to do something (#123)
+                ### Fixes / Changes
+                None.
+                ### Breaking Changes
+                None.
+                ### Removal
+                None.
           - powershell: |
               Import-Module PowerShellGet -Force
               Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
@@ -160,7 +150,14 @@ stages:
             displayName: 'Install NuGet'
           - powershell: |
               Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
-                % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate }
+                % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate | Out-File log.txt -Append }
+              
+              $log = Get-Content log.txt
+              cat $log
+              if ($log -match "BadRequest") {
+                echo "##vso[task.logissue type=error]Not all PowerShell modules were pushed correctly to the PowerShell Gallery"
+                exit 1
+              }
             displayName: 'Push to PowerShell Gallery'
             env:
               ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'

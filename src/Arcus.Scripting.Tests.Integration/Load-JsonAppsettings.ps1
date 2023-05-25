@@ -1,7 +1,9 @@
-param(
-    [string]$fileName
-)
+$filePath = "$PSScriptRoot\appsettings.json"
+$localAppSettings = "$PSScriptRoot\appsettings.local.json"
 
-$filePath = "$PSScriptRoot\$fileName"
+if (Test-Path $localAppSettings) {
+    $filePath = $localAppSettings
+}
+
 [string]$appsettings = Get-Content $filePath
  return $config = ConvertFrom-Json $appsettings

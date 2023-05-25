@@ -4,10 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -ErrorAction S
 InModuleScope Arcus.Scripting.Storage.Blob {
     Describe "Arcus Azure Blob storage integration tests" {
         BeforeEach {
-            $filePath = "$PSScriptRoot\appsettings.json"
-            [string]$appsettings = Get-Content $filePath
-            $config = ConvertFrom-Json $appsettings
-            
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "Upload files to Azure Blob storage"{

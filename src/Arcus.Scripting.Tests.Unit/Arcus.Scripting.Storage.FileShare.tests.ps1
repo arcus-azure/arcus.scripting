@@ -1,21 +1,21 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAction Stop
 
-Describe "Arcus" {
-    Context "File Share" {
-        InModuleScope Arcus.Scripting.Storage.FileShare {
-            BeforeEach {
-                # Test values, not really pointing to anything
-                $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
-                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
-                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
-                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
-                $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
-                $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+InModuleScope Arcus.Scripting.Storage.FileShare {
+    Describe "Arcus Azure File Share unit tests" {
+        BeforeEach {
+            # Test values, not really pointing to anything
+            $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
+            $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
+            $testEndpoint = "http://storageaccountname.blob.core.windows.net"
+            $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
+            $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
+            $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
 
-                $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
-                $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $storageContext
-            }
-            It "Create folder on Azure File Share" {
+            $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
+            $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $storageContext
+        }
+        Context "Creating Azure File Share folder" {
+            It "Create new folder on Azure File Share succeeds" {
                 # Arrange
                 $resourceGroup = "stock"
                 $folderName = "shipped"
@@ -83,6 +83,8 @@ Describe "Arcus" {
                 Assert-MockCalled Get-AzStorageAccount -Times 1
                 Assert-MockCalled New-AzStorageDirectory -Times 0
             }
+        }
+        Context "Uploading files to Azure File Share" {
             It "Upload files to existing Azure File Share" {
                 # Arrange
                 $resourceGroup = "stock"
@@ -166,6 +168,8 @@ Describe "Arcus" {
                 Assert-MockCalled Get-ChildItem -Times 0
                 Assert-MockCalled Set-AzStorageFileContent -Times 0
             }
+        }
+        Context "Copying files to Azure File Share" {
             It "Copy files to existing Azure File Share" {
                 # Arrange
                 $resourceGroup = "stock"

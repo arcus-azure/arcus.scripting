@@ -9,27 +9,24 @@ param(
 
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
 
-#Create the blob container if not yet made
-try{
-    Write-Verbose "Try using existing Azure Storage Container $ContainerName..."
+try {
+    Write-Verbose "Try using existing Azure Blob storage container '$ContainerName..."
     Get-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -ErrorAction Stop
-    Write-Host "Using existing Azure Storage Container $ContainerName"
+    Write-Verbose "Using existing Azure Blob storage container '$ContainerName'"
 }
 catch {
-    Write-Host "Creating Azure Storage Container $ContainerName"
+    Write-Verbose "Creating Azure Blob storage container '$ContainerName' to upload files..."
     New-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -Permission $ContainerPermissions
-} 
+    Write-Verbose "Created Azure Blob storage container '$ContainerName' to upload files"
+}
 
 $files = Get-ChildItem $TargetFolderPath -File
-Write-Host "Uploading files from $TargetFolderPath"
+Write-Verbose "Uploading files from '$TargetFolderPath' to Azure Blob storage container '$ContainerName' in resource group '$ResourceGroupName'..."
 
-foreach($file in $files)
-{
-    #Read schema name
+foreach($file in $files) {
     $blobFileName = $FilePrefix + $file.Name
 
-    #upload the files to blob storage.
     $content = Set-AzStorageBlobContent -File $file.FullName -Container $ContainerName -Blob $blobFileName -Context $storageAccount.Context -Force
     $blobUri = $content.ICloudBlob.uri.AbsoluteUri
-    Write-Host "Uploaded the file to Azure Blob storage: " $($blobUri)
+    Write-Host "Uploaded file '$($file.Name)' to Azure Blob storage container: $blobUri" -ForegroundColor Green
 }

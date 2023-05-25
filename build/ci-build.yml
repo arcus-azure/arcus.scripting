@@ -3,7 +3,7 @@ name: $(date:yyyyMMdd)$(rev:.r)
 trigger:
   branches:
     include:
-      - master
+      - main
   paths:
     include:
       - src/*
@@ -34,6 +34,8 @@ variables:
   - template: ./variables/build.yml
   - name: 'Package.Version'
     value: '0.$(Build.BuildNumber)'
+  - name: 'Prerelease'
+    value: 'none'
 
 stages:
   - stage: Build
@@ -42,18 +44,7 @@ stages:
         pool:
           vmImage: '$(Vm.Linux.Image)'
         steps:
-          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace package version tokens'
-            inputs:
-              rootDirectory: 'src/'
-              targetFiles: '**/*.psd1'
-              encoding: 'auto'
-              verbosity: 'detailed'
-              writeBOM: true
-              actionOnMissing: 'fail'
-              keepToken: false
-              tokenPrefix: '#{'
-              tokenSuffix: '}#'
+          - template: 'templates/replace-tokens.yml'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:

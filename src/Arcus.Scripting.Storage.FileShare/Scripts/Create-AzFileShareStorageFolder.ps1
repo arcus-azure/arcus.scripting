@@ -12,9 +12,9 @@ $fileShareFolders =
         where { $_.GetType().Name -eq "AzureStorageFileDirectory" }
 
 if ($FolderName -in $fileShareFolders.Name) {
-    Write-Host "Azure FileShare storage folder '$FolderName' already exists, skipping"
+    Write-Warning "Azure FileShare storage folder '$FolderName' already exists, skipping"
 } else {
-    Write-Verbose "Creating Azure FileShare storage folder '$FolderName' in file share '$FileShareName'.."
+    Write-Verbose "Creating Azure FileShare storage folder '$FolderName' in file share '$FileShareName'..."
     New-AzStorageDirectory -Context $storageAccount.Context -ShareName $FileShareName -Path $FolderName
     Write-Host "Created Azure FileShare storage folder '$FolderName' in file share '$FileShareName'"
 }
