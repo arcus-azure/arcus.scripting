@@ -53,3 +53,54 @@ PS> Create-AzStorageTable `
 # Failed to re-create the Azure storage table 'products' in Azure storage account 'admin', retrying in 5 seconds...
 # Azure storage table 'products' created in Azure storage account 'admin'
 ```
+
+
+## Set the entities in a table of an Azure Storage Account
+
+Deletes all entities of a specified table in an Azure Storage Account and creates new entities based on a configuration file.
+
+| Parameter              | Mandatory | Description                                                                                                                |
+| ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes       | The resource group where the Azure Storage Account is located                                                              |
+| `StorageAccountName`   | yes       | The name of the Azure Storage Account that contains the table                                                              |
+| `TableName`            | yes       | The name of the table in which the entities should be set                                                                  |
+| `ConfigurationFile`    | yes       | Path to the JSON Configuration file containing all the entities to be set                                                  |
+
+**Configuration File**
+
+The configuration file is a simple JSON file that contains all of the entities that should be set on the specified table, the JSON file consists of an array of JSON objects (= your entities). Each object contains simple name-value pairs (string-string). 
+
+Defining the PartitionKey and/or RowKey are optional, if not provided a random GUID will be set for these.
+
+**Example Configuration File**
+
+```json
+[
+  {
+    "PartitionKey": "SystemA",
+    "RowKey": "100",
+    "ReadPath": "/home/in",
+    "ReadIntervalInSeconds": "30"  
+  },
+  {
+    "PartitionKey": "SystemA",
+    "RowKey": "200",
+    "ReadPath": "/data/in",
+    "ReadIntervalInSeconds": "10",
+    "HasSubdirectories": "true" 
+  }
+]
+```
+
+**Example**
+
+```powershell
+PS> Set-AzTableStorageEntities `
+-ResourceGroupName "someresourcegroup" `
+-StorageAccountName "somestorageaccount" `
+-TableName "sometable" `
+-ConfigurationFile ".\config.json"
+# Deleting all existing entities in Azure storage table 'sometable' for Azure storage account 'somestorageaccount' in resource group 'someresourcegroup'...
+# Successfully deleted all existing entities in Azure storage table 'sometable' for Azure storage account 'somestorageaccount' in resource group 'someresourcegroup'
+# Successfully added all entities in Azure storage table 'sometable' for Azure storage account 'somestorageaccount' in resource group 'someresourcegroup'
+```
