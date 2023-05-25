@@ -19,7 +19,7 @@ function global:Retry-Func ($scriptBlock) {
 InModuleScope Arcus.Scripting.Storage.Table {
     Describe "Azure Arcus Table storage integration tests" {
         BeforeEach {
-            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
         Context "Create Azure table storage table" {

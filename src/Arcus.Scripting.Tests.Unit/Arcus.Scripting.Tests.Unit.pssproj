@@ -76,7 +76,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arcus.Scripting.ActiveDirectory.ps1" />
+    <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
+    <Compile Include="Arcus.Scripting.Management.tests.ps1" />
     <Compile Include="Arcus.Scripting.ApiManagement.tests.ps1" />
+    <Compile Include="Arcus.Scripting.AppService.tests.ps1" />
+    <Compile Include="Arcus.Scripting.IntegrationAccount.tests.ps1" />
     <Compile Include="Arcus.Scripting.Security.tests.ps1" />
     <Compile Include="Arcus.Scripting.DataFactory.tests.ps1" />
     <Compile Include="Arcus.Scripting.KeyVault.tests.ps1" />
@@ -84,9 +89,20 @@
     <Compile Include="Arcus.Scripting.Storage.Blob.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
+    <Content Include="Arcus.Scripting.Sql.tests.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Arcus.Scripting.Sql.tests.ps1" />
+    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
+    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
+    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" />
+    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
+    <Content Include="Files\LogicApps\deploy-orderControl-unknownStopType.json" />
+    <Content Include="Files\LogicApps\deploy-orderControl-none.json" />
+    <Content Include="Files\LogicApps\deploy-orderControl-unknownCheckType.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Files\" />
+    <Folder Include="Files\LogicApps\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

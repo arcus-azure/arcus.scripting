@@ -6,8 +6,10 @@ layout: default
 # Azure Key Vault
 
 This module provides the following capabilities:
-- [Getting all access policies for an Azure Key Vault](#getting-all-access-policies-for-an-azure-key-vault)
-- [Setting a secret value from file into Azure Key Vault](#setting-a-secret-value-from-file-into-azure-key-vault)
+- [Azure Key Vault](#azure-key-vault)
+  - [Installation](#installation)
+  - [Getting all access policies for an Azure Key Vault](#getting-all-access-policies-for-an-azure-key-vault)
+  - [Setting a secret value from file into Azure Key Vault](#setting-a-secret-value-from-file-into-azure-key-vault)
 
 ## Installation
 
@@ -34,7 +36,7 @@ PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault"
 ```
 
 ```powershell
-PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resouce-group"
+PS> $accessPolicies = Get-AzKeyVaultAccessPolicies -KeyVaultName "my-key-vault" -ResourceGroupName "my-resource-group"
 # accessPolicies: {list: [{tenantId: ...,permissions: ...}]}
 ```
 

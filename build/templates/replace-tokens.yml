@@ -1,0 +1,29 @@
+steps:
+  - powershell: |
+      Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+        % { Write-Host "Replace '0.0.0' to 'Package.Version' in $($_.FullName)"
+            $contents = Get-Content $_.FullName 
+            $contents = $contents -replace "ModuleVersion = '\d\.\d\.\d'", "ModuleVersion = '#{Package.Version}#'"
+            $contents | Out-File $_.FullName -Force }
+    displayName: 'Replace 0.0.0 in module datafile to Package.Version token'
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+    displayName: 'Replace package version tokens'
+    inputs:
+      rootDirectory: 'src/'
+      targetFiles: '**/*.psd1'
+      encoding: 'auto'
+      verbosity: 'detailed'
+      writeBOM: true
+      actionOnMissing: 'fail'
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+  - powershell: |
+      if ('$(Prerelease)' -ne 'none') {
+        Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+          % { Write-Host "Insert prerelease '$(Prerelease)' into PowerShell $($_.Name) datafile"
+              $contents = Get-Content $_.FullName
+              $contents = $contents -replace "# Prerelease = ''", "Prerelease = '$(Prerelease)'"
+              $contents | Out-File $_.FullName -Force }
+      }
+    displayName: 'Set prerelease version'

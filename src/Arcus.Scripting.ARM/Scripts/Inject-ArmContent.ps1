@@ -3,7 +3,9 @@
     
     ${ fileToInject.xml }
     ${ FileToInject=file.xml }
+    ${ FileToInject=c:\file.xml }
     ${ FileToInject = ".\Parent Directory\file.xml" }
+    ${ FileToInject = "c:\Parent Directory\file.xml" }
     ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars }
     ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
  #>
@@ -12,12 +14,26 @@ param (
     [string] $Path = $PSScriptRoot
 )
 
+function Get-FullyQualifiedChildFilePath {
+    param(
+        [parameter(mandatory=$true)] [string] $ParentFilePath,
+        [parameter(mandatory=$true)] [string] $ChildFilePath
+    )
+
+    $parentDirectoryPath = Split-Path $ParentFilePath -Parent
+    # Note: in case of a fully qualified (i.e. absolute) child path the Combine-function discards the parent directory path;
+    #  otherwise the relative child path is combined with the parent directory
+    $combinedPath = [System.IO.Path]::Combine($parentDirectoryPath, $ChildFilePath)
+    $fullPath = [System.IO.Path]::GetFullPath($combinedPath)
+    return $fullPath
+}
+
 function InjectFile {
     param(
         [string] $filePath
     )
 
-    Write-Host "Checking file $filePath" 
+    Write-Verbose "Checking ARM template file '$filePath' for injection tokens..." 
 
     $replaceContentDelegate = {
         param($match)
@@ -34,17 +50,15 @@ function InjectFile {
             throw "The file part '$filePart' of the injection instruction could not be parsed correctly"
         }
 
-        $relativePathOfFileToInject = $fileMatch.Groups["File"];
-        $fullPathOfFileToInject = Join-Path (Split-Path $filePath -Parent) $relativePathOfFileToInject
-        $fileToInjectIsFound = Test-Path -Path $fullPathOfFileToInject -PathType Leaf
-        if ($false -eq $fileToInjectIsFound) {
-            throw "No file can be found at '$fullPathofFileToInject'"
+        $fullPathOfFileToInject = Get-FullyQualifiedChildFilePath -ParentFilePath $filePath -ChildFilePath $fileMatch.Groups["File"]
+        if (-not(Test-Path -Path $fullPathOfFileToInject -PathType Leaf)) {
+            throw "No file can be found at '$fullPathOfFileToInject'"
         }
 
         # Inject content recursively first
         InjectFile($fullPathOfFileToInject)
 
-        Write-Host "`t Injecting content of $fullPathOfFileToInject into $filePath" 
+        Write-Verbose "`t Injecting content of '$fullPathOfFileToInject' into '$filePath'" 
 
         $newString = Get-Content -Path $fullPathOfFileToInject -Raw
 
@@ -57,12 +71,12 @@ function InjectFile {
         if ($instructionParts.Length -gt 1) {
             $optionParts = $instructionParts | select -Skip 1
 
-            if ($optionParts.Contains("ReplaceSpecialChars")){
-                Write-Host "`t Replacing special characters"
+            if ($optionParts.Contains("ReplaceSpecialChars")) {
+                Write-Verbose "`t Replacing special characters"
 
                 # Replace newline characters with literal equivalents
-                if ([environment]::OSVersion.VersionString -like "*Windows*") {
-                    $newString = $newString -replace "`n", "\r\n"
+                if ([Environment]::OSVersion.VersionString -like "*Windows*") {
+                    $newString = $newString -replace "`r`n", "\r\n"
                 } else {
                     $newString = $newString -replace "`n", "\n"
                 }
@@ -75,28 +89,28 @@ function InjectFile {
             }
 
             if ($optionParts.Contains("EscapeJson")) {
-                Write-Host "`t JSON-escaping file content"
+                Write-Verbose "`t JSON-escaping file content"
 
                 # Use regex negative lookbehind to replace double quotes not preceded by a backslash with escaped quotes
                 $newString = $newString -replace '(?<!\\)"', '\"'
             }
 
-
-            if ($optionParts.Contains("InjectAsJsonObject")){
-                try{
+            if ($optionParts.Contains("InjectAsJsonObject")) {
+                try {
                     # Test if content is valid JSON
+                    Write-Verbose "Test if valid JSON: $newString"
                     ConvertFrom-Json $newString
 
                     $surroundContentWithDoubleQuotes = $False
                 }
-                catch{
-                    Write-Error "Content to inject cannot be parsed as a JSON object!"
+                catch {
+                    Write-Warning "Content to inject into ARM template file '$filePath' cannot be parsed as a JSON object!"
                 }
             }
         }
 
-        if ($surroundContentWithDoubleQuotes){
-            Write-Host "`t Surrounding content in double quotes"
+        if ($surroundContentWithDoubleQuotes) {
+            Write-Verbose "`t Surrounding content in double quotes"
 
             $newString = '"' + $newString + '"'
         }
@@ -106,9 +120,9 @@ function InjectFile {
 
     $rawContents = Get-Content $filePath -Raw
     $injectionInstructionRegex = [regex] '"?\${(.+)}\$"?';
-    $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -Encoding UTF8
+    $injectionInstructionRegex.Replace($rawContents, $replaceContentDelegate) | Set-Content $filePath -NoNewline -Encoding UTF8
     
-    Write-Host "Done checking file $filePath" 
+    Write-Host "Done checking ARM template file '$filePath' for injection tokens" -ForegroundColor Green 
 }
 
 
@@ -116,12 +130,12 @@ $psScriptFileName = $MyInvocation.MyCommand.Name
 
 $PathIsFound = Test-Path -Path $Path
 if ($false -eq $PathIsFound) {
-    throw "Passed allong path '$Path' doesn't point to valid file path"
+    throw "Passed along path '$Path' doesn't point to valid file path"
 }
 
-Write-Host "Starting $psScriptFileName script on path $Path"
+Write-Verbose "Starting '$psScriptFileName' script on path '$Path'..."
 
 $armTemplates = Get-ChildItem -Path $Path -Recurse -Include *.json
 $armTemplates | ForEach-Object { InjectFile($_.FullName) }
 
-Write-Host "Finished script $psScriptFileName"
+Write-Host "Finished script '$psScriptFileName' on path '$Path'" -ForegroundColor Green

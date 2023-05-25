@@ -4,8 +4,9 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAct
 InModuleScope Arcus.Scripting.Storage.FileShare {
     Describe "Arcus Azure FileShare storage integration tests" {
         BeforeEach {
-            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
+            $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+            
             $guid = [System.Guid]::NewGuid()
             $fileShareName = "arcus-scripting-fileshare-$guid"
             $storageAccount = Get-AzStorageAccount -ResourceGroupName $config.Arcus.ResourceGroupName -Name $config.Arcus.Storage.StorageAccount.Name

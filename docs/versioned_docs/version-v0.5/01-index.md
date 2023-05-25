@@ -18,19 +18,19 @@ For more granular packages we recommend reading the documentation.
 
 # Features
 
-* Automate Azure API Management tasks ([powershell](features/powershell/azure-api-management))
-* Automate Azure Data Factory tasks ([powershell](features/powershell/azure-data-factory))
-* Automate Azure DevOps tasks ([powershell](features/powershell/azure-devops))
-* Automate Azure Integration Account tasks ([powershell](features/powershell/azure-integration-account))
-* Automate Azure Key Vault tasks ([powershell](features/powershell/azure-key-vault))
-* Automate Azure Logic Apps tasks ([powershell](features/powershell/azure-logic-apps))
-* Automate Azure Resource Manager (ARM) tasks ([powershell](features/powershell/arm))
-* Automate Azure Security tasks ([powershell](features/powershell/azure-security))
-* Automate Azure SQL tasks ([powershell](features/powershell/azure-sql))
-* Automate Azure Storage tasks ([powershell](features/powershell/azure-storage/azure-storage-all))
-    * Azure Table Storage tasks ([powershell](features/powershell/azure-storage/azure-storage-table))
-    * Azure Blob Storage tasks ([powershell](features/powershell/azure-storage/azure-storage-blob))
-    * Azure File Share Storage tasks ([powershell](features/powershell/azure-storage/azure-storage-fileshare))
+* Automate Azure API Management tasks ([powershell](./02-Features/powershell/azure-api-management.md))
+* Automate Azure Data Factory tasks ([powershell](./02-Features/powershell/azure-data-factory.md))
+* Automate Azure DevOps tasks ([powershell](./02-Features/powershell/azure-devops.md))
+* Automate Azure Integration Account tasks ([powershell](./02-Features/powershell/azure-integration-account.md))
+* Automate Azure Key Vault tasks ([powershell](./02-Features/powershell/azure-key-vault.md))
+* Automate Azure Logic Apps tasks ([powershell](./02-Features/powershell/azure-logic-apps.md))
+* Automate Azure Resource Manager (ARM) tasks ([powershell](./02-Features/powershell/arm.md))
+* Automate Azure Security tasks ([powershell](./02-Features/powershell/azure-security.md))
+* Automate Azure SQL tasks ([powershell](./02-Features/powershell/azure-sql.md))
+* Automate Azure Storage tasks ([powershell](./02-Features/powershell/azure-storage/azure-storage-all.md))
+    * Azure Table Storage tasks ([powershell](./02-Features/powershell/azure-storage/azure-storage-table.md))
+    * Azure Blob Storage tasks ([powershell](./02-Features/powershell/azure-storage/azure-storage-blob.md))
+    * Azure File Share Storage tasks ([powershell](./02-Features/powershell/azure-storage/azure-storage-fileshare.md))
 
 # License
 This is licensed under The MIT License (MIT). Which means that you can use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the web application. But you always need to state that Codit is the original author of this web application.
