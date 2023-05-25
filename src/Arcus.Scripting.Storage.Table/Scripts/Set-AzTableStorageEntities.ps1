@@ -2,18 +2,8 @@ param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
     [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
     [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
-    [Parameter(Mandatory = $true)][string] $ConfigurationFile = $(throw "Path to the configuration file is required"),
-    [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 5,
-    [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
+    [Parameter(Mandatory = $true)][string] $ConfigurationFile = $(throw "Path to the configuration file is required")
 )
-
-if ($RetryIntervalSeconds -le 0) {
-    throw "Retry interval in seconds should be greater than zero"
-}
-
-if ($MaxRetryCount -le 0) {
-    throw "Maximum retry-cycle count should be greater than zero"
-}
 
 if ((Test-Path -Path $ConfigurationFile) -eq $false) {
     throw "Configuration file not found"
