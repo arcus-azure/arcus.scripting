@@ -61,6 +61,7 @@
     <Folder Include="Files\IntegrationAccount\Partners\" />
     <Folder Include="Files\IntegrationAccount\Schemas\" />
     <Folder Include="Files\IntegrationAccount\Schemas\Common\" />
+    <Folder Include="Files\TableStorage\" />
     <Folder Include="SqlScripts\" />
     <Folder Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\" />
     <Folder Include="SqlScripts\MigrationStopsOnError\" />
@@ -94,6 +95,8 @@
     <Content Include="Files\IntegrationAccount\Schemas\NestedSchema.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Acknowledgement.xsd" />
     <Content Include="Files\IntegrationAccount\Schemas\Common\NestedSchemaRoot.xsd" />
+    <Content Include="Files\TableStorage\set-aztablestorageentities-config-nokeys.json" />
+    <Content Include="Files\TableStorage\set-aztablestorageentities-config.json" />
     <Content Include="SqlScripts\1_EmptyMigration.sql" />
     <Content Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\0.0.1_baseline.sql" />
     <Content Include="SqlScripts\MigrationScriptsAreSuccessfullyExecuted\0.1.0_AddCustomerTable.sql" />
