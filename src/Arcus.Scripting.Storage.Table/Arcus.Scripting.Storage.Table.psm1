@@ -85,18 +85,14 @@ function Set-AzTableStorageEntities {
        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
        [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
        [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
-       [Parameter(Mandatory = $true)][string] $ConfigurationFile = $(throw "Path to the configuration file is required"),
-       [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 5,
-       [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
+       [Parameter(Mandatory = $true)][string] $ConfigurationFile = $(throw "Path to the configuration file is required")
     )
    
     . $PSScriptRoot\Scripts\Set-AzTableStorageEntities.ps1 `
         -ResourceGroupName $ResourceGroupName `
         -StorageAccountName $StorageAccountName `
         -TableName $TableName `
-        -ConfigurationFile $ConfigurationFile `
-        -RetryIntervalSeconds $RetryIntervalSeconds `
-        -MaxRetryCount $MaxRetryCount   
+        -ConfigurationFile $ConfigurationFile
 }
 
 Export-ModuleMember -Function Set-AzTableStorageEntities
