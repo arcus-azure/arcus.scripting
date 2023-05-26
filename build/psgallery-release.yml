@@ -148,6 +148,8 @@ stages:
               packDestination: '$(Build.ArtifactStagingDirectory)'
           - task: NuGetToolInstaller@1
             displayName: 'Install NuGet'
+            inputs:
+              checkLatest: true
           - powershell: |
               Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
                 % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate | Out-File log.txt -Append }
