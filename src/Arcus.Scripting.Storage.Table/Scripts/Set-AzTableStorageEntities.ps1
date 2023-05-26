@@ -36,7 +36,7 @@ Write-Host "Successfully deleted all existing entities in Azure storage table '$
 # Create all new entities specified in json file
 $configFile = Get-Content -Path $ConfigurationFile | ConvertFrom-Json
 foreach ($entityToAdd in $configFile) {
-    if ($entityToAdd.PartitionKey -ne $null) {
+    if ($entityToAdd.PartitionKey) {
         $partitionKey = $entityToAdd.PartitionKey
         $entityToAdd.PSObject.Properties.Remove('PartitionKey')
     } else {
@@ -44,7 +44,7 @@ foreach ($entityToAdd in $configFile) {
     }
 
     # Check if RowKey provided
-    if ($entityToAdd.RowKey -ne $null) {
+    if ($entityToAdd.RowKey) {
         $rowKey = $entityToAdd.RowKey
         $entityToAdd.PSObject.Properties.Remove('RowKey')
     } else {
