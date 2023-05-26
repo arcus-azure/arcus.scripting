@@ -5,7 +5,7 @@ param(
     [Parameter(Mandatory = $true)][string] $ConfigurationFile = $(throw "Path to the configuration file is required")
 )
 
-if ((Test-Path -Path $ConfigurationFile) -eq $false) {
+if (-not (Test-Path -Path $ConfigurationFile)) {
     throw "Cannot re-create entities based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
 
