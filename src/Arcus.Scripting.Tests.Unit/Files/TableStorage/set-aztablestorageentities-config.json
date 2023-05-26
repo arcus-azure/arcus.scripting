@@ -1,0 +1,15 @@
+[
+  {
+    "PartitionKey": "SystemA",
+    "RowKey": "100",
+    "ReadPath": "/home/in",
+    "ReadIntervalInSeconds": "30"
+  },
+  {
+    "PartitionKey": "SystemA",
+    "RowKey": "200",
+    "ReadPath": "/data/in",
+    "ReadIntervalInSeconds": "10",
+    "HasSubdirectories": "true"
+  }
+]

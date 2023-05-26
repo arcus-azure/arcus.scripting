@@ -90,6 +90,9 @@
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
     <Content Include="Arcus.Scripting.Sql.tests.ps1" />
+    <Content Include="Files\TableStorage\set-aztablestorageentities-config-invalid.json" />
+    <Content Include="Files\TableStorage\set-aztablestorageentities-config-empty.json" />
+    <Content Include="Files\TableStorage\set-aztablestorageentities-config.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
@@ -103,6 +106,7 @@
   <ItemGroup>
     <Folder Include="Files\" />
     <Folder Include="Files\LogicApps\" />
+    <Folder Include="Files\TableStorage\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

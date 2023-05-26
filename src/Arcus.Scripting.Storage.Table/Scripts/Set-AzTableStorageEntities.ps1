@@ -8,6 +8,12 @@ param(
 if (-not (Test-Path -Path $ConfigurationFile)) {
     throw "Cannot re-create entities based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
+if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
+     throw "Cannot re-create entities based on JSON configuration file because the file is empty."
+}
+if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json)) {
+    throw "Cannot re-create entities based on JSON configuration file because the file does not contain valid JSON."
+}
 
 Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
