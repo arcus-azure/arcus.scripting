@@ -9,7 +9,6 @@ if (-not (Test-Path -Path $ConfigurationFile)) {
     throw "Cannot re-create entities based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
 
-# Retrieve Azure storage Account
 Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
 if ($storageAccount -eq $null) {
@@ -18,7 +17,6 @@ if ($storageAccount -eq $null) {
 $ctx = $storageAccount.Context
 Write-Verbose "Azure storage account context has been retrieved for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 
-# Retrieve Azure storage table
 Write-Verbose "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageTable = Get-AzStorageTable -Name $TableName -Context $ctx
 if ($storageTable -eq $null) {
@@ -27,13 +25,11 @@ if ($storageTable -eq $null) {
 $cloudTable = ($storageTable).CloudTable
 Write-Verbose "Azure storage table '$TableName' has been retrieved for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 
-# Delete all existing entities 
 Write-Host "Deleting all existing entities in Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $entitiesToDelete = Get-AzTableRow -table $cloudTable
 $deletedEntities = $entitiesToDelete | Remove-AzTableRow -table $cloudTable
 Write-Host "Successfully deleted all existing entities in Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 
-# Create all new entities specified in json file
 $configFile = Get-Content -Path $ConfigurationFile | ConvertFrom-Json
 foreach ($entityToAdd in $configFile) {
     if ($entityToAdd.PartitionKey) {
@@ -43,7 +39,6 @@ foreach ($entityToAdd in $configFile) {
         $partitionKey = New-Guid
     }
 
-    # Check if RowKey provided
     if ($entityToAdd.RowKey) {
         $rowKey = $entityToAdd.RowKey
         $entityToAdd.PSObject.Properties.Remove('RowKey')
@@ -51,11 +46,9 @@ foreach ($entityToAdd in $configFile) {
         $rowKey = New-Guid
     }
 
-    # Convert psObject to hashtable
     $entityHash = @{}
     $entityToAdd.PSObject.Properties | foreach { $entityHash[$_.Name] = $_.Value }
 
-    # Create entity in table storage
     $addedRow = Add-AzTableRow `
     -table $cloudTable `
     -partitionKey $partitionKey `
