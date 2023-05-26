@@ -7,10 +7,10 @@ param(
 
 try{
     if ($EndTime) {
-        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName | 
+        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink | 
             Where-Object {$_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime -and $_.EndTime -le $EndTime}
     } else {
-        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName | 
+        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink | 
             Where-Object {$_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime}
     }
 
