@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required")
 )
 
-try{
+try {
     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink | 
         Where-Object {$_.Status -eq 'Running'}
 
