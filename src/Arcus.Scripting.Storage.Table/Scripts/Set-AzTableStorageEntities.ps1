@@ -6,14 +6,13 @@ param(
 )
 
 if ((Test-Path -Path $ConfigurationFile) -eq $false) {
-    throw "Configuration file not found"
+    throw "Cannot re-create entities based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
 
 # Retrieve Azure storage Account
 Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
-if ($storageAccount -eq $null)
-{
+if ($storageAccount -eq $null) {
     throw "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
 }
 $ctx = $storageAccount.Context
@@ -22,8 +21,7 @@ Write-Verbose "Azure storage account context has been retrieved for Azure storag
 # Retrieve Azure storage table
 Write-Verbose "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageTable = Get-AzStorageTable -Name $TableName -Context $ctx
-if ($storageTable -eq $null)
-{
+if ($storageTable -eq $null) {
     throw "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
 }
 $cloudTable = ($storageTable).CloudTable
@@ -38,7 +36,6 @@ Write-Host "Successfully deleted all existing entities in Azure storage table '$
 # Create all new entities specified in json file
 $configFile = Get-Content -Path $ConfigurationFile | ConvertFrom-Json
 foreach ($entityToAdd in $configFile) {
-    # Check if PartitionKey provided
     if ($entityToAdd.PartitionKey -ne $null) {
         $partitionKey = $entityToAdd.PartitionKey
         $entityToAdd.PSObject.Properties.Remove('PartitionKey')
@@ -55,8 +52,8 @@ foreach ($entityToAdd in $configFile) {
     }
 
     # Convert psObject to hashtable
-    $entityHash=@{}
-    $entityToAdd.PSObject.Properties | Foreach { $entityHash[$_.Name] = $_.Value }
+    $entityHash = @{}
+    $entityToAdd.PSObject.Properties | foreach { $entityHash[$_.Name] = $_.Value }
 
     # Create entity in table storage
     $addedRow = Add-AzTableRow `
