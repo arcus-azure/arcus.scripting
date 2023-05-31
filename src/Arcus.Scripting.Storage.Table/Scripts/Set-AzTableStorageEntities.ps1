@@ -11,8 +11,34 @@ if (-not (Test-Path -Path $ConfigurationFile)) {
 if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
      throw "Cannot re-create entities based on JSON configuration file because the file is empty."
 }
-if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -ErrorAction SilentlyContinue)) {
-    throw "Cannot re-create entities based on JSON configuration file because the file does not contain valid JSON."
+
+$schema = @'
+{
+  "definitions": {},
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://example.com/root.json",
+  "type": "array",
+  "title": "The configuration JSON schema",
+  "items": [{
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "anyOf": [{
+              "type": "string"
+            }, {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}
+'@
+
+if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -Schema $schema -ErrorAction SilentlyContinue)) {
+    throw "Cannot re-create entities based on JSON configuration file because the file does not contain a valid JSON configuration file."
 }
 
 Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."

@@ -281,7 +281,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                 $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config-invalid.json"
 
                 { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file does not contain valid JSON."
+                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file does not contain a valid JSON configuration file."
             }
         }
     }
