@@ -16,7 +16,7 @@ $schema = @'
 {
   "definitions": {},
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "http://example.com/root.json",
+  "$id": "https://scripting.arcus-azure.net/Features/powershell/azure-storage/azure-storage-table/config.json",
   "type": "array",
   "title": "The configuration JSON schema",
   "items": [{

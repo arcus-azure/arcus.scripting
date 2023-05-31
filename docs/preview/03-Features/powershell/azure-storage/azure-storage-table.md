@@ -68,9 +68,36 @@ Deletes all entities of a specified table in an Azure Storage Account and create
 
 **Configuration File**
 
-The configuration file is a simple JSON file that contains all of the entities that should be set on the specified table, the JSON file consists of an array of JSON objects (= your entities). Each object contains simple name-value pairs (string-string). 
+The configuration file is a simple JSON file that contains all of the entities that should be set on the specified table, the JSON file consists of an array of JSON objects (= your entities). Each object contains simple name-value pairs (string-string).
 
 Defining the PartitionKey and/or RowKey are optional, if not provided a random GUID will be set for these.
+
+ The file needs to adhere to the following JSON schema:
+
+``` json
+{
+  "definitions": {},
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scripting.arcus-azure.net/Features/powershell/azure-storage/azure-storage-table/config.json",
+  "type": "array",
+  "title": "The configuration JSON schema",
+  "items": [{
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "anyOf": [{
+              "type": "string"
+            }, {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}
+```
 
 **Example Configuration File**
 
