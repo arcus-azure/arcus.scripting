@@ -1,7 +1,16 @@
 parameters:
   projectName: ''
+  currentImageName: ''
+  windowsImageName: ''
+  linuxImageName: ''
 
 steps:
+  - pwsh: 'wget -O - https://aka.ms/install-powershell.sh | sudo bash'
+    displayName: 'Update Powershell'
+    condition: eq('${{parameters.currentImageName}}', '${{parameters.linuxImageName}}')
+  - powershell: 'Invoke-Expression -Command "& { $(Invoke-RestMethod -Uri ''https://aka.ms/install-powershell.ps1'') } -UseMSI -quiet" '
+    displayName: 'Update Powershell'
+    condition: eq('${{parameters.currentImageName}}', '${{parameters.windowsImageName}}')
   - bash: |
       if [ -z "$PROJECT_NAME" ]; then
         echo "##vso[task.logissue type=error;]Missing template parameter \"projectName\""
