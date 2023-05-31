@@ -11,7 +11,7 @@ if (-not (Test-Path -Path $ConfigurationFile)) {
 if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
      throw "Cannot re-create entities based on JSON configuration file because the file is empty."
 }
-if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json)) {
+if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -ErrorAction SilentlyContinue)) {
     throw "Cannot re-create entities based on JSON configuration file because the file does not contain valid JSON."
 }
 
