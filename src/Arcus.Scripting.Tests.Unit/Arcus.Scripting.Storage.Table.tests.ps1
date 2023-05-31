@@ -138,5 +138,151 @@ InModuleScope Arcus.Scripting.Storage.Table {
                     Should -Throw
             }
         }
+        Context "Setting Azure Table Storage Entities" {
+            It "Setting entities in an Azure Table Storage account should succeed" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $storageAccountName = "SomeStorageAccountName"
+                $tableName = "SomeTableName"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config.json"
+                $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
+                $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccount {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $storageAccountName
+                    return $psStorageAccount } -Verifiable
+                Mock Get-AzStorageTable {
+                    $Context | Should -Be $psStorageAccount.Context
+                    return @{
+                        CloudTable = "123456"
+                    } 
+                } -Verifiable
+                Mock Get-AzTableRow {} 
+                Mock Remove-AzTableRow {} 
+                Mock Add-AzTableRow {} 
+
+                # Act
+                Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-AzStorageTable -Times 1
+                Assert-MockCalled Get-AzTableRow -Times 1
+                Assert-MockCalled Remove-AzTableRow -Times 0
+                Assert-MockCalled Add-AzTableRow -Times 2
+            }
+            It "Setting entities in an Azure Table Storage account without PartitionKey and RowKey should succeed" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $storageAccountName = "SomeStorageAccountName"
+                $tableName = "SomeTableName"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config-nokeys.json"
+                $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
+                $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccount {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $storageAccountName
+                    return $psStorageAccount } -Verifiable
+                Mock Get-AzStorageTable {
+                    $Context | Should -Be $psStorageAccount.Context
+                    return @{
+                        CloudTable = "123456"
+                    } 
+                } -Verifiable
+                Mock Get-AzTableRow {} 
+                Mock Remove-AzTableRow {} 
+                Mock Add-AzTableRow {} 
+
+                # Act
+                Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-AzStorageTable -Times 1
+                Assert-MockCalled Get-AzTableRow -Times 1
+                Assert-MockCalled Remove-AzTableRow -Times 0
+                Assert-MockCalled Add-AzTableRow -Times 2
+            }
+            It "Setting entities in an Azure Table Storage account with a storage account that does not exist fails" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $storageAccountName = "SomeStorageAccountName"
+                $tableName = "SomeTableName"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config.json"
+                $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
+                $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccount {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $storageAccountName
+                    return $null } -Verifiable
+
+                # Act
+                { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Retrieving Azure storage account context for Azure storage account '$storageAccountName' in resource group '$resourceGroup' failed."
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccount -Times 1
+            }
+            It "Setting entities in an Azure Table Storage account with a storage table that does not exist fails" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $storageAccountName = "SomeStorageAccountName"
+                $tableName = "SomeTableName"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config.json"
+                $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
+                $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
+
+                Mock Get-AzStorageAccount {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $storageAccountName
+                    return $psStorageAccount } -Verifiable
+                Mock Get-AzStorageTable {
+                    $Context | Should -Be $psStorageAccount.Context
+                    return $null
+                } -Verifiable
+
+                # Act
+                { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Retrieving Azure storage table '$tableName' for Azure storage account '$storageAccountName' in resource group '$resourceGroup' failed."
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccount -Times 1
+                Assert-MockCalled Get-AzStorageTable -Times 1
+            }
+            It "Setting entities in an Azure Table Storage account with a config file that does not exist fails" {
+                $resourceGroup = "SomeResourceGroup"
+                $storageAccountName = "SomeStorageAccountName"
+                $tableName = "SomeTableName"
+                $configFile = ".\SomeFileThatDoesNotExist.json"
+
+                { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because no file was found at: '$configFile'"
+            }
+            It "Setting entities in an Azure Table Storage account with a config file that is empty fails" {
+                $resourceGroup = "SomeResourceGroup"
+                $storageAccountName = "SomeStorageAccountName"
+                $tableName = "SomeTableName"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config-empty.json"
+
+                { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file is empty."
+            }
+            It "Setting entities in an Azure Table Storage account with a config file that is not valid JSON fails" {
+                $resourceGroup = "SomeResourceGroup"
+                $storageAccountName = "SomeStorageAccountName"
+                $tableName = "SomeTableName"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config-invalid.json"
+
+                { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file does not contain a valid JSON configuration file."
+            }
+        }
     }
 }

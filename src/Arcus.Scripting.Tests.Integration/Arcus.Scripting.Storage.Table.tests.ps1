@@ -87,5 +87,57 @@ InModuleScope Arcus.Scripting.Storage.Table {
                 }
             }
         }
+        Context "Setting Azure Table Storage Entities" {
+            It "Setting entities in an Azure Table Storage account" {
+                # Arrange
+                $resourceGroup = $config.Arcus.ResourceGroupName
+                $storageAccountName = $config.Arcus.Storage.StorageAccount.Name
+                $tableName = "SetEntityTable"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config.json"
+                $storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroup -Name $storageAccountName
+
+                try {
+                    # Act
+                    Create-AzStorageTable `
+                        -ResourceGroupName $config.Arcus.ResourceGroupName `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                        -Table $tableName
+
+                    Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile
+
+                    # Assert
+                    $storageTable = Get-AzStorageTable –Name $tableName –Context $storageAccount.Context
+                    (Get-AzTableRow -table $storageTable.CloudTable | measure).Count | 
+                        Should -Be 2
+                } finally {
+                    Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force -ErrorAction SilentlyContinue
+                }
+            }
+            It "Setting entities in an Azure Table Storage account without specifying PartitionKey and RowKey" {
+                # Arrange
+                $resourceGroup = $config.Arcus.ResourceGroupName
+                $storageAccountName = $config.Arcus.Storage.StorageAccount.Name
+                $tableName = "SetEntityTableNoKeys"
+                $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config-nokeys.json"
+                $storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroup -Name $storageAccountName
+
+                try {
+                    # Act
+                    Create-AzStorageTable `
+                        -ResourceGroupName $config.Arcus.ResourceGroupName `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                        -Table $tableName
+
+                    Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile
+
+                    # Assert
+                    $storageTable = Get-AzStorageTable –Name $tableName –Context $storageAccount.Context
+                    (Get-AzTableRow -table $storageTable.CloudTable | measure).Count | 
+                        Should -Be 2
+                } finally {
+                    Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force -ErrorAction SilentlyContinue
+                }
+            }
+        }
     }
 }

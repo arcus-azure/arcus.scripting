@@ -1,0 +1,11 @@
+[
+  {
+    "ReadPath": "/home/in",
+    "ReadIntervalInSeconds": "30"
+  },
+  {
+    "ReadPath": "/data/in",
+    "ReadIntervalInSeconds": "10",
+    "HasSubdirectories": "true"
+  }
+]
