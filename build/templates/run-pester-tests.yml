@@ -43,7 +43,7 @@ steps:
       Install-Module -Name Microsoft.Graph.Applications -Force -SkipPublisherCheck -MaximumVersion 1.15.0
       Write-Host "Done installing, start importing modules"
     displayName: 'Install Pester test framework and Az required modules'
-  - powershell: |
+  - pwsh: |
       Import-Module ./src/Arcus.Scripting.Security
       Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
         % { Write-Host "Import $($_.DirectoryName) module"
