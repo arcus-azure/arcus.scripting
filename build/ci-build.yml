@@ -102,9 +102,6 @@ stages:
           - template: 'templates/run-pester-tests.yml'
             parameters:
               projectName: '$(Project).Tests.Integration'
-              currentImageName: '$(imageName)'
-              windowsImageName: ${{ variables['Vm.Linux.Image'] }}
-              linuxImageName: ${{ variables['Vm.Windows.Image'] }}
 
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
