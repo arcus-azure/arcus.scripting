@@ -67,9 +67,10 @@ function ExecuteCheckType() {
                                 Write-Debug "Number of waiting runs: $WaitingRunsCount"
                                 Start-Sleep -Second 10                               
                                 $RunningRunsCount = ($runHistory | Where-Object { $_.Status -eq "Running" }).Count
-                                $WaitingRunsCount = ($runHistory | Where-Object { $_.Status -eq "Waiting" }).Countif ($RunningRunsCount -eq 0 -and $WaitingRunsCount -eq 0) {
-                                Write-Verbose "Found no more waiting or running runs for Azure Logic App '$logicApp', executing stopType for Logic App"
-                                ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppName $logicApp -stopType $batch.stopType
+                                $WaitingRunsCount = ($runHistory | Where-Object { $_.Status -eq "Waiting" }).Count
+                                if ($RunningRunsCount -eq 0 -and $WaitingRunsCount -eq 0) {
+                                    Write-Verbose "Found no more waiting or running runs for Azure Logic App '$logicApp', executing stopType for Logic App"
+                                    ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppName $logicApp -stopType $batch.stopType
                                 }
                             }
                         } else{
