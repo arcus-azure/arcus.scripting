@@ -284,6 +284,62 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
             }
+            It "Disables all logic apps with option maximumFollowNextPageLink set to 25" {
+                # Arrange
+                $resourceGroup = "my-resource-group"
+                Mock Get-AzLogicAppRunHistory {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be "snd-async"
+                    $MaximumFollowNextPageLink | Should -Be 25
+                    Write-Host "Returning empty (no running, no waiting) runs"
+                    return @()
+                }
+                Mock Disable-AzLogicApp {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $LogicAppName | Should -Be "snd-async"
+                }
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\LogicApps\deploy-orderControl-maximumFollowNextPageLink.json" -ResourceGroupName $resourceGroup
+
+                # Assert
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
+                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
+            }
+            It "Disables all logic apps with option maximumFollowNextPageLink defaults to 10" {
+                # Arrange
+                $resourceGroup = "my-resource-group"
+                Mock Get-AzLogicAppRunHistory {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be "snd-async"
+                    $MaximumFollowNextPageLink | Should -Be 10
+                    Write-Host "Returning empty (no running, no waiting) runs"
+                    return @()
+                }
+                Mock Disable-AzLogicApp {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $LogicAppName | Should -Be "snd-async"
+                }
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                # Act
+                Disable-AzLogicAppsFromConfig -DeployFileName "$PSScriptRoot\Files\LogicApps\deploy-orderControl-noMaximumFollowNextPageLink.json" -ResourceGroupName $resourceGroup
+
+                # Assert
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
+                Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
+            }
         }
         Context "Cancel Logic Apps runs" {
             It "Cancelling all runs from Logic App history should succeed" {

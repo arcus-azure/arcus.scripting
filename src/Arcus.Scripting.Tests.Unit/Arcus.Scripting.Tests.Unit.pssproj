@@ -90,6 +90,8 @@
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
     <Content Include="Arcus.Scripting.Sql.tests.ps1" />
+    <Content Include="Files\LogicApps\deploy-orderControl-noMaximumFollowNextPageLink.json" />
+    <Content Include="Files\LogicApps\deploy-orderControl-maximumFollowNextPageLink.json" />
     <Content Include="Files\TableStorage\set-aztablestorageentities-config-nokeys.json" />
     <Content Include="Files\TableStorage\set-aztablestorageentities-config-invalid.json" />
     <Content Include="Files\TableStorage\set-aztablestorageentities-config-empty.json" />
