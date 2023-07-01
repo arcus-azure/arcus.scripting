@@ -65,7 +65,8 @@ function ExecuteCheckType() {
                                 Write-Verbose "Azure Logic App '$logicApp' has Running and/or Waiting Runs, waiting 10 seconds and checking again..."
                                 Write-Debug "Number of running runs: $RunningRunsCount"
                                 Write-Debug "Number of waiting runs: $WaitingRunsCount"
-                                Start-Sleep -Second 10                               
+                                Start-Sleep -Second 10
+                                $runHistory = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -ErrorAction Stop
                                 $RunningRunsCount = ($runHistory | Where-Object { $_.Status -eq "Running" }).Count
                                 $WaitingRunsCount = ($runHistory | Where-Object { $_.Status -eq "Waiting" }).Count
                                 if ($RunningRunsCount -eq 0 -and $WaitingRunsCount -eq 0) {
