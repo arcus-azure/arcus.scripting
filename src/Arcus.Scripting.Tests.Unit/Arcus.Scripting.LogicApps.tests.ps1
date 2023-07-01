@@ -191,7 +191,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 6 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 3 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
             }
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on an the waiting runs for stopType = None" {
@@ -216,10 +216,10 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Times 4 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
+                Assert-MockCalled Get-AzLogicAppRunHistory -Times 2 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
             }
-            It "Disbales all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and no running runs for stopType = Immediate" {
+            It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and no running runs for stopType = Immediate" {
                 # Arrange
                 $resourceGroup = "my-resource-group"
                 $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker", "rcv-sthp-harvest-order-af-ftp", "rcv-sthp-harvest-order-af-sft", "rcv-sthp-harvest-order-af-file")
@@ -244,7 +244,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 10 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 5 -ParameterFilter { $ResourceGroupName -eq $resourceGroup }
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 5 -ParameterFilter { $resourceGroupName -eq $resourceGroup }
             }
             It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and running runs for stopType = Immediate" {
