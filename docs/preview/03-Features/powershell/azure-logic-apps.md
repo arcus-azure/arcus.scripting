@@ -177,7 +177,7 @@ Taking an example in which a set of Azure Logic Apps (`"rcv-shopping-order-*"`) 
     "description": "Sender(s)",
     "checkType": "None",
     "stopType": "Immediate",
-	"maximumFollowNextPageLink": 25,
+    "maximumFollowNextPageLink": 25,
     "logicApps": [
       "snd-shopping-order-confirmation-smtp"
     ]
