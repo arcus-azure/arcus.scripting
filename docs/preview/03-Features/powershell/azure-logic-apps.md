@@ -17,10 +17,11 @@ PS> Install-Module -Name Arcus.Scripting.LogicApps
 
 Use this script to cancel all running instances for a specific Azure Logic App. 
 
-| Parameter           | Mandatory | Description                                        |
-| ------------------- | --------- | -------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure Logic App. |
-| `LogicAppName`      | yes       | The name of the Azure Logic App to be disabled.    |
+| Parameter                   | Mandatory | Description                                                                                                                                         |
+| --------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`         | yes       | The resource group containing the Azure Logic App.                                                                                                  |
+| `LogicAppName`              | yes       | The name of the Azure Logic App for which the runs will be cancelled.                                                                               |
+| `MaximumFollowNextPageLink` | no        | This sets the amount of pages (30 runs per page) of the Logic App run history (if any) that are retrieved. If not supplied the default value is 10. |
 
 **Example**
 
@@ -37,12 +38,13 @@ PS> Cancel-AzLogicAppRuns `
 
 Use this script to re-run a failed Azure Logic App run. 
 
-| Parameter           | Mandatory | Description                                                                                                |
-| ------------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure Logic App.                                                         |
-| `LogicAppName`      | yes       | The name of the Azure Logic App to be disabled.                                                            |
-| `StartTime`         | yes       | The start time in UTC for retrieving the failed instances.                                                 |
-| `EndTime`           | no        | The end time in UTC for retrieving the failed instances, if not supplied it will use the current datetime. |
+| Parameter                   | Mandatory | Description                                                                                                                                         |
+| --------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`         | yes       | The resource group containing the Azure Logic App.                                                                                                  |
+| `LogicAppName`              | yes       | The name of the Azure Logic App for which the failed runs will be resubmitted.                                                                      |
+| `StartTime`                 | yes       | The start time in UTC for retrieving the failed instances.                                                                                          |
+| `EndTime`                   | no        | The end time in UTC for retrieving the failed instances, if not supplied it will use the current datetime.                                          |
+| `MaximumFollowNextPageLink` | no        | This sets the amount of pages (30 runs per page) of the Logic App run history (if any) that are retrieved. If not supplied the default value is 10. |
 
 **Example**
 
@@ -157,15 +159,15 @@ The order of the Azure Logic Apps in the configuration file (bottom to top) defi
 
 The schema of this configuration file is a JSON structure of an array with the following inputs:
 
-| Node                      | Type            | Description                                                                                                                                    |
-| ------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Description               | `string`        | Description of Azure Logic App set to disable.                                                                                                 |
-| MaximumFollowNextPageLink | `integer`       | This sets the amount of pages (30 runs per page) of the Logic App run history (if any) are retrieved. If not supplied the default value is 10. |
-| CheckType                 | `enum`          | `None`: don't perform any additional checks.                                                                                                   |
-|                           |                 | `NoWaitingOrRunningRuns`: waits until there are no more waiting or running Logic App instances.                                                |
-| StopType                  | `enum`          | `None`: don't disable to given Logic Apps.                                                                                                     |
-|                           |                 | `Immediate`: disable the given Logic Apps.                                                                                                     |
-| LogicApps                 | `string array`  | Set of Logic App names to disable.                                                                                                             |
+| Node                      | Type            | Description                                                                                                                                         |
+| ------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Description               | `string`        | Description of Azure Logic App set to disable.                                                                                                      |
+| MaximumFollowNextPageLink | `integer`       | This sets the amount of pages (30 runs per page) of the Logic App run history (if any) that are retrieved. If not supplied the default value is 10. |
+| CheckType                 | `enum`          | `None`: don't perform any additional checks.                                                                                                        |
+|                           |                 | `NoWaitingOrRunningRuns`: waits until there are no more waiting or running Logic App instances.                                                     |
+| StopType                  | `enum`          | `None`: don't disable to given Logic Apps.                                                                                                          |
+|                           |                 | `Immediate`: disable the given Logic Apps.                                                                                                          |
+| LogicApps                 | `string array`  | Set of Logic App names to disable.                                                                                                                  |
 
 **Example**
 
