@@ -387,6 +387,58 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 0
             }
+            It "Cancelling all runs from Logic App history with option maximumFollowNextPageLink set to 25" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+
+                Mock Get-AzLogicAppRunHistory -MockWith {
+                    $MaximumFollowNextPageLink | Should -Be 25
+                    return @{
+                        Name = "test"
+                        Status = "Running"
+                    }
+                }
+
+                Mock Stop-AzLogicAppRun -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -MaximumFollowNextPageLink 25 } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 1
+            }
+            It "Cancelling all runs from Logic App history with option maximumFollowNextPageLink defaults to 10" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+
+                Mock Get-AzLogicAppRunHistory -MockWith {
+                    $MaximumFollowNextPageLink | Should -Be 10
+                    return @{
+                        Name = "test"
+                        Status = "Running"
+                    }
+                }
+
+                Mock Stop-AzLogicAppRun -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Stop-AzLogicAppRun -Scope It -Times 1
+            }
         }
         Context "Resubmitting failed Logic Apps runs" {
             It "Resubmitting a single failed run from Logic App history should succeed" {
@@ -552,6 +604,78 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 0
             }
+            It "Resubmitting runs from Logic App history with option maximumFollowNextPageLink set to 25" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $startTime = '2023-01-01 00:00:00'
+
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                Mock Get-AzLogicAppRunHistory -MockWith {
+                    $MaximumFollowNextPageLink | Should -Be 25
+                    return @{
+                        Name = "test"
+                        Status = "Failed"
+                        StartTime = "2023-01-01 01:00:00"
+                    }
+                }
+
+                Mock Invoke-WebRequest -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime -MaximumFollowNextPageLink 25 } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
+             }
+            It "Resubmitting runs from Logic App history with option maximumFollowNextPageLink defaults to 10" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $startTime = '2023-01-01 00:00:00'
+
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
+                Mock Get-AzLogicAppRunHistory -MockWith {
+                    $MaximumFollowNextPageLink | Should -Be 10
+                    return @{
+                        Name = "test"
+                        Status = "Failed"
+                        StartTime = "2023-01-01 01:00:00"
+                    }
+                }
+
+                Mock Invoke-WebRequest -MockWith {
+                   return $null
+                }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
+             }
         }
     }
 }

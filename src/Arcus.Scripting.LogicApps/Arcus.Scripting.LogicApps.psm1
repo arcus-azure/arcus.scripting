@@ -11,14 +11,18 @@
  .Parameter LogicAppName
   The name of the Azure Logic App.
 
+ .Parameter MaximumFollowNextPageLink
+  The number of times the script should retrieve the next page of Logic App runs, if not specified the entire run history of the Logic App will be retrieved.
+
 #>
 function Cancel-AzLogicAppRuns {
     param(
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
-        [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required")
+        [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
+        [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink
     )
     
-    . $PSScriptRoot\Scripts\Cancel-AzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName
+    . $PSScriptRoot\Scripts\Cancel-AzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -MaximumFollowNextPageLink $MaximumFollowNextPageLink
 }
 
 Export-ModuleMember -Function Cancel-AzLogicAppRuns
@@ -42,19 +46,23 @@ Export-ModuleMember -Function Cancel-AzLogicAppRuns
  .Parameter EndTime
   The end time of the failed instances of the Azure Logic App.
 
+ .Parameter MaximumFollowNextPageLink
+  The number of times the script should retrieve the next page of Logic App runs, if not specified the entire run history of the Logic App will be retrieved.
+
 #>
 function Resubmit-FailedAzLogicAppRuns {
     param(
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
         [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
         [Parameter(Mandatory = $true)][datetime] $StartTime = $(throw "Start time is required"),
-        [Parameter(Mandatory = $false)][datetime] $EndTime
+        [Parameter(Mandatory = $false)][datetime] $EndTime,
+        [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink
     )
     
     if ($EndTime) {
-        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime -EndTime $EndTime
+        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime -EndTime $EndTime -MaximumFollowNextPageLink $MaximumFollowNextPageLink
     } else {
-        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime
+        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime -MaximumFollowNextPageLink $MaximumFollowNextPageLink
     }
 }
 

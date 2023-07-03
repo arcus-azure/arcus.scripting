@@ -1,10 +1,15 @@
 param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
-    [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required")
+    [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
+    [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink
 )
 
 try {
-    $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink | 
+    if (!$maximumFollowNextPageLink) {
+        $maximumFollowNextPageLink = 10
+    }
+
+    $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $maximumFollowNextPageLink | 
         Where-Object {$_.Status -eq 'Running'}
 
     foreach ($run in $runs) {
