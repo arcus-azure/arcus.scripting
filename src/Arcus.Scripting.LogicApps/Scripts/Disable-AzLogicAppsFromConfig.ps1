@@ -47,6 +47,10 @@ function ExecuteCheckType() {
     )
     BEGIN {
         Write-Verbose "Executing CheckType '$($batch.checkType)' for batch '$($batch.description)' in resource group '$ResourceGroupName'..."
+        $maximumFollowNextPageLink = $batch.maximumFollowNextPageLink
+        if (!$maximumFollowNextPageLink) {
+            $maximumFollowNextPageLink = 10
+        }
         if ($batch.checkType -Match "NoWaitingOrRunningRuns") {
             Write-Host "Executing Check 'NoWaitingOrRunningRuns'"
             if ($batch.logicApps.Length -gt 0 ) {
@@ -57,7 +61,7 @@ function ExecuteCheckType() {
                     }
 
                     try {
-                        $runHistory = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -ErrorAction Stop
+                        $runHistory = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -MaximumFollowNextPageLink $maximumFollowNextPageLink -ErrorAction Stop
                         $RunningRunsCount = ($runHistory | Where-Object { $_.Status -eq "Running" }).Count
                         $WaitingRunsCount = ($runHistory | Where-Object { $_.Status -eq "Waiting" }).Count
                         if ($RunningRunsCount -ne 0 -and $WaitingRunsCount -ne 0) {
@@ -66,7 +70,7 @@ function ExecuteCheckType() {
                                 Write-Debug "Number of running runs: $RunningRunsCount"
                                 Write-Debug "Number of waiting runs: $WaitingRunsCount"
                                 Start-Sleep -Second 10
-                                $runHistory = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -ErrorAction Stop
+                                $runHistory = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $logicApp -FollowNextPageLink -MaximumFollowNextPageLink $maximumFollowNextPageLink -ErrorAction Stop
                                 $RunningRunsCount = ($runHistory | Where-Object { $_.Status -eq "Running" }).Count
                                 $WaitingRunsCount = ($runHistory | Where-Object { $_.Status -eq "Waiting" }).Count
                                 if ($RunningRunsCount -eq 0 -and $WaitingRunsCount -eq 0) {
