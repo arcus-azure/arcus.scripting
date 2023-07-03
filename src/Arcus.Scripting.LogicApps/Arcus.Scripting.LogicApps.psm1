@@ -19,7 +19,7 @@ function Cancel-AzLogicAppRuns {
     param(
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
         [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
-        [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink
+        [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink = 10
     )
     
     . $PSScriptRoot\Scripts\Cancel-AzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -MaximumFollowNextPageLink $MaximumFollowNextPageLink
@@ -56,7 +56,7 @@ function Resubmit-FailedAzLogicAppRuns {
         [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
         [Parameter(Mandatory = $true)][datetime] $StartTime = $(throw "Start time is required"),
         [Parameter(Mandatory = $false)][datetime] $EndTime,
-        [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink
+        [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink = 10
     )
     
     if ($EndTime) {

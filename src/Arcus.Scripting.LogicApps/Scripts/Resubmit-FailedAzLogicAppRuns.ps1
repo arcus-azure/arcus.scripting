@@ -3,19 +3,15 @@ param(
     [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
     [Parameter(Mandatory = $true)][datetime] $StartTime = $(throw "Start time is required"),
     [Parameter(Mandatory = $false)][datetime] $EndTime,
-    [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink
+    [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink = 10
 )
 
 try{
-    if (!$maximumFollowNextPageLink) {
-        $maximumFollowNextPageLink = 10
-    }
-
     if ($EndTime) {
-        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $maximumFollowNextPageLink | 
+        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $MaximumFollowNextPageLink | 
             Where-Object {$_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime -and $_.EndTime -le $EndTime}
     } else {
-        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $maximumFollowNextPageLink | 
+        $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $MaximumFollowNextPageLink | 
             Where-Object {$_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime}
     }
 
