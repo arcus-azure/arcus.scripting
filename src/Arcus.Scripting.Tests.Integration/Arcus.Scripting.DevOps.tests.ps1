@@ -74,7 +74,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 $variableGroupAuthorization = $config.Arcus.DevOps.VariableGroup.Authorization
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
-                $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupNameUrlEncoded + "?api-version=6.1-preview.2"
+                $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=" + $variableGroupNameUrlEncoded + "&api-version=6.1-preview.2"
                 $headers = @{ Authorization = "Basic $variableGroupAuthorization" }
 
                 Write-Host $requestUri
