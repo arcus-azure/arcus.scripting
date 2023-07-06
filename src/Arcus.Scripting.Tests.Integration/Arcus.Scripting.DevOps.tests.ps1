@@ -70,11 +70,14 @@ InModuleScope Arcus.Scripting.DevOps {
                 # Arrange
                 $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
                 $variableGroupNameUrlEncoded = $config.Arcus.DevOps.VariableGroup.NameUrlEncoded
+                $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
                 $variableGroupAuthorization = $config.Arcus.DevOps.VariableGroup.Authorization
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
                 $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupNameUrlEncoded + "?api-version=6.1-preview.2"
                 $headers = @{ Authorization = "Basic $variableGroupAuthorization" }
+
+                Write-Host $requestUri
 
                 # Act
                 Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
@@ -82,8 +85,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 # Assert
                 $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                 $json = ConvertFrom-Json $getResponse.Content
-
-                Write-Host $requestUri
+                                
                 Write-Host $json
                 Write-Host $json.value[0].description
                 Write-Host "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
