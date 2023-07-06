@@ -73,7 +73,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
-                $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.0"
+                $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.1-preview.2"
                 $headers = @{ Authorization = "Basic $variableGroupAuthorization" }
 
                 # Act
@@ -82,7 +82,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 # Assert
                 $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                 $json = ConvertFrom-Json $getResponse.Content
-                $json.description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
+                $json.value[0].description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
             }
         }
     }
