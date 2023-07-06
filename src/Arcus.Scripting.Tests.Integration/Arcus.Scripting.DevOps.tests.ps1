@@ -70,7 +70,6 @@ InModuleScope Arcus.Scripting.DevOps {
                 # Arrange
                 $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
                 $variableGroupAuthorization = $config.Arcus.DevOps.VariableGroup.Authorization
-                $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
                 $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.1-preview.2"
