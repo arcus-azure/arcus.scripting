@@ -152,8 +152,13 @@ stages:
               checkLatest: true
           - powershell: |
               New-Item log.txt
-              Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
-                % { & "nuget" push $_.FullName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate | Out-File log.txt -Append }
+              $nugetPackageFiles = Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse
+
+              foreach ($nugetPackageFile in $nugetPackageFiles) {
+                $fullFileName = $nugetPackageFile.FullName
+                Write-Host "Processing '$fullFileName'"
+                % { & "nuget" push $fullFileName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate | Out-File log.txt -Append }
+              }
               
               $log = Get-Content log.txt
               cat $log
