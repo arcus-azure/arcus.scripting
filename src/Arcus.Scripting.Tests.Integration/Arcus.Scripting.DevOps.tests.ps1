@@ -66,14 +66,15 @@ InModuleScope Arcus.Scripting.DevOps {
                     }
                 }
             }
-            It "Sets the DevOps variable group description with the release name" -Skip {
+            It "Sets the DevOps variable group description with the release name" {
                 # Arrange
                 $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
+                $variableGroupAuthorization = $config.Arcus.DevOps.VariableGroup.Authorization
                 $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
                 $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.0"
-                $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+                $headers = @{ Authorization = "Basic $variableGroupAuthorization" }
 
                 # Act
                 Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
