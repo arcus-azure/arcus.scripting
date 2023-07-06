@@ -77,19 +77,12 @@ InModuleScope Arcus.Scripting.DevOps {
                 $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=" + $variableGroupNameUrlEncoded + "&api-version=6.1-preview.2"
                 $headers = @{ Authorization = "Basic $variableGroupAuthorization" }
 
-                Write-Host $requestUri
-
                 # Act
                 Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
 
                 # Assert
                 $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                 $json = ConvertFrom-Json $getResponse.Content
-                                
-                Write-Host $json
-                Write-Host $json.value[0].description
-                Write-Host "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
-
                 $json.value[0].description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
             }
         }
