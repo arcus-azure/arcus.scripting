@@ -71,6 +71,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
                 $variableGroupNameUrlEncoded = $config.Arcus.DevOps.VariableGroup.NameUrlEncoded
                 $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
+                #$variableGroupAuthorization contains a PAT with read access to variable groups, create a new one when it expires
                 $variableGroupAuthorization = $config.Arcus.DevOps.VariableGroup.Authorization
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
