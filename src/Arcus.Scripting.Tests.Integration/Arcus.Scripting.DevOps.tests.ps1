@@ -66,14 +66,17 @@ InModuleScope Arcus.Scripting.DevOps {
                     }
                 }
             }
-            It "Sets the DevOps variable group description with the release name" -Skip {
+            It "Sets the DevOps variable group description with the release name" {
                 # Arrange
                 $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
+                $variableGroupNameUrlEncoded = $config.Arcus.DevOps.VariableGroup.NameUrlEncoded
                 $env:ArmOutputs = "{ ""my-variable"": { ""type"": ""string"", ""value"": ""my-value"" } }"
+                #$variableGroupAuthorization contains a PAT with read access to variable groups, create a new one when it expires
+                $variableGroupAuthorization = $config.Arcus.DevOps.VariableGroup.Authorization
                 $projectId = $env:SYSTEM_TEAMPROJECTID                
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
-                $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=/" + $variableGroupName + "?api-version=6.0"
-                $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+                $requestUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=" + $variableGroupNameUrlEncoded + "&api-version=6.1-preview.2"
+                $headers = @{ Authorization = "Basic $variableGroupAuthorization" }
 
                 # Act
                 Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName $variableGroupName
@@ -81,7 +84,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 # Assert
                 $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                 $json = ConvertFrom-Json $getResponse.Content
-                $json.description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
+                $json.value[0].description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
             }
         }
     }
