@@ -8,6 +8,28 @@ function global:New-PartnerFile () {
     return Get-ChildItem ($path) -File
 }
 
+function global:Retry-Function ($func, $retryCount = 10, $retryIntervalSeconds = 1) {
+    $attempt = 0
+    $success = $false
+    $result = $null
+    do {
+        try {
+            $result = & $func
+            $success = $true
+        } catch {
+            if (++$attempt -eq $retryCount) {
+                Write-Error "Task failed. With all $attempt attempts. Error: $($Error[0])"
+                throw
+            }
+
+            Write-Host "Task failed. Attempt $attempt. Will retry in next $retryIntervalSeconds seconds. Error: $($Error[0])" -ForegroundColor Yellow
+            Start-Sleep -Seconds $retryIntervalSeconds
+        }
+    } until ($success)
+    return $result
+}
+
+
 InModuleScope Arcus.Scripting.IntegrationAccount {
     Describe "Arcus Azure Integration Account integration tests" {
         BeforeEach {
@@ -41,16 +63,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName
+                    Retry-Function { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                    $actual = Retry-Function { Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                    Retry-Function { Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force -ErrorAction Stop }
                 }
             }
             It "Update a single schema in an Integration Account succeeds" {
@@ -62,21 +84,21 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $expectedSchemaName = $schema.Name
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
-                $existingSchema = New-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -SchemaFilePath $schema.FullName
+                $existingSchema = Retry-Function { New-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -SchemaFilePath $schema.FullName -ErrorAction Stop }
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName
+                    Retry-Function { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                    $actual = Retry-Function { Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $existingSchema.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
                     $existingSchema.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
-                    Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                    Retry-Function { Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force -ErrorAction Stop }
                 }
             }
             It "Create a single schema, without extension, in an Integration Account succeeds" {
@@ -90,16 +112,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                    $actual = Retry-Function { Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                    Retry-Function { Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force -ErrorAction Stop }
                 }
             }
             It "Create a single schema, without extension and with prefix, in an Integration Account succeeds" {
@@ -114,16 +136,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                    $actual = Retry-Function { Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                    Retry-Function { Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force -ErrorAction Stop }
                 }
             }
             It "Create multiple schemas located in a folder in an Integration Account succeeds" {
@@ -135,13 +157,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder
+                    Retry-Function { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ErrorAction Stop }
 
                     # Assert
                     foreach ($schema in Get-ChildItem("$schemasFolder") -File) {
                         $expectedSchemaName = $schema.Name
                         
-                        $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                        $actual = Retry-Function { Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -151,7 +173,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($schema in Get-ChildItem("$schemasFolder") -File) {
                         $expectedSchemaName = $schema.Name
                         
-                        Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                        Retry-Function { Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -164,13 +186,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
                     foreach ($schema in Get-ChildItem("$schemasFolder") -File) {
                         $expectedSchemaName = $schema.BaseName
                         
-                        $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                        $actual = Retry-Function { Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -180,7 +202,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($schema in Get-ChildItem("$schemasFolder") -File) {
                         $expectedSchemaName = $schema.BaseName
                         
-                        Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                        Retry-Function { Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -194,13 +216,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
                     foreach ($schema in Get-ChildItem("$schemasFolder") -File) {
                         $expectedSchemaName = $artifactsPrefix + $schema.BaseName
                         
-                        $actual = Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName
+                        $actual = Retry-Function { Get-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -210,7 +232,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($schema in Get-ChildItem("$schemasFolder") -File) {
                         $expectedSchemaName = $artifactsPrefix + $schema.BaseName
                         
-                        Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force
+                        Retry-Function { Remove-AzIntegrationAccountSchema -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaName $expectedSchemaName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -238,16 +260,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName
+                    Retry-Function { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual = Retry-Function { Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    Retry-Function { Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force -ErrorAction Stop }
                 }
             }
             It "Update a single map in an Integration Account succeeds" {
@@ -259,21 +281,21 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $expectedMapName = $map.Name
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
-                $existingMap = New-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -MapFilePath $map.FullName
+                $existingMap = Retry-Function { New-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -MapFilePath $map.FullName -ErrorAction Stop }
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName
+                    Retry-Function { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual = Retry-Function { Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $existingMap.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
                     $existingMap.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
-                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    Retry-Function { Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force -ErrorAction Stop }
                 }
             }
             It "Create a single map, without extension, in an Integration Account succeeds" {
@@ -287,16 +309,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual = Retry-Function { Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    Retry-Function { Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force -ErrorAction Stop }
                 }
             }
             It "Create a single map, without extension and with prefix, in an Integration Account succeeds" {
@@ -311,16 +333,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                    $actual = Retry-Function { Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                    Retry-Function { Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force -ErrorAction Stop }
                 }
             }
             It "Create multiple maps located in a folder in an Integration Account succeeds" {
@@ -332,13 +354,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder
+                    Retry-Function { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ErrorAction Stop }
 
                     # Assert
                     foreach ($map in Get-ChildItem($mapsFolder) -File) {
                         $expectedMapName = $map.Name
                         
-                        $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                        $actual = Retry-Function { Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -348,7 +370,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($map in Get-ChildItem($mapsFolder) -File) {
                         $expectedMapName = $map.Name
                         
-                        Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                        Retry-Function { Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -361,13 +383,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
                     foreach ($map in Get-ChildItem($mapsFolder) -File) {
                         $expectedMapName = $map.BaseName
                         
-                        $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                        $actual = Retry-Function { Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -377,7 +399,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($map in Get-ChildItem($mapsFolder) -File) {
                         $expectedMapName = $map.BaseName
                         
-                        Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                        Retry-Function { Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -391,13 +413,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions
+                    Retry-Function { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder -ArtifactsPrefix $artifactsPrefix -RemoveFileExtensions -ErrorAction Stop }
 
                     # Assert
                     foreach ($map in Get-ChildItem($mapsFolder) -File) {
                         $expectedMapName = $artifactsPrefix + $map.BaseName
                         
-                        $actual = Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName
+                        $actual = Retry-Function { Get-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -407,7 +429,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($map in Get-ChildItem($mapsFolder) -File) {
                         $expectedMapName = $artifactsPrefix + $map.BaseName
                         
-                        Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force
+                        Retry-Function { Remove-AzIntegrationAccountMap -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapName $expectedMapName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -435,16 +457,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName
+                    Retry-Function { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual = Retry-Function { Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -BeIn $actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    Retry-Function { Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                 }
             }
             It "Update a single assembly in an Integration Account succeeds" {
@@ -460,17 +482,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName
+                    Retry-Function { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual = Retry-Function { Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -BeIn $existingAssembly.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.Properties.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
                     $existingAssembly.Properties.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.Properties.ChangedTime.ToUniversalTime()
 
                 } finally {
-                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    Retry-Function { Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                 }
             }
             It "Create a single assembly, with prefix, in an Integration Account succeeds" {
@@ -485,16 +507,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    $actual = Retry-Function { Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                    Retry-Function { Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                 }
             }
             It "Create multiple assemblies located in a folder in an Integration Account succeeds" {
@@ -506,13 +528,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder
+                    Retry-Function { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ErrorAction Stop }
 
                     # Assert
                     foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
                         $expectedAssemblyName = $assembly.BaseName
                         
-                        $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        $actual = Retry-Function { Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -522,7 +544,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
                         $expectedAssemblyName = $assembly.BaseName
                         
-                        Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        Retry-Function { Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                     }
                 }
             }
@@ -536,13 +558,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
                     foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
                         $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
                         
-                        $actual = Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        $actual = Retry-Function { Get-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.Properties.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.Properties.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.Properties.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -552,7 +574,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($assembly in Get-ChildItem($assembliesFolder) -File) {
                         $expectedAssemblyName = $artifactsPrefix + $assembly.BaseName
                         
-                        Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName
+                        Retry-Function { Remove-AzIntegrationAccountAssembly -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AssemblyName $expectedAssemblyName -ErrorAction Stop }
                     }
                 }
             }
@@ -580,16 +602,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName
+                    Retry-Function { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual = Retry-Function { Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                    Retry-Function { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
                 }
             }
             It "Update a single public certificate in an Integration Account succeeds" {
@@ -605,17 +627,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName
+                    Retry-Function { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual = Retry-Function { Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $existingCertificate.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
                     $existingCertificate.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
-                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                   Retry-Function { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
                 }
             }
             It "Create a single public certificate, with prefix, in an Integration Account succeeds" {
@@ -630,16 +652,16 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual = Retry-Function { Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                    Retry-Function { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
                 }
             }
             It "Create multiple public certificates located in a folder in an Integration Account succeeds" {
@@ -651,13 +673,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder
+                    Retry-Function { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder -ErrorAction Stop }
 
                     # Assert
                     foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
                         $expectedCertificateName = $certificate.BaseName
                         
-                        $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                        $actual = Retry-Function { Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -667,7 +689,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
                         $expectedCertificateName = $certificate.BaseName
                         
-                        Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                        Retry-Function { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -681,13 +703,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
                     foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
                         $expectedCertificateName = $artifactsPrefix + $certificate.BaseName
                         
-                        $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                        $actual = Retry-Function { Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -697,7 +719,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($certificate in Get-ChildItem($certificatesFolder) -File) {
                         $expectedCertificateName = $artifactsPrefix + $certificate.BaseName
                         
-                        Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
+                        Retry-Function { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -718,17 +740,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificate.FullName -KeyName $key.Name -KeyVersion $key.Version -KeyVaultId $keyVaultId
+                    Retry-Function { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificate.FullName -KeyName $key.Name -KeyVersion $key.Version -KeyVaultId $keyVaultId -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual = Retry-Function { Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
-                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
+                    Retry-Function { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -ErrorAction Stop }
                 }
             }
             It "Create a single private certificate, with prefix, in an Integration Account succeeds" {
@@ -749,17 +771,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificate.FullName -ArtifactsPrefix $artifactsPrefix -KeyName $key.Name -KeyVersion $key.Version -KeyVaultId $keyVaultId
+                    Retry-Function { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificate.FullName -ArtifactsPrefix $artifactsPrefix -KeyName $key.Name -KeyVersion $key.Version -KeyVaultId $keyVaultId -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName
+                    $actual = Retry-Function { Get-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force
-                    Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force
+                    Retry-Function { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzKeyVaultKey -VaultName $config.Arcus.KeyVault.VaultName -Name $keyName -Force -ErrorAction Stop }
                 }
             }
         }
@@ -785,17 +807,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName
+                    Retry-Function { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                    $actual = Retry-Function { Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
-                    Remove-Item -Path $partner.FullName
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force -ErrorAction Stop }
+                    Retry-Function { Remove-Item -Path $partner.FullName -ErrorAction Stop }
                 }
             }
             It "Update a single partner in an Integration Account succeeds" {
@@ -810,18 +832,18 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName
+                    Retry-Function { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                    $actual = Retry-Function { Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $existingPartner.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
                     $existingPartner.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
-                    Remove-Item -Path $partner.FullName
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force -ErrorAction Stop }
+                    Retry-Function {  Remove-Item -Path $partner.FullName -ErrorAction Stop }
                 }
             }
             It "Create a single partner, with prefix, in an Integration Account succeeds" {
@@ -835,17 +857,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                    $actual = Retry-Function { Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -ErrorAction Stop }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
-                    Remove-Item -Path $partner.FullName
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force -ErrorAction Stop }
+                    Retry-Function { Remove-Item -Path $partner.FullName -ErrorAction Stop }
                 }
             }
             It "Create multiple partners located in a folder in an Integration Account succeeds" {
@@ -857,13 +879,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder
+                    Retry-Function { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder -ErrorAction Stop }
 
                     # Assert
                     foreach ($partner in Get-ChildItem($partnersFolder) -File) {
                         $expectedPartnerName = $partner.BaseName
                         
-                        $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                        $actual = Retry-Function { Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -873,7 +895,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($partner in Get-ChildItem($partnersFolder) -File) {
                         $expectedPartnerName = $partner.BaseName
                         
-                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                        Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -887,13 +909,13 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
                     foreach ($partner in Get-ChildItem($partnersFolder) -File) {
                         $expectedPartnerName = $artifactsPrefix + $partner.BaseName
                         
-                        $actual = Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName
+                        $actual = Retry-Function { Get-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -ErrorAction Stop }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -903,7 +925,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     foreach ($partner in Get-ChildItem($partnersFolder) -File) {
                         $expectedPartnerName = $artifactsPrefix + $partner.BaseName
                         
-                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force
+                        Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -930,23 +952,23 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $expectedAgreementName = $agreementData.name
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345") -ErrorAction Stop }
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765") -ErrorAction Stop }
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName
+                    Retry-Function { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                    $actual = Retry-Function { Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName }
                     $actual | Should -Not -BeNullOrEmpty 
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                    Retry-Function { Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force -ErrorAction Stop }
                 }
             }
             It "Update a single agreement in an Integration Account succeeds" {
@@ -968,17 +990,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementData.properties.content.aS2.receiveAgreement.protocolSettings.messageConnectionSettings.ignoreCertificateNameMismatch = 'True'
                 $agreementContent = $agreementData.properties.content | ConvertTo-Json -Depth 20 -Compress
 
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345") -ErrorAction Stop }
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765") -ErrorAction Stop }
 
                 $existingAgreement = New-AzIntegrationAccountAgreement -ResourceGroupName $ResourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -AgreementType $agreementType -HostPartner $hostPartner -HostIdentityQualifier $hostIdentityQualifier -HostIdentityQualifierValue $hostIdentityQualifierValue -GuestPartner $guestPartner -GuestIdentityQualifier $guestIdentityQualifier -GuestIdentityQualifierValue $guestIdentityQualifierValue -AgreementContent $agreementContent -ErrorAction Stop
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName
+                    Retry-Function { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                    $actual = Retry-Function { Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $existingAgreement.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.ChangedTime.ToUniversalTime() | Should -BeGreaterOrEqual $executionDateTime
@@ -986,9 +1008,9 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $existingAgreement.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
-                    Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                    Retry-Function { Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force -ErrorAction Stop }
                 }
             }
             It "Create a single agreement, with prefix, in an Integration Account succeeds" {
@@ -1002,23 +1024,23 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $expectedAgreementName = $artifactsPrefix + $agreementData.name
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345") -ErrorAction Stop }
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765") -ErrorAction Stop }
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function {  Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
-                    $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                    $actual = Retry-Function { Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName }
                     $actual | Should -Not -BeNullOrEmpty
                     $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                     $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
 
                 } finally {
-                    Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
-                    Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                    Retry-Function { Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force -ErrorAction Stop }
+                    Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force -ErrorAction Stop }
                 }
             }
             It "Create multiple agreements located in a folder in an Integration Account succeeds" {
@@ -1028,19 +1050,19 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementsFolder = "$PSScriptRoot\Files\IntegrationAccount\Agreements"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345") -ErrorAction Stop }
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765") -ErrorAction Stop }
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder
+                    Retry-Function { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder -ErrorAction Stop }
 
                     # Assert
                     foreach ($agreement in Get-ChildItem($agreementsFolder) -File) {
                         $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
                         $expectedAgreementName = $agreementData.name
                         
-                        $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                        $actual = Retry-Function { Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -1051,9 +1073,9 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
                         $expectedAgreementName = $agreementData.name
                         
-                        Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
-                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
-                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                        Retry-Function { Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force -ErrorAction Stop }
+                        Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force -ErrorAction Stop }
+                        Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force -ErrorAction Stop }
                     }
                 }
             }
@@ -1065,19 +1087,19 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $artifactsPrefix = "dev-"
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345")
-                New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765")
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -BusinessIdentities @("1", "12345") -ErrorAction Stop }
+                Retry-Function { New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -BusinessIdentities @("1", "98765") -ErrorAction Stop }
 
                 try {
                     # Act
-                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder -ArtifactsPrefix $artifactsPrefix
+                    Retry-Function { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
                     foreach ($agreement in Get-ChildItem($agreementsFolder) -File) {
                         $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
                         $expectedAgreementName = $artifactsPrefix + $agreementData.name
                         
-                        $actual = Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName
+                        $actual = Retry-Function { Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName }
                         $actual | Should -Not -BeNullOrEmpty
                         $actual.CreatedTime.ToUniversalTime().ToString("yyyy-MM-dd") | Should -Be $actual.ChangedTime.ToUniversalTime().ToString("yyyy-MM-dd")
                         $actual.CreatedTime | Should -BeGreaterOrEqual $executionDateTime
@@ -1088,9 +1110,9 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                         $agreementData = Get-Content -Raw -Path $agreement.FullName | ConvertFrom-Json
                         $expectedAgreementName = $artifactsPrefix + $agreementData.name
                         
-                        Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force
-                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force
-                        Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force
+                        Retry-Function { Remove-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName -Force -ErrorAction Stop }
+                        Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner1 -Force -ErrorAction Stop }
+                        Retry-Function { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName Partner2 -Force -ErrorAction Stop }
                     }
                 }
             }
