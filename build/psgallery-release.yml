@@ -142,6 +142,7 @@ stages:
             env:
              SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
           - task: NuGetCommand@2
+            displayName: 'NuGet Pack'
             inputs:
               command: 'pack'
               packagesToPack: '**/*.nuspec'
@@ -151,20 +152,10 @@ stages:
             inputs:
               checkLatest: true
           - powershell: |
-              New-Item log.txt
               $nugetPackageFiles = Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse
 
               foreach ($nugetPackageFile in $nugetPackageFiles) {
-                $fullFileName = $nugetPackageFile.FullName
-                Write-Host "Processing '$fullFileName'"
-                % { & "nuget" push $fullFileName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate | Out-File log.txt -Append }
-              }
-              
-              $log = Get-Content log.txt
-              cat $log
-              if ($log -match "BadRequest") {
-                echo "##vso[task.logissue type=error]Not all PowerShell modules were pushed correctly to the PowerShell Gallery"
-                exit 1
+                % { & "nuget" push $fullFileName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate }
               }
             displayName: 'Push to PowerShell Gallery'
             env:
