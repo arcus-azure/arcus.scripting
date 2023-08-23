@@ -19,7 +19,7 @@ $token = $connection.access_token
 
 $targetParameter = (Get-Command Connect-MgGraph).Parameters['AccessToken']
 
-if ($targetParameter.ParameterType -eq [securestring]){
+if ($targetParameter.ParameterType -eq [securestring]) {
   Connect-MgGraph -AccessToken ($token |ConvertTo-SecureString -AsPlainText -Force)
 }
 else {
