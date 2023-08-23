@@ -155,6 +155,7 @@ stages:
               $nugetPackageFiles = Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse
 
               foreach ($nugetPackageFile in $nugetPackageFiles) {
+                $fullFileName = $nugetPackageFile.FullName
                 % { & "nuget" push $fullFileName -Source $(Source) -ApiKey $(NuGet.ApiKey) -SkipDuplicate }
               }
             displayName: 'Push to PowerShell Gallery'
