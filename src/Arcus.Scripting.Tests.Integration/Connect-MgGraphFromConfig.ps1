@@ -17,4 +17,11 @@ $connection = Invoke-RestMethod `
  
 $token = $connection.access_token
 
-Connect-MgGraph -AccessToken $token 
+$targetParameter = (Get-Command Connect-MgGraph).Parameters['AccessToken']
+
+if ($targetParameter.ParameterType -eq [securestring]){
+  Connect-MgGraph -AccessToken ($token |ConvertTo-SecureString -AsPlainText -Force)
+}
+else {
+  Connect-MgGraph -AccessToken $token
+}
