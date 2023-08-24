@@ -112,40 +112,39 @@ stages:
               projectName: '$(Project).Tests.Unit'
               testName: '$(Project).${{UnitTest.name}}'
 
-  - ${{ each IntegrationTest in parameters.IntegrationTests }}:
-    - stage: IntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
-      displayName: Integration Tests - ${{IntegrationTest.name}}
-      dependsOn: Build
-      condition: succeeded()
-      jobs:
-        - job: RunIntegrationTests
-          displayName: 'Run integration tests'
-          strategy:
-            maxParallel: 1
-            matrix:
-              linux:
-                imageName: ${{ variables['Vm.Linux.Image']}}
-              windows:
-                imageName: ${{ variables['Vm.Windows.Image']}}
-          pool:
-            vmImage: '$(imageName)'
-          steps:
-            - task: DownloadPipelineArtifact@2
-              displayName: 'Download build artifacts'
-              inputs:
-                artifact: 'Build'
-                path: '$(Build.SourcesDirectory)'
-            - template: 'templates/run-pester-tests.yml'
-              parameters:
-                projectName: '$(Project).Tests.Integration'
-                testName: '$(Project).${{IntegrationTest.name}}'
+  - stage: IntegrationTests
+    displayName: Integration Tests
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+    - ${{ each IntegrationTest in parameters.IntegrationTests }}:
+      - job: RunIntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
+        displayName: 'Run integration tests - ${{IntegrationTest.name}}'
+        strategy:
+          maxParallel: 1
+          matrix:
+            linux:
+              imageName: ${{ variables['Vm.Linux.Image']}}
+            windows:
+              imageName: ${{ variables['Vm.Windows.Image']}}
+        pool:
+          vmImage: '$(imageName)'
+        steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: 'Download build artifacts'
+            inputs:
+              artifact: 'Build'
+              path: '$(Build.SourcesDirectory)'
+          - template: 'templates/run-pester-tests.yml'
+            parameters:
+              projectName: '$(Project).Tests.Integration'
+              testName: '$(Project).${{IntegrationTest.name}}'
 
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
     dependsOn: 
       - UnitTests
-      - ${{ each IntegrationTest in parameters.IntegrationTests }}:
-        - IntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
+      - IntegrationTests
     condition: succeeded()
     jobs:
       - job: PushToMyGet
