@@ -92,7 +92,7 @@ stages:
               artifactName: Build
 
   - ${{ each UnitTest in parameters.UnitTests }}:
-    - stage: UnitTests_${{replace(UnitTest, '.', '_')}}
+    - stage: UnitTests_${{replace(UnitTest.name, '.', '_')}}
       displayName: Unit Tests - ${{UnitTest.name}}
       dependsOn: Build
       condition: succeeded()
@@ -113,7 +113,7 @@ stages:
                 testName: '$(Project).${{UnitTest.name}}'
 
   - ${{ each IntegrationTest in parameters.IntegrationTests }}:
-    - stage: IntegrationTests_${{replace(IntegrationTest, '.', '_')}}
+    - stage: IntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
       displayName: Integration Tests - ${{IntegrationTest.name}}
       dependsOn: Build
       condition: succeeded()
