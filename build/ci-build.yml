@@ -91,26 +91,26 @@ stages:
               targetPath: '$(Pipeline.Workspace)/build'
               artifactName: Build
 
-  - ${{ each UnitTest in parameters.UnitTests }}:
-    - stage: UnitTests_${{replace(UnitTest.name, '.', '_')}}
-      displayName: Unit Tests - ${{UnitTest.name}}
-      dependsOn: Build
-      condition: succeeded()
-      jobs:
-        - job: RunUnitTests
-          displayName: 'Run unit tests'
-          pool:
-            vmImage: '$(Vm.Linux.Image)'
-          steps:
-            - task: DownloadPipelineArtifact@2
-              displayName: 'Download build artifacts'
-              inputs:
-                artifact: 'Build'
-                path: '$(Build.SourcesDirectory)'
-            - template: 'templates/run-pester-tests.yml'
-              parameters:
-                projectName: '$(Project).Tests.Unit'
-                testName: '$(Project).${{UnitTest.name}}'
+  - stage: UnitTests
+    displayName: Unit Tests
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+    - ${{ each UnitTest in parameters.UnitTests }}:
+      - job: RunUnitTests_${{replace(UnitTest.name, '.', '_')}}
+        displayName: 'Run unit tests - ${{IntegrationTest.name}}'
+        pool:
+          vmImage: '$(Vm.Linux.Image)'
+        steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: 'Download build artifacts'
+            inputs:
+              artifact: 'Build'
+              path: '$(Build.SourcesDirectory)'
+          - template: 'templates/run-pester-tests.yml'
+            parameters:
+              projectName: '$(Project).Tests.Unit'
+              testName: '$(Project).${{UnitTest.name}}'
 
   - ${{ each IntegrationTest in parameters.IntegrationTests }}:
     - stage: IntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
@@ -143,8 +143,7 @@ stages:
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
     dependsOn: 
-      - ${{ each UnitTest in parameters.UnitTests }}:
-        - UnitTests_${{replace(UnitTest.name, '.', '_')}}
+      - UnitTests
       - ${{ each IntegrationTest in parameters.IntegrationTests }}:
         - IntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
     condition: succeeded()
