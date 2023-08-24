@@ -143,8 +143,10 @@ stages:
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
     dependsOn: 
-      - UnitTests
-      - IntegrationTests
+      - ${{ each each UnitTest in parameters.UnitTests }}:
+        - UnitTests_${{replace(UnitTest.name, '.', '_')}}
+      - ${{ each each IntegrationTest in parameters.IntegrationTests }}:
+        - IntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
     condition: succeeded()
     jobs:
       - job: PushToMyGet
