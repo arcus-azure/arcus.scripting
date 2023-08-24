@@ -98,7 +98,7 @@ stages:
     jobs:
     - ${{ each UnitTest in parameters.UnitTests }}:
       - job: RunUnitTests_${{replace(UnitTest.name, '.', '_')}}
-        displayName: 'Run unit tests - ${{IntegrationTest.name}}'
+        displayName: 'Run unit tests - ${{UnitTest.name}}'
         pool:
           vmImage: '$(Vm.Linux.Image)'
         steps:
