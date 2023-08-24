@@ -76,7 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arcus.Scripting.ActiveDirectory.ps1" />
+    <Compile Include="Arcus.Scripting.ActiveDirectory.tests.ps1" />
     <Compile Include="Arcus.Scripting.LogicApps.tests.ps1" />
     <Compile Include="Arcus.Scripting.Management.tests.ps1" />
     <Compile Include="Arcus.Scripting.ApiManagement.tests.ps1" />
