@@ -1,5 +1,6 @@
 parameters:
   projectName: ''
+  testName: ''
 
 steps:
   - pwsh: 'wget -O - https://aka.ms/install-powershell.sh | sudo bash'
@@ -48,7 +49,7 @@ steps:
       Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
         % { Write-Host "Import $($_.DirectoryName) module"
             Import-Module -Name $_.DirectoryName -ErrorAction Stop }
-      Invoke-Pester -Script "./src/${{ parameters.projectName }}/" -OutputFile "./pester.test.results.xml" -OutputFormat 'NUnitXML' -EnableExit
+      Invoke-Pester -Script "./src/${{ parameters.projectName }}/${{ parameters.testName }}.tests.ps1" -OutputFile "./pester.test.results.${{ parameters.testName }}.xml" -OutputFormat 'NUnitXML' -EnableExit
     displayName: 'Run Pester tests'
     failOnStderr: true
     env:

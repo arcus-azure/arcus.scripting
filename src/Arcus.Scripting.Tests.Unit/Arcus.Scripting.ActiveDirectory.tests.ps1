@@ -109,6 +109,8 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 Mock Write-Host {}
 
+                Mock Write-Warning {}
+
                 Mock Get-AzADApplication {
                     $Filter | Should -Be "AppId eq '$ClientId'"
                     return [pscustomobject] @{
@@ -138,7 +140,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-MockCalled Get-AzADServicePrincipal -Times 1
                 Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Found role '$RoleName' on Active Directory Application '$AppName'" }
                 Assert-MockCalled Get-MgServicePrincipalAppRoleAssignedTo -Times 1
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "No role assignments found" }
+                Assert-MockCalled Write-Warning -Exactly 1 -ParameterFilter { $Message -eq "No role assignments found in Active Directory Application '$AppName'" }
             }
             It "Providing a ClientId that has roles and also assignments should succeed" {
                 # Arrange
@@ -305,7 +307,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 $AppName = 'SomeApp'
                 $AssignRoleToAppName = 'SomeAppToAssignRoleTo'
 
-                Mock Write-Host {}
+                Mock Write-Warning {}
 
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
@@ -346,9 +348,9 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzADApplication -Times 2
                 Assert-MockCalled Get-AzADServicePrincipal -Times 2
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Active Directory Application '$AppName' already contains the role '$RoleName'" }
+                Assert-MockCalled Write-Warning -Exactly 1 -ParameterFilter { $Message -eq "Active Directory Application '$AppName' already contains the role '$RoleName'" }
                 Assert-MockCalled Get-MgServicePrincipalAppRoleAssignedTo -Times 1
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Active Directory Application '$AssignRoleToAppName' already contains a role assignment for the role '$RoleName'" }
+                Assert-MockCalled Write-Warning -Exactly 1 -ParameterFilter { $Message -eq "Active Directory Application '$AssignRoleToAppName' already contains a role assignment for the role '$RoleName'" }
             }
             It "Providing a role that already exists and does not have a role assignment should succeed" {
                 # Arrange
@@ -360,6 +362,8 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 $AssignRoleToAppName = 'SomeAppToAssignRoleTo'
 
                 Mock Write-Host {}
+
+                Mock Write-Warning {}
 
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
@@ -413,7 +417,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzADApplication -Times 2
                 Assert-MockCalled Get-AzADServicePrincipal -Times 2
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Active Directory Application '$AppName' already contains the role '$RoleName'" }
+                Assert-MockCalled Write-Warning -Exactly 1 -ParameterFilter { $Message -eq "Active Directory Application '$AppName' already contains the role '$RoleName'" }
                 Assert-MockCalled Get-MgServicePrincipalAppRoleAssignedTo -Times 1
                 Assert-MockCalled Get-MgServicePrincipal -Times 1
                 Assert-MockCalled New-MgServicePrincipalAppRoleAssignment -Times 1
@@ -485,7 +489,6 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzADApplication -Times 2
                 Assert-MockCalled Get-AzADServicePrincipal -Times 2
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Active Directory Application '$AppName' does not contain the role '$RoleName', adding the role" }
                 Assert-MockCalled Update-AzADApplication -Times 1
                 Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Added Role '$RoleName' to Active Directory Application '$AppName'" }
                 Assert-MockCalled Get-MgServicePrincipalAppRoleAssignedTo -Times 1
@@ -605,7 +608,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 $RemoveRoleFromClientId = '9876'
                 $AppName = 'SomeApp'
 
-                Mock Write-Host {}
+                Mock Write-Warning {}
 
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
@@ -630,7 +633,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzADApplication -Times 2
                 Assert-MockCalled Get-AzADServicePrincipal -Times 2
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Active Directory Application '$AppName' does not contain the role '$RoleName', skipping removal" }
+                Assert-MockCalled Write-Warning -Exactly 1 -ParameterFilter { $Message -eq "Active Directory Application '$AppName' does not contain the role '$RoleName', skipping removal" }
             }
             It "Providing a role that has no role assignment on the Active Directory Application it should be removed from should succeed" {
                 # Arrange
@@ -641,7 +644,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 $AppName = 'SomeApp'
                 $RemoveRoleFromAppName = 'SomeAppToRemoveRoleFrom'
 
-                Mock Write-Host {}
+                Mock Write-Warning {}
 
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
@@ -680,7 +683,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Assert-MockCalled Get-AzADApplication -Times 2
                 Assert-MockCalled Get-AzADServicePrincipal -Times 2
                 Assert-MockCalled Get-MgServicePrincipalAppRoleAssignedTo -Times 1
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "Role '$RoleName' is not assigned to Active Directory Application '$RemoveRoleFromAppName', skipping role assignment removal" }
+                Assert-MockCalled Write-Warning -Exactly 1 -ParameterFilter { $Message -eq "Role '$RoleName' is not assigned to Active Directory Application '$RemoveRoleFromAppName', skipping role assignment removal" }
             }
             It "Providing a role that has a role assignment on the Active Directory Application it should be removed from should succeed" {
                 # Arrange

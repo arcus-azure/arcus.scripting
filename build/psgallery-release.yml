@@ -10,6 +10,39 @@ parameters:
     displayName: 'Prerelease string (ex. -alpha, -alpha1, -BETA, -update20171020) or none'
     type: 'string'
     default: 'none'
+  - name: 'UnitTests'
+    type: object
+    default: 
+    - name: ActiveDirectory
+    - name: ApiManagement
+    - name: AppService
+    - name: DataFactory
+    - name: DevOps
+    - name: IntegrationAccount
+    - name: KeyVault
+    - name: LogicApps
+    - name: Management
+    - name: Security
+    - name: Sql
+    - name: Storage.Blob
+    - name: Storage.FileShare
+    - name: Storage.Table
+  - name: 'IntegrationTests'
+    type: object
+    default: 
+    - name: ActiveDirectory
+    - name: AppService
+    - name: ARM
+    - name: DevOps
+    - name: IntegrationAccount
+    - name: KeyVault
+    - name: LogicApps
+    - name: Management
+    - name: Security
+    - name: Sql
+    - name: Storage.Blob
+    - name: Storage.FileShare
+    - name: Storage.Table
 
 resources:
   repositories:
@@ -56,8 +89,9 @@ stages:
     dependsOn: Build
     condition: succeeded()
     jobs:
-      - job: RunUnitTests
-        displayName: 'Run unit tests'
+    - ${{ each UnitTest in parameters.UnitTests }}:
+      - job: RunUnitTests_${{replace(UnitTest.name, '.', '_')}}
+        displayName: 'Run unit tests - ${{UnitTest.name}}'
         pool:
           vmImage: '$(Vm.Linux.Image)'
         steps:
@@ -69,14 +103,16 @@ stages:
           - template: 'templates/run-pester-tests.yml'
             parameters:
               projectName: '$(Project).Tests.Unit'
+              testName: '$(Project).${{UnitTest.name}}'
 
   - stage: IntegrationTests
     displayName: Integration Tests
     dependsOn: Build
     condition: succeeded()
     jobs:
-      - job: RunIntegrationTests
-        displayName: 'Run integration tests'
+    - ${{ each IntegrationTest in parameters.IntegrationTests }}:
+      - job: RunIntegrationTests_${{replace(IntegrationTest.name, '.', '_')}}
+        displayName: 'Run integration tests - ${{IntegrationTest.name}}'
         strategy:
           maxParallel: 1
           matrix:
@@ -95,6 +131,7 @@ stages:
           - template: 'templates/run-pester-tests.yml'
             parameters:
               projectName: '$(Project).Tests.Integration'
+              testName: '$(Project).${{IntegrationTest.name}}'
 
   - stage: Release
     displayName: 'Release to PowerShell Gallery'
