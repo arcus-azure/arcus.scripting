@@ -73,20 +73,21 @@ PS> Resubmit-FailedAzLogicAppRuns `
 
 Use this script to enable a specific Azure Logic App.  
 
-| Parameter         | Mandatory | Description                                                                                                         |
-| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
-| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                        |
-| SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
-|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
-| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
-| LogicAppName      | yes       | The name of the Azure Logic App to be disabled.                                                                     |
-| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                              |
-| AccessToken       | no        | The access token to be used to disable the Azure Logic App.                                                         |
-|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
+| Parameter         | Mandatory | Description                                                                                                                         |
+| ----------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                                        |
+| SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                                          |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                                   |
+| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                                 |
+| LogicAppName      | yes       | The name of the Azure Logic App to be disabled.                                                                                     |
+| WorkflowName      | no        | The name of the workflow that needs to be disabled, this only needs to be supplied when disabling a workflow in Logic App Standard. |
+| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                                              |
+| AccessToken       | no        | The access token to be used to disable the Azure Logic App.                                                                         |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                                   |
 
 **Example**
 
-Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, without providing the subscriptionId or accesstoken.  
+Taking an example in which a specific Azure Logic App Consumption (`"rcv-shopping-order-sftp"`) needs to be disabled, without providing the subscriptionId or accesstoken.  
 
 ```powershell
 PS> Disable-AzLogicApp `
@@ -95,7 +96,7 @@ PS> Disable-AzLogicApp `
 # Successfully disabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
-Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be disabled, with providing the subscriptionId or accesstoken.  
+Taking an example in which a specific Azure Logic App Consumption (`"rcv-shopping-order-sftp"`) needs to be disabled, with providing the subscriptionId or accesstoken.  
 
 ```powershell
 PS> Disable-AzLogicApp `
@@ -104,26 +105,37 @@ PS> Disable-AzLogicApp `
 -LogicAppName "rcv-shopping-order-sftp" `
 -AccessToken $AccessToken
 # Successfully disabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
+```
+
+Taking an example in which a specific workflow (`ProcessMessage`) in an Azure Logic App Standard (`"rcv-shopping-order-sftp"`) needs to be disabled, without providing the subscriptionId or accesstoken.  
+
+```powershell
+PS> Disable-AzLogicApp `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp" `
+-WorkflowName "ProcessMessage"
+# Successfully disabled workflow 'ProcessMessage' in Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
 ## Enable an Azure Logic App
 
 Use this script to enable a specific Azure Logic App.  
 
-| Parameter         | Mandatory | Description                                                                                                         |
-| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
-| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                        |
-| SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                          |
-|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
-| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                 |
-| LogicAppName      | yes       | The name of the Azure Logic App to be enabled.                                                                      |
-| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                              |
-| AccessToken       | no        | The access token to be used to enable the Azure Logic App.                                                          |
-|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                   |
+| Parameter         | Mandatory | Description                                                                                                                         |
+| ----------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                                        |
+| SubscriptionId    | no        | The Id of the subscription containing the Azure Logic App.                                                                          |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                                   |
+| ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                                 |
+| LogicAppName      | yes       | The name of the Azure Logic App to be enabled.                                                                                      |
+| WorkflowName      | no        | The name of the workflow that needs to be disabled, this only needs to be supplied when disabling a workflow in Logic App Standard. |
+| ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                                              |
+| AccessToken       | no        | The access token to be used to enable the Azure Logic App.                                                                          |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                                                   |
 
 **Example**
 
-Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, without providing the subscriptionId or accesstoken.  
+Taking an example in which a specific Azure Logic App Consumption (`"rcv-shopping-order-sftp"`) needs to be enabled, without providing the subscriptionId or accesstoken.  
 
 ```powershell
 PS> Enable-AzLogicApp `
@@ -132,7 +144,7 @@ PS> Enable-AzLogicApp `
 # Successfully enabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
-Taking an example in which a specific Azure Logic Apps (`"rcv-shopping-order-sftp"`) needs to be enabled, with providing the subscriptionId or accesstoken.  
+Taking an example in which a specific Azure Logic App Consumption (`"rcv-shopping-order-sftp"`) needs to be enabled, with providing the subscriptionId or accesstoken.  
 
 ```powershell
 PS> Enable-AzLogicApp `
@@ -141,6 +153,16 @@ PS> Enable-AzLogicApp `
 -LogicAppName "rcv-shopping-order-sftp" `
 -AccessToken $AccessToken
 # Successfully enabled Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
+```
+
+Taking an example in which a specific workflow (`ProcessMessage`) in an Azure Logic App Standard (`"rcv-shopping-order-sftp"`) needs to be enabled, without providing the subscriptionId or accesstoken.  
+
+```powershell
+PS> Enable-AzLogicApp `
+-ResourceGroupName "rg-common-dev" `
+-LogicAppName "rcv-shopping-order-sftp" `
+-WorkflowName "ProcessMessage"
+# Successfully enabled workflow 'ProcessMessage' in Azure Logic App 'rcv-shopping-order-sftp' in resource group 'rg-common-dev'
 ```
 
 ## Disabling Azure Logic Apps from configuration file

@@ -100,11 +100,12 @@ function Disable-AzLogicApp {
         [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
         [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
+        [Parameter(Mandatory = $false)][string] $WorkflowName = "",
         [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01",
         [Parameter(Mandatory = $false)][string] $AccessToken = ""
     )
     
-    . $PSScriptRoot\Scripts\Disable-AzLogicApp.ps1  -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Disable-AzLogicApp.ps1  -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -ApiVersion $ApiVersion -AccessToken $AccessToken
 }
 
 Export-ModuleMember -Function Disable-AzLogicApp
@@ -178,11 +179,12 @@ function Enable-AzLogicApp {
         [Parameter(Mandatory = $false)][string] $SubscriptionId = "",
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is reqiured"),
         [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of logic app is required"),
+        [Parameter(Mandatory = $false)][string] $WorkflowName = "",
         [Parameter(Mandatory = $false)][string] $ApiVersion = "2016-06-01",
         [Parameter(Mandatory = $false)][string] $AccessToken = ""
     )
     
-    . $PSScriptRoot\Scripts\Enable-AzLogicApp.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $AccessToken
+    . $PSScriptRoot\Scripts\Enable-AzLogicApp.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -ApiVersion $ApiVersion -AccessToken $AccessToken
 }
 
 Export-ModuleMember -Function Enable-AzLogicApp

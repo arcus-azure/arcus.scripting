@@ -2,7 +2,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.LogicApps {
-    Describe "Arcus Azure Logic Apps unit tests" {
+    Describe "Arcus Azure Logic Apps Consumption unit tests" {
         Context "Enable Logic Apps without configuration" {
              It "Fails to enable an unknown Azure Logic App" {
                 # Arrange
@@ -676,6 +676,80 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
              }
+        }
+    }
+    Describe "Arcus Azure Logic Apps Standard unit tests" {
+        Context "Enable Logic Apps without configuration" {
+             It "Fails to enable an unknown Azure Logic App" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+                Mock Write-Warning -MockWith { }
+                Mock Set-AzAppServiceSetting {
+                    Throw 'Not found error'
+                } 
+
+                # Act
+                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Set-AzAppServiceSetting -Times 1
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to enable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
+            }
+            It "Enabling an Azure Logic App should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+                Mock Write-Host -MockWith { }
+                Mock Set-AzAppServiceSetting { } 
+
+                # Act
+                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Set-AzAppServiceSetting -Times 1
+                Assert-MockCalled Write-Host -Scope It -Times 1 -ParameterFilter { $Message -contains "Successfully enabled workflow '$workflowName' in Azure Logic App '$logicAppName' in resource group '$resourceGroupName'" }
+            }
+        }
+        Context "Disable Logic Apps without configuration" {
+             It "Fails to disable an unknown Azure Logic App" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+                Mock Write-Warning -MockWith { }
+                Mock Set-AzAppServiceSetting {
+                    Throw 'Not found error'
+                } 
+
+                # Act
+                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Set-AzAppServiceSetting -Times 1
+                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to disable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
+            }
+            It "Disabling an Azure Logic App should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+                Mock Write-Host -MockWith { }
+                Mock Set-AzAppServiceSetting { } 
+
+                # Act
+                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Set-AzAppServiceSetting -Times 1
+                Assert-MockCalled Write-Host -Scope It -Times 1 -ParameterFilter { $Message -contains "Successfully disabled workflow '$workflowName' in Azure Logic App '$logicAppName' in resource group '$resourceGroupName'" }
+            }
         }
     }
 }
