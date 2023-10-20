@@ -174,7 +174,7 @@ The order of the Azure Logic Apps in the configuration file (bottom to top) defi
 | Parameter         | Mandatory | Description                                                                                                                                                 |
 | ----------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                                                         |
-| DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file.                                         |
+| DeployFileName    | yes       | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file.                                         |
 | ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter instead of updating the configuration-file. | 
 | EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                                                                |
 | ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                                                                      |
@@ -187,7 +187,7 @@ The schema of this configuration file is a JSON structure of an array with the f
 | MaximumFollowNextPageLink | `integer`       | This sets the amount of pages (30 runs per page) of the Logic App run history (if any) that are retrieved. If not supplied the default value is 10. |
 | CheckType                 | `enum`          | `None`: don't perform any additional checks.                                                                                                        |
 |                           |                 | `NoWaitingOrRunningRuns`: waits until there are no more waiting or running Logic App instances.                                                     |
-| StopType                  | `enum`          | `None`: don't disable to given Logic Apps.                                                                                                          |
+| StopType                  | `enum`          | `None`: don't disable the given Logic Apps.                                                                                                         |
 |                           |                 | `Immediate`: disable the given Logic Apps.                                                                                                          |
 | LogicApps                 | `string array`  | Set of Logic App names to disable.                                                                                                                  |
 
@@ -321,7 +321,7 @@ The order of the Azure Logic Apps in the configuration file (top to bottom) defi
 | Parameter         | Mandatory | Description                                                                                                                                                 |
 | ----------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ResourceGroupName | yes       | The resource group containing the Azure Logic Apps.                                                                                                         |
-| DeployFileName    | no        | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file.                                         |
+| DeployFileName    | yes       | If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file.                                         |
 | ResourcePrefix    | no        | In case the Azure Logic Apps all start with the same prefix, you can specify this prefix through this parameter instead of updating the configuration-file. |
 | EnvironmentName   | no        | The name of the Azure environment where the Azure Logic App resides. (default: `AzureCloud`)                                                                |
 | ApiVersion        | no        | The version of the management API to be used.  (default: `2016-06-01`)                                                                                      |
@@ -332,7 +332,7 @@ The schema of this configuration file is a JSON structure of an array with the f
 | ----------- | --------------- | --------------------------------------------------------------------------------------------------------------------- |
 | Description | `string`        | Description of Azure Logic App set to enable.                                                                         |
 | CheckType   | `enum`          | _Not taken into account for enabling Logic Apps._                                                                     |
-| StopType    | `enum`          | `None`: don't enable to given Logic Apps.                                                                             |
+| StopType    | `enum`          | `None`: don't enable the given Logic Apps.                                                                            |
 |             |                 | `Immediate`: enable the given Logic Apps.                                                                             |
 | LogicApps   | `string array`  | Set of Logic App names to enable.                                                                                     |
 **Example**
