@@ -9,8 +9,8 @@ param(
 )
 
 try{
-    if($WorkflowName -eq "") {
-        if($SubscriptionId -eq "" -or $AccessToken -eq ""){
+    if ($WorkflowName -eq "") {
+        if ($SubscriptionId -eq "" -or $AccessToken -eq ""){
             # Request accessToken in case the script contains records
             $token = Get-AzCachedAccessToken
 
@@ -35,9 +35,8 @@ try{
         Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $LogicAppName -AppServiceSettingName "Workflows.$WorkflowName.FlowState" -AppServiceSettingValue "Disabled"
         Write-Host "Successfully disabled workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     }
-}
-catch {
-    if($WorkflowName -eq "") {
+} catch {
+    if ($WorkflowName -eq "") {
         Write-Warning "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
     } else {
         Write-Warning "Failed to disable workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"

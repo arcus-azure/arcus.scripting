@@ -29,8 +29,7 @@ function ReverseStopType() {
 
                             try {
                                 Enable-AzLogicApp -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -ApiVersion $ApiVersion -AccessToken $Global:accessToken
-                            }
-                            catch {
+                            } catch {
                                 Write-Warning "Failed to enable workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
                                 $ErrorMessage = $_.Exception.Message 
                                 Write-Debug "Error: $ErrorMessage"
@@ -42,30 +41,26 @@ function ReverseStopType() {
                 if ($batch.logicApps.Length -gt 0 ) {
                     $batch.logicApps | ForEach-Object {
                         $LogicAppName = $_;
-                        if($ResourcePrefix.Length -gt 0){
+                        if ($ResourcePrefix.Length -gt 0){
                             $LogicAppName = "$ResourcePrefix$_"
                         }
                         try {
                             Enable-AzLogicApp -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -AccessToken $Global:accessToken
-                        }
-                        catch {
+                        } catch {
                             Write-Warning "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
                             $ErrorMessage = $_.Exception.Message 
                             Write-Debug "Error: $ErrorMessage"
                         }
                     }
-                }
-                else {
+                } else {
                     Write-Warning "No Azure Logic Apps specified to enable"
                 }
             }
-        }
-        elseIf ($batch.stopType -Match "None") {
+        } elseIf ($batch.stopType -Match "None") {
             Write-Host "StopType equals 'None', performing no enable action on the Logic App(s)"
-        }
-        else {
+        } else {
             Write-Warning "StopType '$($batch.stopType)' has no known implementation, doing nothing"
-        }        
+        }
     }
 }
 

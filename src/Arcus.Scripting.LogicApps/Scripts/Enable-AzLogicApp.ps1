@@ -9,8 +9,8 @@ param(
 )
 
 try{
-    if($WorkflowName -eq "") {
-        if($SubscriptionId -eq "" -or $AccessToken -eq ""){
+    if ($WorkflowName -eq "") {
+        if ($SubscriptionId -eq "" -or $AccessToken -eq ""){
             # Request accessToken in case the script contains records
             $token = Get-AzCachedAccessToken
 
@@ -37,11 +37,11 @@ try{
     }
 }
 catch {
-    if($WorkflowName -eq "") {
+    if ($WorkflowName -eq "") {
         Write-Warning "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
     } else {
         Write-Warning "Failed to enable workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
-    }    
+    }
     $ErrorMessage = $_.Exception.Message
     Write-Debug "Error: $ErrorMessage"
 } 

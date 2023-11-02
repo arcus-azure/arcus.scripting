@@ -36,10 +36,9 @@ function ExecuteStopType() {
         }
         elseIf ($stopType -Match "None") {
             Write-Host "Executing Stop 'None' => performing no stop"
-        }
-        else {
+        } else {
             Write-Warning "StopType '$stopType' has no known implementation, doing nothing.." 
-        }        
+        }
     }
 }
 
@@ -99,12 +98,12 @@ function ExecuteCheckType() {
                                 } else {
                                     Write-Verbose "Found no more waiting or running runs for Workflow '$WorkflowName' in Azure Logic App '$LogicAppName', executing stopType for Logic App Workflow"
                                     ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppType $batch.logicAppType -LogicAppName $LogicAppName -WorkflowName $WorkflowName -stopType $batch.stopType
-                                }                    
+                                }
                                 Write-Host "Check 'NoWaitingOrRunningRuns' executed successfully onWorkflow '$WorkflowName' in Azure Logic App '$LogicAppName'" -ForegroundColor Green
                             }
                         } else {
                             Write-Warning "No workflows specified to disable"
-                        }                        
+                        }
                     }
                 } else {
                     Write-Warning "No Azure Logic Apps specified to disable"
@@ -139,7 +138,7 @@ function ExecuteCheckType() {
                             } else {
                                 Write-Verbose "Found no more waiting or running runs for Azure Logic App '$logicApp', executing stopType for Logic App"
                                 ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppType $batch.logicAppType -LogicAppName $logicApp -stopType $batch.stopType
-                            }                    
+                            }
                             Write-Host "Check 'NoWaitingOrRunningRuns' executed successfully on Azure Logic App '$logicApp'" -ForegroundColor Green
                         } catch {
                             Write-Warning "Failed to perform check 'NoWaitingOrRunningRuns' for Azure Logic App '$logicApp'"
@@ -173,7 +172,7 @@ function ExecuteCheckType() {
                     }
                     ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppType $batch.logicAppType -LogicAppName $LogicAppName -stopType $batch.stopType
                 }
-            }            
+            }
         } else {
             Write-Warning "CheckType '$batch.checkType' has no known implementation, performing no check or stop on the Azure Logic App '$logicApp' in resource group '$ResourceGroupName'..." 
         }
