@@ -18,7 +18,7 @@ try{
             $SubscriptionId = $token.SubscriptionId
         }
     
-        $fullUrl = . $PSScriptRoot\Get-AzLogicAppResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -Action enable
+        $fullUrl = . $PSScriptRoot\Get-AzLogicAppConsumptionResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -Action enable
     
         Write-Verbose "Attempting to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'..."
         $params = @{

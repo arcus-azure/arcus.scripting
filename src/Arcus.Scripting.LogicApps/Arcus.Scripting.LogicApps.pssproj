@@ -31,13 +31,14 @@
   <ItemGroup>
     <Compile Include="Arcus.Scripting.LogicApps.psd1" />
     <Compile Include="Arcus.Scripting.LogicApps.psm1" />
+    <Compile Include="Scripts\Get-AzLogicAppStandardResourceManagementUrl.ps1" />
     <Compile Include="Scripts\Resubmit-FailedAzLogicAppRuns.ps1" />
     <Compile Include="Scripts\Cancel-AzLogicAppRuns.ps1" />
     <Compile Include="Scripts\Disable-AzLogicApp.ps1" />
     <Compile Include="Scripts\Disable-AzLogicAppsFromConfig.ps1" />
     <Compile Include="Scripts\Enable-AzLogicApp.ps1" />
     <Compile Include="Scripts\Enable-AzLogicAppsFromConfig.ps1" />
-    <Compile Include="Scripts\Get-AzLogicAppResourceManagementUrl.ps1" />
+    <Compile Include="Scripts\Get-AzLogicAppConsumptionResourceManagementUrl.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

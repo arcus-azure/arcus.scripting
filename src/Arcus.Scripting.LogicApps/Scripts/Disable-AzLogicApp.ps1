@@ -18,7 +18,7 @@ try{
             $SubscriptionId = $token.SubscriptionId
         }
 
-        $fullUrl = . $PSScriptRoot\Get-AzLogicAppResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -Action "disable"
+        $fullUrl = . $PSScriptRoot\Get-AzLogicAppConsumptionResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -ApiVersion $ApiVersion -Action "disable"
     
         Write-Verbose "Attempting to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'..."
         $params = @{
