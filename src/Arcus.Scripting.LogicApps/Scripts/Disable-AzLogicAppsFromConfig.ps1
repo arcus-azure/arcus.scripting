@@ -78,14 +78,14 @@ function ExecuteCheckType() {
                                 $runHistoryRunningContent = $runHistoryRunning.Content | ConvertFrom-Json
 
                                 $listWaitingUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listWaiting'
-                                $lisWaitingParams = @{
+                                $listWaitingParams = @{
                                     Method = 'Get'
                                     Headers = @{ 
                                         'authorization'="Bearer $Global:accessToken"
                                     }
-                                    URI = $lisWaitingParams
+                                    URI = $listWaitingUrl
                                 }
-                                $runHistoryWaiting = Invoke-WebRequest @lisWaitingParams -ErrorAction Stop
+                                $runHistoryWaiting = Invoke-WebRequest @listWaitingParams -ErrorAction Stop
                                 $runHistoryWaitingContent = $runHistoryWaiting.Content | ConvertFrom-Json
                                 
                                 $runningRunsCount = ($runHistoryRunningContent.value).Count
@@ -99,7 +99,7 @@ function ExecuteCheckType() {
                                         Start-Sleep -Second 10
                                         $runHistoryRunning = Invoke-WebRequest @listRunningParams -ErrorAction Stop
                                         $runHistoryRunningContent = $runHistoryRunning.Content | ConvertFrom-Json
-                                        $runHistoryWaiting = Invoke-WebRequest @lisWaitingParams -ErrorAction Stop
+                                        $runHistoryWaiting = Invoke-WebRequest @listWaitingParams -ErrorAction Stop
                                         $runHistoryWaitingContent = $runHistoryWaiting.Content | ConvertFrom-Json
                                         $runningRunsCount = ($runHistoryRunningContent.value).Count
                                         $waitingRunsCount = ($runHistoryWaitingContent.value).Count
