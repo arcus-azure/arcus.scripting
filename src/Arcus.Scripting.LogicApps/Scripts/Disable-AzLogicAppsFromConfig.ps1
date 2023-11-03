@@ -65,19 +65,31 @@ function ExecuteCheckType() {
                         if ($_.workflows.Length -gt 0 ) {
                             $_.workflows | ForEach-Object {
                                 $WorkflowName = $_;
-                                $fullUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName
-                                $params = @{
+
+                                $listRunningUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listRunning'
+                                $listRunningParams = @{
                                     Method = 'Get'
                                     Headers = @{ 
                                         'authorization'="Bearer $Global:accessToken"
                                     }
-                                    URI = $fullUrl
+                                    URI = $listRunningUrl
                                 }
+                                $runHistoryRunning = Invoke-WebRequest @$listRunningParams -ErrorAction Stop
+                                $runHistoryRunningContent = $runHistoryRunning.Content | ConvertFrom-Json
 
-                                $runHistory = Invoke-WebRequest @params -ErrorAction Stop
-                                $runHistoryContent = $runHistory.Content | ConvertFrom-Json
-                                $runningRunsCount = ($runHistoryContent.value | Where-Object { $_.properties.status -eq "Running" }).Count
-                                $waitingRunsCount = ($runHistoryContent.value | Where-Object { $_.properties.status -eq "Waiting" }).Count
+                                $listWaitingUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listWaiting'
+                                $lisWaitingParams = @{
+                                    Method = 'Get'
+                                    Headers = @{ 
+                                        'authorization'="Bearer $Global:accessToken"
+                                    }
+                                    URI = $lisWaitingParams
+                                }
+                                $runHistoryWaiting = Invoke-WebRequest @$lisWaitingParams -ErrorAction Stop
+                                $runHistoryWaitingContent = $runHistoryWaiting.Content | ConvertFrom-Json
+                                
+                                $runningRunsCount = ($runHistoryRunningContent.value).Count
+                                $waitingRunsCount = ($runHistoryWaitingContent.value).Count
 
                                 if ($runningRunsCount -ne 0 -or $waitingRunsCount -ne 0) {
                                     while ($runningRunsCount -ne 0 -or $waitingRunsCount -ne 0) {
@@ -85,10 +97,12 @@ function ExecuteCheckType() {
                                         Write-Debug "Number of running runs: $runningRunsCount"
                                         Write-Debug "Number of waiting runs: $waitingRunsCount"
                                         Start-Sleep -Second 10
-                                        $runHistory = Invoke-WebRequest @params -ErrorAction Stop
-                                        $runHistoryContent = $runHistory.Content | ConvertFrom-Json
-                                        $runningRunsCount = ($runHistoryContent.value | Where-Object { $_.properties.status -eq "Running" }).Count
-                                        $waitingRunsCount = ($runHistoryContent.value | Where-Object { $_.properties.status -eq "Waiting" }).Count
+                                        $runHistoryRunning = Invoke-WebRequest @$listRunningParams -ErrorAction Stop
+                                        $runHistoryRunningContent = $runHistoryRunning.Content | ConvertFrom-Json
+                                        $runHistoryWaiting = Invoke-WebRequest @$lisWaitingParams -ErrorAction Stop
+                                        $runHistoryWaitingContent = $runHistoryWaiting.Content | ConvertFrom-Json
+                                        $runningRunsCount = ($runHistoryRunningContent.value).Count
+                                        $waitingRunsCount = ($runHistoryWaitingContent.value).Count
 
                                         if ($runningRunsCount -eq 0 -and $waitingRunsCount -eq 0) {
                                             Write-Verbose "Found no more waiting or running runs for Workflow '$WorkflowName' in Azure Logic App '$LogicAppName', executing stopType for Logic App Workflow"

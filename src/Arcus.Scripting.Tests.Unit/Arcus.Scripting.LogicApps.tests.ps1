@@ -890,7 +890,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     if ($script:i -gt 2) {
                         Write-Host "Returning empty (no running, no waiting) runs"
                         return [pscustomobject] @{
-                            Content = '{"value":[{"properties":{"status":"Succeeded"}}]}'
+                            Content = '{"value":[]}'
                         }
                     } else {
                         Write-Host "Returning 1 running run"
@@ -913,7 +913,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 5
+                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 8
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
             }
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a waiting run for stopType = None" {
@@ -927,7 +927,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     if ($script:i -gt 2) {
                         Write-Host "Returning empty (no running, no waiting) runs"
                         return [pscustomobject] @{
-                            Content = '{"value":[{"properties":{"status":"Succeeded"}}]}'
+                            Content = '{"value":[]}'
                         }
                     } else {
                         Write-Host "Returning 1 waiting run"
@@ -950,7 +950,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 4
+                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 6
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 0
             }
             It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and no running runs for stopType = Immediate" {
@@ -964,7 +964,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     if ($script:i -gt 2) {
                         Write-Host "Returning empty (no running, no waiting) runs"
                         return [pscustomobject] @{
-                            Content = '{"value":[{"properties":{"status":"Succeeded"}}]}'
+                            Content = '{"value":[]}'
                         }
                     } else {
                         Write-Host "Returning 1 waiting run"
@@ -990,7 +990,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 7
+                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 12
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 5 -ParameterFilter { $resourceGroupName -eq $resourceGroup }
             }
             It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and running runs for stopType = Immediate" {
@@ -1003,7 +1003,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     if ($script:i -gt 2) {
                         Write-Host "Returning empty (no running, no waiting) runs"
                         return [pscustomobject] @{
-                            Content = '{"value":[{"properties":{"status":"Succeeded"}},{"properties":{"status":"Succeeded"}}]}'
+                            Content = '{"value":[]}'
                         }
                     } else {
                         Write-Host "Returning 1 waiting run and 1 running run"
@@ -1029,7 +1029,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 3
+                Assert-MockCalled Invoke-WebRequest -Scope It -Exactly 4
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
             }
         }

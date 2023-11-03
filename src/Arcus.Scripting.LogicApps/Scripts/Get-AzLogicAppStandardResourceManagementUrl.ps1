@@ -3,7 +3,9 @@ param(
     [string][parameter(Mandatory = $true)] $SubscriptionId,
     [string][parameter(Mandatory = $true)] $ResourceGroupName,
     [string][parameter(Mandatory = $true)] $LogicAppName,
-    [string][parameter(Mandatory = $true)] $WorkflowName
+    [string][parameter(Mandatory = $true)] $WorkflowName,
+    [string][parameter(Mandatory = $false)] $RunName,
+    [string][Parameter(Mandatory = $true)][ValidateSet('listWaiting', 'listRunning','cancel')] $Action
 )
 
 try {
@@ -27,7 +29,14 @@ try {
 
     $resourceManagerUrl = (Get-AzEnvironment -Name $EnvironmentName).ResourceManagerUrl
     
-    $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01"
+    if ($Action -eq 'listWaiting') {
+        $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Waiting'"
+    } elseIf ($Action -eq 'listRunning') {
+        $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Running'"
+    } elseIf ($Action -eq 'cancel') {
+        $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs/$RunName/cancel?api-version=2022-03-01"
+    }
+
     return $fullUrl
 } catch {
     Write-Warning "Failed to define the resource management endpoint (Environment: '$EnvironmentName', SubscriptionId: '$SubscriptionId', ResourceGroup: '$ResourceGroupName', LogicApp: '$LogicAppName', WorkflowName: '$WorkflowName')"
