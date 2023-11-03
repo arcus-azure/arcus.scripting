@@ -171,12 +171,22 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on the running runs for unknown stopType" {
                 # Arrange
+                $script:i = 0
                 $resourceGroup = "my-resource-group"
                 $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker", "ord-sthp-harvest-order-doublechecker")
-                Mock Get-AzLogicAppRunHistory { 
+                Mock Get-AzLogicAppRunHistory {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $Name | Should -BeIn $logicAppNames
-                    return @([pscustomobject]@{ Status = "Waiting" })
+                    $Name | Should -Be "snd-async"
+                    $script:i++
+                    if ($script:i -gt 2) {
+                        Write-Host "Returning empty (no running, no waiting) runs"
+                        return @()
+                    } else {
+                        Write-Host "Returning 1 running run"
+                        return @(
+                            [pscustomobject]@{ Status = "Running" }
+                        )
+                    }
                 }
                 Mock Disable-AzLogicApp {}
                 Mock Get-AzCachedAccessToken -MockWith {
@@ -196,12 +206,22 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
             It "Doesn't disable anything when checkType = NoWaitingOrRunningRuns but returns a zero count on an the waiting runs for stopType = None" {
                 # Arrange
+                $script:i = 0
                 $resourceGroup = "my-resource-group"
                 $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker")
                 Mock Get-AzLogicAppRunHistory {
                     $ResourceGroupName | Should -Be $resourceGroup
-                    $Name | Should -BeIn $logicAppNames
-                    return @([pscustomobject]{ Status = "Running" })
+                    $Name | Should -Be "snd-async"
+                    $script:i++
+                    if ($script:i -gt 2) {
+                        Write-Host "Returning empty (no running, no waiting) runs"
+                        return @()
+                    } else {
+                        Write-Host "Returning 1 waiting run"
+                        return @(
+                            [pscustomobject]@{ Status = "Waiting" }
+                        )
+                    }
                 }
                 Mock Disable-AzLogicApp {}
                 Mock Get-AzCachedAccessToken -MockWith {
@@ -221,12 +241,22 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
             It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and no running runs for stopType = Immediate" {
                 # Arrange
+                $script:i = 0
                 $resourceGroup = "my-resource-group"
                 $logicAppNames = @("snd-async", "ord-sthp-harvest-order-doublechecker", "rcv-sthp-harvest-order-af-ftp", "rcv-sthp-harvest-order-af-sft", "rcv-sthp-harvest-order-af-file")
-                Mock Get-AzLogicAppRunHistory { 
+                Mock Get-AzLogicAppRunHistory {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -BeIn $logicAppNames
-                    return @([pscustomobject]@{ Status = "Waiting" }) 
+                    $script:i++
+                    if ($script:i -gt 2) {
+                        Write-Host "Returning empty (no running, no waiting) runs"
+                        return @()
+                    } else {
+                        Write-Host "Returning 1 waiting run"
+                        return @(
+                            [pscustomobject]@{ Status = "Waiting" }
+                        )
+                    }
                 }
                 Mock Disable-AzLogicApp {
                     $ResourceGroupName | Should -Be $resourceGroup
@@ -250,7 +280,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             It "Disables all logic apps when checkType = NoWaitingOrRunningRuns with found waiting and running runs for stopType = Immediate" {
                 # Arrange
                 $resourceGroup = "my-resource-group"
-                $i = 0
+                $script:i = 0
                 Mock Get-AzLogicAppRunHistory {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be "snd-async"
