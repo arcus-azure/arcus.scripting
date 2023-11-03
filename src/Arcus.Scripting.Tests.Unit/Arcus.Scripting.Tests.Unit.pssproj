@@ -90,25 +90,34 @@
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
     <Content Include="Arcus.Scripting.Sql.tests.ps1" />
-    <Content Include="Files\LogicApps\deploy-orderControl-noMaximumFollowNextPageLink.json" />
-    <Content Include="Files\LogicApps\deploy-orderControl-maximumFollowNextPageLink.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-noMaximumFollowNextPageLink.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-maximumFollowNextPageLink.json" />
+    <Content Include="Files\LogicApps\Standard\deploy-orderControl-none.json" />
+    <Content Include="Files\LogicApps\Standard\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
+    <Content Include="Files\LogicApps\Standard\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
+    <Content Include="Files\LogicApps\Standard\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
+    <Content Include="Files\LogicApps\Standard\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" />
+    <Content Include="Files\LogicApps\Standard\deploy-orderControl-unknownCheckType.json" />
+    <Content Include="Files\LogicApps\Standard\deploy-orderControl-unknownStopType.json" />
     <Content Include="Files\TableStorage\set-aztablestorageentities-config-nokeys.json" />
     <Content Include="Files\TableStorage\set-aztablestorageentities-config-invalid.json" />
     <Content Include="Files\TableStorage\set-aztablestorageentities-config-empty.json" />
     <Content Include="Files\TableStorage\set-aztablestorageentities-config.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
-    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
-    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" />
-    <Content Include="Files\LogicApps\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
-    <Content Include="Files\LogicApps\deploy-orderControl-unknownStopType.json" />
-    <Content Include="Files\LogicApps\deploy-orderControl-none.json" />
-    <Content Include="Files\LogicApps\deploy-orderControl-unknownCheckType.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-noWaitingOrRunningRunsWithSingleImmediate.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-noWaitingOrRunningRunsWithImmediate.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-noWaitingOrRunningRunsWithunknownStopType.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-noWaitingOrRunningRunsWithNoneStopType.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-unknownStopType.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-none.json" />
+    <Content Include="Files\LogicApps\Consumption\deploy-orderControl-unknownCheckType.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
     <Folder Include="Files\LogicApps\" />
+    <Folder Include="Files\LogicApps\Consumption\" />
+    <Folder Include="Files\LogicApps\Standard\" />
     <Folder Include="Files\TableStorage\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

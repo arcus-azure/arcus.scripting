@@ -65,7 +65,7 @@ function ExecuteCheckType() {
                         if ($_.workflows.Length -gt 0 ) {
                             $_.workflows | ForEach-Object {
                                 $WorkflowName = $_;
-                                $fullUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName
+                                $fullUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName
                                 $params = @{
                                     Method = 'Get'
                                     Headers = @{ 
