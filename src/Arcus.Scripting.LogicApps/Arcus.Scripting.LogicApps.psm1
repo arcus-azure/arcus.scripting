@@ -10,6 +10,12 @@
   
  .Parameter LogicAppName
   The name of the Azure Logic App.
+    
+ .Parameter WorkflowName
+  The name of the workflow in the Azure Logic App.
+
+ .Parameter EnvironmentName
+  [Optional] The Azure Cloud environment in which the Azure Logic App resides.
 
  .Parameter MaximumFollowNextPageLink
   The number of times the script should retrieve the next page of Logic App runs, if not specified the entire run history of the Logic App will be retrieved.
@@ -19,10 +25,12 @@ function Cancel-AzLogicAppRuns {
     param(
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
         [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
+        [Parameter(Mandatory = $false)][string] $WorkflowName = "",
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
         [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink = 10
     )
     
-    . $PSScriptRoot\Scripts\Cancel-AzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -MaximumFollowNextPageLink $MaximumFollowNextPageLink
+    . $PSScriptRoot\Scripts\Cancel-AzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -EnvironmentName $EnvironmentName -MaximumFollowNextPageLink $MaximumFollowNextPageLink
 }
 
 Export-ModuleMember -Function Cancel-AzLogicAppRuns
@@ -86,6 +94,9 @@ Export-ModuleMember -Function Resubmit-FailedAzLogicAppRuns
   
  .Parameter LogicAppName
   The name of the Azure Logic App to be enabled.
+
+ .Parameter WorkflowName
+  The name of the workflow in the Azure Logic App.
   
  .Parameter ApiVersion
   [Optional] The version of the api to be used to disable the Azure Logic App.
@@ -164,6 +175,9 @@ Export-ModuleMember -Function Disable-AzLogicAppsFromConfig
   
  .Parameter LogicAppName
   The name of the Azure Logic App to be enabled.
+
+ .Parameter WorkflowName
+  The name of the workflow in the Azure Logic App.
   
  .Parameter ApiVersion
   [Optional] The version of the api to be used to enable the Azure Logic App.

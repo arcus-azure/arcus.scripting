@@ -1033,5 +1033,43 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Disable-AzLogicApp -Scope It -Exactly 1 -ParameterFilter { $ResourceGroupName -eq $resourceGroup -and $LogicAppName -eq "snd-async" }
             }
         }
+        Context "Cancel Logic Apps runs" {
+            It "Cancelling all runs from Logic App history should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+
+                Mock Invoke-WebRequest -MockWith {
+                    return [pscustomobject] @{
+                        Content = '{"value":[{"properties":{"status":"Running"}},{"properties":{"status":"Running"}}]}'
+                    }
+                }
+
+                # Act
+                { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 3
+            }
+            It "Cancelling all runs should fail when retrieving Logic App history fails" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+
+                Mock Invoke-WebRequest -MockWith  { throw 'some error' }
+
+                # Act
+                { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
+                    Should -Throw -ExpectedMessage "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: some error"
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
+            }
+        }
     }
 }
