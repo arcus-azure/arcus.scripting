@@ -75,10 +75,8 @@ try {
     }
 } catch {
     if ($WorkflowName -eq "") {
-        Write-Warning "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+        throw "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     } else {
-        Write-Warning "Failed to cancel all running instances for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+        throw "Failed to cancel all running instances for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     }
-    $ErrorMessage = $_.Exception.Message
-    Write-Debug "Error: $ErrorMessage"
 }

@@ -9,8 +9,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
-                Mock Write-Warning -MockWith { }
-                Mock Write-Debug -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
                 Mock Invoke-WebRequest -MockWith {
                     $status = [System.Net.WebExceptionStatus]::ConnectionClosed
                     $response = New-Object -type 'System.Net.HttpWebResponse'
@@ -26,15 +24,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                     }
                 }
 
-                # Act
-                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
-
+                # Act                
+                { Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
+                    Should -Throw -ExpectedMessage "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $errorContent"
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
-                Assert-MockCalled Write-Debug -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
         Context "Enable Logic Apps with configuration" {
@@ -101,14 +97,12 @@ InModuleScope Arcus.Scripting.LogicApps {
                 }
 
                 # Act
-                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName
-
+                { Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
+                    Should -Throw -ExpectedMessage "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $errorContent"
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -eq "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
-                Assert-MockCalled Write-Debug -Scope It -Times 1 -ParameterFilter { $Message -eq "Error: $errorContent" }
             }
         }
         Context "Disable Logic Apps with configuration" {
@@ -715,18 +709,17 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $workflowName = "test"
-                Mock Write-Warning -MockWith { }
                 Mock Set-AzAppServiceSetting {
                     Throw 'Not found error'
                 } 
 
                 # Act
-                Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName
+                { Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
+                    Should -Throw -ExpectedMessage "Failed to enable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: Not found error"
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Set-AzAppServiceSetting -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to enable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
             }
             It "Enabling an Azure Logic App should succeed" {
                 # Arrange
@@ -791,18 +784,17 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $workflowName = "test"
-                Mock Write-Warning -MockWith { }
                 Mock Set-AzAppServiceSetting {
                     Throw 'Not found error'
                 } 
 
                 # Act
-                Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName
+                { Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
+                    Should -Throw -ExpectedMessage "Failed to disable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: Not found error"
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Set-AzAppServiceSetting -Times 1
-                Assert-MockCalled Write-Warning -Scope It -Times 1 -ParameterFilter { $Message -contains "Failed to disable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" }
             }
             It "Disabling an Azure Logic App should succeed" {
                 # Arrange
@@ -1064,7 +1056,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
-                    Should -Throw -ExpectedMessage "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: some error"
+                    Should -Throw -ExpectedMessage "Failed to cancel all running instances for the workflow '$workflowName' in Azure Logic App '$logicAppName' in resource group '$ResourceGroupName'. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock

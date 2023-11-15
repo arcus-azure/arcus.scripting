@@ -38,10 +38,8 @@ try{
 }
 catch {
     if ($WorkflowName -eq "") {
-        Write-Warning "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+        throw "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     } else {
-        Write-Warning "Failed to enable workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+        throw "Failed to enable workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     }
-    $ErrorMessage = $_.Exception.Message
-    Write-Debug "Error: $ErrorMessage"
 } 

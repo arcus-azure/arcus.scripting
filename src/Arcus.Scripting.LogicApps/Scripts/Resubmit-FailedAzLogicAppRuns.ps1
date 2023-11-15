@@ -101,13 +101,11 @@ try{
 } catch {
     if ($WorkflowName -eq "") {
         if ($EndTime) {
-            Write-Warning "Failed to resubmit all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime' and until '$EndTime'. Details: $($_.Exception.Message)"
+            throw "Failed to resubmit all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime' and until '$EndTime'. Details: $($_.Exception.Message)"
         } else {
-            Write-Warning "Failed to resubmit all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime'. Details: $($_.Exception.Message)"
+            throw "Failed to resubmit all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime'. Details: $($_.Exception.Message)"
         }
     } else {
-        Write-Warning "Failed to resubmit all failed instances for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime'. Details: $($_.Exception.Message)"
+        throw "Failed to resubmit all failed instances for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime'. Details: $($_.Exception.Message)"
     }
-    $ErrorMessage = $_.Exception.Message
-    Write-Debug "Error: $ErrorMessage"
 }
