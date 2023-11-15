@@ -1063,5 +1063,66 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
             }
         }
+        Context "Resubmitting failed Logic Apps runs" {
+            It "Resubmitting a single failed run from Logic App history should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+                $startTime = '2023-01-01 00:00:00'
+
+                Mock Invoke-WebRequest -MockWith {
+                    return [pscustomobject] @{
+                        Content = '{"value":[{"properties":{"status":"Failed"}}]}'
+                    }
+                }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName -StartTime $startTime } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 2
+             }
+            It "Resubmitting multiple failed runs from Logic App history should succeed" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+                $startTime = '2023-01-01 00:00:00'
+
+                Mock Invoke-WebRequest -MockWith {
+                    return [pscustomobject] @{
+                        Content = '{"value":[{"properties":{"status":"Failed"}},{"properties":{"status":"Failed"}}]}'
+                    }
+                }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName -StartTime $startTime } | 
+                    Should -Not -Throw
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 3
+             }
+            It "Resubmitting failed runs should fail when retrieving Logic App history fails" {
+                # Arrange
+                $resourceGroupName = "codit-arcus-scripting"
+                $logicAppName = "arc-dev-we-rcv-unknown-http"
+                $workflowName = "test"
+                $startTime = '01/01/2023 00:00:00'
+
+                Mock Invoke-WebRequest { throw 'some error' }
+
+                # Act
+                { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName -StartTime $startTime } | 
+                    Should -Throw -ExpectedMessage "Failed to resubmit all failed instances for the workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$startTime'. Details: some error"
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
+            }
+        }
     }
 }
