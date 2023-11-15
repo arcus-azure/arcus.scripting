@@ -34,8 +34,29 @@ try {
 
         $runs = Invoke-WebRequest @listRunningParams -ErrorAction Stop
         $runsContent = $runs.Content | ConvertFrom-Json
+        $allRuns = $runsContent.value
 
-        foreach ($run in $runsContent.value) {
+        if ($runsContent.nextLink -ne $null) {
+            $nextPageCounter = 1
+            $nextPageUrl = $runsContent.nextLink
+            while ($nextPageUrl -ne $null -and $nextPageCounter -le $MaximumFollowNextPageLink) {
+                $nextPageCounter = $nextPageCounter + 1
+                $listRunningParams = @{
+                    Method = 'Get'
+                    Headers = @{ 
+                        'authorization'="Bearer $Global:accessToken"
+                    }
+                    URI = $nextPageUrl
+                }
+
+                $runsNextPage = Invoke-WebRequest @listRunningParams -ErrorAction Stop
+                $runsNextPageContent = $runsNextPage.Content | ConvertFrom-Json
+                $nextPageUrl = $runsNextPageContent.nextLink
+                $allRuns = $allRuns + $runsNextPageContent.value
+            }
+        }
+
+        foreach ($run in $allRuns) {
             $runName = $run.name
 
             $cancelUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -RunName $runName -Action 'cancel'
@@ -49,10 +70,9 @@ try {
             $cancel = Invoke-WebRequest @cancelParams -ErrorAction Stop
             Write-Verbose "Cancelled run '$runName' for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
         }
+
+        Write-Host "Successfully cancelled all running instances for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     }
-} catch {
-    throw "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
-}
 } catch {
     if ($WorkflowName -eq "") {
         Write-Warning "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"

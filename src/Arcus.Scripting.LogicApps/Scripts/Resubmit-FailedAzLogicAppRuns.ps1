@@ -58,7 +58,7 @@ try{
 
         $failedRuns = Invoke-WebRequest @listFailedParams -ErrorAction Stop
         $failedRunsContent = $failedRuns.Content | ConvertFrom-Json
-        $allFailedRuns = $failedRunsContent.value        
+        $allFailedRuns = $failedRunsContent.value
 
         if ($failedRunsContent.nextLink -ne $null) {
             $nextPageCounter = 1
