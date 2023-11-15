@@ -47,7 +47,7 @@ try{
             Write-Host "Successfully resubmitted all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime'" -ForegroundColor Green
         }
     } else {
-        $listFailedUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listFailed'
+        $listFailedUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -StartTime $StartTime -Action 'listFailed'
         $listFailedParams = @{
             Method = 'Get'
             Headers = @{ 
@@ -58,8 +58,29 @@ try{
 
         $failedRuns = Invoke-WebRequest @listFailedParams -ErrorAction Stop
         $failedRunsContent = $failedRuns.Content | ConvertFrom-Json
+        $allFailedRuns = $failedRunsContent.value        
 
-        foreach ($failedRun in $failedRunsContent.value) {
+        if ($failedRunsContent.nextLink -ne $null) {
+            $nextPageCounter = 1
+            $nextPageUrl = $failedRunsContent.nextLink
+            while ($nextPageUrl -ne $null -and $nextPageCounter -le $MaximumFollowNextPageLink) {
+                $nextPageCounter = $nextPageCounter + 1
+                $listFailedParams = @{
+                    Method = 'Get'
+                    Headers = @{ 
+                        'authorization'="Bearer $Global:accessToken"
+                    }
+                    URI = $nextPageUrl
+                }
+
+                $failedRunsNextPage = Invoke-WebRequest @listFailedParams -ErrorAction Stop
+                $failedRunsNextPageContent = $failedRunsNextPage.Content | ConvertFrom-Json
+                $nextPageUrl = $failedRunsNextPageContent.nextLink
+                $allFailedRuns = $allFailedRuns + $failedRunsNextPageContent.value
+            }
+        }
+
+        foreach ($failedRun in $allFailedRuns) {
             $runName = $failedRun.name
             $triggerName = $failedRun.properties.trigger.name
 
@@ -74,6 +95,8 @@ try{
             $resubmit = Invoke-WebRequest @resubmitParams -ErrorAction Stop
             Write-Verbose "Resubmit run '$runName' for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
         }
+
+        Write-Host "Successfully resubmitted all failed instances for the workflow '$WorkflowName' in the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime'" -ForegroundColor Green
     }
 } catch {
     if ($WorkflowName -eq "") {

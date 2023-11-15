@@ -6,6 +6,7 @@ param(
     [string][parameter(Mandatory = $true)] $WorkflowName,
     [string][parameter(Mandatory = $false)] $RunName,
     [string][parameter(Mandatory = $false)] $TriggerName,
+    [datetime][parameter(Mandatory = $false)] $StartTime,
     [string][Parameter(Mandatory = $true)][ValidateSet('listWaiting', 'listRunning', 'listFailed', 'cancel', 'resubmit')] $Action
 )
 
@@ -35,7 +36,8 @@ try {
     } elseIf ($Action -eq 'listRunning') {
         $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Running'"
     } elseIf ($Action -eq 'listFailed') {
-        $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Failed'"
+        $StartTimeFormatted = $StartTime.ToString("yyyy-MM-ddTHH:mm:ssZ")
+        $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Failed'%20and%20startTime%20ge%20$StartTimeFormatted"
     } elseIf ($Action -eq 'cancel') {
         $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs/$RunName/cancel?api-version=2022-03-01"
     } elseIf ($Action -eq 'resubmit') {
