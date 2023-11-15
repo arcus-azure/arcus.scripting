@@ -5,7 +5,8 @@ param(
     [string][parameter(Mandatory = $true)] $LogicAppName,
     [string][parameter(Mandatory = $true)] $WorkflowName,
     [string][parameter(Mandatory = $false)] $RunName,
-    [string][Parameter(Mandatory = $true)][ValidateSet('listWaiting', 'listRunning','cancel')] $Action
+    [string][parameter(Mandatory = $false)] $TriggerName,
+    [string][Parameter(Mandatory = $true)][ValidateSet('listWaiting', 'listRunning', 'listFailed', 'cancel', 'resubmit')] $Action
 )
 
 try {
@@ -33,8 +34,12 @@ try {
         $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Waiting'"
     } elseIf ($Action -eq 'listRunning') {
         $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Running'"
+    } elseIf ($Action -eq 'listFailed') {
+        $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs?api-version=2022-03-01&%24filter=Status%20eq%20'Failed'"
     } elseIf ($Action -eq 'cancel') {
         $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/runs/$RunName/cancel?api-version=2022-03-01"
+    } elseIf ($Action -eq 'resubmit') {
+        $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Web/sites/$LogicAppName/hostruntime/runtime/webhooks/workflow/api/management/workflows/$WorkflowName/triggers/$TriggerName/histories/$RunName/resubmit?api-version=2022-03-01"
     }
 
     return $fullUrl

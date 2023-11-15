@@ -12,13 +12,13 @@
   The name of the Azure Logic App.
     
  .Parameter WorkflowName
-  The name of the workflow in the Azure Logic App.
+  [Optional] The name of the workflow in the Azure Logic App Standard Site. 
 
  .Parameter EnvironmentName
   [Optional] The Azure Cloud environment in which the Azure Logic App resides.
 
  .Parameter MaximumFollowNextPageLink
-  The number of times the script should retrieve the next page of Logic App runs, if not specified the entire run history of the Logic App will be retrieved.
+  [Optional] The number of times the script should retrieve the next page of Logic App runs, if not specified the entire run history of the Logic App will be retrieved.
 
 #>
 function Cancel-AzLogicAppRuns {
@@ -48,29 +48,37 @@ Export-ModuleMember -Function Cancel-AzLogicAppRuns
  .Parameter LogicAppName
   The name of the Azure Logic App.
 
+ .Parameter WorkflowName
+  [Optional] The name of the workflow in the Azure Logic App Standard Site. 
+
+ .Parameter EnvironmentName
+  [Optional] The Azure Cloud environment in which the Azure Logic App resides.
+
  .Parameter StartTime
   The start time of the failed instances of the Azure Logic App.
 
  .Parameter EndTime
-  The end time of the failed instances of the Azure Logic App.
+  [Optional] The end time of the failed instances of the Azure Logic App.
 
  .Parameter MaximumFollowNextPageLink
-  The number of times the script should retrieve the next page of Logic App runs, if not specified the entire run history of the Logic App will be retrieved.
+  [Optional] The number of times the script should retrieve the next page of Logic App runs, if not specified the entire run history of the Logic App will be retrieved.
 
 #>
 function Resubmit-FailedAzLogicAppRuns {
     param(
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
         [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
+        [Parameter(Mandatory = $false)][string] $WorkflowName = "",
         [Parameter(Mandatory = $true)][datetime] $StartTime = $(throw "Start time is required"),
         [Parameter(Mandatory = $false)][datetime] $EndTime,
+        [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud",
         [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink = 10
     )
     
     if ($EndTime) {
-        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime -EndTime $EndTime -MaximumFollowNextPageLink $MaximumFollowNextPageLink
+        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -EnvironmentName $EnvironmentName -StartTime $StartTime -EndTime $EndTime -MaximumFollowNextPageLink $MaximumFollowNextPageLink
     } else {
-        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -StartTime $StartTime -MaximumFollowNextPageLink $MaximumFollowNextPageLink
+        . $PSScriptRoot\Scripts\Resubmit-FailedAzLogicAppRuns.ps1 -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -EnvironmentName $EnvironmentName -StartTime $StartTime -MaximumFollowNextPageLink $MaximumFollowNextPageLink
     }
 }
 
@@ -96,7 +104,7 @@ Export-ModuleMember -Function Resubmit-FailedAzLogicAppRuns
   The name of the Azure Logic App to be enabled.
 
  .Parameter WorkflowName
-  The name of the workflow in the Azure Logic App.
+  [Optional] The name of the workflow in the Azure Logic App Standard Site. 
   
  .Parameter ApiVersion
   [Optional] The version of the api to be used to disable the Azure Logic App.
@@ -135,7 +143,7 @@ Export-ModuleMember -Function Disable-AzLogicApp
   If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file, if not, the script will look for a file named 'deploy-orderControl.json' by default.
   
  .Parameter ResourcePrefix
-  The prefix assigned to all Azure Logic Apps, which can differ per environment.
+  [Optional] The prefix assigned to all Azure Logic Apps, which can differ per environment.
   
  .Parameter EnvironmentName
   [Optional] The Azure Cloud environment in which the Azure Logic App resides.
@@ -177,7 +185,7 @@ Export-ModuleMember -Function Disable-AzLogicAppsFromConfig
   The name of the Azure Logic App to be enabled.
 
  .Parameter WorkflowName
-  The name of the workflow in the Azure Logic App.
+  [Optional] The name of the workflow in the Azure Logic App Standard Site. 
   
  .Parameter ApiVersion
   [Optional] The version of the api to be used to enable the Azure Logic App.
@@ -217,7 +225,7 @@ Export-ModuleMember -Function Enable-AzLogicApp
   If your solution consists of multiple interfaces, you can specify the flow-specific name of the configuration file, if not, the script will look for a file named 'deploy-orderControl.json' by default.
   
  .Parameter ResourcePrefix
-  The prefix assigned to all Azure Logic Apps, which can differ per environment.
+  [Optional] The prefix assigned to all Azure Logic Apps, which can differ per environment.
   
  .Parameter EnvironmentName
   [Optional] The Azure Cloud environment in which the Azure Logic App resides.
