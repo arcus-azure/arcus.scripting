@@ -53,3 +53,12 @@ try {
 } catch {
     throw "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
 }
+} catch {
+    if ($WorkflowName -eq "") {
+        Write-Warning "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+    } else {
+        Write-Warning "Failed to cancel all running instances for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+    }
+    $ErrorMessage = $_.Exception.Message
+    Write-Debug "Error: $ErrorMessage"
+}
