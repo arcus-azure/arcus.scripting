@@ -1032,6 +1032,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $workflowName = "test"
 
+                Mock Get-AzCachedAccessToken -MockWith {
+                    $Global:subscriptionId = '123456'
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
                 Mock Invoke-WebRequest -MockWith {
                     return [pscustomobject] @{
                         Content = '{"value":[{"properties":{"status":"Running"}},{"properties":{"status":"Running"}}]}'
@@ -1044,6 +1051,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 3
             }
             It "Cancelling all runs should fail when retrieving Logic App history fails" {
@@ -1052,6 +1060,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $workflowName = "test"
 
+                Mock Get-AzCachedAccessToken -MockWith {
+                    $Global:subscriptionId = '123456'
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
                 Mock Invoke-WebRequest -MockWith  { throw 'some error' }
 
                 # Act
@@ -1060,6 +1075,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
             }
         }
@@ -1071,6 +1087,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $workflowName = "test"
                 $startTime = '2023-01-01 00:00:00'
 
+                Mock Get-AzCachedAccessToken -MockWith {
+                    $Global:subscriptionId = '123456'
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
                 Mock Invoke-WebRequest -MockWith {
                     return [pscustomobject] @{
                         Content = '{"value":[{"properties":{"status":"Failed"}}]}'
@@ -1083,6 +1106,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 2
              }
             It "Resubmitting multiple failed runs from Logic App history should succeed" {
@@ -1092,6 +1116,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $workflowName = "test"
                 $startTime = '2023-01-01 00:00:00'
 
+                Mock Get-AzCachedAccessToken -MockWith {
+                    $Global:subscriptionId = '123456'
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
                 Mock Invoke-WebRequest -MockWith {
                     return [pscustomobject] @{
                         Content = '{"value":[{"properties":{"status":"Failed"}},{"properties":{"status":"Failed"}}]}'
@@ -1104,6 +1135,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 3
              }
             It "Resubmitting failed runs should fail when retrieving Logic App history fails" {
@@ -1113,6 +1145,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $workflowName = "test"
                 $startTime = '01/01/2023 00:00:00'
 
+                Mock Get-AzCachedAccessToken -MockWith {
+                    $Global:subscriptionId = '123456'
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
                 Mock Invoke-WebRequest { throw 'some error' }
 
                 # Act
@@ -1121,6 +1160,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
             }
         }
