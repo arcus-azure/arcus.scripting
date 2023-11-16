@@ -613,6 +613,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $startTime = '01/01/2023 00:00:00'
 
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                }
+
                 Mock Get-AzLogicAppRunHistory { throw 'some error' }
 
                 Mock Invoke-WebRequest -MockWith {
@@ -625,6 +632,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Assert
                 Assert-VerifiableMock
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 0
             }
