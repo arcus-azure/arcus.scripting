@@ -113,7 +113,7 @@ function ExecuteCheckType() {
                                     Write-Verbose "Found no more waiting or running runs for Workflow '$WorkflowName' in Azure Logic App '$LogicAppName', executing stopType for Logic App Workflow"
                                     ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppType $batch.logicAppType -LogicAppName $LogicAppName -WorkflowName $WorkflowName -stopType $batch.stopType
                                 }
-                                Write-Host "Check 'NoWaitingOrRunningRuns' executed successfully onWorkflow '$WorkflowName' in Azure Logic App '$LogicAppName'" -ForegroundColor Green
+                                Write-Host "Check 'NoWaitingOrRunningRuns' executed successfully on Workflow '$WorkflowName' in Azure Logic App '$LogicAppName'" -ForegroundColor Green
                             }
                         } else {
                             Write-Warning "No workflows specified to disable"
