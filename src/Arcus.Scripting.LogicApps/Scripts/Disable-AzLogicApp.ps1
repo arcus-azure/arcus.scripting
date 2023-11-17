@@ -10,7 +10,7 @@ param(
 
 try{
     if ($WorkflowName -eq "") {
-        if ($SubscriptionId -eq "" -or $AccessToken -eq ""){
+        if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
             # Request accessToken in case the script contains records
             $token = Get-AzCachedAccessToken
 

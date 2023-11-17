@@ -24,7 +24,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     }
                 }
 
-                # Act                
+                # Act
                 { Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
                     Should -Throw -ExpectedMessage "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $errorContent"
 
