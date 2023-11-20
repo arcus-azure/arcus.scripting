@@ -901,7 +901,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 }
                 Mock Disable-AzLogicApp {}
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -938,7 +937,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 }
                 Mock Disable-AzLogicApp {}
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -978,7 +976,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $LogicAppName | Should -BeIn $logicAppNames
                 }
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -1017,7 +1014,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $LogicAppName | Should -Be "snd-async"
                 }
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -1041,7 +1037,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $workflowName = "test"
 
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -1069,7 +1064,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $workflowName = "test"
 
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -1096,7 +1090,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $startTime = '2023-01-01 00:00:00'
 
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -1125,7 +1118,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $startTime = '2023-01-01 00:00:00'
 
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"
@@ -1154,7 +1146,6 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $startTime = '01/01/2023 00:00:00'
 
                 Mock Get-AzCachedAccessToken -MockWith {
-                    $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
                         AccessToken = "accessToken"

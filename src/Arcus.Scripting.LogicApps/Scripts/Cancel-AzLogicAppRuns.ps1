@@ -6,9 +6,6 @@ param(
     [Parameter(Mandatory = $false)][int] $MaximumFollowNextPageLink = 10
 )
 
-$Global:accessToken = "";
-$Global:subscriptionId = "";
-
 try {
     if ($WorkflowName -eq "") {
         $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $MaximumFollowNextPageLink | 
@@ -22,13 +19,15 @@ try {
 
         Write-Host "Successfully cancelled all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     } else {
-        $token = Get-AzCachedAccessToken -AssignGlobalVariables
+        $token = Get-AzCachedAccessToken
+        $accessToken = $token.AccessToken
+        $subscriptionId = $token.SubscriptionId
 
-        $listRunningUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listRunning'
+        $listRunningUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listRunning'
         $listRunningParams = @{
             Method = 'Get'
             Headers = @{ 
-                'authorization'="Bearer $Global:accessToken"
+                'authorization'="Bearer $accessToken"
             }
             URI = $listRunningUrl
         }
@@ -45,7 +44,7 @@ try {
                 $listRunningParams = @{
                     Method = 'Get'
                     Headers = @{ 
-                        'authorization'="Bearer $Global:accessToken"
+                        'authorization'="Bearer $accessToken"
                     }
                     URI = $nextPageUrl
                 }
@@ -60,11 +59,11 @@ try {
         foreach ($run in $allRuns) {
             $runName = $run.name
 
-            $cancelUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -RunName $runName -Action 'cancel'
+            $cancelUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -RunName $runName -Action 'cancel'
             $cancelParams = @{
                 Method = 'Post'
                 Headers = @{ 
-                    'authorization'="Bearer $Global:accessToken"
+                    'authorization'="Bearer $accessToken"
                 }
                 URI = $cancelUrl
             }

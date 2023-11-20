@@ -8,11 +8,10 @@ param(
     [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud"
 )
 
-$Global:accessToken = "";
-$Global:subscriptionId = "";
-
 try{
-    $token = Get-AzCachedAccessToken  -AssignGlobalVariables
+    $token = Get-AzCachedAccessToken
+    $accessToken = $token.AccessToken
+    $subscriptionId = $token.SubscriptionId
 
     if ($WorkflowName -eq "") {
         if ($EndTime) {
@@ -26,12 +25,12 @@ try{
         foreach ($run in $runs) {
             $triggerName = $run.Trigger.Name
             $runId = $run.Name
-            $resubmitUrl = "https://management.azure.com/subscriptions/$Global:subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/triggers/$triggerName/histories/$runId/resubmit?api-version=2016-06-01"
+            $resubmitUrl = "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/triggers/$triggerName/histories/$runId/resubmit?api-version=2016-06-01"
         
             $params = @{
                 Method = 'Post'
                 Headers = @{ 
-	                'authorization'="Bearer $Global:accessToken"
+	                'authorization'="Bearer $accessToken"
                 }
                 URI = $resubmitUrl
             }
@@ -47,11 +46,11 @@ try{
             Write-Host "Successfully resubmitted all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$StartTime'" -ForegroundColor Green
         }
     } else {
-        $listFailedUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -StartTime $StartTime -Action 'listFailed'
+        $listFailedUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -StartTime $StartTime -Action 'listFailed'
         $listFailedParams = @{
             Method = 'Get'
             Headers = @{ 
-                'authorization'="Bearer $Global:accessToken"
+                'authorization'="Bearer $accessToken"
             }
             URI = $listFailedUrl
         }
@@ -68,7 +67,7 @@ try{
                 $listFailedParams = @{
                     Method = 'Get'
                     Headers = @{ 
-                        'authorization'="Bearer $Global:accessToken"
+                        'authorization'="Bearer $accessToken"
                     }
                     URI = $nextPageUrl
                 }
@@ -84,11 +83,11 @@ try{
             $runName = $failedRun.name
             $triggerName = $failedRun.properties.trigger.name
 
-            $resubmitUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -TriggerName $triggerName -RunName $runName -Action 'resubmit'
+            $resubmitUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -TriggerName $triggerName -RunName $runName -Action 'resubmit'
             $resubmitParams = @{
                 Method = 'Post'
                 Headers = @{ 
-                    'authorization'="Bearer $Global:accessToken"
+                    'authorization'="Bearer $accessToken"
                 }
                 URI = $resubmitUrl
             }
