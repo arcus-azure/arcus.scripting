@@ -15,8 +15,9 @@ try {
             Where-Object {$_.Status -eq 'Running'}
 
         foreach ($run in $runs) {
-            Stop-AzLogicAppRun -ResourceGroupName $ResourceGroupName -Name $LogicAppName -RunName $run.Name -Force
-            Write-Verbose "Cancelled run $run.Name for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
+            $runName = $run.name
+            Stop-AzLogicAppRun -ResourceGroupName $ResourceGroupName -Name $LogicAppName -RunName $runName -Force
+            Write-Verbose "Cancelled run '$runName' for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"
         }
 
         Write-Host "Successfully cancelled all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green
