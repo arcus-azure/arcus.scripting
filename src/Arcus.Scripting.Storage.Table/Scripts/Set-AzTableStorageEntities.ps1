@@ -14,18 +14,21 @@ if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
 
 $schema = @'
 {
-  "definitions": {},
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://scripting.arcus-azure.net/Features/powershell/azure-storage/azure-storage-table/config.json",
   "type": "array",
   "title": "The configuration JSON schema",
-  "items": [{
+  "$defs": {},
+  "prefixItems": [
+    {
       "type": "object",
       "patternProperties": {
         "^.*$": {
-          "anyOf": [{
+          "anyOf": [
+            {
               "type": "string"
-            }, {
+            },
+            {
               "type": "null"
             }
           ]
