@@ -32,8 +32,7 @@ try {
     $fullUrl = "$resourceManagerUrl" + "subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/$Action" + "?api-version=$ApiVersion"
    
     return $fullUrl
-}
-catch {
+} catch {
     Write-Warning "Failed to define the resource management endpoint (Environment: '$EnvironmentName', SubscriptionId: '$SubscriptionId', ResourceGroup: '$ResourceGroupName', LogicApp: '$LogicAppName')"
     $ErrorMessage = $_.Exception.Message
     Write-Debug "Error: $ErrorMessage"
