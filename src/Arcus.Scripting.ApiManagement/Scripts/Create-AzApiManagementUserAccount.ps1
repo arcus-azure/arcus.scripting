@@ -29,7 +29,7 @@ if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
 
 $apimMgmtEndpoint = "https://management.azure.com/subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.ApiManagement/service/$ServiceName/users/$($UserId)?notify=$SendNotification&api-version=$ApiVersion"
 $fullUrl = $apimMgmtEndpoint.Replace('{subscriptionId}', $SubscriptionId)
-    
+
 try
 {
     if($ConfirmationType -eq 'invite')
@@ -59,6 +59,7 @@ try
         }
         URI = $fullUrl
         Body = $jsonRequest
+        ContentType = 'application/json'
     }
 
     $web = Invoke-WebRequest @params -ErrorAction Stop

@@ -179,6 +179,47 @@ Export-ModuleMember -Function Create-AzApiManagementUserAccount
 
 <#
  .Synopsis
+  Create or update users in Azure API Management.
+
+ .Description
+  Create or update users in an existing Azure API Management instance based on a configuration file.
+
+ .Parameter ResourceGroupName
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter ConfigurationFileName
+  The file containing the users and their configuration.
+
+ .Parameter ApiVersion
+  [Optional] The version of the api to be used.
+
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure API Management service. When not provided, it will be retrieved from the current context (Get-AzContext).
+
+ .Parameter AccessToken
+  [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
+#>
+function Create-AzApiManagementUserAccountsFromConfig {
+    param(
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
+        [string][Parameter(Mandatory = $true)] $ConfigurationFileName = $(throw "Name of configuration file is required"),
+        [string][parameter(Mandatory = $false)] $ApiVersion = "2021-08-01",
+        [string][parameter(Mandatory = $false)] $SubscriptionId,
+        [string][parameter(Mandatory = $false)] $AccessToken
+    )
+    
+    . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccountsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ConfigurationFileName $ConfigurationFileName -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+}
+
+Export-ModuleMember -Function Create-AzApiManagementUserAccountsFromConfig
+
+
+<#
+ .Synopsis
   Removes a user from Azure API Management.
 
  .Description
