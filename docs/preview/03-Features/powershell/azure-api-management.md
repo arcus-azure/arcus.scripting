@@ -107,7 +107,7 @@ Sign-up or invite a new user in an existing Azure API Management instance.
 | `Note`              | no        | A note that will be added to the user                                                                                                                               |
 | `SendNotification`  | no        | Wether or not a notification will be sent to the email address of the user                                                                                          |
 | `ConfirmationType`  | no        | The confirmation type that will be used when creating the user, this can be `invite` (default) or `signup`                                                          |
-| `ApiVersion`        | no        | The version of the management API to be used.  (default: `2021-08-01`)                                                                                              |
+| `ApiVersion`        | no        | The version of the management API to be used. (default: `2021-08-01`)                                                                                               |
 | `SubscriptionId`    | no        | The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).          |
 | `AccessToken`       | no        | The access token to be used to add the user to the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext). |
 
@@ -191,6 +191,201 @@ PS> Create-AzApiManagementUserAccount `
 -ConfirmationType signup
 # Account has been created for $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'
 ```
+
+## Applying user configuration to an Azure API Management service from a configuration file
+
+Apply user configuration to an existing Azure API Management instance. You can create or update users and assign groups and/or subscriptions to these users.
+
+| Parameter                         | Mandatory | Description                                                                                                                                                         |
+| --------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`               | yes       | The resource group containing the Azure API Management instance                                                                                                     |
+| `ServiceName`                     | yes       | The name of the Azure API Management instance located in Azure                                                                                                      |
+| `ConfigurationFile`               | yes       | Path to the JSON Configuration file containing the user configuration                                                                                               |
+| `StrictlyFollowConfigurationFile` | no        | Indicates whether the configuration file should strictly be followed, for example remove the user from groups not defined in the configuration file                 |
+| `ApiVersion`                      | no        | The version of the management API to be used. (default: `2021-08-01`)                                                                                               |
+| `SubscriptionId`                  | no        | The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).          |
+| `AccessToken`                     | no        | The access token to be used to add the user to the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext). |
+
+**Configuration File**
+
+The configuration file is a simple JSON file that contains the users that need to be created or updated, the JSON file consists of an array of JSON objects.
+
+ The file needs to adhere to the following JSON schema:
+
+``` json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scripting.arcus-azure.net/Features/powershell/azure-api-management/config.json",
+  "type": "array",
+  "title": "The configuration JSON schema",
+  "$defs": {},
+  "prefixItems": [{
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "mailAddress": {
+          "type": "string"
+        },
+        "sendNotification": {
+          "type": "boolean"
+        },
+        "confirmationType": {
+          "type": "string",
+          "enum": ["signup", "invite"]
+        },
+        "note": {
+          "type": "string"
+        },
+        "groups": {
+          "type": "array",
+          "prefixItems": [{
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "displayName"
+              ]
+            }
+          ]
+        },
+        "subscriptions": {
+          "type": "array",
+          "prefixItems": [{
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                },
+                "scope": {
+                  "type": "string"
+                },
+                "allowTracing": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "displayName",
+                "scope",
+                "allowTracing"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "mailAddress",
+        "sendNotification",
+        "confirmationType"
+      ]
+    }
+  ]
+}
+```
+
+**Example Configuration File**
+
+```json
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "mailAddress": "john@doe.com",
+    "sendNotification": true,
+    "confirmationType": "signup",
+    "note": "This is an optional note",
+    "groups": [
+      {
+        "id": "SomeGroupId",
+        "displayName": "Example Group",
+        "description": "This is a example group"
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "SomeSubscriptionId",
+        "displayName": "Example Subscription",
+        "scope": "/products/starter",
+        "allowTracing": false
+      }
+    ]
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "mailAddress": "jane@doe.com",
+    "sendNotification": true,
+    "confirmationType": "signup",
+    "note": "This is an optional note",
+    "groups": [
+      {
+        "id": "SomeGroupId",
+        "displayName": "Example Group",
+        "description": "This is a example group"
+      },
+	  {
+        "id": "SomeOtherGroupId",
+        "displayName": "Another Example Group",
+        "description": "This is another example group"
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "SomeSubscriptionId",
+        "displayName": "Example Subscription",
+        "scope": "/products/starter",
+        "allowTracing": false
+      },
+	  {
+        "id": "SomeSOtherubscriptionId",
+        "displayName": "Another Example Subscription",
+        "scope": "/products/starter",
+        "allowTracing": false
+      }
+    ]
+  }
+]
+```
+
+**Example**
+
+Apply user configuration to an existing Azure API Management instance.
+
+```powershell
+PS> Create-AzApiManagementUserAccountsFromConfig `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ConfigurationFile ".\config.json" `
+-StrictlyFollowConfigurationFile
+# User configuration has successfully been applied for user with id 'some-id' to Azure API Management service '$ServiceName' in resource group '$ResourceGroup'
+```
+
 
 ## Removing a user from an Azure API Management service
 
