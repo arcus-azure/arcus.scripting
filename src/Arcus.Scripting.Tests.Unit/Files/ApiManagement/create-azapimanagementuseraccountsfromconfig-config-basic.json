@@ -1,0 +1,11 @@
+[
+  {
+    "firstName": "SomeFirstName",
+    "lastName": "SomeLastName",
+    "userId": "some-userid",
+    "mailAddress": "a@b.com",
+    "sendNotification": true,
+    "confirmationType": "signup",
+    "note": "This is an optional note"
+  }
+]

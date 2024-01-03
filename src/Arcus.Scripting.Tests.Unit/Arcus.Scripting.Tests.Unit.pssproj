@@ -90,6 +90,10 @@
     <Compile Include="Arcus.Scripting.Storage.FileShare.tests.ps1" />
     <Compile Include="Arcus.Scripting.Storage.Table.tests.ps1" />
     <Content Include="Arcus.Scripting.Sql.tests.ps1" />
+    <Content Include="Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-basic.json" />
+    <Content Include="Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-invalid.json" />
+    <Content Include="Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-empty.json" />
+    <Content Include="Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-complex.json" />
     <Content Include="Files\LogicApps\Consumption\deploy-orderControl-noMaximumFollowNextPageLink.json" />
     <Content Include="Files\LogicApps\Consumption\deploy-orderControl-maximumFollowNextPageLink.json" />
     <Content Include="Files\LogicApps\Standard\deploy-orderControl-none.json" />
@@ -118,6 +122,7 @@
     <Folder Include="Files\LogicApps\" />
     <Folder Include="Files\LogicApps\Consumption\" />
     <Folder Include="Files\LogicApps\Standard\" />
+    <Folder Include="Files\ApiManagement\" />
     <Folder Include="Files\TableStorage\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

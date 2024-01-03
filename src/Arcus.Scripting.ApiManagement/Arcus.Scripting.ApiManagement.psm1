@@ -190,8 +190,11 @@ Export-ModuleMember -Function Create-AzApiManagementUserAccount
  .Parameter ServiceName
   The name of the API Management service located in Azure.
 
- .Parameter ConfigurationFileName
+ .Parameter ConfigurationFile
   The file containing the users and their configuration.
+
+ .Parameter StrictlyFollowConfigurationFile
+  Indicates whether the configuration file should strictly be followed, for example remove the user from groups not defined in the configuration file.
 
  .Parameter ApiVersion
   [Optional] The version of the api to be used.
@@ -206,13 +209,17 @@ function Create-AzApiManagementUserAccountsFromConfig {
     param(
         [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
-        [string][Parameter(Mandatory = $true)] $ConfigurationFileName = $(throw "Name of configuration file is required"),
+        [string][Parameter(Mandatory = $true)] $ConfigurationFile = $(throw "Name of configuration file is required"),
+        [switch][parameter(Mandatory = $false)] $StrictlyFollowConfigurationFile = $false,
         [string][parameter(Mandatory = $false)] $ApiVersion = "2021-08-01",
         [string][parameter(Mandatory = $false)] $SubscriptionId,
         [string][parameter(Mandatory = $false)] $AccessToken
     )
-    
-    . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccountsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ConfigurationFileName $ConfigurationFileName -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+    if ($StrictlyFollowConfigurationFile) {
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccountsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ConfigurationFile $ConfigurationFile -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken -StrictlyFollowConfigurationFile
+    } else {
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccountsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ConfigurationFile $ConfigurationFile -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+    }
 }
 
 Export-ModuleMember -Function Create-AzApiManagementUserAccountsFromConfig

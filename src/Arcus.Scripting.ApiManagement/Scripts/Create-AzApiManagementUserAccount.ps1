@@ -14,8 +14,8 @@ param(
     [string][parameter(Mandatory = $false)] $AccessToken
 )
 
-$apimContext = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apimContext -eq $null) {
+$apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
+if ($apim -eq $null) {
     throw "Unable to find the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 }
 
@@ -32,12 +32,9 @@ $fullUrl = $apimMgmtEndpoint.Replace('{subscriptionId}', $SubscriptionId)
 
 try
 {
-    if($ConfirmationType -eq 'invite')
-    {
+    if ($ConfirmationType -eq 'invite') {
         Write-Verbose "Attempting to invite $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
-    }
-    else
-    {
+    } else {
         Write-Verbose "Attempting to create account for $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
     }
 
@@ -66,21 +63,17 @@ try
    
     Write-Verbose $web
 
-    if($ConfirmationType -eq 'invite')
-    {
+    if ($ConfirmationType -eq 'invite') {
         Write-Host "Invitation has been sent to $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
-    }
-    else
-    {
+    } else {
         Write-Host "Account has been created for $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
-        if($Password -eq $null -or $Password -eq ""){
+        if ($Password -eq $null -or $Password -eq "") {
             Write-Warning "Since no password was provided, one has been generated. Please advise the user to change this password the first time logging in for the Azure API Management service '$($ServiceName)' in resource group '$($ResourceGroupName)'"
         }
     }
 
     return $UserId
-}
-catch {
+} catch {
     Write-Host $_
     throw "Failed to create an account for $FirstName $LastName ($MailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
 }
