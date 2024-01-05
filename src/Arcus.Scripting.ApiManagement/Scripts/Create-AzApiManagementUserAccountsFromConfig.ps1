@@ -161,7 +161,7 @@ try
                     $groupId = $_.GroupId
                     if (-Not $_.System -and ($groups | Where-Object {$_.id -eq $groupId}).Count -eq 0) {                        
                         Remove-AzApiManagementUserFromGroup -Context $apimContext -UserId $userId -GroupId $groupId                        
-                        Write-Verbose "The user with id '$userId' has been removed from the group '$groupId'"
+                        Write-Verbose "The user with ID '$userId' has been removed from the group '$groupId' in Azure API Management service '$ServiceName'"
                     }
                 }
             }
@@ -172,7 +172,7 @@ try
                     $subscriptionId = $_.SubscriptionId
                     if (($subscriptions | Where-Object {$_.id -eq $subscriptionId}).Count -eq 0) {
                         Remove-AzApiManagementSubscription -Context $apimContext -SubscriptionId $subscriptionId                        
-                        Write-Verbose "The subscription with id '$subscriptionId' has been removed"
+                        Write-Verbose "The subscription with ID '$subscriptionId' has been removed in Azure API Management service '$ServiceName'"
                     }
                 }
             }
@@ -185,9 +185,9 @@ try
                 $groupDescription = $_.description;
 
                 $group = New-AzApiManagementGroup -Context $apimContext -GroupId $groupId -Name $groupDisplayName -Description $groupDescription
-                Write-Verbose "A group with id '$groupId' and name '$groupDisplayName' has been created or updated"
+                Write-Verbose "A group with ID '$groupId' and name '$groupDisplayName' has been created or updated in Azure API Management service '$ServiceName'"
                 $userToGroup = Add-AzApiManagementUserToGroup -Context $apimContext -GroupId $groupId -UserId $userId
-                Write-Verbose "The user with id '$userId' has been added to the group with id '$groupId'"
+                Write-Verbose "The user with ID '$userId' has been added to the group with ID '$groupId' in Azure API Management service '$ServiceName'"
             }
         }
 
@@ -203,7 +203,7 @@ try
                 } else {
                     $subscription = New-AzApiManagementSubscription -Context $apimContext -SubscriptionId $subscriptionId -Name $subscriptionDisplayName -Scope $subscriptionScope -UserId $userId
                 }
-                Write-Verbose "A subscription for user '$userId' with id '$subscriptionId' and name '$subscriptionDisplayName' for scope '$subscriptionScope' has been created or updated"
+                Write-Verbose "A subscription for user '$userId' with ID '$subscriptionId' and name '$subscriptionDisplayName' for scope '$subscriptionScope' has been created or updated in Azure API Management service '$ServiceName'"
             }
         }
 

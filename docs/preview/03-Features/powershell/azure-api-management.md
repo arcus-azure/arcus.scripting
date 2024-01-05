@@ -383,7 +383,7 @@ PS> Create-AzApiManagementUserAccountsFromConfig `
 -ServiceName $ServiceName `
 -ConfigurationFile ".\config.json" `
 -StrictlyFollowConfigurationFile
-# User configuration has successfully been applied for user with id 'some-id' to Azure API Management service '$ServiceName' in resource group '$ResourceGroup'
+# User configuration has successfully been applied for user with ID 'some-id' to Azure API Management service '$ServiceName' in resource group '$ResourceGroup'
 ```
 
 
