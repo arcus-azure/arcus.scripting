@@ -201,7 +201,7 @@ Apply user configuration to an existing Azure API Management instance. You can c
 | `ResourceGroupName`               | yes       | The resource group containing the Azure API Management instance                                                                                                     |
 | `ServiceName`                     | yes       | The name of the Azure API Management instance located in Azure                                                                                                      |
 | `ConfigurationFile`               | yes       | Path to the JSON Configuration file containing the user configuration                                                                                               |
-| `StrictlyFollowConfigurationFile` | no        | Indicates whether the configuration file should strictly be followed, for example remove the user from groups not defined in the configuration file                 |
+| `StrictlyFollowConfigurationFile` | no        | The switch to indicate whether the configuration file should strictly be followed, for example remove the user from groups not defined in the configuration file    |
 | `ApiVersion`                      | no        | The version of the management API to be used. (default: `2021-08-01`)                                                                                               |
 | `SubscriptionId`                  | no        | The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).          |
 | `AccessToken`                     | no        | The access token to be used to add the user to the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext). |
@@ -210,8 +210,12 @@ Apply user configuration to an existing Azure API Management instance. You can c
 
 The configuration file is a simple JSON file that contains the users that need to be created or updated, the JSON file consists of an array of JSON objects.
 
- The file needs to adhere to the following JSON schema:
 
+ The file needs to adhere to the following JSON schema.
+
+ <details>
+
+  <summary>Configuration File</summary>
 ``` json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -309,9 +313,13 @@ The configuration file is a simple JSON file that contains the users that need t
 }
 ```
 
-**Example Configuration File**
+</details>
 
-```json
+ <details>
+
+  <summary>Example Configuration File</summary>
+
+``` json
 [
   {
     "firstName": "John",
@@ -373,9 +381,22 @@ The configuration file is a simple JSON file that contains the users that need t
 ]
 ```
 
+</details>
+
+
 **Example**
 
 Apply user configuration to an existing Azure API Management instance.
+
+```powershell
+PS> Create-AzApiManagementUserAccountsFromConfig `
+-ResourceGroupName $ResourceGroup `
+-ServiceName $ServiceName `
+-ConfigurationFile ".\config.json"
+# User configuration has successfully been applied for user with ID 'some-id' to Azure API Management service '$ServiceName' in resource group '$ResourceGroup'
+```
+
+Apply user configuration to an existing Azure API Management instance and strictly adhere to the configuration file.
 
 ```powershell
 PS> Create-AzApiManagementUserAccountsFromConfig `
