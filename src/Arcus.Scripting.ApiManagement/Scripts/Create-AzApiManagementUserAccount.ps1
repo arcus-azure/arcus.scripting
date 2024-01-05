@@ -74,6 +74,6 @@ try
 
     return $UserId
 } catch {
-    Write-Host $_
+    Write-Error $_
     throw "Failed to create an account for $FirstName $LastName ($MailAddress) for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
