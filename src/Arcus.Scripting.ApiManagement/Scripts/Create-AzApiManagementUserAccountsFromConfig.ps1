@@ -9,10 +9,10 @@ param(
 )
 
 if (-not (Test-Path -Path $ConfigurationFile)) {
-    throw "Cannot apply user configuration based on JSON configuration file because no file was found at: '$ConfigurationFile'"
+    throw "Cannot apply user configuration to Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
 if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
-    throw "Cannot apply user configuration based on JSON configuration file because the file is empty."
+    throw "Cannot apply user configuration to Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' based on JSON configuration file because the file is empty."
 }
 
 $schema = @'
@@ -116,7 +116,7 @@ $schema = @'
 '@
 
 if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -Schema $schema -ErrorAction SilentlyContinue)) {
-    throw "Cannot apply user configuration based on JSON configuration file because the file does not contain a valid JSON configuration file."
+    throw "Cannot apply user configuration to Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' based on JSON configuration file because the file does not contain a valid JSON configuration file."
 }
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName

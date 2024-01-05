@@ -1576,7 +1576,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot apply user configuration based on JSON configuration file because no file was found at: '$configFile'"
+                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because no file was found at: '$configFile'"
             }
             It "Applying user configuration to Azure API Management with a config file that is empty fails" {
                 # Arrange    
@@ -1586,7 +1586,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot apply user configuration based on JSON configuration file because the file is empty."
+                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file is empty."
             }
             It "Applying user configuration to Azure API Management with a config file that is not valid JSON fails" {
                 # Arrange
@@ -1596,7 +1596,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot apply user configuration based on JSON configuration file because the file does not contain a valid JSON configuration file."
+                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file does not contain a valid JSON configuration file."
             }
             It "Applying user configuration to a non-existant Azure API Management fails" {
                 # Arrange
