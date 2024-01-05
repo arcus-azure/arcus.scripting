@@ -133,8 +133,7 @@ if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
     $SubscriptionId = $token.SubscriptionId
 }
 
-try
-{
+try {
     $json = Get-Content $ConfigurationFile | Out-String | ConvertFrom-Json
 
     $json | ForEach-Object { 
