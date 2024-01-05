@@ -216,6 +216,7 @@ The configuration file is a simple JSON file that contains the users that need t
  <details>
 
   <summary>Configuration File</summary>
+
 ``` json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -382,7 +383,6 @@ The configuration file is a simple JSON file that contains the users that need t
 ```
 
 </details>
-
 
 **Example**
 
