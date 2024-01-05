@@ -144,7 +144,7 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   [Optional] The confirmation type to use when creating the user, this can be set to 'invite' or 'signup'.
 
  .Parameter ApiVersion
-  [Optional] The version of the api to be used.
+  [Optional] The version of the API to be used.
 
  .Parameter SubscriptionId
   [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
@@ -197,7 +197,7 @@ Export-ModuleMember -Function Create-AzApiManagementUserAccount
   Indicates whether the configuration file should strictly be followed, for example remove the user from groups not defined in the configuration file.
 
  .Parameter ApiVersion
-  [Optional] The version of the api to be used.
+  [Optional] The version of the API to be used.
 
  .Parameter SubscriptionId
   [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
