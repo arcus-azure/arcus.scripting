@@ -1625,7 +1625,21 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-basic.json"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
-                $userId = "some-userid"
+
+                $userIds = @()
+                $firstNames = @()
+                $lastNames = @()
+                $mailAddressess = @()
+                $notes = @()
+
+                $configFileJson = Get-Content $configFile | Out-String | ConvertFrom-Json
+                $configFileJson | ForEach-Object { 
+                    $userIds += $_.userId
+                    $firstNames += $_.firstName
+                    $lastNames += $_.lastName
+                    $mailAddressess += $_.mailAddress
+                    $notes += $_.note
+                }
 
                 Mock Write-Host {}
                 Mock Get-AzApiManagement {
@@ -1643,8 +1657,15 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     }
                 } 
                 Mock Create-AzApiManagementUserAccount -MockWith {
-                    return $userId
-                }
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    $UserId | Should -BeIn $userIds
+                    $FirstName | Should -BeIn $firstNames
+                    $LastName | Should -BeIn $lastNames
+                    $MailAddress | Should -BeIn $mailAddressess
+                    $Note | Should -BeIn $notes
+                    return 'some-id'
+                } -Verifiable
 
                 # Act
                 Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile
@@ -1655,7 +1676,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Create-AzApiManagementUserAccount -Times 1
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
+                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -like "User configuration has successfully been applied for user with id '*' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
             }
             It "Applying user configuration to Azure API Management with a complex config file is OK" {
                 # Arrange
@@ -1664,7 +1685,39 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-complex.json"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
-                $userId = "some-userid"
+                
+                $userIds = @()
+                $firstNames = @()
+                $lastNames = @()
+                $mailAddressess = @()
+                $notes = @()
+                $groupIds = @()
+                $groupDisplayNames = @()
+                $groupDescriptions = @()
+                $subscriptionIds = @()
+                $subscriptionDisplayNames = @()
+                $subscriptionScopes = @()
+
+                $configFileJson = Get-Content $configFile | Out-String | ConvertFrom-Json
+                $configFileJson | ForEach-Object { 
+                    $userIds += $_.userId
+                    $firstNames += $_.firstName
+                    $lastNames += $_.lastName
+                    $mailAddressess += $_.mailAddress
+                    $notes += $_.note
+
+                    $_.groups  | ForEach-Object { 
+                        $groupIds += $_.id
+                        $groupDisplayNames += $_.displayName
+                        $groupDescriptions += $_.description
+                    }
+
+                    $_.subscriptions  | ForEach-Object { 
+                        $subscriptionIds += $_.id
+                        $subscriptionDisplayNames += $_.displayName
+                        $subscriptionScopes += $_.scope
+                    }
+                }
 
                 Mock Write-Host {}
                 Mock Get-AzApiManagement {
@@ -1682,11 +1735,30 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     }
                 } -Verifiable
                 Mock Create-AzApiManagementUserAccount -MockWith {
-                    return $userId
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    $UserId | Should -BeIn $userIds
+                    $FirstName | Should -BeIn $firstNames
+                    $LastName | Should -BeIn $lastNames
+                    $MailAddress | Should -BeIn $mailAddressess
+                    $Note | Should -BeIn $notes
+                    return 'some-userid'
                 } -Verifiable
-                Mock New-AzApiManagementGroup {} -Verifiable
-                Mock Add-AzApiManagementUserToGroup {} -Verifiable
-                Mock New-AzApiManagementSubscription {} -Verifiable
+                Mock New-AzApiManagementGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $Name | Should -BeIn $groupDisplayNames
+                    $Description | Should -BeIn $groupDescriptions
+                } -Verifiable
+                Mock Add-AzApiManagementUserToGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock New-AzApiManagementSubscription {
+                    $SubscriptionId | Should -BeIn $subscriptionIds
+                    $Name | Should -BeIn $subscriptionDisplayNames
+                    $Scope | Should -BeIn $subscriptionScopes
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
 
                 # Act
                 Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile
@@ -1700,7 +1772,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementGroup -Exactly 4
                 Assert-MockCalled Add-AzApiManagementUserToGroup -Exactly 4
                 Assert-MockCalled New-AzApiManagementSubscription -Exactly 4
-                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
+                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -like "User configuration has successfully been applied for user with id '*' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
             }
             It "Applying user configuration to Azure API Management with a complex config file and StrictlyFollowConfigurationFile is OK" {
                 # Arrange
@@ -1709,7 +1781,39 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-complex.json"
                 $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
-                $userId = "some-userid"
+                
+                $userIds = @()
+                $firstNames = @()
+                $lastNames = @()
+                $mailAddressess = @()
+                $notes = @()
+                $groupIds = @()
+                $groupDisplayNames = @()
+                $groupDescriptions = @()
+                $subscriptionIds = @()
+                $subscriptionDisplayNames = @()
+                $subscriptionScopes = @()
+
+                $configFileJson = Get-Content $configFile | Out-String | ConvertFrom-Json
+                $configFileJson | ForEach-Object { 
+                    $userIds += $_.userId
+                    $firstNames += $_.firstName
+                    $lastNames += $_.lastName
+                    $mailAddressess += $_.mailAddress
+                    $notes += $_.note
+
+                    $_.groups  | ForEach-Object { 
+                        $groupIds += $_.id
+                        $groupDisplayNames += $_.displayName
+                        $groupDescriptions += $_.description
+                    }
+
+                    $_.subscriptions  | ForEach-Object { 
+                        $subscriptionIds += $_.id
+                        $subscriptionDisplayNames += $_.displayName
+                        $subscriptionScopes += $_.scope
+                    }
+                }
 
                 Mock Write-Host {}
                 Mock Get-AzApiManagement {
@@ -1727,13 +1831,36 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     }
                 } -Verifiable
                 Mock Create-AzApiManagementUserAccount -MockWith {
-                    return $userId
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    $UserId | Should -BeIn $userIds
+                    $FirstName | Should -BeIn $firstNames
+                    $LastName | Should -BeIn $lastNames
+                    $MailAddress | Should -BeIn $mailAddressess
+                    $Note | Should -BeIn $notes
+                    return 'some-userid'
                 } -Verifiable
-                Mock New-AzApiManagementGroup {} -Verifiable
-                Mock Add-AzApiManagementUserToGroup {} -Verifiable
-                Mock New-AzApiManagementSubscription {} -Verifiable
-                Mock Get-AzApiManagementGroup {} -Verifiable
-                Mock Get-AzApiManagementSubscription {} -Verifiable
+                Mock New-AzApiManagementGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $Name | Should -BeIn $groupDisplayNames
+                    $Description | Should -BeIn $groupDescriptions
+                } -Verifiable
+                Mock Add-AzApiManagementUserToGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock New-AzApiManagementSubscription {
+                    $SubscriptionId | Should -BeIn $subscriptionIds
+                    $Name | Should -BeIn $subscriptionDisplayNames
+                    $Scope | Should -BeIn $subscriptionScopes
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock Get-AzApiManagementGroup {
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock Get-AzApiManagementSubscription {
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
 
                 # Act
                 Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile -StrictlyFollowConfigurationFile
@@ -1749,7 +1876,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementSubscription -Exactly 4
                 Assert-MockCalled Get-AzApiManagementGroup -Exactly 2
                 Assert-MockCalled Get-AzApiManagementSubscription -Exactly 2
-                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
+                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -like "User configuration has successfully been applied for user with id '*' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
             }
         }
     }
