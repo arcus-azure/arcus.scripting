@@ -121,7 +121,7 @@ if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -Schema $schema 
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
 if ($apim -eq $null) {
-    throw "Unable to find the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+    throw "Unable to find the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
 
@@ -161,7 +161,7 @@ try
                     $groupId = $_.GroupId
                     if (-Not $_.System -and ($groups | Where-Object {$_.id -eq $groupId}).Count -eq 0) {                        
                         Remove-AzApiManagementUserFromGroup -Context $apimContext -UserId $userId -GroupId $groupId                        
-                        Write-Verbose "The user with ID '$userId' has been removed from the group '$groupId' in Azure API Management service '$ServiceName'"
+                        Write-Verbose "The user with ID '$userId' has been removed from the group '$groupId' in Azure API Management instance '$ServiceName'"
                     }
                 }
             }
@@ -172,7 +172,7 @@ try
                     $subscriptionId = $_.SubscriptionId
                     if (($subscriptions | Where-Object {$_.id -eq $subscriptionId}).Count -eq 0) {
                         Remove-AzApiManagementSubscription -Context $apimContext -SubscriptionId $subscriptionId                        
-                        Write-Verbose "The subscription with ID '$subscriptionId' has been removed in Azure API Management service '$ServiceName'"
+                        Write-Verbose "The subscription with ID '$subscriptionId' has been removed in Azure API Management instance '$ServiceName'"
                     }
                 }
             }
@@ -185,9 +185,9 @@ try
                 $groupDescription = $_.description;
 
                 $group = New-AzApiManagementGroup -Context $apimContext -GroupId $groupId -Name $groupDisplayName -Description $groupDescription
-                Write-Verbose "A group with ID '$groupId' and name '$groupDisplayName' has been created or updated in Azure API Management service '$ServiceName'"
+                Write-Verbose "A group with ID '$groupId' and name '$groupDisplayName' has been created or updated in Azure API Management instance '$ServiceName'"
                 $userToGroup = Add-AzApiManagementUserToGroup -Context $apimContext -GroupId $groupId -UserId $userId
-                Write-Verbose "The user with ID '$userId' has been added to the group with ID '$groupId' in Azure API Management service '$ServiceName'"
+                Write-Verbose "The user with ID '$userId' has been added to the group with ID '$groupId' in Azure API Management instance '$ServiceName'"
             }
         }
 
@@ -203,13 +203,13 @@ try
                 } else {
                     $subscription = New-AzApiManagementSubscription -Context $apimContext -SubscriptionId $subscriptionId -Name $subscriptionDisplayName -Scope $subscriptionScope -UserId $userId
                 }
-                Write-Verbose "A subscription for user '$userId' with ID '$subscriptionId' and name '$subscriptionDisplayName' for scope '$subscriptionScope' has been created or updated in Azure API Management service '$ServiceName'"
+                Write-Verbose "A subscription for user '$userId' with ID '$subscriptionId' and name '$subscriptionDisplayName' for scope '$subscriptionScope' has been created or updated in Azure API Management instance '$ServiceName'"
             }
         }
 
-        Write-Host "User configuration has successfully been applied for user with id '$userId' to Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
+        Write-Host "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     }
 } catch {
     Write-Host $_
-    throw "Failed to apply user configuration based on the configuration file '$ConfigurationFile' for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+    throw "Failed to apply user configuration based on the configuration file '$ConfigurationFile' for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }

@@ -9,20 +9,20 @@ param(
     [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null
 )
 
-Write-Verbose "Getting Azure storage account key for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
+Write-Verbose "Getting Azure storage account key for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'..."
 $storageKeys = Get-AzStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName
 
 if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
-    Write-Error "Cannot restore Azure API Management service '$ServiceName' in resource group '$ResourceGroupName' because no access keys found for storage account '$StorageAccountName'"
+    Write-Error "Cannot restore Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' because no access keys found for storage account '$StorageAccountName'"
 } else {
-    Write-Host "Got Azure storage key for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'!" -ForegroundColor Green
+    Write-Host "Got Azure storage key for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'!" -ForegroundColor Green
     $storageKey = $storageKeys[0]
     
-    Write-Verbose "Creating new Azure storage context with storage key for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
+    Write-Verbose "Creating new Azure storage context with storage key for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'..."
     $storageContext = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageKey.Value
-    Write-Host "New Azure storage context with storage key created for the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'!" -ForegroundColor Green
+    Write-Host "New Azure storage context with storage key created for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'!" -ForegroundColor Green
 
-    Write-Verbose "Start restoring up Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'..."
+    Write-Verbose "Start restoring up Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'..."
     if ($PassThru) {
         if ($DefaultProfile -ne $null) {
             Restore-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -SourceContainerName $ContainerName -SourceBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
@@ -36,5 +36,5 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
             Restore-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -SourceContainerName $ContainerName -SourceBlobName $BlobName
         }
     }
-    Write-Host "Azure API Management service '$ServiceName' in resource group '$ResourceGroupName' is restored!" -ForegroundColor Green
+    Write-Host "Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' is restored!" -ForegroundColor Green
 }

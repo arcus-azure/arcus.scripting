@@ -3,7 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -ErrorAction 
 
 InModuleScope Arcus.Scripting.ApiManagement {
     Describe "Arcus Azure API Management unit tests" {
-        Context "Back up Azure API Management service" {
+        Context "Back up Azure API Management instance" {
             BeforeEach {
                 # Test values, not really pointing to anything
                 $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
@@ -739,7 +739,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-VerifiableMock
             }
         }
-        Context "Restore Azure API Management service" {
+        Context "Restore Azure API Management instance" {
             It "Restores API management service w/o pass thru and profile" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -1444,7 +1444,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -FirstName $firstName `
                     -LastName $lastName `
                     -MailAddress $mailAddress
-                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management service '$($serviceName)' in resource group '$($resourceGroup)'"
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$($serviceName)' in resource group '$($resourceGroup)'"
 
 
                 # Assert
@@ -1559,7 +1559,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -MailAddress $mailAddress
-                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management service '$serviceName' in resource group '$resourceGroup'"
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$serviceName' in resource group '$resourceGroup'"
 
 
                 # Assert
@@ -1611,7 +1611,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Unable to find the Azure API Management service '$serviceName' in resource group '$resourceGroup'"
+                    Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$serviceName' in resource group '$resourceGroup'"
                 
                 #Assert
                 Assert-VerifiableMock
@@ -1655,7 +1655,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementContext -Times 1
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Create-AzApiManagementUserAccount -Times 1
-                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management service '$serviceName' in resource group '$resourceGroup'" }
+                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
             }
             It "Applying user configuration to Azure API Management with a complex config file is OK" {
                 # Arrange
@@ -1700,7 +1700,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementGroup -Exactly 4
                 Assert-MockCalled Add-AzApiManagementUserToGroup -Exactly 4
                 Assert-MockCalled New-AzApiManagementSubscription -Exactly 4
-                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management service '$serviceName' in resource group '$resourceGroup'" }
+                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
             }
             It "Applying user configuration to Azure API Management with a complex config file and StrictlyFollowConfigurationFile is OK" {
                 # Arrange
@@ -1749,7 +1749,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementSubscription -Exactly 4
                 Assert-MockCalled Get-AzApiManagementGroup -Exactly 2
                 Assert-MockCalled Get-AzApiManagementSubscription -Exactly 2
-                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management service '$serviceName' in resource group '$resourceGroup'" }
+                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -eq "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
             }
         }
     }
