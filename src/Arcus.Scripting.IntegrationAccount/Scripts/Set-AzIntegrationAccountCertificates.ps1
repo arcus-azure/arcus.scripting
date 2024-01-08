@@ -66,7 +66,7 @@ function UploadCertificate {
         }
         Write-Host "Certificate '$certificateName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
     } catch {
-        Write-Error "Failed to upload certificate '$certificateName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
+        Write-Error "Failed to upload certificate '$certificateName' in Azure Integration Account '$Name'. Details: '$($_.Exception.Message)'"
     }
 }
 

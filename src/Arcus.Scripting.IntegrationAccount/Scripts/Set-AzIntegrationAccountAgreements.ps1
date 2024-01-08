@@ -91,7 +91,7 @@ function UploadAgreement {
         }
         Write-Host "Agreement '$agreementName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
     } catch {
-        Write-Error "Failed to upload agreement '$agreementName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
+        Write-Error "Failed to upload agreement '$agreementName' in Azure Integration Account '$Name'. Details: '$($_.Exception.Message)'"
     }
 }
 

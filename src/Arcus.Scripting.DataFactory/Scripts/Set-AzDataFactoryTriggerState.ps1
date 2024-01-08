@@ -32,7 +32,7 @@ if ($Action -eq "Start") {
             Write-Host "Started Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'" -ForegroundColor Green
         }
     } catch {
-        throw "Error starting Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'"
+        throw "Error starting Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     }
 }
 
@@ -43,6 +43,6 @@ if ($Action -eq "Stop") {
             Write-Host "Stopped Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'" -ForegroundColor Green
         }
     } catch {
-        throw "Error stopping Azure Data Factory trigger '$DataFactoryTrigger' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'"
+        throw "Error stopping Azure Data Factory trigger '$DataFactoryTrigger' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     }
 }

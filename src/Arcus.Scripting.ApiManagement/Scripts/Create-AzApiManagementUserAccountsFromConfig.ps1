@@ -209,6 +209,5 @@ try {
     Write-Host "User configuration has successfully been applied for user with id '$userId' to Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
   }
 } catch {
-  Write-Error $_
-  throw "Failed to apply user configuration based on the configuration file '$ConfigurationFile' for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
+  throw "Failed to apply user configuration based on the configuration file '$ConfigurationFile' for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
 }

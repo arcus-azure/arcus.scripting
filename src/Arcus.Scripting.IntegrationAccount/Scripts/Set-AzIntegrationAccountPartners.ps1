@@ -63,7 +63,7 @@ function UploadPartner {
         }
         Write-Host "Partner '$partnerName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
     } catch {
-        Write-Error "Failed to upload partner '$partnerName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
+        Write-Error "Failed to upload partner '$partnerName' in Azure Integration Account '$Name'. Details: '$($_.Exception.Message)'"
     }
 }
 

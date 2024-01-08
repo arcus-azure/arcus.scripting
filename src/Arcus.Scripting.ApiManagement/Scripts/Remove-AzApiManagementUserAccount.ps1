@@ -34,6 +34,5 @@ try {
         Write-Warning "User account with e-mail '$MailAddress' not found in the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
     }    
 } catch {
-    Write-Host $_
-    throw "Failed to remove the user account for '$MailAddress' for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
+    throw "Failed to remove the user account for '$MailAddress' for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
 }

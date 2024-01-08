@@ -34,8 +34,7 @@ if (VerifyAzureFileShareExists) {
                 Write-Host "Uploaded the '$($file.Name)' file to Azure FileShare '$FileShareName'" -ForegroundColor Green
             }
         } catch {
-            $ErrorMessage = $_.Exception.Message
-            Write-Error "Failed to upload files to directory '$DestinationFolderName' in file-share '$FileShareName'. Reason: $ErrorMessage"
+            Write-Error "Failed to upload files to directory '$DestinationFolderName' in file-share '$FileShareName'. Details: $($_.Exception.Message)"
         }
         
     }
