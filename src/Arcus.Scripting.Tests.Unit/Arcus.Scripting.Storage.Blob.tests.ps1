@@ -26,7 +26,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                 Mock New-AzStorageContainer { }
                 Mock Get-ChildItem { 
                     $Path | Should -Be $targetFolderPath
-                    return $files  } -Verifiable
+                    return $files } -Verifiable
                 Mock Set-AzStorageBlobContent {
                     $File | Should -BeIn ($files | % { $_.FullName })
                     $Container | Should -Be $containerName
@@ -71,8 +71,8 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     $Permission | Should -Be $containerPermissions }
                 Mock Get-ChildItem { 
                     $Path | Should -Be $targetFolderPath
-                    return $files  } -Verifiable
-                 Mock Set-AzStorageBlobContent {
+                    return $files } -Verifiable
+                Mock Set-AzStorageBlobContent {
                     $File | Should -BeIn ($files | % { $_.FullName })
                     $Container | Should -Be $containerName
                     $Blob | Should -Be ($filePrefix + ($File -replace "-full", ""))

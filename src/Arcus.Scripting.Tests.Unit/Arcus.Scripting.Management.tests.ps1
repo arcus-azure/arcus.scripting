@@ -12,7 +12,7 @@ InModuleScope Arcus.Scripting.Management {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -22,7 +22,7 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                   Remove-AzApiManagementSoftDeletedService -Name $Name
+                    Remove-AzApiManagementSoftDeletedService -Name $Name
                 } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
 
                 # Assert
@@ -36,18 +36,18 @@ InModuleScope Arcus.Scripting.Management {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Invoke-RestMethod {
                     if ($Method -eq "Get") {
-                       return [pscustomobject] @{
-                        value = @([ordered] @{
-                                id = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
-                                name = $Name;
-                                location = "West Europe";
-                            })
+                        return [pscustomobject] @{
+                            value = @([ordered] @{
+                                    id       = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
+                                    name     = $Name;
+                                    location = "West Europe";
+                                })
                         };
                     } else {
                         throw 'some error'
@@ -56,17 +56,17 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                   Remove-AzApiManagementSoftDeletedService -Name $Name
+                    Remove-AzApiManagementSoftDeletedService -Name $Name
                 } | Should -Throw -ExpectedMessage "Soft deleted Azure API Management service '$Name' could not be removed. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Get'
+                    $Method -eq 'Get'
                 }
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Delete'
+                    $Method -eq 'Delete'
                 }
             }
             It "Removing a soft deleted API Management should succeed" {
@@ -76,18 +76,18 @@ InModuleScope Arcus.Scripting.Management {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Invoke-RestMethod {
                     if ($Method -eq "Get") {
-                       return [pscustomobject] @{
-                        value = @([ordered] @{
-                                id = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
-                                name = $Name;
-                                location = "West Europe";
-                            })
+                        return [pscustomobject] @{
+                            value = @([ordered] @{
+                                    id       = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
+                                    name     = $Name;
+                                    location = "West Europe";
+                                })
                         };
                     } else {
                         return $null
@@ -96,17 +96,17 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                   Remove-AzApiManagementSoftDeletedService -Name $Name
+                    Remove-AzApiManagementSoftDeletedService -Name $Name
                 } | Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Get'
+                    $Method -eq 'Get'
                 }
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Delete'
+                    $Method -eq 'Delete'
                 }
             }
         }
@@ -118,7 +118,7 @@ InModuleScope Arcus.Scripting.Management {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -128,7 +128,7 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                   Restore-AzApiManagementSoftDeletedService -Name $Name
+                    Restore-AzApiManagementSoftDeletedService -Name $Name
                 } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
 
                 # Assert
@@ -142,18 +142,18 @@ InModuleScope Arcus.Scripting.Management {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Invoke-RestMethod {
                     if ($Method -eq "Get") {
-                       return [pscustomobject] @{
-                        value = @([ordered] @{
-                                id = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
-                                name = $Name;
-                                location = "West Europe";
-                            })
+                        return [pscustomobject] @{
+                            value = @([ordered] @{
+                                    id       = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
+                                    name     = $Name;
+                                    location = "West Europe";
+                                })
                         };
                     } else {
                         throw 'some error'
@@ -162,17 +162,17 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                   Restore-AzApiManagementSoftDeletedService -Name $Name
+                    Restore-AzApiManagementSoftDeletedService -Name $Name
                 } | Should -Throw -ExpectedMessage "Soft deleted Azure API Management service '$Name' could not be restored. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Get'
+                    $Method -eq 'Get'
                 }
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Put'
+                    $Method -eq 'Put'
                 }
             }
             It "Restoring a soft deleted API Management should succeed" {
@@ -182,18 +182,18 @@ InModuleScope Arcus.Scripting.Management {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Invoke-RestMethod {
                     if ($Method -eq "Get") {
-                       return [pscustomobject] @{
-                        value = @([ordered] @{
-                                id = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
-                                name = $Name;
-                                location = "West Europe";
-                            })
+                        return [pscustomobject] @{
+                            value = @([ordered] @{
+                                    id       = "subscriptions/########-####-####-####-############/providers/Microsoft.ApiManagement/locations/westeurope/deletedservices/$Name";
+                                    name     = $Name;
+                                    location = "West Europe";
+                                })
                         };
                     } else {
                         return $null
@@ -202,17 +202,17 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                   Restore-AzApiManagementSoftDeletedService -Name $Name
+                    Restore-AzApiManagementSoftDeletedService -Name $Name
                 } | Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Get'
+                    $Method -eq 'Get'
                 }
                 Assert-MockCalled Invoke-RestMethod -Times 1 -ParameterFilter {
-                   $Method -eq 'Put'
+                    $Method -eq 'Put'
                 }
             }            
         }

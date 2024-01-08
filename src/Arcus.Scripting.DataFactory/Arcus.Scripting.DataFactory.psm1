@@ -19,17 +19,14 @@
 #>
 function Enable-AzDataFactoryTrigger {
 	param(
-		[Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
-		[Parameter(Mandatory=$true)][string]$DataFactoryName = $(throw "The name of the data factory is required"),
-		[Parameter(Mandatory=$true)][string]$DataFactoryTriggerName = $(throw "The name of the trigger is required"),
-		[Parameter(Mandatory=$false)][switch]$FailWhenTriggerIsNotFound = $false
+		[Parameter(Mandatory = $true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
+		[Parameter(Mandatory = $true)][string]$DataFactoryName = $(throw "The name of the data factory is required"),
+		[Parameter(Mandatory = $true)][string]$DataFactoryTriggerName = $(throw "The name of the trigger is required"),
+		[Parameter(Mandatory = $false)][switch]$FailWhenTriggerIsNotFound = $false
 	)
-	if($FailWhenTriggerIsNotFound)
-	{
+	if ($FailWhenTriggerIsNotFound) {
 		. $PSScriptRoot\Scripts\Set-AzDataFactoryTriggerState.ps1 -Action Start -ResourceGroupName $ResourceGroupName -DataFactoryName $DataFactoryName -DataFactoryTriggerName $DataFactoryTriggerName -FailWhenTriggerIsNotFound
-	}
-	else
-	{
+	} else {
 		. $PSScriptRoot\Scripts\Set-AzDataFactoryTriggerState.ps1 -Action Start -ResourceGroupName $ResourceGroupName -DataFactoryName $DataFactoryName -DataFactoryTriggerName $DataFactoryTriggerName
 	}
 }
@@ -57,17 +54,14 @@ Export-ModuleMember Enable-AzDataFactoryTrigger
 #>
 function Disable-AzDataFactoryTrigger {
 	param(
-		[Parameter(Mandatory=$true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
-		[Parameter(Mandatory=$true)][string]$DataFactoryName = $(throw "The name of the data factory is required"),
-		[Parameter(Mandatory=$true)][string]$DataFactoryTriggerName = $(throw "The name of the trigger is required"),
-		[Parameter(Mandatory=$false)][switch]$FailWhenTriggerIsNotFound = $false
+		[Parameter(Mandatory = $true)][string]$ResourceGroupName = $(throw "ResourceGroup is required"),
+		[Parameter(Mandatory = $true)][string]$DataFactoryName = $(throw "The name of the data factory is required"),
+		[Parameter(Mandatory = $true)][string]$DataFactoryTriggerName = $(throw "The name of the trigger is required"),
+		[Parameter(Mandatory = $false)][switch]$FailWhenTriggerIsNotFound = $false
 	)
-	if($FailWhenTriggerIsNotFound)
-	{
+	if ($FailWhenTriggerIsNotFound) {
 		. $PSScriptRoot\Scripts\Set-AzDataFactoryTriggerState.ps1 -Action Stop -ResourceGroupName $ResourceGroupName -DataFactoryName $DataFactoryName -DataFactoryTriggerName $DataFactoryTriggerName -FailWhenTriggerIsNotFound
-	}
-	else
-	{
+	} else {
 		. $PSScriptRoot\Scripts\Set-AzDataFactoryTriggerState.ps1 -Action Stop -ResourceGroupName $ResourceGroupName -DataFactoryName $DataFactoryName -DataFactoryTriggerName $DataFactoryTriggerName
 	}
 }

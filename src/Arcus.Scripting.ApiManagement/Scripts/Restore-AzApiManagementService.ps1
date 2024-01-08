@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
     [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Storage account name is required"),
     [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API managgement service name is required"),
-    [Parameter(Mandatory = $true)][string] $ContainerName =$(throw "Source container name is required"),
+    [Parameter(Mandatory = $true)][string] $ContainerName = $(throw "Source container name is required"),
     [Parameter(Mandatory = $true)][string] $BlobName = $(throw "Source blob name is required"),
     [Parameter(Mandatory = $false)][switch] $PassThru = $false,
     [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null

@@ -154,13 +154,13 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Act
                 { Upload-AzFileShareStorageFiles `
-                    -ResourceGroupName $resourceGroup `
-                    -StorageAccountName $storageAccountName `
-                    -FileShareName $fileShareName `
-                    -SourceFolderPath $sourceFolderPath `
-                    -DestinationFolderName $destinationFolderName `
-                    -FileMask $fileMask } |
-                    Should -Throw
+                        -ResourceGroupName $resourceGroup `
+                        -StorageAccountName $storageAccountName `
+                        -FileShareName $fileShareName `
+                        -SourceFolderPath $sourceFolderPath `
+                        -DestinationFolderName $destinationFolderName `
+                        -FileMask $fileMask } |
+                Should -Throw
                 
                 # Assert
                 Assert-VerifiableMock
@@ -239,13 +239,13 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Act
                 { Copy-AzFileShareStorageFiles `
-                    -ResourceGroupName $resourceGroup `
-                    -StorageAccountName $storageAccountName `
-                    -FileShareName $fileShareName `
-                    -SourceFolderPath $sourceFolderPath `
-                    -DestinationFolderName $destinationFolderName `
-                    -FileMask $fileMask } |
-                    Should -Throw
+                        -ResourceGroupName $resourceGroup `
+                        -StorageAccountName $storageAccountName `
+                        -FileShareName $fileShareName `
+                        -SourceFolderPath $sourceFolderPath `
+                        -DestinationFolderName $destinationFolderName `
+                        -FileMask $fileMask } |
+                Should -Throw
                 
                 # Assert
                 Assert-VerifiableMock

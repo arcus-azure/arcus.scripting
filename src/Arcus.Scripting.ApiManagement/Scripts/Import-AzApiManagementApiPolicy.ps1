@@ -1,8 +1,8 @@
 param(
-   [Parameter(Mandatory = $true)][string] $ResourceGroupName,
-   [Parameter(Mandatory = $true)][string] $ServiceName,
-   [Parameter(Mandatory = $true)][string] $ApiId,
-   [Parameter(Mandatory = $true)][string] $PolicyFilePath
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName,
+    [Parameter(Mandatory = $true)][string] $ServiceName,
+    [Parameter(Mandatory = $true)][string] $ApiId,
+    [Parameter(Mandatory = $true)][string] $PolicyFilePath
 )
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName

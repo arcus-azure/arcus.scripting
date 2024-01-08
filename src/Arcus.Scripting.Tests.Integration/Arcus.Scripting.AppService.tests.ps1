@@ -16,7 +16,7 @@ InModuleScope Arcus.Scripting.AppService {
 
                 # Act
                 { Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue -ErrorAction Stop } | 
-                    Should -Throw
+                Should -Throw
             }
             It "Creating a new application setting and setting its value succeeds" {
                 # Arrange

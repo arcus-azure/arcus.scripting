@@ -1,10 +1,10 @@
 param(
-   [Parameter(Mandatory = $true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
-   [Parameter(Mandatory = $false)][string] $ResourceGroupName = ""
+    [Parameter(Mandatory = $true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
+    [Parameter(Mandatory = $false)][string] $ResourceGroupName = ""
 )
 
 $keyVault = $null
-if($resourceGroupName -eq '') {
+if ($resourceGroupName -eq '') {
     Write-Verbose "Looking for the Azure Key Vault with name '$keyVaultName'..."
     $keyVault = Get-AzKeyVault -VaultName $keyVaultName
 } else {
@@ -13,31 +13,30 @@ if($resourceGroupName -eq '') {
 }
 
 $armAccessPolicies = @()
-if($keyVault) {
+if ($keyVault) {
     Write-Verbose "Found Azure Key Vault '$keyVaultName'"
     
     $keyVaultAccessPolicies = $keyVault.accessPolicies
-    if($keyVaultAccessPolicies)
-    {    
-       foreach($keyVaultAccessPolicy in $keyVaultAccessPolicies) {
-          $armAccessPolicy = [pscustomobject]@{
-             tenantId = $keyVaultAccessPolicy.TenantId
-             objectId = $keyVaultAccessPolicy.ObjectId
-          }
+    if ($keyVaultAccessPolicies) {    
+        foreach ($keyVaultAccessPolicy in $keyVaultAccessPolicies) {
+            $armAccessPolicy = [pscustomobject]@{
+                tenantId = $keyVaultAccessPolicy.TenantId
+                objectId = $keyVaultAccessPolicy.ObjectId
+            }
 
-          $armAccessPolicyPermissions = [pscustomobject]@{
-             keys =  $keyVaultAccessPolicy.PermissionsToKeys
-             secrets = $keyVaultAccessPolicy.PermissionsToSecrets
-             certificates = $keyVaultAccessPolicy.PermissionsToCertificates
-             storage = $keyVaultAccessPolicy.PermissionsToStorage
-          }
+            $armAccessPolicyPermissions = [pscustomobject]@{
+                keys         = $keyVaultAccessPolicy.PermissionsToKeys
+                secrets      = $keyVaultAccessPolicy.PermissionsToSecrets
+                certificates = $keyVaultAccessPolicy.PermissionsToCertificates
+                storage      = $keyVaultAccessPolicy.PermissionsToStorage
+            }
 
-          Write-Verbose "Azure Key Vault access policy successfully retrieved for TenantId: $($armAccessPolicy.tenantId) and ObjectId: $($armAccessPolicy.ObjectId)"
-          Write-Debug ($armAccessPolicyPermissions | Format-list | Out-String) 
+            Write-Verbose "Azure Key Vault access policy successfully retrieved for TenantId: $($armAccessPolicy.tenantId) and ObjectId: $($armAccessPolicy.ObjectId)"
+            Write-Debug ($armAccessPolicyPermissions | Format-list | Out-String) 
 
-          $armAccessPolicy | Add-Member -MemberType NoteProperty -Name permissions -Value $armAccessPolicyPermissions
-          $armAccessPolicies += $armAccessPolicy
-       }       
+            $armAccessPolicy | Add-Member -MemberType NoteProperty -Name permissions -Value $armAccessPolicyPermissions
+            $armAccessPolicies += $armAccessPolicy
+        }       
        
         Write-Host "Successfully retrieved Azure Key Vault access policies" -ForegroundColor Green
     }    

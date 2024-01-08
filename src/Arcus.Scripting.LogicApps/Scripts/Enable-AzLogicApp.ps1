@@ -8,9 +8,9 @@ param(
     [Parameter(Mandatory = $false)][string] $AccessToken = ""
 )
 
-try{
+try {
     if ($WorkflowName -eq "") {
-        if ($SubscriptionId -eq "" -or $AccessToken -eq ""){
+        if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
             # Request accessToken in case the script contains records
             $token = Get-AzCachedAccessToken
 
@@ -22,11 +22,11 @@ try{
     
         Write-Verbose "Attempting to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'..."
         $params = @{
-            Method = 'Post'
+            Method  = 'Post'
             Headers = @{ 
-                'authorization'="Bearer $AccessToken"
+                'authorization' = "Bearer $AccessToken"
             }
-            URI = $fullUrl
+            URI     = $fullUrl
         }
 
         $web = Invoke-WebRequest @params -ErrorAction Stop
@@ -35,8 +35,7 @@ try{
         Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $LogicAppName -AppServiceSettingName "Workflows.$WorkflowName.FlowState" -AppServiceSettingValue "Enabled"
         Write-Host "Successfully enabled workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'" -ForegroundColor Green
     }
-}
-catch {
+} catch {
     if ($WorkflowName -eq "") {
         throw "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     } else {

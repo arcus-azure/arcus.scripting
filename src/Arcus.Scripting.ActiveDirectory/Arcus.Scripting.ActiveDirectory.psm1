@@ -13,8 +13,8 @@
 #>
 function List-AzADAppRoleAssignments {
     param(
-       [Parameter(Mandatory = $true)][string] $ClientId = $(throw "ClientId is required"),
-       [Parameter(Mandatory = $false)][string] $RolesAssignedToClientId
+        [Parameter(Mandatory = $true)][string] $ClientId = $(throw "ClientId is required"),
+        [Parameter(Mandatory = $false)][string] $RolesAssignedToClientId
     )
     . $PSScriptRoot\Scripts\List-AzADAppRoleAssignments.ps1 -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
 }

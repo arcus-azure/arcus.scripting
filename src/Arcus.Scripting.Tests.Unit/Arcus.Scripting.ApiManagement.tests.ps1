@@ -242,7 +242,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-MockCalled New-AzApiManagementOperation -Times 1
                 Assert-MockCalled Set-AzApiManagementPolicy -Times 1
             }
-       }
+        }
         Context "Import Azure API Management product policy" {
             It "Importing policy product sets Azure API Management policy on operation" {
                 # Arrange
@@ -300,8 +300,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Import-AzApiManagementProductPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ProductId $productId -PolicyFilePath $policyFilePath } |
-                    # Assert
-                    Should -Throw
+                # Assert
+                Should -Throw
             }
         } 
         Context "Remove Azure API Management defaults" {
@@ -370,7 +370,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
-                    Should -Throw
+                Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -405,7 +405,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
-                    Should -Throw
+                Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -449,7 +449,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Remove-AzApiManagementDefaults -ResourceGroupName $resourceGroup -ServiceName $serviceName } |
-                    Should -Throw
+                Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -665,7 +665,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Import-AzApiManagementApiPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -PolicyFilePath $policyFilePath } |
-                    Should -Throw
+                Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -733,7 +733,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Import-AzApiManagementOperationPolicy -ResourceGroupName $resourceGroup -ServiceName $serviceName -ApiId $apiId -OperationId $operationId -PolicyFilePath $policyFilePath } |
-                    Should -Throw
+                Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -758,7 +758,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
                 $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
-                 Mock Get-AzStorageAccountKey {
+                Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
                     $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
@@ -802,7 +802,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
                 $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
-                 Mock Get-AzStorageAccountKey {
+                Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
                     $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
@@ -847,7 +847,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
                 $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
-                 Mock Get-AzStorageAccountKey {
+                Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
                     $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
@@ -892,7 +892,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
                 $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
-                 Mock Get-AzStorageAccountKey {
+                Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
                     $StorageAccountName | Should -Be $expectedStorageAccountName
                     return $storageKey }
@@ -1069,9 +1069,9 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Upload-AzApiManagementSystemCertificate `
-                    -ResourceGroupName $resourceGroup `
-                    -ServiceName $serviceName `
-                    -CertificateFilePath $certificateFile } | Should -Throw
+                        -ResourceGroupName $resourceGroup `
+                        -ServiceName $serviceName `
+                        -CertificateFilePath $certificateFile } | Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -1098,10 +1098,10 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Upload-AzApiManagementSystemCertificate `
-                    -ResourceGroupName $resourceGroup `
-                    -ServiceName $serviceName `
-                    -CertificateFilePath $certificateFile `
-                    -AsJob } | Should -Throw
+                        -ResourceGroupName $resourceGroup `
+                        -ServiceName $serviceName `
+                        -CertificateFilePath $certificateFile `
+                        -AsJob } | Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -1134,7 +1134,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1180,7 +1180,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1228,7 +1228,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1277,7 +1277,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1326,7 +1326,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1375,7 +1375,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1410,13 +1410,13 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Create-AzApiManagementUserAccount `
-                    -ResourceGroupName $resourceGroup `
-                    -ServiceName $serviceName `
-                    -FirstName $firstName `
-                    -LastName $lastName `
-                    -MailAddress $mailAddress `
-                    -ConfirmationType 'wrongvalue'
+                    Create-AzApiManagementUserAccount `
+                        -ResourceGroupName $resourceGroup `
+                        -ServiceName $serviceName `
+                        -FirstName $firstName `
+                        -LastName $lastName `
+                        -MailAddress $mailAddress `
+                        -ConfirmationType 'wrongvalue'
                 } | Should -Throw -ExpectedMessage 'Cannot validate argument on parameter ''ConfirmationType''. The argument "wrongvalue" does not belong to the set "invite,signup" specified by the ValidateSet attribute. Supply an argument that is in the set and then try the command again.'
 
 
@@ -1438,12 +1438,12 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Create-AzApiManagementUserAccount `
-                    -ResourceGroupName $resourceGroup `
-                    -ServiceName $serviceName `
-                    -FirstName $firstName `
-                    -LastName $lastName `
-                    -MailAddress $mailAddress
+                    Create-AzApiManagementUserAccount `
+                        -ResourceGroupName $resourceGroup `
+                        -ServiceName $serviceName `
+                        -FirstName $firstName `
+                        -LastName $lastName `
+                        -MailAddress $mailAddress
                 } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$($serviceName)' in resource group '$($resourceGroup)'"
 
 
@@ -1462,8 +1462,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
                 $userId = 1
                 $apiUser = [pscustomobject] @{
-                        UserId = $userId;
-                    };
+                    UserId = $userId;
+                };
 
                 Mock Get-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
@@ -1476,7 +1476,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 } 
                 Mock Get-AzApiManagementUser {
@@ -1521,7 +1521,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 } 
                 Mock Get-AzApiManagementUser {
@@ -1555,10 +1555,10 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { 
-                   Remove-AzApiManagementUserAccount `
-                    -ResourceGroupName $resourceGroup `
-                    -ServiceName $serviceName `
-                    -MailAddress $mailAddress
+                    Remove-AzApiManagementUserAccount `
+                        -ResourceGroupName $resourceGroup `
+                        -ServiceName $serviceName `
+                        -MailAddress $mailAddress
                 } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$serviceName' in resource group '$resourceGroup'"
 
 
@@ -1576,7 +1576,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because no file was found at: '$configFile'"
+                Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because no file was found at: '$configFile'"
             }
             It "Applying user configuration to Azure API Management with a config file that is empty fails" {
                 # Arrange    
@@ -1586,7 +1586,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file is empty."
+                Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file is empty."
             }
             It "Applying user configuration to Azure API Management with a config file that is not valid JSON fails" {
                 # Arrange
@@ -1596,7 +1596,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file does not contain a valid JSON configuration file."
+                Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file does not contain a valid JSON configuration file."
             }
             It "Applying user configuration to a non-existant Azure API Management fails" {
                 # Arrange
@@ -1611,7 +1611,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
 
                 # Act
                 { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$serviceName' in resource group '$resourceGroup'"
+                Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$serviceName' in resource group '$resourceGroup'"
                 
                 #Assert
                 Assert-VerifiableMock
@@ -1653,7 +1653,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 } 
                 Mock Create-AzApiManagementUserAccount -MockWith {
@@ -1731,7 +1731,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 } -Verifiable
                 Mock Create-AzApiManagementUserAccount -MockWith {
@@ -1827,7 +1827,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 } -Verifiable
                 Mock Create-AzApiManagementUserAccount -MockWith {

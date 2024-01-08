@@ -56,8 +56,8 @@ InModuleScope Arcus.Scripting.DataFactory {
 
                 # Act
                 { Enable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
-                    # Assert
-                    Should -Throw
+                # Assert
+                Should -Throw
 
                 # Assert
                 Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0
@@ -121,8 +121,8 @@ InModuleScope Arcus.Scripting.DataFactory {
 
                 # Act
                 { Disable-AzDataFactoryTrigger -ResourceGroupName $resourceGroup -DataFactoryName $dataFactoryName -DataFactoryTriggerName $dataFactoryTriggerName -FailWhenTriggerIsNotFound } |
-                    # Assert
-                    Should -Throw
+                # Assert
+                Should -Throw
 
                 # Assert
                 Assert-MockCalled Start-AzDataFactoryV2Trigger -Times 0

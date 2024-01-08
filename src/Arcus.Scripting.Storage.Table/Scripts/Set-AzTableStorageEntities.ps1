@@ -1,15 +1,15 @@
 param(
-    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
-    [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
-    [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
-    [Parameter(Mandatory = $true)][string] $ConfigurationFile = $(throw "Path to the configuration file is required")
+  [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
+  [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
+  [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
+  [Parameter(Mandatory = $true)][string] $ConfigurationFile = $(throw "Path to the configuration file is required")
 )
 
 if (-not (Test-Path -Path $ConfigurationFile)) {
-    throw "Cannot re-create entities based on JSON configuration file because no file was found at: '$ConfigurationFile'"
+  throw "Cannot re-create entities based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
 if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
-     throw "Cannot re-create entities based on JSON configuration file because the file is empty."
+  throw "Cannot re-create entities based on JSON configuration file because the file is empty."
 }
 
 $schema = @'
@@ -41,13 +41,13 @@ $schema = @'
 '@
 
 if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -Schema $schema -ErrorAction SilentlyContinue)) {
-    throw "Cannot re-create entities based on JSON configuration file because the file does not contain a valid JSON configuration file."
+  throw "Cannot re-create entities based on JSON configuration file because the file does not contain a valid JSON configuration file."
 }
 
 Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
 if ($storageAccount -eq $null) {
-    throw "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
+  throw "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
 }
 $ctx = $storageAccount.Context
 Write-Verbose "Azure storage account context has been retrieved for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
@@ -55,7 +55,7 @@ Write-Verbose "Azure storage account context has been retrieved for Azure storag
 Write-Verbose "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageTable = Get-AzStorageTable -Name $TableName -Context $ctx
 if ($storageTable -eq $null) {
-    throw "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
+  throw "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
 }
 $cloudTable = ($storageTable).CloudTable
 Write-Verbose "Azure storage table '$TableName' has been retrieved for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
@@ -67,30 +67,30 @@ Write-Host "Successfully deleted all existing entities in Azure storage table '$
 
 $configFile = Get-Content -Path $ConfigurationFile | ConvertFrom-Json
 foreach ($entityToAdd in $configFile) {
-    if ($entityToAdd.PartitionKey) {
-        $partitionKey = $entityToAdd.PartitionKey
-        $entityToAdd.PSObject.Properties.Remove('PartitionKey')
-    } else {
-        $partitionKey = New-Guid
-    }
+  if ($entityToAdd.PartitionKey) {
+    $partitionKey = $entityToAdd.PartitionKey
+    $entityToAdd.PSObject.Properties.Remove('PartitionKey')
+  } else {
+    $partitionKey = New-Guid
+  }
 
-    if ($entityToAdd.RowKey) {
-        $rowKey = $entityToAdd.RowKey
-        $entityToAdd.PSObject.Properties.Remove('RowKey')
-    } else {
-        $rowKey = New-Guid
-    }
+  if ($entityToAdd.RowKey) {
+    $rowKey = $entityToAdd.RowKey
+    $entityToAdd.PSObject.Properties.Remove('RowKey')
+  } else {
+    $rowKey = New-Guid
+  }
 
-    $entityHash = @{}
-    $entityToAdd.PSObject.Properties | foreach { $entityHash[$_.Name] = $_.Value }
+  $entityHash = @{}
+  $entityToAdd.PSObject.Properties | foreach { $entityHash[$_.Name] = $_.Value }
 
-    $addedRow = Add-AzTableRow `
+  $addedRow = Add-AzTableRow `
     -table $cloudTable `
     -partitionKey $partitionKey `
     -rowKey $rowKey `
     -property $entityHash
 
-    Write-Verbose "Successfully added row with PartitionKey '$partitionKey' and RowKey '$rowKey' to Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
+  Write-Verbose "Successfully added row with PartitionKey '$partitionKey' and RowKey '$rowKey' to Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"
 }
 
 Write-Host "Successfully added all entities in Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'"

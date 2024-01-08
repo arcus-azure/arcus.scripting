@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [Parameter(Mandatory = $true)][string] $CertificateType = $(throw "Certificate type is required, this can be either 'Public' or 'Private'"),
@@ -23,8 +23,7 @@ if ($CertificateType -eq 'Private' -and $CertificatesFolder -ne '' -and $Certifi
 }
 
 function UploadCertificate {
-    param
-    (
+    param(
         [Parameter(Mandatory = $true)][System.IO.FileInfo] $Certificate
     )
 
@@ -38,12 +37,10 @@ function UploadCertificate {
     try {
         Write-Verbose "Checking if the certificate '$certificateName' already exists in the Azure Integration Account '$Name'..."
         $existingCertificate = Get-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -ErrorAction Stop
-    }
-    catch {
+    } catch {
         if ($_.Exception.Message.Contains('could not be found')) {
             Write-Warning "No certificate '$certificateName' could not be found in Azure Integration Account '$Name'"
-        }
-        else {
+        } else {
             throw $_.Exception
         }
     }
@@ -53,40 +50,34 @@ function UploadCertificate {
             Write-Verbose "Creating certificate '$certificateName' in Azure Integration Account '$Name'..."
             if ($CertificateType -eq 'Public') {
                 $createdCertificate = New-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -ErrorAction Stop
-            }
-            else {
+            } else {
                 $createdCertificate = New-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -KeyName $KeyName -KeyVersion $KeyVersion -KeyVaultId $KeyVaultId -ErrorAction Stop
             }
             Write-Debug ($createdCertificate | Format-List -Force | Out-String)
-        }
-        else {
+        } else {
             Write-Verbose "Updating certificate '$certificateName' in Azure Integration Account '$Name'..."
             if ($CertificateType -eq 'Public') {
                 $updatedCertificate = Set-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -Force -ErrorAction Stop
-            }
-            else {
+            } else {
                 $updatedCertificate = Set-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -KeyName $KeyName -KeyVersion $KeyVersion -KeyVaultId $KeyVaultId -Force -ErrorAction Stop
             }
             Write-Debug ($updatedCertificate | Format-List -Force | Out-String)
         }
         Write-Host "Certificate '$certificateName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
-    }
-    catch {
-        Write-Error "Failed to upload certificate '$certificateName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
+    } catch {
+        Write-Error "Failed to upload certificate '$certificateName' in Azure Integration Account '$Name'. Details: '$($_.Exception.Message)'"
     }
 }
 
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
-}
-else {
+} else {
     if ($CertificatesFolder -ne '' -and $CertificateFilePath -eq '') {
         foreach ($certificate in Get-ChildItem($CertificatesFolder) -File) {
             UploadCertificate -Certificate $certificate
         }
-    }
-    elseif ($CertificatesFolder -eq '' -and $CertificateFilePath -ne '') {
+    } elseif ($CertificatesFolder -eq '' -and $CertificateFilePath -ne '') {
         [System.IO.FileInfo]$certificate = New-Object System.IO.FileInfo($CertificateFilePath)
         UploadCertificate -Certificate $certificate
     }

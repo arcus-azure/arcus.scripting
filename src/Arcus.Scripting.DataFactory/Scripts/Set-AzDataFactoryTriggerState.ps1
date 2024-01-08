@@ -1,9 +1,9 @@
 param(
-    [Parameter(Mandatory=$true)][string] $Action = $(throw "Action is required [Start|Stop]"),
-    [Parameter(Mandatory=$true)][string] $ResourceGroupName = $(throw "ResourceGroup is required"),
-    [Parameter(Mandatory=$true)][string] $DataFactoryName = $(throw "The name of the data factory is required"),
-    [Parameter(Mandatory=$true)][string] $DataFactoryTriggerName = $(throw "The name of the trigger is required"),
-    [Parameter(Mandatory=$false)][switch] $FailWhenTriggerIsNotFound = $false
+    [Parameter(Mandatory = $true)][string] $Action = $(throw "Action is required [Start|Stop]"),
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "ResourceGroup is required"),
+    [Parameter(Mandatory = $true)][string] $DataFactoryName = $(throw "The name of the data factory is required"),
+    [Parameter(Mandatory = $true)][string] $DataFactoryTriggerName = $(throw "The name of the trigger is required"),
+    [Parameter(Mandatory = $false)][switch] $FailWhenTriggerIsNotFound = $false
 )
 
 try {
@@ -32,7 +32,7 @@ if ($Action -eq "Start") {
             Write-Host "Started Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'" -ForegroundColor Green
         }
     } catch {
-        throw "Error starting Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'"
+        throw "Error starting Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     }
 }
 
@@ -43,6 +43,6 @@ if ($Action -eq "Stop") {
             Write-Host "Stopped Azure Data Factory trigger '$DataFactoryTriggerName' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'" -ForegroundColor Green
         }
     } catch {
-        throw "Error stopping Azure Data Factory trigger '$DataFactoryTrigger' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'"
+        throw "Error stopping Azure Data Factory trigger '$DataFactoryTrigger' of data factory '$DataFactoryName' in resource group '$ResourceGroupName'. Details: $($_.Exception.Message)"
     }
 }

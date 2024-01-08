@@ -29,7 +29,7 @@ function Set-AzAppServiceSetting {
         [Parameter(Mandatory = $false)][switch] $PrintSettingValuesIfVerbose = $false
     )
 
-    if($PrintSettingValuesIfVerbose) {
+    if ($PrintSettingValuesIfVerbose) {
         . $PSScriptRoot\Scripts\Set-AzAppServiceSetting.ps1 -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue -PrintSettingValuesIfVerbose
     } else {
         . $PSScriptRoot\Scripts\Set-AzAppServiceSetting.ps1 -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue

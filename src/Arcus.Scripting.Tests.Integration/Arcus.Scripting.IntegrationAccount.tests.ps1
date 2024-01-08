@@ -50,7 +50,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schema.FullName -ErrorAction Stop } | 
-                    Should -Throw
+                Should -Throw
             }
             It "Create a single schema in an Integration Account succeeds" {
                 # Arrange
@@ -246,8 +246,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $map = Get-ChildItem($mapFilePath) -File
 
                 # Act
-                { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop} |
-                    Should -Throw
+                { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $map.FullName -ErrorAction Stop } |
+                Should -Throw
             }
             It "Create a single map in an Integration Account succeeds" {
                 # Arrange
@@ -443,8 +443,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $assembly = Get-ChildItem($assemblyFilePath) -File
 
                 # Act
-                { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ErrorAction Stop} |
-                    Should -Throw
+                { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assembly.FullName -ErrorAction Stop } |
+                Should -Throw
             }
             It "Create a single assembly in an Integration Account succeeds" {
                 # Arrange
@@ -588,8 +588,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $certificate = Get-ChildItem($certificateFilePath) -File
 
                 # Act
-                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ErrorAction Stop} |
-                    Should -Throw
+                { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificate.FullName -ErrorAction Stop } |
+                Should -Throw
             }
             It "Create a single public certificate in an Integration Account succeeds" {
                 # Arrange
@@ -637,7 +637,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     $existingCertificate.CreatedTime.ToUniversalTime() | Should -BeLessOrEqual $actual.ChangedTime.ToUniversalTime()
 
                 } finally {
-                   Retry-Function-IntegrationAccount { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
+                    Retry-Function-IntegrationAccount { Remove-AzIntegrationAccountCertificate -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -CertificateName $expectedCertificateName -Force -ErrorAction Stop }
                 }
             }
             It "Create a single public certificate, with prefix, in an Integration Account succeeds" {
@@ -794,8 +794,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $partner = Get-ChildItem($partnerFilePath) -File
 
                 # Act
-                { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ErrorAction Stop} |
-                    Should -Throw
+                { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partner.FullName -ErrorAction Stop } |
+                Should -Throw
             }
             It "Create a single partner in an Integration Account succeeds" {
                 # Arrange
@@ -828,7 +828,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $expectedPartnerName = $partner.BaseName
                 $executionDateTime = (Get-Date).ToUniversalTime()
 
-                $existingPartner = New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -BusinessIdentities @("1", "12345"),@("1", "54321")
+                $existingPartner = New-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -BusinessIdentities @("1", "12345"), @("1", "54321")
 
                 try {
                     # Act
@@ -843,7 +843,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 } finally {
                     Retry-Function-IntegrationAccount { Remove-AzIntegrationAccountPartner -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -PartnerName $expectedPartnerName -Force -ErrorAction Stop }
-                    Retry-Function-IntegrationAccount {  Remove-Item -Path $partner.FullName -ErrorAction Stop }
+                    Retry-Function-IntegrationAccount { Remove-Item -Path $partner.FullName -ErrorAction Stop }
                 }
             }
             It "Create a single partner, with prefix, in an Integration Account succeeds" {
@@ -939,8 +939,8 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreement = Get-ChildItem($agreementFilePath) -File
 
                 # Act
-                { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ErrorAction Stop} |
-                    Should -Throw
+                { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ErrorAction Stop } |
+                Should -Throw
             }
             It "Create a single agreement in an Integration Account succeeds" {
                 # Arrange
@@ -1029,7 +1029,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 try {
                     # Act
-                    Retry-Function-IntegrationAccount {  Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
+                    Retry-Function-IntegrationAccount { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreement.FullName -ArtifactsPrefix $artifactsPrefix -ErrorAction Stop }
 
                     # Assert
                     $actual = Retry-Function-IntegrationAccount { Get-AzIntegrationAccountAgreement -ResourceGroupName $resourceGroupName -IntegrationAccountName $integrationAccountName -AgreementName $expectedAgreementName }

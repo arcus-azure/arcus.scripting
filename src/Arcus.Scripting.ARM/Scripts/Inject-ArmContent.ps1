@@ -10,14 +10,14 @@
     ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
  #>
 
-param (
+param(
     [string] $Path = $PSScriptRoot
 )
 
 function Get-FullyQualifiedChildFilePath {
     param(
-        [parameter(mandatory=$true)] [string] $ParentFilePath,
-        [parameter(mandatory=$true)] [string] $ChildFilePath
+        [parameter(mandatory = $true)] [string] $ParentFilePath,
+        [parameter(mandatory = $true)] [string] $ChildFilePath
     )
 
     $parentDirectoryPath = Split-Path $ParentFilePath -Parent
@@ -46,7 +46,7 @@ function InjectFile {
         #  afterwards character classes and backreferencing to select the optional single or double quotes
         $fileToInjectPathRegex = [regex] "^(?:FileToInject\s*=\s*)?([`"`']?)(?<File>.*?)\1?$";
         $fileMatch = $fileToInjectPathRegex.Match($filePart)
-        if ($fileMatch.Success -ne $True){
+        if ($fileMatch.Success -ne $True) {
             throw "The file part '$filePart' of the injection instruction could not be parsed correctly"
         }
 
@@ -102,8 +102,7 @@ function InjectFile {
                     ConvertFrom-Json $newString
 
                     $surroundContentWithDoubleQuotes = $False
-                }
-                catch {
+                } catch {
                     Write-Warning "Content to inject into ARM template file '$filePath' cannot be parsed as a JSON object!"
                 }
             }

@@ -7,7 +7,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
-        Context "Upload files to Azure Blob storage"{
+        Context "Upload files to Azure Blob storage" {
             It "Uploads files to existing Azure Blob storage resource" {
                 try {
                     # Arrange

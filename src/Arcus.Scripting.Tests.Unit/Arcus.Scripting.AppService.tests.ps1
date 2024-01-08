@@ -16,7 +16,7 @@ InModuleScope Arcus.Scripting.AppService {
 
                 # Act
                 { 
-                   Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue
+                    Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue
                 } | Should -Throw -ExpectedMessage "No Azure App Service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
 
                 # Assert
@@ -37,13 +37,13 @@ InModuleScope Arcus.Scripting.AppService {
 
                 Mock Set-AzWebApp {
                     return [pscustomobject] @{
-                        Id = $AppServiceResourceId;
-                        Name = $AppServiceName;
-                        Type = 'Microsoft.Web/sites';
-                        Location = 'West Europe';
+                        Id         = $AppServiceResourceId;
+                        Name       = $AppServiceName;
+                        Type       = 'Microsoft.Web/sites';
+                        Location   = 'West Europe';
                         SiteConfig = [pscustomobject] @{
                             AppSettings = [pscustomobject] @{
-                                Name = "somesetting";
+                                Name  = "somesetting";
                                 Value = "somevalue";
                             }
                         }
@@ -52,7 +52,7 @@ InModuleScope Arcus.Scripting.AppService {
 
                 # Act
                 { Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -68,15 +68,15 @@ InModuleScope Arcus.Scripting.AppService {
                 $AppServiceSettingName = "existingsetting"
                 $AppServiceSettingValue = "newvalue"
 
-                 Mock Get-AzWebApp {
+                Mock Get-AzWebApp {
                     return [pscustomobject] @{
-                        Id = $AppServiceResourceId;
-                        Name = $AppServiceName;
-                        Type = 'Microsoft.Web/sites';
-                        Location = 'West Europe';
+                        Id         = $AppServiceResourceId;
+                        Name       = $AppServiceName;
+                        Type       = 'Microsoft.Web/sites';
+                        Location   = 'West Europe';
                         SiteConfig = [pscustomobject] @{
                             AppSettings = [pscustomobject] @{
-                                Name = "existingsetting";
+                                Name  = "existingsetting";
                                 Value = "oldvalue";
                             }
                         }
@@ -85,13 +85,13 @@ InModuleScope Arcus.Scripting.AppService {
 
                 Mock Set-AzWebApp {
                     return [pscustomobject] @{
-                        Id = $AppServiceResourceId;
-                        Name = $AppServiceName;
-                        Type = 'Microsoft.Web/sites';
-                        Location = 'West Europe';
+                        Id         = $AppServiceResourceId;
+                        Name       = $AppServiceName;
+                        Type       = 'Microsoft.Web/sites';
+                        Location   = 'West Europe';
                         SiteConfig = [pscustomobject] @{
                             AppSettings = [pscustomobject] @{
-                                Name = "existingsetting";
+                                Name  = "existingsetting";
                                 Value = "newvalue";
                             }
                         }
@@ -100,7 +100,7 @@ InModuleScope Arcus.Scripting.AppService {
 
                 # Act
                 { Set-AzAppServiceSetting -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName -AppServiceSettingName $AppServiceSettingName -AppServiceSettingValue $AppServiceSettingValue } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock

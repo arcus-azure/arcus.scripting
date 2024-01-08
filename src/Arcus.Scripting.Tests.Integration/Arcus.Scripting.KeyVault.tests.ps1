@@ -38,8 +38,8 @@ InModuleScope Arcus.Scripting.KeyVault {
                     # Assert
                     $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual) |
-                        % { [System.Text.Encoding]::UTF8.GetString($_) } |
-                        Should -Be $expected.ToCharArray()
+                    % { [System.Text.Encoding]::UTF8.GetString($_) } |
+                    Should -Be $expected.ToCharArray()
                 } finally {
                     Remove-Item -Path $file.FullName
                     Remove-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -PassThru -Force
@@ -82,8 +82,8 @@ InModuleScope Arcus.Scripting.KeyVault {
                     $actual.Expires | Should -Be $expirationDate
                     $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual) |
-                        % { [System.Text.Encoding]::UTF8.GetString($_) } |
-                        Should -Be $expected.ToCharArray()
+                    % { [System.Text.Encoding]::UTF8.GetString($_) } |
+                    Should -Be $expected.ToCharArray()
 
                 } finally {
                     Remove-Item -Path $file.FullName
@@ -100,7 +100,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                 
                 # Act
                 { Set-AzKeyVaultSecretFromFile -KeyVaultName $keyVault -SecretName $secretName -FilePath "/not-existing-filepath" } |
-                    Should -Throw
+                Should -Throw
                 
                 # Assert
                 Assert-VerifiableMock
@@ -116,7 +116,7 @@ InModuleScope Arcus.Scripting.KeyVault {
 
                 # Act
                 { Set-AzKeyVaultSecretAsBase64FromFile -KeyVaultName $keyVault -SecretName $secretName -FilePath "/not-existing-filepath" } |
-                    Should -Throw
+                Should -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -132,7 +132,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                 $policies.list | Should -Not -BeNullOrEmpty
             }
             It "Get access policies without resource group" {
-                 # Act
+                # Act
                 $policies = Get-AzKeyVaultAccessPolicies -KeyVaultName $config.Arcus.KeyVault.VaultName
 
                 # Assert

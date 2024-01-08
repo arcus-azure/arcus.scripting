@@ -8,7 +8,7 @@ param(
     [Parameter(Mandatory = $false)][string] $EnvironmentName = "AzureCloud"
 )
 
-try{
+try {
     $token = Get-AzCachedAccessToken
     $accessToken = $token.AccessToken
     $subscriptionId = $token.SubscriptionId
@@ -16,10 +16,10 @@ try{
     if ($WorkflowName -eq "") {
         if ($EndTime) {
             $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $MaximumFollowNextPageLink | 
-                Where-Object {$_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime -and $_.EndTime -le $EndTime}
+            Where-Object { $_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime -and $_.EndTime -le $EndTime }
         } else {
             $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $MaximumFollowNextPageLink | 
-                Where-Object {$_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime}
+            Where-Object { $_.Status -eq 'Failed' -and $_.StartTime -ge $StartTime }
         }
         
         foreach ($run in $runs) {
@@ -28,11 +28,11 @@ try{
             $resubmitUrl = "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.Logic/workflows/$LogicAppName/triggers/$triggerName/histories/$runId/resubmit?api-version=2016-06-01"
         
             $params = @{
-                Method = 'Post'
+                Method  = 'Post'
                 Headers = @{ 
-	                'authorization'="Bearer $accessToken"
+                    'authorization' = "Bearer $accessToken"
                 }
-                URI = $resubmitUrl
+                URI     = $resubmitUrl
             }
 
             $web = Invoke-WebRequest @params -ErrorAction Stop
@@ -48,11 +48,11 @@ try{
     } else {
         $listFailedUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -StartTime $StartTime -Action 'listFailed'
         $listFailedParams = @{
-            Method = 'Get'
+            Method  = 'Get'
             Headers = @{ 
-                'authorization'="Bearer $accessToken"
+                'authorization' = "Bearer $accessToken"
             }
-            URI = $listFailedUrl
+            URI     = $listFailedUrl
         }
 
         $failedRuns = Invoke-WebRequest @listFailedParams -ErrorAction Stop
@@ -65,11 +65,11 @@ try{
             while ($nextPageUrl -ne $null -and $nextPageCounter -le $MaximumFollowNextPageLink) {
                 $nextPageCounter = $nextPageCounter + 1
                 $listFailedParams = @{
-                    Method = 'Get'
+                    Method  = 'Get'
                     Headers = @{ 
-                        'authorization'="Bearer $accessToken"
+                        'authorization' = "Bearer $accessToken"
                     }
-                    URI = $nextPageUrl
+                    URI     = $nextPageUrl
                 }
 
                 $failedRunsNextPage = Invoke-WebRequest @listFailedParams -ErrorAction Stop
@@ -85,11 +85,11 @@ try{
 
             $resubmitUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -TriggerName $triggerName -RunName $runName -Action 'resubmit'
             $resubmitParams = @{
-                Method = 'Post'
+                Method  = 'Post'
                 Headers = @{ 
-                    'authorization'="Bearer $accessToken"
+                    'authorization' = "Bearer $accessToken"
                 }
-                URI = $resubmitUrl
+                URI     = $resubmitUrl
             }
             $resubmit = Invoke-WebRequest @resubmitParams -ErrorAction Stop
             Write-Verbose "Resubmit run '$runName' for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"

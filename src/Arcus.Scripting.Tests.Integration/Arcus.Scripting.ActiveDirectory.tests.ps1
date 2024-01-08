@@ -18,7 +18,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 try {
                     # Act
                     {
-                       Add-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -AssignRoleToClientId $ClientAppClientId
+                        Add-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -AssignRoleToClientId $ClientAppClientId
                     } | Should -Not -Throw
 
                     # Assert
@@ -42,7 +42,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 try {
                     # Act
                     {
-                       List-AzADAppRoleAssignments -ClientId $MainAppClientId -RolesAssignedToClientId $ClientAppClientId
+                        List-AzADAppRoleAssignments -ClientId $MainAppClientId -RolesAssignedToClientId $ClientAppClientId
                     } | Should -Not -Throw
                 } finally {
                     Remove-AzADAppRoleAssignment -ClientId $MainAppClientId -Role $RoleName -RemoveRoleFromClientId $ClientAppClientId -RemoveRoleIfNoAssignmentsAreLeft

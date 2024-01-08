@@ -41,16 +41,16 @@ function global:AssertDatabaseVersion ($row, [DatabaseVersion] $expectedVersion)
 }
 
 function global:Create-MigrationTable ($params) {
-    $createTable =  "CREATE TABLE dbo.[DatabaseVersion] " +
-                    "( " +
-                    "   [MajorVersionNumber] INT NOT NULL, " +
-                    "   [MinorVersionNumber] INT NOT NULL, " +
-                    "   [PatchVersionNumber] INT NOT NULL, " +
-                    "   [MigrationDescription] [nvarchar](256) NOT NULL, " +
-                    "   [MigrationDate] DATETIME NOT NULL " +
-                    "   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
-                    "       WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
-                    ")"
+    $createTable = "CREATE TABLE dbo.[DatabaseVersion] " +
+    "( " +
+    "   [MajorVersionNumber] INT NOT NULL, " +
+    "   [MinorVersionNumber] INT NOT NULL, " +
+    "   [PatchVersionNumber] INT NOT NULL, " +
+    "   [MigrationDescription] [nvarchar](256) NOT NULL, " +
+    "   [MigrationDate] DATETIME NOT NULL " +
+    "   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
+    "       WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
+    ")"
 
     Run-AzSqlCommand $params $createTable
 }
@@ -176,8 +176,7 @@ InModuleScope Arcus.Scripting.Sql {
                     $version.MajorVersionNumber | Should -Be 1
                     $version.MinorVersionNumber | Should -Be 0
                     $version.PatchVersionNumber | Should -Be 0
-                }
-                finally {      
+                } finally {      
                     Drop-AzSqlDatabaseTable $params "DatabaseVersion" $customSchema
                     Run-AzSqlCommand $params "DROP SCHEMA $customSchema"
                 }
@@ -267,8 +266,7 @@ InModuleScope Arcus.Scripting.Sql {
                     $version.MajorVersionNumber | Should -Be 1
                     $version.MinorVersionNumber | Should -Be 0
                     $version.PatchVersionNumber | Should -Be 0
-                }
-                finally {                    
+                } finally {                    
                     Drop-AzSqlDatabaseTable $params "Person"
                     Drop-AzSqlDatabaseTable $params "Customer"
                 }
@@ -279,11 +277,11 @@ InModuleScope Arcus.Scripting.Sql {
                 
                 # Act and arrange: execute the specified migration-scripts
                 { Invoke-AzSqlDatabaseMigration `
-                    -ServerName $config.Arcus.Sql.ServerName `
-                    -DatabaseName $config.Arcus.Sql.DatabaseName `
-                    -Username $config.Arcus.Sql.Username `
-                    -Password $config.Arcus.Sql.Password `
-                    -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationStopsOnError" } | Should -Throw
+                        -ServerName $config.Arcus.Sql.ServerName `
+                        -DatabaseName $config.Arcus.Sql.DatabaseName `
+                        -Username $config.Arcus.Sql.Username `
+                        -Password $config.Arcus.Sql.Password `
+                        -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationStopsOnError" } | Should -Throw
 
                 $version = Get-AzSqlDatabaseVersion $params
                 $version.MajorVersionNumber | Should -Be 1 -Because "latest successfull migration-script has major version number 1"
@@ -340,8 +338,7 @@ InModuleScope Arcus.Scripting.Sql {
                     for ($i = 0; $i -lt $versions.Length; $i++) {
                         AssertDatabaseVersion $versions[$i] $expectedVersions[$i]
                     }
-                }
-                finally {
+                } finally {
                     Drop-AzSqlDatabaseTable $params "Person"
                     Drop-AzSqlDatabaseTable $params "Customer"
                 }

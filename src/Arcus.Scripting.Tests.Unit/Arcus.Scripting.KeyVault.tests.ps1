@@ -12,14 +12,15 @@ InModuleScope Arcus.Scripting.KeyVault {
                 $certificatePermissions = "my certificate permissions"
                 $storagePermissions = "my storage permissions"
                 $accessPolicy = [pscustomobject]@{
-                  TenantId = $tenantId
-                  ObjectId = $objectId
-                  PermissionsToKeys = $keyPermissions
-                  PermissionsToSecrets = $secretPermissions
-                  PermissionsToCertificates = $certificatePermissions
-                  PermissionsToStorage = $storagePermissions }
+                    TenantId                  = $tenantId
+                    ObjectId                  = $objectId
+                    PermissionsToKeys         = $keyPermissions
+                    PermissionsToSecrets      = $secretPermissions
+                    PermissionsToCertificates = $certificatePermissions
+                    PermissionsToStorage      = $storagePermissions 
+                }
                 
-                Mock Get-AzKeyVault { return [pscustomobject]@{ accessPolicies = @($accessPolicy) }  }
+                Mock Get-AzKeyVault { return [pscustomobject]@{ accessPolicies = @($accessPolicy) } }
                 
                 # Act
                 $accessPoliciesParameter = Get-AzKeyVaultAccessPolicies -KeyVaultName "key vault" -ResourceGroupName "resource group name" -verbose

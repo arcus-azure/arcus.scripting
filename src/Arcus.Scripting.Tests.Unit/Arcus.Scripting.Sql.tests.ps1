@@ -143,7 +143,7 @@ InModuleScope Arcus.Scripting.Sql {
 
                 # Act / Assert
                 { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
-                    Should -Throw
+                Should -Throw
             }
             It "Invoke SQL migration without database name fails" {
                 # Arrange
@@ -153,8 +153,8 @@ InModuleScope Arcus.Scripting.Sql {
                 $password = "my-pass"
 
                 # Act / Assert
-                 { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
-                    Should -Throw
+                { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
+                Should -Throw
             }
             It "Invoke SQL migration without username fails" {
                 # Arrange
@@ -164,8 +164,8 @@ InModuleScope Arcus.Scripting.Sql {
                 $password = "my-pass"
 
                 # Act / Assert
-                 { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
-                    Should -Throw
+                { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
+                Should -Throw
             }
             It "Invoke SQL migration without password fails" {
                 # Arrange
@@ -175,8 +175,8 @@ InModuleScope Arcus.Scripting.Sql {
                 $password = $null
 
                 # Act / Assert
-                 { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
-                    Should -Throw
+                { Invoke-AzSqlDatabaseMigration -ServerName $serverName -DatabaseName $databaseName -UserName $username -Password $password } |
+                Should -Throw
             }
         }
     }

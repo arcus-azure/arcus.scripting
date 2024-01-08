@@ -33,7 +33,7 @@ function Set-AzIntegrationAccountSchemas {
         [Parameter(Mandatory = $false)][switch] $RemoveFileExtensions = $false
     )
 
-    if($RemoveFileExtensions) {
+    if ($RemoveFileExtensions) {
         . $PSScriptRoot\Scripts\Set-AzIntegrationAccountSchemas.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -SchemaFilePath $SchemaFilePath -SchemasFolder $SchemasFolder -ArtifactsPrefix $ArtifactsPrefix -RemoveFileExtensions
     } else {
         . $PSScriptRoot\Scripts\Set-AzIntegrationAccountSchemas.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -SchemaFilePath $SchemaFilePath -SchemasFolder $SchemasFolder -ArtifactsPrefix $ArtifactsPrefix
@@ -81,7 +81,7 @@ function Set-AzIntegrationAccountMaps {
         [Parameter(Mandatory = $false)][switch] $RemoveFileExtensions = $false
     )
 
-    if($RemoveFileExtensions) {
+    if ($RemoveFileExtensions) {
         . $PSScriptRoot\Scripts\Set-AzIntegrationAccountMaps.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -MapFilePath $MapFilePath -MapsFolder $MapsFolder -MapType $MapType -ArtifactsPrefix $ArtifactsPrefix -RemoveFileExtensions
     } else {
         . $PSScriptRoot\Scripts\Set-AzIntegrationAccountMaps.ps1 -ResourceGroupName $ResourceGroupName -Name $Name -MapFilePath $MapFilePath -MapsFolder $MapsFolder -MapType $MapType -ArtifactsPrefix $ArtifactsPrefix

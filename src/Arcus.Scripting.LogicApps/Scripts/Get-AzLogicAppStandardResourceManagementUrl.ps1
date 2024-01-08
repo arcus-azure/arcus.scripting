@@ -20,8 +20,7 @@ try {
         foreach ($env in $environments) {
             if ($supportedEnvironments.Length -eq 0) {
                 $supportedEnvironments += $env
-            }
-            else {
+            } else {
                 $supportedEnvironments += ", " + $env
             }
         }

@@ -2,8 +2,8 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 
 function global:Create-AzLogicAppName () {
-     $id = [Guid]::NewGuid()
-     return "arcus-test-$($id)"
+    $id = [Guid]::NewGuid()
+    return "arcus-test-$($id)"
 }
 
 InModuleScope Arcus.Scripting.LogicApps {
@@ -31,7 +31,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }'
         }
         Context "Enabling Logic Apps without configuration" {
-            It "Enables a specific Logic App"{
+            It "Enables a specific Logic App" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $logicAppName = Create-AzLogicAppName
@@ -57,7 +57,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
         }
         Context "Disabling Logic Apps without configuration" {
-            It "Disables a specific Logic App"{
+            It "Disables a specific Logic App" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $logicAppName = Create-AzLogicAppName
@@ -77,8 +77,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $logicApp = Get-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName
                     $logicApp | Should -Not -Be $null
                     $logicApp.State | Should -Be "Disabled"
-                }
-                finally {
+                } finally {
                     Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
                 }
             }
@@ -165,7 +164,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
         }
         Context "Cancel Logic Apps runs" {
-            It "Cancel all running instances for a Logic App"{
+            It "Cancel all running instances for a Logic App" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $logicAppName = Create-AzLogicAppName
@@ -218,7 +217,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                     # Assert
                     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
-                        Where-Object {$_.Status -eq 'Cancelled'} | measure
+                    Where-Object { $_.Status -eq 'Cancelled' } | measure
 
                     $runs.Count | Should -BeGreaterThan 0
 
@@ -228,7 +227,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
         }
         Context "Resubmit Failed Logic Apps runs" {
-            It "Resubmit all failed instances for a Logic App"{
+            It "Resubmit all failed instances for a Logic App" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $logicAppName = Create-AzLogicAppName
@@ -274,7 +273,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                     # Assert
                     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
-                        Where-Object {$_.StartTime -ge $startTime} | measure
+                    Where-Object { $_.StartTime -ge $startTime } | measure
 
                     $runs.Count | Should -BeGreaterThan 0
 
@@ -282,7 +281,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     Remove-AzLogicApp -ResourceGroupName $resourceGroupName -Name $logicAppName -Force
                 }
             }
-            It "Resubmit all failed instances for a Logic App with specifying an EndTime"{
+            It "Resubmit all failed instances for a Logic App with specifying an EndTime" {
                 # Arrange
                 $resourceGroupName = $config.Arcus.ResourceGroupName
                 $logicAppName = Create-AzLogicAppName
@@ -329,7 +328,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                     # Assert
                     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
-                        Where-Object {$_.StartTime -ge $startTime} | measure
+                    Where-Object { $_.StartTime -ge $startTime } | measure
 
                     $runs.Count | Should -BeGreaterThan 0
 

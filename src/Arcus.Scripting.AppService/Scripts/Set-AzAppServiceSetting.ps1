@@ -31,8 +31,7 @@ foreach ($setting in $appServiceSettings) {
 $existingSettings[$AppServiceSettingName] = $AppServiceSettingValue
 
 Write-Verbose "Setting the application setting '$AppServiceSettingName' for the Azure App Service '$AppServiceName' in the resource group '$ResourceGroupName'"
-try 
-{
+try {
     $updatedAppService = Set-AzWebApp -ResourceGroupName $ResourceGroupName -Name $appServiceName -AppSettings $existingSettings
 
     Write-Verbose "Updated Azure App Service settings:"

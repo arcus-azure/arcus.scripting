@@ -13,9 +13,9 @@
 #>
 function Set-AzDevOpsVariable {
     param(
-        [parameter(Mandatory=$true)][string] $Name = $(throw "Name is required"),
-        [parameter(Mandatory=$true)][string] $Value = $(throw "Value is required"),
-        [parameter(Mandatory=$false)][switch] $AsSecret = $false
+        [parameter(Mandatory = $true)][string] $Name = $(throw "Name is required"),
+        [parameter(Mandatory = $true)][string] $Value = $(throw "Value is required"),
+        [parameter(Mandatory = $false)][switch] $AsSecret = $false
     )
     
     if ($AsSecret) {
@@ -45,9 +45,9 @@ Export-ModuleMember -Function Set-AzDevOpsVariable
 #>
 function Set-AzDevOpsArmOutputsToVariableGroup {
     param(
-        [parameter(Mandatory=$true)][string] $VariableGroupName = $(throw "Name for variable group is required"),
+        [parameter(Mandatory = $true)][string] $VariableGroupName = $(throw "Name for variable group is required"),
         [parameter(Mandatory = $false)][string] $ArmOutputsEnvironmentVariableName = "ArmOutputs",
-        [parameter(Mandatory=$false)][switch] $UpdateVariablesForCurrentJob = $false
+        [parameter(Mandatory = $false)][switch] $UpdateVariablesForCurrentJob = $false
     )
 
     if ($UpdateVariablesForCurrentJob) {
