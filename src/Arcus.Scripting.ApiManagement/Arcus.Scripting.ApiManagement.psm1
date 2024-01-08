@@ -308,12 +308,12 @@ Export-ModuleMember -Function Import-AzApiManagementProductPolicy
  The name of the Azure API Management instance.
 #>
 function Remove-AzApiManagementDefaults {
-  param(
-      [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
-      [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "Service name for API Management service name is required")
-  )
+    param(
+        [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "Service name for API Management service name is required")
+    )
 
-. $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementDefaults.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName 
 }
 
 Export-ModuleMember -Function Remove-AzApiManagementDefaults
@@ -423,7 +423,7 @@ function Restore-AzApiManagementService {
         [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
         [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name for the Azure storage account is required"),
         [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "Service name for API Management service name is required"),
-        [Parameter(Mandatory = $true)][string] $ContainerName =$(throw "Name of the source container is required"),
+        [Parameter(Mandatory = $true)][string] $ContainerName = $(throw "Name of the source container is required"),
         [Parameter(Mandatory = $true)][string] $BlobName = $(throw "Name of the Azure storage blob is required"),
         [Parameter(Mandatory = $false)][switch] $PassThru = $false,
         [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null

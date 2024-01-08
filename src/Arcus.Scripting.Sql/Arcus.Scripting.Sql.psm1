@@ -12,17 +12,15 @@ class DatabaseVersion : System.IComparable {
     DatabaseVersion([string] $version) {
         $items = $version -split '\.'
         
-        if( $items.length -eq 3 ) {
+        if ( $items.length -eq 3 ) {
             $this.MajorVersionNumber = $items[0];
             $this.MinorVersionNumber = $items[1];
             $this.PatchVersionNumber = $items[2];
-        }
-        elseif( $items.length -eq 1 ) {
+        } elseif ( $items.length -eq 1 ) {
             $this.MajorVersionNumber = $items[0];
             $this.MinorVersionNumber = 0;
             $this.PatchVersionNumber = 0;
-        }
-        else {
+        } else {
             Throw "$version is not a valid or supported version number." 
         }
     }
@@ -86,13 +84,13 @@ class DatabaseVersion : System.IComparable {
 #>
 function Invoke-AzSqlDatabaseMigration {
     param(
-        [Parameter(Mandatory=$true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
-        [Parameter(Mandatory=$true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
-        [Parameter(Mandatory=$true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
-        [Parameter(Mandatory=$true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
-        [Parameter(Mandatory=$false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
-        [Parameter(Mandatory=$false)][string] $ScriptsFileFilter = "*.sql",
-        [Parameter(Mandatory=$false)][string] $DatabaseSchema = "dbo"
+        [Parameter(Mandatory = $true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
+        [Parameter(Mandatory = $true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
+        [Parameter(Mandatory = $true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
+        [Parameter(Mandatory = $true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
+        [Parameter(Mandatory = $false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
+        [Parameter(Mandatory = $false)][string] $ScriptsFileFilter = "*.sql",
+        [Parameter(Mandatory = $false)][string] $DatabaseSchema = "dbo"
     )
 
     . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
