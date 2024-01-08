@@ -3,7 +3,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -ErrorAction 
 
 InModuleScope Arcus.Scripting.ApiManagement {
     Describe "Arcus Azure API Management unit tests" {
-        Context "Back up Azure API Management service" {
+        Context "Back up Azure API Management instance" {
             BeforeEach {
                 # Test values, not really pointing to anything
                 $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
@@ -739,7 +739,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Assert-VerifiableMock
             }
         }
-        Context "Restore Azure API Management service" {
+        Context "Restore Azure API Management instance" {
             It "Restores API management service w/o pass thru and profile" {
                 # Arrange
                 $resourceGroup = "shopping"
@@ -1444,7 +1444,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -FirstName $firstName `
                     -LastName $lastName `
                     -MailAddress $mailAddress
-                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management service '$($serviceName)' in resource group '$($resourceGroup)'"
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$($serviceName)' in resource group '$($resourceGroup)'"
 
 
                 # Assert
@@ -1559,12 +1559,324 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     -ResourceGroupName $resourceGroup `
                     -ServiceName $serviceName `
                     -MailAddress $mailAddress
-                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management service '$serviceName' in resource group '$resourceGroup'"
+                } | Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$serviceName' in resource group '$resourceGroup'"
 
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzApiManagement -Times 1
+            }
+        }
+        Context "Create Azure API Management User From Config" {
+            It "Applying user configuration to Azure API Management with a config file that does not exist fails" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $serviceName = "SomeServiceName"
+                $configFile = ".\SomeFileThatDoesNotExist.json"
+
+                # Act
+                { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because no file was found at: '$configFile'"
+            }
+            It "Applying user configuration to Azure API Management with a config file that is empty fails" {
+                # Arrange    
+                $resourceGroup = "SomeResourceGroup"
+                $serviceName = "SomeServiceName"
+                $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-empty.json"
+
+                # Act
+                { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file is empty."
+            }
+            It "Applying user configuration to Azure API Management with a config file that is not valid JSON fails" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $serviceName = "SomeServiceName"
+                $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-invalid.json"
+
+                # Act
+                { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Cannot apply user configuration to Azure API Management instance '$serviceName' in resource group '$resourceGroup' based on JSON configuration file because the file does not contain a valid JSON configuration file."
+            }
+            It "Applying user configuration to a non-existant Azure API Management fails" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $serviceName = "SomeServiceName"
+                $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-basic.json"
+
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $null } -Verifiable
+
+                # Act
+                { Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile } |
+                    Should -Throw -ExpectedMessage "Unable to find the Azure API Management instance '$serviceName' in resource group '$resourceGroup'"
+                
+                #Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+
+            }
+            It "Applying user configuration to Azure API Management with a basic config file is OK" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $serviceName = "SomeServiceName"
+                $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-basic.json"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+
+                $userIds = @()
+                $firstNames = @()
+                $lastNames = @()
+                $mailAddressess = @()
+                $notes = @()
+
+                $configFileJson = Get-Content $configFile | Out-String | ConvertFrom-Json
+                $configFileJson | ForEach-Object { 
+                    $userIds += $_.userId
+                    $firstNames += $_.firstName
+                    $lastNames += $_.lastName
+                    $mailAddressess += $_.mailAddress
+                    $notes += $_.note
+                }
+
+                Mock Write-Host {}
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock New-AzApiManagementContext {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                } 
+                Mock Create-AzApiManagementUserAccount -MockWith {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    $UserId | Should -BeIn $userIds
+                    $FirstName | Should -BeIn $firstNames
+                    $LastName | Should -BeIn $lastNames
+                    $MailAddress | Should -BeIn $mailAddressess
+                    $Note | Should -BeIn $notes
+                    return 'some-id'
+                } -Verifiable
+
+                # Act
+                Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile
+                
+                #Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled New-AzApiManagementContext -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Create-AzApiManagementUserAccount -Times 1
+                Assert-MockCalled Write-Host -Exactly 1 -ParameterFilter { $Object -like "User configuration has successfully been applied for user with id '*' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
+            }
+            It "Applying user configuration to Azure API Management with a complex config file is OK" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $serviceName = "SomeServiceName"
+                $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-complex.json"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+                
+                $userIds = @()
+                $firstNames = @()
+                $lastNames = @()
+                $mailAddressess = @()
+                $notes = @()
+                $groupIds = @()
+                $groupDisplayNames = @()
+                $groupDescriptions = @()
+                $subscriptionIds = @()
+                $subscriptionDisplayNames = @()
+                $subscriptionScopes = @()
+
+                $configFileJson = Get-Content $configFile | Out-String | ConvertFrom-Json
+                $configFileJson | ForEach-Object { 
+                    $userIds += $_.userId
+                    $firstNames += $_.firstName
+                    $lastNames += $_.lastName
+                    $mailAddressess += $_.mailAddress
+                    $notes += $_.note
+
+                    $_.groups  | ForEach-Object { 
+                        $groupIds += $_.id
+                        $groupDisplayNames += $_.displayName
+                        $groupDescriptions += $_.description
+                    }
+
+                    $_.subscriptions  | ForEach-Object { 
+                        $subscriptionIds += $_.id
+                        $subscriptionDisplayNames += $_.displayName
+                        $subscriptionScopes += $_.scope
+                    }
+                }
+
+                Mock Write-Host {}
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock New-AzApiManagementContext {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                } -Verifiable
+                Mock Create-AzApiManagementUserAccount -MockWith {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    $UserId | Should -BeIn $userIds
+                    $FirstName | Should -BeIn $firstNames
+                    $LastName | Should -BeIn $lastNames
+                    $MailAddress | Should -BeIn $mailAddressess
+                    $Note | Should -BeIn $notes
+                    return 'some-userid'
+                } -Verifiable
+                Mock New-AzApiManagementGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $Name | Should -BeIn $groupDisplayNames
+                    $Description | Should -BeIn $groupDescriptions
+                } -Verifiable
+                Mock Add-AzApiManagementUserToGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock New-AzApiManagementSubscription {
+                    $SubscriptionId | Should -BeIn $subscriptionIds
+                    $Name | Should -BeIn $subscriptionDisplayNames
+                    $Scope | Should -BeIn $subscriptionScopes
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+
+                # Act
+                Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile
+                
+                #Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled New-AzApiManagementContext -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Create-AzApiManagementUserAccount -Times 1
+                Assert-MockCalled New-AzApiManagementGroup -Exactly 4
+                Assert-MockCalled Add-AzApiManagementUserToGroup -Exactly 4
+                Assert-MockCalled New-AzApiManagementSubscription -Exactly 4
+                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -like "User configuration has successfully been applied for user with id '*' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
+            }
+            It "Applying user configuration to Azure API Management with a complex config file and StrictlyFollowConfigurationFile is OK" {
+                # Arrange
+                $resourceGroup = "SomeResourceGroup"
+                $serviceName = "SomeServiceName"
+                $configFile = "$PSScriptRoot\Files\ApiManagement\create-azapimanagementuseraccountsfromconfig-config-complex.json"
+                $context = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext
+                $stubApiManagement = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.Models.PsApiManagement
+                
+                $userIds = @()
+                $firstNames = @()
+                $lastNames = @()
+                $mailAddressess = @()
+                $notes = @()
+                $groupIds = @()
+                $groupDisplayNames = @()
+                $groupDescriptions = @()
+                $subscriptionIds = @()
+                $subscriptionDisplayNames = @()
+                $subscriptionScopes = @()
+
+                $configFileJson = Get-Content $configFile | Out-String | ConvertFrom-Json
+                $configFileJson | ForEach-Object { 
+                    $userIds += $_.userId
+                    $firstNames += $_.firstName
+                    $lastNames += $_.lastName
+                    $mailAddressess += $_.mailAddress
+                    $notes += $_.note
+
+                    $_.groups  | ForEach-Object { 
+                        $groupIds += $_.id
+                        $groupDisplayNames += $_.displayName
+                        $groupDescriptions += $_.description
+                    }
+
+                    $_.subscriptions  | ForEach-Object { 
+                        $subscriptionIds += $_.id
+                        $subscriptionDisplayNames += $_.displayName
+                        $subscriptionScopes += $_.scope
+                    }
+                }
+
+                Mock Write-Host {}
+                Mock Get-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    return $stubApiManagement } -Verifiable
+                Mock New-AzApiManagementContext {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    return $context } -Verifiable
+                Mock Get-AzCachedAccessToken -MockWith {
+                    return @{
+                        SubscriptionId = "123456"
+                        AccessToken = "accessToken"
+                    }
+                } -Verifiable
+                Mock Create-AzApiManagementUserAccount -MockWith {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $ServiceName | Should -Be $serviceName
+                    $UserId | Should -BeIn $userIds
+                    $FirstName | Should -BeIn $firstNames
+                    $LastName | Should -BeIn $lastNames
+                    $MailAddress | Should -BeIn $mailAddressess
+                    $Note | Should -BeIn $notes
+                    return 'some-userid'
+                } -Verifiable
+                Mock New-AzApiManagementGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $Name | Should -BeIn $groupDisplayNames
+                    $Description | Should -BeIn $groupDescriptions
+                } -Verifiable
+                Mock Add-AzApiManagementUserToGroup {
+                    $GroupId | Should -BeIn $groupIds
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock New-AzApiManagementSubscription {
+                    $SubscriptionId | Should -BeIn $subscriptionIds
+                    $Name | Should -BeIn $subscriptionDisplayNames
+                    $Scope | Should -BeIn $subscriptionScopes
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock Get-AzApiManagementGroup {
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+                Mock Get-AzApiManagementSubscription {
+                    $UserId | Should -BeIn $userIds
+                } -Verifiable
+
+                # Act
+                Create-AzApiManagementUserAccountsFromConfig -ResourceGroupName $resourceGroup -ServiceName $serviceName -ConfigurationFile $configFile -StrictlyFollowConfigurationFile
+                
+                #Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzApiManagement -Times 1
+                Assert-MockCalled New-AzApiManagementContext -Times 1
+                Assert-MockCalled Get-AzCachedAccessToken -Times 1
+                Assert-MockCalled Create-AzApiManagementUserAccount -Times 1
+                Assert-MockCalled New-AzApiManagementGroup -Exactly 4
+                Assert-MockCalled Add-AzApiManagementUserToGroup -Exactly 4
+                Assert-MockCalled New-AzApiManagementSubscription -Exactly 4
+                Assert-MockCalled Get-AzApiManagementGroup -Exactly 2
+                Assert-MockCalled Get-AzApiManagementSubscription -Exactly 2
+                Assert-MockCalled Write-Host -Exactly 2 -ParameterFilter { $Object -like "User configuration has successfully been applied for user with id '*' to Azure API Management instance '$serviceName' in resource group '$resourceGroup'" }
             }
         }
     }

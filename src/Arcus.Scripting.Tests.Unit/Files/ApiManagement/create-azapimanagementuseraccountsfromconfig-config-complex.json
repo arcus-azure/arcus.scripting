@@ -1,0 +1,72 @@
+[
+  {
+    "firstName": "SomeFirstName",
+    "lastName": "SomeLastName",
+    "userId": "some-userid",
+    "mailAddress": "a@b.com",
+    "sendNotification": true,
+    "confirmationType": "signup",
+    "note": "This is an optional note",
+    "groups": [
+      {
+        "id": "SomeGroupId",
+        "displayName": "SomeGroupDisplayName",
+        "description": "This is a test group"
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "SomeSubscriptionId",
+        "displayName": "SomeSubscriptionDisplayName",
+        "scope": "/products/starter",
+        "allowTracing": false
+      }
+    ]
+  },
+  {
+    "firstName": "SomeFirstName",
+    "lastName": "SomeLastName",
+    "userId": "some-userid",
+    "mailAddress": "a@b.com",
+    "sendNotification": true,
+    "confirmationType": "signup",
+    "note": "This is an optional note",
+    "groups": [
+      {
+        "id": "SomeGroupId",
+        "displayName": "SomeGroupDisplayName",
+        "description": "This is a test group"
+      },
+      {
+        "id": "SomeGroupId",
+        "displayName": "SomeGroupDisplayName",
+        "description": "This is a test group"
+      },
+      {
+        "id": "SomeGroupId",
+        "displayName": "SomeGroupDisplayName",
+        "description": "This is a test group"
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "SomeSubscriptionId",
+        "displayName": "SomeSubscriptionDisplayName",
+        "scope": "/products/starter",
+        "allowTracing": false
+      },
+      {
+        "id": "SomeSubscriptionId",
+        "displayName": "SomeSubscriptionDisplayName",
+        "scope": "/products/starter",
+        "allowTracing": false
+      },
+      {
+        "id": "SomeSubscriptionId",
+        "displayName": "SomeSubscriptionDisplayName",
+        "scope": "/products/starter",
+        "allowTracing": false
+      }
+    ]
+  }
+]

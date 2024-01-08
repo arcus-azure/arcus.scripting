@@ -3,7 +3,7 @@
   Backs up an API Management service.
 
  .Description
-  The Backup-AzApiManagement cmdlet backs up an instance of an Azure API Management service by getting the account storage key and creating an new storage context. 
+  The Backup-AzApiManagement cmdlet backs up an instance of an Azure API Management instance by getting the account storage key and creating an new storage context. 
   This cmdlet stores the backup as an Azure Storage blob.
 
  .Parameter ResourceGroupName
@@ -144,10 +144,10 @@ Export-ModuleMember -Function Create-AzApiManagementApiOperation
   [Optional] The confirmation type to use when creating the user, this can be set to 'invite' or 'signup'.
 
  .Parameter ApiVersion
-  [Optional] The version of the api to be used.
+  [Optional] The version of the API to be used.
 
  .Parameter SubscriptionId
-  [Optional] The Id of the subscription containing the Azure API Management service. When not provided, it will be retrieved from the current context (Get-AzContext).
+  [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
 
  .Parameter AccessToken
   [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
@@ -179,6 +179,54 @@ Export-ModuleMember -Function Create-AzApiManagementUserAccount
 
 <#
  .Synopsis
+  Create or update users in Azure API Management.
+
+ .Description
+  Create or update users in an existing Azure API Management instance based on a configuration file.
+
+ .Parameter ResourceGroupName
+  The resource group containing the API Management service.
+
+ .Parameter ServiceName
+  The name of the API Management service located in Azure.
+
+ .Parameter ConfigurationFile
+  The file containing the users and their configuration.
+
+ .Parameter StrictlyFollowConfigurationFile
+  Indicates whether the configuration file should strictly be followed, for example remove the user from groups not defined in the configuration file.
+
+ .Parameter ApiVersion
+  [Optional] The version of the API to be used.
+
+ .Parameter SubscriptionId
+  [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
+
+ .Parameter AccessToken
+  [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
+#>
+function Create-AzApiManagementUserAccountsFromConfig {
+    param(
+        [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
+        [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
+        [string][Parameter(Mandatory = $true)] $ConfigurationFile = $(throw "Name of configuration file is required"),
+        [switch][parameter(Mandatory = $false)] $StrictlyFollowConfigurationFile = $false,
+        [string][parameter(Mandatory = $false)] $ApiVersion = "2021-08-01",
+        [string][parameter(Mandatory = $false)] $SubscriptionId,
+        [string][parameter(Mandatory = $false)] $AccessToken
+    )
+    if ($StrictlyFollowConfigurationFile) {
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccountsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ConfigurationFile $ConfigurationFile -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken -StrictlyFollowConfigurationFile
+    } else {
+        . $PSScriptRoot\Scripts\Create-AzApiManagementUserAccountsFromConfig.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -ConfigurationFile $ConfigurationFile -ApiVersion $ApiVersion -SubscriptionId $SubscriptionId -AccessToken $AccessToken
+    }
+}
+
+Export-ModuleMember -Function Create-AzApiManagementUserAccountsFromConfig
+
+
+<#
+ .Synopsis
   Removes a user from Azure API Management.
 
  .Description
@@ -194,7 +242,7 @@ Export-ModuleMember -Function Create-AzApiManagementUserAccount
   The e-mail address of the user.
 
  .Parameter SubscriptionId
-  [Optional] The Id of the subscription containing the Azure API Management service. When not provided, it will be retrieved from the current context (Get-AzContext).
+  [Optional] The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).
 
  .Parameter AccessToken
   [Optional] The access token to be used. When not provided, it will be retrieved from the current context (Get-AzContext).
@@ -281,7 +329,7 @@ Export-ModuleMember -Function Remove-AzApiManagementDefaults
  The resource group containing the Azure API Management instance.
 
  .Parameter ServiceName
-  The name of the Azure API Management service located in Azure.
+  The name of the Azure API Management instance located in Azure.
 
  .Parameter ApiId
   The ID to identify the API running in API Management.
@@ -415,7 +463,7 @@ Export-ModuleMember -Function Restore-AzApiManagementService
 function Set-AzApiManagementApiSubscriptionKey {
     param(
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw = "Resource group name is required"),
-        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw = "Azure API Management service name is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw = "Azure API Management instance name is required"),
         [Parameter(Mandatory = $true)][string] $ApiId = $("API ID to identitfy the Azure API Management instance is required"),
         [Parameter(Mandatory = $false)][string] $HeaderName = "x-api-key",
         [Parameter(Mandatory = $false)][string] $QueryParamName = "apiKey"
@@ -463,7 +511,7 @@ Export-ModuleMember -Function Upload-AzApiManagementCertificate
   Uploads a CA certificate to the Azure API management certificate store.
 
  .Description
-  Uploads a public CA certificate to the Azure API management Root certificate store, allowing certificate validation in the Azure API Management service policy.
+  Uploads a public CA certificate to the Azure API management Root certificate store, allowing certificate validation in the Azure API Management instance policy.
 
  .Parameter ResourceGroupName
   The name of the resource group containing the Azure API Management instance.

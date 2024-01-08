@@ -22,7 +22,7 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
     $storageContext = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageKey.Value
     Write-Host "New Azure storage context for storage account '$($StorageAccountName)' with storage key created!" -ForegroundColor Green
 
-    Write-Verbose "Start backing up Azure API management service '$($ServiceName)' in resource group '$($ResourceGroupName)'..."
+    Write-Verbose "Start backing up Azure API Management instance '$($ServiceName)' in resource group '$($ResourceGroupName)'..."
     if ($BlobName -ne $null) {
         if ($PassThru) {
             if ($DefaultProfile -ne $null) {
@@ -53,5 +53,5 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
         }
     }
 
-    Write-Host "Azure API management service '$($ServiceName)' in resource group '$($ResourceGroupName)' is backed-up!" -ForegroundColor Green
+    Write-Host "Azure API Management instance '$($ServiceName)' in resource group '$($ResourceGroupName)' is backed-up!" -ForegroundColor Green
 }

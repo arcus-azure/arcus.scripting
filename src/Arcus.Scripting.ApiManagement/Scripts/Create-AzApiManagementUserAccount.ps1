@@ -14,9 +14,9 @@ param(
     [string][parameter(Mandatory = $false)] $AccessToken
 )
 
-$apimContext = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apimContext -eq $null) {
-    throw "Unable to find the Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+$apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
+if ($apim -eq $null) {
+    throw "Unable to find the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
 
 if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
@@ -29,16 +29,13 @@ if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
 
 $apimMgmtEndpoint = "https://management.azure.com/subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.ApiManagement/service/$ServiceName/users/$($UserId)?notify=$SendNotification&api-version=$ApiVersion"
 $fullUrl = $apimMgmtEndpoint.Replace('{subscriptionId}', $SubscriptionId)
-    
+
 try
 {
-    if($ConfirmationType -eq 'invite')
-    {
-        Write-Verbose "Attempting to invite $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
-    }
-    else
-    {
-        Write-Verbose "Attempting to create account for $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+    if ($ConfirmationType -eq 'invite') {
+        Write-Verbose "Attempting to invite $FirstName $LastName ($mailAddress) for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
+    } else {
+        Write-Verbose "Attempting to create account for $FirstName $LastName ($mailAddress) for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
     }
 
     $jsonRequest = ConvertTo-Json -Depth 3 @{
@@ -59,27 +56,24 @@ try
         }
         URI = $fullUrl
         Body = $jsonRequest
+        ContentType = 'application/json'
     }
 
     $web = Invoke-WebRequest @params -ErrorAction Stop
    
     Write-Verbose $web
 
-    if($ConfirmationType -eq 'invite')
-    {
-        Write-Host "Invitation has been sent to $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
-    }
-    else
-    {
-        Write-Host "Account has been created for $FirstName $LastName ($mailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
-        if($Password -eq $null -or $Password -eq ""){
-            Write-Warning "Since no password was provided, one has been generated. Please advise the user to change this password the first time logging in for the Azure API Management service '$($ServiceName)' in resource group '$($ResourceGroupName)'"
+    if ($ConfirmationType -eq 'invite') {
+        Write-Host "Invitation has been sent to $FirstName $LastName ($mailAddress) for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
+    } else {
+        Write-Host "Account has been created for $FirstName $LastName ($mailAddress) for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'" -ForegroundColor Green
+        if ($Password -eq $null -or $Password -eq "") {
+            Write-Warning "Since no password was provided, one has been generated. Please advise the user to change this password the first time logging in for the Azure API Management instance '$($ServiceName)' in resource group '$($ResourceGroupName)'"
         }
     }
 
     return $UserId
-}
-catch {
-    Write-Host $_
-    throw "Failed to create an account for $FirstName $LastName ($MailAddress) for Azure API Management service '$ServiceName' in resource group '$ResourceGroupName'"
+} catch {
+    Write-Error $_
+    throw "Failed to create an account for $FirstName $LastName ($MailAddress) for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
