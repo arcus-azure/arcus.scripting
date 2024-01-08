@@ -17,7 +17,7 @@ function Add-VariableGroupVariable() {
         Write-Verbose "Retrieving Azure DevOps project details for variable group '$VariableGroupName'..."
         [String]$project = "$env:SYSTEM_TEAMPROJECT"
         [String]$projectUri = "$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"
-        [String]$apiVersion = "7.0"
+        [String]$apiVersion = "4.1-preview.1"
         Write-Debug "Using Azure DevOps project: $project, project URI: $projectUri"
         
 
