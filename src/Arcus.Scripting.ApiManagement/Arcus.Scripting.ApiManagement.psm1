@@ -164,7 +164,7 @@ function Create-AzApiManagementUserAccount {
         [string][parameter(Mandatory = $false)] $Note,
         [switch][parameter(Mandatory = $false)] $SendNotification = $false,
         [string][parameter(Mandatory = $false)][ValidateSet('invite', 'signup')] $ConfirmationType = "invite",
-        [string][parameter(Mandatory = $false)] $ApiVersion = "2021-08-01",
+        [string][parameter(Mandatory = $false)] $ApiVersion = "2022-08-01",
         [string][parameter(Mandatory = $false)] $SubscriptionId,
         [string][parameter(Mandatory = $false)] $AccessToken
     )
@@ -211,7 +211,7 @@ function Create-AzApiManagementUserAccountsFromConfig {
         [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
         [string][Parameter(Mandatory = $true)] $ConfigurationFile = $(throw "Name of configuration file is required"),
         [switch][parameter(Mandatory = $false)] $StrictlyFollowConfigurationFile = $false,
-        [string][parameter(Mandatory = $false)] $ApiVersion = "2021-08-01",
+        [string][parameter(Mandatory = $false)] $ApiVersion = "2022-08-01",
         [string][parameter(Mandatory = $false)] $SubscriptionId,
         [string][parameter(Mandatory = $false)] $AccessToken
     )

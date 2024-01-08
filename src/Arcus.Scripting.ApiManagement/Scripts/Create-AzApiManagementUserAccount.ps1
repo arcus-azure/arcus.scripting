@@ -9,7 +9,7 @@ param(
     [string][parameter(Mandatory = $false)] $Note,
     [switch][parameter(Mandatory = $false)] $SendNotification = $false,
     [string][parameter(Mandatory = $false)][ValidateSet('invite', 'signup')] $ConfirmationType = "invite",
-    [string][parameter(Mandatory = $false)] $ApiVersion = "2021-08-01",
+    [string][parameter(Mandatory = $false)] $ApiVersion = "2022-08-01",
     [string][parameter(Mandatory = $false)] $SubscriptionId,
     [string][parameter(Mandatory = $false)] $AccessToken
 )
