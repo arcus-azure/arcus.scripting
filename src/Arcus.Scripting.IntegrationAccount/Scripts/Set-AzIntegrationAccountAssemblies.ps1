@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $AssemblyFilePath = $(if ($AssembliesFolder -eq '') { throw "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'" }),
@@ -11,8 +11,7 @@ if ($AssemblyFilePath -ne '' -and $AssembliesFolder -ne '') {
 }
 
 function UploadAssembly {
-    param
-    (
+    param(
         [Parameter(Mandatory = $true)][System.IO.FileInfo] $Assembly
     )
 

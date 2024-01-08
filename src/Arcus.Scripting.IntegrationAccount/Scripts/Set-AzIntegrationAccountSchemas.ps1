@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $SchemaFilePath = $(if ($SchemasFolder -eq '') { throw "Either the file path of a specific schema or the file path of a folder containing multiple schemas is required, e.g.: -SchemaFilePath 'C:\Schemas\Schema.xsd' or -SchemasFolder 'C:\Schemas'" }),
@@ -12,8 +12,7 @@ if ($SchemaFilePath -ne '' -and $SchemasFolder -ne '') {
 }
 
 function UploadSchema {
-    param
-    (
+    param(
         [Parameter(Mandatory = $true)][System.IO.FileInfo] $Schema
     )
 

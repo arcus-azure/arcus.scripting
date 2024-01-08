@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $MapFilePath = $(if ($MapsFolder -eq '') { throw "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'" }),
@@ -13,8 +13,7 @@ if ($MapFilePath -ne '' -and $MapsFolder -ne '') {
 }
 
 function UploadMap {
-    param
-    (
+    param(
         [Parameter(Mandatory = $true)][System.IO.FileInfo] $Map
     )
 

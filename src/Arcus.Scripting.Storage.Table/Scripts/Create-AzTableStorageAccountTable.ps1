@@ -17,7 +17,7 @@ if ($MaxRetryCount -le 0) {
 
 function Try-CreateTable() {
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Mandatory = $true)][object] $StorageAccount,
         [Parameter(Mandatory = $true)][string] $TableName,
         [Parameter(Mandatory = $false)][int] $RetryIndex = 1

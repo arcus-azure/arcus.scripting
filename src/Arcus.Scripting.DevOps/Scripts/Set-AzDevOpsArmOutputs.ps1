@@ -7,8 +7,7 @@ param(
 
 function Add-VariableGroupVariable() {
     [CmdletBinding()]
-    param
-    (
+    param(
         [string][parameter(Mandatory = $true)]$VariableGroupName,
         [string][parameter(Mandatory = $true)]$variableName,
         [string][parameter(Mandatory = $true)]$variableValue

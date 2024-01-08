@@ -1,4 +1,4 @@
-param (
+param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
     [Parameter(Mandatory = $false)][string] $LockName = $null
 )

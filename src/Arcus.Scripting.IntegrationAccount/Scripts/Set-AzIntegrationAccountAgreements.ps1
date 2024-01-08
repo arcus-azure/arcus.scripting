@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $AgreementFilePath = $(if ($AgreementsFolder -eq '') { throw "Either the file path of a specific agreement or the file path of a folder containing multiple agreements is required, e.g.: -AgreementFilePath 'C:\Agreements\agreement.json' or -AgreementsFolder 'C:\Agreements'" }),

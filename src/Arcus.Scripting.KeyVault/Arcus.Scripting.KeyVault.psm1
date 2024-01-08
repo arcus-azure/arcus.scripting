@@ -42,7 +42,7 @@ Export-ModuleMember -Function Get-AzKeyVaultAccessPolicies
 #>
 
 function Set-AzKeyVaultSecretFromFile {
-    param (
+    param(
         [Parameter(Mandatory = $true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
         [Parameter(Mandatory = $true)][string] $SecretName = $(throw "Name of the secret name is required"),
         [Parameter(Mandatory = $true)][string] $FilePath = $(throw "Path to the secret file is required"),
@@ -75,7 +75,7 @@ Export-ModuleMember -Function Set-AzKeyVaultSecretFromFile
 #>
 
 function Set-AzKeyVaultSecretAsBase64FromFile {
-    param (
+    param(
         [Parameter(Mandatory = $true)][string] $KeyVaultName = $(throw "Name of the Azure Key Vault is required"),
         [Parameter(Mandatory = $true)][string] $SecretName = $(throw "Name of the secret name is required"),
         [Parameter(Mandatory = $true)][string] $FilePath = $(throw "Path to the secret file is required"),

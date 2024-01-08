@@ -11,8 +11,7 @@ $Global:subscriptionId = "";
 
 function ExecuteStopType() {
     [CmdletBinding()]
-    param
-    (
+    param(
         [string][parameter(Mandatory = $true)]$ResourceGroupName,
         [string][parameter(Mandatory = $false)]$LogicAppType,
         [string][parameter(Mandatory = $true)]$LogicAppName,
@@ -43,8 +42,7 @@ function ExecuteStopType() {
 
 function ExecuteCheckType() {
     [CmdletBinding()]
-    param
-    (
+    param(
         [string][parameter(Mandatory = $true)]$ResourceGroupName,
         [System.Array][parameter(Mandatory = $true)]$batch
     )

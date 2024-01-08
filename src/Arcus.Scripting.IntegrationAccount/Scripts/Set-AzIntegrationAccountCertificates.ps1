@@ -1,4 +1,4 @@
-Param(
+param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [Parameter(Mandatory = $true)][string] $CertificateType = $(throw "Certificate type is required, this can be either 'Public' or 'Private'"),
@@ -23,8 +23,7 @@ if ($CertificateType -eq 'Private' -and $CertificatesFolder -ne '' -and $Certifi
 }
 
 function UploadCertificate {
-    param
-    (
+    param(
         [Parameter(Mandatory = $true)][System.IO.FileInfo] $Certificate
     )
 

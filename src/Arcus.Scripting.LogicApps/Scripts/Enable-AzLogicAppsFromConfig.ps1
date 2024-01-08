@@ -11,8 +11,7 @@ $Global:subscriptionId = "";
 
 function ReverseStopType() {
     [CmdletBinding()]
-    param
-    (
+    param(
         [string][parameter(Mandatory = $true)]$ResourceGroupName,
         [System.Array][parameter(Mandatory = $true)]$batch
     )

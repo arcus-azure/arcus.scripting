@@ -67,7 +67,7 @@ Export-ModuleMember -Function Get-AzCachedAccessToken
   The name of the role to assign.
 #>
 function New-AzResourceGroupRoleAssignment {
-    param (
+    param(
         [Parameter(Mandatory = $true)][string] $TargetResourceGroupName = $(throw "Target resource group name to which access should be granted is required"),
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name where the resource is located which should be granted access is required"),
         [Parameter(Mandatory = $true)][string] $ResourceName = $(throw "Name of the resource which should be granted access is required"),
