@@ -49,9 +49,9 @@ InModuleScope Arcus.Scripting.Storage.Table {
                     Retry-Func { New-AzStorageTable -Name $tableName -Context $storageAccount.Context -ErrorAction SilentlyContinue }
                     $storageTable = Get-AzStorageTable –Name $tableName –Context $storageAccount.Context
                     $partitionKey = "arcus-azure-resources"
-                    Add-AzTableRow -Table $storageTable.CloudTable -PartitionKey $partitionKey -RowKey ("Scripting") -Property @{"Resource"="Table storage"}
+                    Add-AzTableRow -Table $storageTable.CloudTable -PartitionKey $partitionKey -RowKey ("Scripting") -Property @{"Resource" = "Table storage" }
                     Get-AzTableRow -Table $storageTable.CloudTable -PartitionKey $partitionKey |
-                            Should -Not -Be $null
+                    Should -Not -Be $null
 
                     # Act
                     Create-AzStorageTable `
@@ -62,7 +62,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
 
                     # Assert
                     Get-AzTableRow -Table $storageTable.CloudTable -PartitionKey $partitionKey |
-                        Should -Be $null
+                    Should -Be $null
                     
                 } finally {
                     Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force
@@ -77,11 +77,11 @@ InModuleScope Arcus.Scripting.Storage.Table {
 
                     # Act
                     { Create-AzStorageTable `
-                        -ResourceGroupName $config.Arcus.ResourceGroupName `
-                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
-                        -Table $tableName `
-                        -Recreate `
-                        -MaxRetryCount 2 } | Should -Throw
+                            -ResourceGroupName $config.Arcus.ResourceGroupName `
+                            -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                            -Table $tableName `
+                            -Recreate `
+                            -MaxRetryCount 2 } | Should -Throw
                 } finally {
                     Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force -ErrorAction SilentlyContinue
                 }
@@ -108,7 +108,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                     # Assert
                     $storageTable = Get-AzStorageTable –Name $tableName –Context $storageAccount.Context
                     (Get-AzTableRow -table $storageTable.CloudTable | measure).Count | 
-                        Should -Be 2
+                    Should -Be 2
                 } finally {
                     Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force -ErrorAction SilentlyContinue
                 }
@@ -133,7 +133,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                     # Assert
                     $storageTable = Get-AzStorageTable –Name $tableName –Context $storageAccount.Context
                     (Get-AzTableRow -table $storageTable.CloudTable | measure).Count | 
-                        Should -Be 2
+                    Should -Be 2
                 } finally {
                     Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force -ErrorAction SilentlyContinue
                 }

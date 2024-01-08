@@ -30,12 +30,10 @@ function UploadSchema {
     try {
         Write-Verbose "Checking if the schema '$schemaName' already exists in the Azure Integration Account '$Name'"
         $existingSchema = Get-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -ErrorAction Stop
-    }
-    catch {
+    } catch {
         if ($_.Exception.Message.Contains('could not be found')) {
             Write-Warning "No schema '$schemaName' could not be found in Azure Integration Account '$Name'"
-        }
-        else {
+        } else {
             throw $_.Exception
         }
     }
@@ -45,15 +43,13 @@ function UploadSchema {
             Write-Verbose "Creating schema '$schemaName' in Azure Integration Account '$Name'..."
             $createdSchema = New-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -SchemaFilePath $schema.FullName -ErrorAction Stop
             Write-Debug ($createdSchema | Format-List -Force | Out-String)
-        }
-        else {
+        } else {
             Write-Verbose "Updating schema '$schemaName' in Azure Integration Account '$Name'..."
             $updatedSchema = Set-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -SchemaFilePath $schema.FullName -ErrorAction Stop -Force
             Write-Debug ($updatedSchema | Format-List -Force | Out-String)
         }
         Write-Host "Schema '$schemaName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
-    }
-    catch {
+    } catch {
         Write-Error "Failed to upload schema '$schemaName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
@@ -61,14 +57,12 @@ function UploadSchema {
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
-}
-else {
+} else {
     if ($SchemasFolder -ne '' -and $SchemaFilePath -eq '') {
         foreach ($schema in Get-ChildItem($schemasFolder) -File) {
             UploadSchema -Schema $schema
         }
-    }
-    elseif ($schemasFolder -eq '' -and $SchemaFilePath -ne '') {
+    } elseif ($schemasFolder -eq '' -and $SchemaFilePath -ne '') {
         [System.IO.FileInfo]$schema = New-Object System.IO.FileInfo("$SchemaFilePath")
         UploadSchema -Schema $schema
     }

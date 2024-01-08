@@ -41,7 +41,7 @@ function ReverseStopType() {
                 if ($batch.logicApps.Length -gt 0 ) {
                     $batch.logicApps | ForEach-Object {
                         $LogicAppName = $_;
-                        if ($ResourcePrefix.Length -gt 0){
+                        if ($ResourcePrefix.Length -gt 0) {
                             $LogicAppName = "$ResourcePrefix$_"
                         }
                         try {
@@ -66,7 +66,7 @@ function ReverseStopType() {
 
 $json = Get-Content $DeployFileName | Out-String | ConvertFrom-Json
 
-if($json.Length -gt 0){
+if ($json.Length -gt 0) {
     # Request accessToken in case the script contains records
     $token = Get-AzCachedAccessToken -AssignGlobalVariables
 }

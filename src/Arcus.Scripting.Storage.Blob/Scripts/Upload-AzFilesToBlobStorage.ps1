@@ -13,8 +13,7 @@ try {
     Write-Verbose "Try using existing Azure Blob storage container '$ContainerName..."
     Get-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -ErrorAction Stop
     Write-Verbose "Using existing Azure Blob storage container '$ContainerName'"
-}
-catch {
+} catch {
     Write-Verbose "Creating Azure Blob storage container '$ContainerName' to upload files..."
     New-AzStorageContainer -Context $storageAccount.Context -Name $ContainerName -Permission $ContainerPermissions
     Write-Verbose "Created Azure Blob storage container '$ContainerName' to upload files"
@@ -23,7 +22,7 @@ catch {
 $files = Get-ChildItem $TargetFolderPath -File
 Write-Verbose "Uploading files from '$TargetFolderPath' to Azure Blob storage container '$ContainerName' in resource group '$ResourceGroupName'..."
 
-foreach($file in $files) {
+foreach ($file in $files) {
     $blobFileName = $FilePrefix + $file.Name
 
     $content = Set-AzStorageBlobContent -File $file.FullName -Container $ContainerName -Blob $blobFileName -Context $storageAccount.Context -Force

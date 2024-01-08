@@ -30,8 +30,7 @@ if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
 $apimMgmtEndpoint = "https://management.azure.com/subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.ApiManagement/service/$ServiceName/users/$($UserId)?notify=$SendNotification&api-version=$ApiVersion"
 $fullUrl = $apimMgmtEndpoint.Replace('{subscriptionId}', $SubscriptionId)
 
-try
-{
+try {
     if ($ConfirmationType -eq 'invite') {
         Write-Verbose "Attempting to invite $FirstName $LastName ($mailAddress) for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
     } else {
@@ -40,22 +39,22 @@ try
 
     $jsonRequest = ConvertTo-Json -Depth 3 @{
         'properties' = @{
-            'firstName' = $FirstName
-            'lastName' = $LastName
-            'email' = $MailAddress
+            'firstName'    = $FirstName
+            'lastName'     = $LastName
+            'email'        = $MailAddress
             'confirmation' = $ConfirmationType
-            'password' = $Password
-            'note' = $Note
+            'password'     = $Password
+            'note'         = $Note
         }
     }
 
     $params = @{
-        Method = 'Put'
-        Headers = @{ 
-	        'authorization'="Bearer $AccessToken"
+        Method      = 'Put'
+        Headers     = @{ 
+            'authorization' = "Bearer $AccessToken"
         }
-        URI = $fullUrl
-        Body = $jsonRequest
+        URI         = $fullUrl
+        Body        = $jsonRequest
         ContentType = 'application/json'
     }
 

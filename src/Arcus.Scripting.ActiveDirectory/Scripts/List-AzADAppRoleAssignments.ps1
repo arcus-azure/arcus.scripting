@@ -24,15 +24,14 @@ if ($RolesAssignedToClientId -ne '') {
 }
 
 try {
-    if ($adApplication.AppRole.Count -eq 0)
-    {
+    if ($adApplication.AppRole.Count -eq 0) {
         Write-Warning "No roles found in Active Directory Application '$($adApplication.DisplayName)'"
     }
 
     foreach ($appRole in $adApplication.AppRole) {
         Write-Host "Found role '$($appRole.Value)' on Active Directory Application '$($adApplication.DisplayName)'" -ForegroundColor Green
         if ($RolesAssignedToClientId -ne '') {
-            $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object {($_.AppRoleId -eq $appRole.Id) -and ($_.PrincipalId -eq $adServicePrincipalRolesAssignedTo.Id)}
+            $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object { ($_.AppRoleId -eq $appRole.Id) -and ($_.PrincipalId -eq $adServicePrincipalRolesAssignedTo.Id) }
         } else {
             $appRoleAssignments = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object AppRoleId -eq $appRole.Id 
         }

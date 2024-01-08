@@ -4,7 +4,7 @@ param(
     [string][parameter(Mandatory = $true)] $ResourceGroupName,
     [string][parameter(Mandatory = $true)] $LogicAppName,
     [string][Parameter(Mandatory = $true)] $ApiVersion,
-    [string][Parameter(Mandatory = $true)][ValidateSet('enable','disable')] $Action
+    [string][Parameter(Mandatory = $true)][ValidateSet('enable', 'disable')] $Action
 )
 
 
@@ -18,8 +18,7 @@ try {
         foreach ($env in $environments) {
             if ($supportedEnvironments.Length -eq 0) {
                 $supportedEnvironments += $env
-            }
-            else {
+            } else {
                 $supportedEnvironments += ", " + $env
             }
         }

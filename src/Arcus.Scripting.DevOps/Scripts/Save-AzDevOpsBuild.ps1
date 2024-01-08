@@ -1,7 +1,7 @@
 param(
-   [Parameter(Mandatory = $true)][string] $ProjectId = $(throw "ProjectId is required"),
-   [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required"),
-   [Parameter(Mandatory = $false)][int] $DaysToKeep
+    [Parameter(Mandatory = $true)][string] $ProjectId = $(throw "ProjectId is required"),
+    [Parameter(Mandatory = $true)][string] $BuildId = $(throw "BuildId is required"),
+    [Parameter(Mandatory = $false)][int] $DaysToKeep
 )
 
 if ($DaysToKeep -eq '' -Or $DaysToKeep -eq 0) {

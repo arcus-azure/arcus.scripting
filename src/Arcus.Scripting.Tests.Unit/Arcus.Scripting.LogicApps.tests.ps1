@@ -4,7 +4,7 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 InModuleScope Arcus.Scripting.LogicApps {
     Describe "Arcus Azure Logic Apps Consumption unit tests" {
         Context "Enable Logic Apps without configuration" {
-             It "Fails to enable an unknown Azure Logic App" {
+            It "Fails to enable an unknown Azure Logic App" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
@@ -20,13 +20,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 # Act
                 { Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
-                    Should -Throw -ExpectedMessage "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $errorContent"
+                Should -Throw -ExpectedMessage "Failed to enable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $errorContent"
 
                 # Assert
                 Assert-VerifiableMock
@@ -41,7 +41,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -60,7 +60,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -80,7 +80,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
                 $errorContent = "{""error"":{""code"":""ResourceNotFound"",""message"":""Unable to find the resource Microsoft.Logic/workflows/$logicAppName within resourcegroup codit-arcus-scripting.""}}"
                 Mock Write-Warning -MockWith { }
-                Mock Write-Debug -MockWith { } -ParameterFilter {$Message -like "Error: $errorContent"  }
+                Mock Write-Debug -MockWith { } -ParameterFilter { $Message -like "Error: $errorContent" }
                 Mock Invoke-WebRequest -MockWith {
                     $status = [System.Net.WebExceptionStatus]::ConnectionClosed
                     $response = New-Object -type 'System.Net.HttpWebResponse'
@@ -92,13 +92,13 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 # Act
                 { Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
-                    Should -Throw -ExpectedMessage "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $errorContent"
+                Should -Throw -ExpectedMessage "Failed to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: $errorContent"
 
                 # Assert
                 Assert-VerifiableMock
@@ -113,7 +113,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -132,7 +132,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -151,7 +151,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -186,7 +186,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -221,7 +221,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -259,7 +259,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -297,7 +297,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -325,7 +325,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -353,7 +353,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -373,18 +373,18 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     return @{
-                        Name = "test"
+                        Name   = "test"
                         Status = "Running"
                     }
                 }
 
                 Mock Stop-AzLogicAppRun -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -399,12 +399,12 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzLogicAppRunHistory { throw 'some error' }
 
                 Mock Stop-AzLogicAppRun -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
-                    Should -Throw -ExpectedMessage "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: some error"
+                Should -Throw -ExpectedMessage "Failed to cancel all running instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock
@@ -419,18 +419,18 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     $MaximumFollowNextPageLink | Should -Be 25
                     return @{
-                        Name = "test"
+                        Name   = "test"
                         Status = "Running"
                     }
                 }
 
                 Mock Stop-AzLogicAppRun -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -MaximumFollowNextPageLink 25 } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -445,18 +445,18 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     $MaximumFollowNextPageLink | Should -Be 10
                     return @{
-                        Name = "test"
+                        Name   = "test"
                         Status = "Running"
                     }
                 }
 
                 Mock Stop-AzLogicAppRun -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -474,32 +474,32 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     return @{
-                        Name = "test"
-                        Status = "Failed"
+                        Name      = "test"
+                        Status    = "Failed"
                         StartTime = "2023-01-01 01:00:00"
                     }
                 }
 
                 Mock Invoke-WebRequest -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
-             }
+            }
             It "Resubmitting a single failed run from Logic App history with specifying an EndTime should succeed" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
@@ -510,32 +510,32 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     return @{
-                        Name = "test"
-                        Status = "Failed"
+                        Name      = "test"
+                        Status    = "Failed"
                         StartTime = "2023-01-01 01:00:00"
                     }
                 }
 
                 Mock Invoke-WebRequest -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime -EndTime $endTime } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
-             }
+            }
             It "Resubmitting multiple failed runs from Logic App history should succeed" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
@@ -545,32 +545,32 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
 
-                $logicAppRunHistory = @([pscustomobject]@{Name="Test1";Status="Failed";StartTime="2023-01-01 01:00:00"},
-                                      [pscustomobject]@{Name="Test2";Status="Failed";StartTime="2023-01-01 01:00:00"})
+                $logicAppRunHistory = @([pscustomobject]@{Name = "Test1"; Status = "Failed"; StartTime = "2023-01-01 01:00:00" },
+                    [pscustomobject]@{Name = "Test2"; Status = "Failed"; StartTime = "2023-01-01 01:00:00" })
 
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     return $logicAppRunHistory
                 }
 
                 Mock Invoke-WebRequest -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 2
-             }
+            }
             It "Resubmitting multiple failed runs from Logic App history with specifying an EndTime should succeed" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
@@ -581,32 +581,32 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
 
-                $logicAppRunHistory = @([pscustomobject]@{Name="Test1";Status="Failed";StartTime="2023-01-01 01:00:00"},
-                                      [pscustomobject]@{Name="Test2";Status="Failed";StartTime="2023-01-01 01:00:00"})
+                $logicAppRunHistory = @([pscustomobject]@{Name = "Test1"; Status = "Failed"; StartTime = "2023-01-01 01:00:00" },
+                    [pscustomobject]@{Name = "Test2"; Status = "Failed"; StartTime = "2023-01-01 01:00:00" })
 
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     return $logicAppRunHistory
                 }
 
                 Mock Invoke-WebRequest -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime -EndTime $endTime } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 2
-             }
+            }
             It "Resubmitting failed runs should fail when retrieving Logic App history fails" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
@@ -616,19 +616,19 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Get-AzLogicAppRunHistory { throw 'some error' }
 
                 Mock Invoke-WebRequest -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
-                    Should -Throw -ExpectedMessage "Failed to resubmit all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$startTime'. Details: some error"
+                Should -Throw -ExpectedMessage "Failed to resubmit all failed instances for the Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$startTime'. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock
@@ -645,33 +645,33 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     $MaximumFollowNextPageLink | Should -Be 25
                     return @{
-                        Name = "test"
-                        Status = "Failed"
+                        Name      = "test"
+                        Status    = "Failed"
                         StartTime = "2023-01-01 01:00:00"
                     }
                 }
 
                 Mock Invoke-WebRequest -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime -MaximumFollowNextPageLink 25 } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
-             }
+            }
             It "Resubmitting runs from Logic App history with option maximumFollowNextPageLink defaults to 10" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
@@ -681,33 +681,33 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
                 Mock Get-AzLogicAppRunHistory -MockWith {
                     $MaximumFollowNextPageLink | Should -Be 10
                     return @{
-                        Name = "test"
-                        Status = "Failed"
+                        Name      = "test"
+                        Status    = "Failed"
                         StartTime = "2023-01-01 01:00:00"
                     }
                 }
 
                 Mock Invoke-WebRequest -MockWith {
-                   return $null
+                    return $null
                 }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -StartTime $startTime } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Times 1
                 Assert-MockCalled Get-AzLogicAppRunHistory -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 1
-             }
+            }
         }
     }
     Describe "Arcus Azure Logic Apps Standard unit tests" {
@@ -723,7 +723,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Act
                 { Enable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
-                    Should -Throw -ExpectedMessage "Failed to enable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: Not found error"
+                Should -Throw -ExpectedMessage "Failed to enable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: Not found error"
 
                 # Assert
                 Assert-VerifiableMock
@@ -754,7 +754,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -773,7 +773,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -787,7 +787,7 @@ InModuleScope Arcus.Scripting.LogicApps {
             }
         }
         Context "Disable Logic Apps without configuration" {
-             It "Fails to disable an unknown Azure Logic App" {
+            It "Fails to disable an unknown Azure Logic App" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
                 $logicAppName = "arc-dev-we-rcv-unknown-http"
@@ -798,7 +798,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Act
                 { Disable-AzLogicApp -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
-                    Should -Throw -ExpectedMessage "Failed to disable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: Not found error"
+                Should -Throw -ExpectedMessage "Failed to disable workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'. Details: Not found error"
 
                 # Assert
                 Assert-VerifiableMock
@@ -829,7 +829,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -848,7 +848,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -867,7 +867,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -904,7 +904,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -941,7 +941,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -981,7 +981,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1020,7 +1020,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                     $Global:subscriptionId = '123456'
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
 
@@ -1043,7 +1043,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
                 Mock Invoke-WebRequest -MockWith {
@@ -1054,7 +1054,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
@@ -1070,14 +1070,14 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
-                Mock Invoke-WebRequest -MockWith  { throw 'some error' }
+                Mock Invoke-WebRequest -MockWith { throw 'some error' }
 
                 # Act
                 { Cancel-AzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName } | 
-                    Should -Throw -ExpectedMessage "Failed to cancel all running instances for the workflow '$workflowName' in Azure Logic App '$logicAppName' in resource group '$ResourceGroupName'. Details: some error"
+                Should -Throw -ExpectedMessage "Failed to cancel all running instances for the workflow '$workflowName' in Azure Logic App '$logicAppName' in resource group '$ResourceGroupName'. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock
@@ -1096,7 +1096,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
                 Mock Invoke-WebRequest -MockWith {
@@ -1107,13 +1107,13 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName -StartTime $startTime } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 2
-             }
+            }
             It "Resubmitting multiple failed runs from Logic App history should succeed" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
@@ -1124,7 +1124,7 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
                 Mock Invoke-WebRequest -MockWith {
@@ -1135,13 +1135,13 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName -StartTime $startTime } | 
-                    Should -Not -Throw
+                Should -Not -Throw
 
                 # Assert
                 Assert-VerifiableMock
                 Assert-MockCalled Get-AzCachedAccessToken -Scope It -Times 1
                 Assert-MockCalled Invoke-WebRequest -Scope It -Times 3
-             }
+            }
             It "Resubmitting failed runs should fail when retrieving Logic App history fails" {
                 # Arrange
                 $resourceGroupName = "codit-arcus-scripting"
@@ -1152,14 +1152,14 @@ InModuleScope Arcus.Scripting.LogicApps {
                 Mock Get-AzCachedAccessToken -MockWith {
                     return @{
                         SubscriptionId = "123456"
-                        AccessToken = "accessToken"
+                        AccessToken    = "accessToken"
                     }
                 }
                 Mock Invoke-WebRequest { throw 'some error' }
 
                 # Act
                 { Resubmit-FailedAzLogicAppRuns -ResourceGroupName $resourceGroupName -LogicAppName $logicAppName -WorkflowName $workflowName -StartTime $startTime } | 
-                    Should -Throw -ExpectedMessage "Failed to resubmit all failed instances for the workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$startTime'. Details: some error"
+                Should -Throw -ExpectedMessage "Failed to resubmit all failed instances for the workflow '$workflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName' from '$startTime'. Details: some error"
 
                 # Assert
                 Assert-VerifiableMock

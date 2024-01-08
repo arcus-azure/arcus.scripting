@@ -32,7 +32,7 @@ function UploadPartner {
         $qualifier = $businessIdentity.qualifier
         $value = $businessIdentity.value
 
-        $businessIdentities += ,@("$qualifier","$value")
+        $businessIdentities += , @("$qualifier", "$value")
     }
 
     if ($businessIdentities.Count -eq 0) {
@@ -43,12 +43,10 @@ function UploadPartner {
     try {
         Write-Verbose "Checking if the partner '$partnerName' already exists in the Azure Integration Account '$Name'..."
         $existingPartner = Get-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -ErrorAction Stop
-    }
-    catch {
+    } catch {
         if ($_.Exception.Message.Contains('could not be found')) {
             Write-Warning "No partner '$partnerName' could not be found in Azure Integration Account '$Name'"
-        }
-        else {
+        } else {
             throw $_.Exception
         }
     }
@@ -58,15 +56,13 @@ function UploadPartner {
             Write-Verbose "Creating partner '$partnerName' in Azure Integration Account '$Name'..."
             $createdPartner = New-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -BusinessIdentities $businessIdentities -ErrorAction Stop
             Write-Debug ($createdPartner | Format-List -Force | Out-String)
-        }
-        else {
+        } else {
             Write-Verbose "Updating partner '$partnerName' in Azure Integration Account '$Name'..."
             $updatedPartner = Set-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -BusinessIdentities $businessIdentities -Force -ErrorAction Stop 
             Write-Debug ($updatedPartner | Format-List -Force | Out-String)
         }
         Write-Host "Partner '$partnerName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
-    }
-    catch {
+    } catch {
         Write-Error "Failed to upload partner '$partnerName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
@@ -74,14 +70,12 @@ function UploadPartner {
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
-}
-else {
+} else {
     if ($PartnersFolder -ne '' -and $PartnerFilePath -eq '') {
         foreach ($partner in Get-ChildItem($PartnersFolder) -File) {
             UploadPartner -Partner $partner
         }
-    }
-    elseif ($PartnersFolder -eq '' -and $PartnerFilePath -ne '') {
+    } elseif ($PartnersFolder -eq '' -and $PartnerFilePath -ne '') {
         [System.IO.FileInfo]$partner = New-Object System.IO.FileInfo($PartnerFilePath)
         UploadPartner -Partner $partner
     }

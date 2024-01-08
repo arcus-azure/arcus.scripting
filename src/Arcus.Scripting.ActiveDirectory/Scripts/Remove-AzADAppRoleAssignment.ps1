@@ -27,8 +27,8 @@ try {
     if ($adApplication.AppRole.Value -notcontains $Role) {
         Write-Warning "Active Directory Application '$($adApplication.DisplayName)' does not contain the role '$Role', skipping removal"
     } else {
-        $appRole = $adApplication.AppRole | Where-Object {($_.DisplayName -eq $Role)}
-        $appRoleAssignment = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object {($_.AppRoleId -eq $appRole.Id) -and ($_.PrincipalId -eq $adServicePrincipalRoleRemoveFrom.Id)}
+        $appRole = $adApplication.AppRole | Where-Object { ($_.DisplayName -eq $Role) }
+        $appRoleAssignment = Get-MgServicePrincipalAppRoleAssignedTo -ServicePrincipalId $adServicePrincipal.Id | Where-Object { ($_.AppRoleId -eq $appRole.Id) -and ($_.PrincipalId -eq $adServicePrincipalRoleRemoveFrom.Id) }
 
         if ($appRoleAssignment) {
             Remove-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $adServicePrincipalRoleRemoveFrom.Id -AppRoleAssignmentId $appRoleAssignment.Id

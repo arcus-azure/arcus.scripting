@@ -12,7 +12,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath -SchemasFolder $schemasFolder
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath -SchemasFolder $schemasFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific schema or the file path of a folder containing multiple schemas is required, e.g.: -SchemaFilePath 'C:\Schemas\Schema.xsd' or -SchemasFolder 'C:\Schemas'"
 
                 # Assert
@@ -25,7 +25,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName
+                    Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific schema or the file path of a folder containing multiple schemas is required, e.g.: -SchemaFilePath 'C:\Schemas\Schema.xsd' or -SchemasFolder 'C:\Schemas'"
 
                 # Assert
@@ -60,14 +60,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Act
                 { 
                     Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath
-                 } | Should -Not -Throw
+                } | Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountSchema -Times 1
-                 Assert-MockCalled Set-AzIntegrationAccountSchema -Times 0
-                 Assert-MockCalled New-AzIntegrationAccountSchema -Times 1
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountSchema -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountSchema -Times 0
+                Assert-MockCalled New-AzIntegrationAccountSchema -Times 1
             }
             It "Providing only the schemaFilePath to update a schema is OK" {
                 # Arrange
@@ -98,14 +98,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Act
                 { 
                     Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemaFilePath $schemaFilePath
-                 } | Should -Not -Throw
+                } | Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountSchema -Times 1
-                 Assert-MockCalled Set-AzIntegrationAccountSchema -Times 1
-                 Assert-MockCalled New-AzIntegrationAccountSchema -Times 0
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountSchema -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountSchema -Times 1
+                Assert-MockCalled New-AzIntegrationAccountSchema -Times 0
             }
             It "Providing only a schemasFolder to create schemas is OK" {
                 # Arrange
@@ -141,7 +141,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 try {
                     # Act
                     { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder } | 
-                        Should -Not -Throw
+                    Should -Not -Throw
  
                     # Assert
                     Assert-VerifiableMock
@@ -187,7 +187,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 try {
                     # Act
                     { Set-AzIntegrationAccountSchemas -ResourceGroupName $resourceGroupName -Name $integrationAccountName -SchemasFolder $schemasFolder } | 
-                        Should -Not -Throw
+                    Should -Not -Throw
  
                     # Assert
                     Assert-VerifiableMock
@@ -210,7 +210,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -MapsFolder $mapsFolder
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath -MapsFolder $mapsFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'"
 
                 # Assert
@@ -223,7 +223,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName
+                    Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'"
 
                 # Assert
@@ -258,14 +258,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Act
                 { 
                     Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath
-                 } | Should -Not -Throw
+                } | Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 1
-                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 0
-                 Assert-MockCalled New-AzIntegrationAccountMap -Times 1
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountMap -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountMap -Times 0
+                Assert-MockCalled New-AzIntegrationAccountMap -Times 1
             }
             It "Providing only the mapFilePath to update a map is OK" {
                 # Arrange
@@ -296,14 +296,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 # Act
                 { 
                     Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapFilePath $mapFilePath
-                 } | Should -Not -Throw
+                } | Should -Not -Throw
  
-                 # Assert
-                 Assert-VerifiableMock
-                 Assert-MockCalled Get-AzIntegrationAccount -Times 1
-                 Assert-MockCalled Get-AzIntegrationAccountMap -Times 1
-                 Assert-MockCalled Set-AzIntegrationAccountMap -Times 1
-                 Assert-MockCalled New-AzIntegrationAccountMap -Times 0
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzIntegrationAccount -Times 1
+                Assert-MockCalled Get-AzIntegrationAccountMap -Times 1
+                Assert-MockCalled Set-AzIntegrationAccountMap -Times 1
+                Assert-MockCalled New-AzIntegrationAccountMap -Times 0
             }
             It "Providing only a mapsFolder to create maps is OK" {
                 # Arrange
@@ -339,7 +339,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 try {
                     # Act
                     { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder } | 
-                        Should -Not -Throw
+                    Should -Not -Throw
  
                     # Assert
                     Assert-VerifiableMock
@@ -385,7 +385,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 try {
                     # Act
                     { Set-AzIntegrationAccountMaps -ResourceGroupName $resourceGroupName -Name $integrationAccountName -MapsFolder $mapsFolder } | 
-                        Should -Not -Throw
+                    Should -Not -Throw
  
                     # Assert
                     Assert-VerifiableMock
@@ -408,7 +408,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -AssembliesFolder $assembliesFolder
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath -AssembliesFolder $assembliesFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'"
 
                 # Assert
@@ -421,7 +421,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName
+                    Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'"
 
                 # Assert
@@ -455,7 +455,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -470,9 +470,9 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $assemblyName = 'Dummy_Existing_Assembly'
+                $assemblyName = 'Dummy_Existing_Assembly'
                 $assemblyResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/assemblies/$assemblyName"
-				        $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\$assemblyName.xslt"
+                $assemblyFilePath = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\$assemblyName.xslt"
 
                 Mock Get-AzIntegrationAccount {
                     return [pscustomobject]@{ Id = $integrationAccountResourceId; Name = $integrationAccountName; Type = 'Microsoft.Logic/integrationAccounts'; Location = 'westeurope'; Sku = 'Free' }
@@ -492,7 +492,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssemblyFilePath $assemblyFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -507,7 +507,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\"
+                $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -534,7 +534,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -549,7 +549,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\"
+                $assembliesFolder = "$PSScriptRoot\Files\IntegrationAccount\Assemblies\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -576,7 +576,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAssemblies -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AssembliesFolder $assembliesFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -596,7 +596,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath -CertificatesFolder $certificatesFolder
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath -CertificatesFolder $certificatesFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'"
 
                 # Assert
@@ -609,7 +609,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public'
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public'
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific certificate or the file path of a folder containing multiple certificates is required, e.g.: -CertificateFilePath 'C:\Certificates\certificate.cer' or -CertificatesFolder 'C:\Certificates'"
 
                 # Assert
@@ -623,7 +623,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Wrong' -CertificateFilePath $certificateFilePath
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Wrong' -CertificateFilePath $certificateFilePath
                 } | Should -Throw -ExpectedMessage "The CertificateType should be either 'Public' or 'Private'"
 
                 # Assert
@@ -642,7 +642,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificatesFolder $certificatesFolder -KeyName $keyName -KeyVersion $keyVersion -KeyVaultId $keyVaultId
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificatesFolder $certificatesFolder -KeyName $keyName -KeyVersion $keyVersion -KeyVaultId $keyVaultId
                 } | Should -Throw -ExpectedMessage "Using the CertificatesFolder parameter in combination with Private certificates is not possible, since this would upload multiple certificates using the same Key in Azure KeyVault"
 
                 # Assert
@@ -660,7 +660,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyVersion $keyVersion -KeyVaultId $keyVaultId
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyVersion $keyVersion -KeyVaultId $keyVaultId
                 } | Should -Throw -ExpectedMessage "If the CertificateType is set to 'Private', the KeyName must be supplied"
 
                 # Assert
@@ -678,7 +678,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVaultId $keyVaultId
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVaultId $keyVaultId
                 } | Should -Throw -ExpectedMessage "If the CertificateType is set to 'Private', the KeyVersion must be supplied"
 
                 # Assert
@@ -695,7 +695,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVersion $keyVersion
+                    Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVersion $keyVersion
                 } | Should -Throw -ExpectedMessage "If the CertificateType is set to 'Private', the KeyVaultId must be supplied"
 
                 # Assert
@@ -729,7 +729,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -766,7 +766,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -781,7 +781,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
+                $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -808,7 +808,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -823,7 +823,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
+                $certificatesFolder = "$PSScriptRoot\Files\IntegrationAccount\Certificates\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -850,7 +850,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificatesFolder $certificatesFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -891,7 +891,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Private' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVersion $keyVersion -KeyVaultId $keyVaultId } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -932,7 +932,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountCertificates -ResourceGroupName $resourceGroupName -Name $integrationAccountName -CertificateType 'Public' -CertificateFilePath $certificateFilePath -KeyName $keyName -KeyVersion $keyVersion -KeyVaultId $keyVaultId } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -952,7 +952,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath -PartnersFolder $partnersFolder
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath -PartnersFolder $partnersFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific partner or the file path of a folder containing multiple partners is required, e.g.: -PartnerFilePath 'C:\Partners\partner.json' or -PartnersFolder 'C:\Partners'"
 
                 # Assert
@@ -965,7 +965,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific partner or the file path of a folder containing multiple partners is required, e.g.: -PartnerFilePath 'C:\Partners\partner.json' or -PartnersFolder 'C:\Partners'"
 
                 # Assert
@@ -985,11 +985,11 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     return [pscustomobject] @{
                         properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [pscustomobject] @{
+                            content     = [pscustomobject] @{
                                 b2b = [pscustomobject] @{
                                     businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
-                                        value = '12345';
+                                        value     = '12345';
                                     }
                                 }
                             }
@@ -1003,7 +1003,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Partner to Azure Integration Account '$integrationAccountName' because the partner name is empty"
 
                 # Assert
@@ -1031,7 +1031,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
+                    Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Partner to Azure Integration Account '$integrationAccountName' because at least one business identity must be supplied"
 
                 # Assert
@@ -1049,14 +1049,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = 'Partner1';
+                        name       = 'Partner1';
                         properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [pscustomobject] @{
+                            content     = [pscustomobject] @{
                                 b2b = [pscustomobject] @{
                                     businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
-                                        value = '12345';
+                                        value     = '12345';
                                     }
                                 }
                             }
@@ -1082,7 +1082,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -1097,20 +1097,20 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$partnerName = 'Dummy_Existing_Partner'
+                $partnerName = 'Dummy_Existing_Partner'
                 $partnerResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/partners/$partnerName"
-				$partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
+                $partnerFilePath = "$PSScriptRoot\Files\IntegrationAccount\Partners\$partnerName.json"
 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = 'Partner1';
+                        name       = 'Partner1';
                         properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [pscustomobject] @{
+                            content     = [pscustomobject] @{
                                 b2b = [pscustomobject] @{
                                     businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
-                                        value = '12345';
+                                        value     = '12345';
                                     }
                                 }
                             }
@@ -1136,7 +1136,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnerFilePath $partnerFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -1151,7 +1151,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners\"
+                $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -1162,14 +1162,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = 'Partner1';
+                        name       = 'Partner1';
                         properties = [pscustomobject] @{
                             partnerType = 'B2B';
-                                content = [pscustomobject] @{
+                            content     = [pscustomobject] @{
                                 b2b = [pscustomobject] @{
                                     businessIdentities = [pscustomobject] @{
                                         qualifier = '1';
-                                        value = '12345';
+                                        value     = '12345';
                                     }
                                 }
                             }
@@ -1195,7 +1195,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -1210,7 +1210,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners\"
+                $partnersFolder = "$PSScriptRoot\Files\IntegrationAccount\Partners\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -1221,14 +1221,14 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 Mock Get-Content {
                     return [PSCustomObject] @{
-                        name = 'Partner1';
+                        name       = 'Partner1';
                         properties = [PSCustomObject] @{
                             partnerType = 'B2B';
-                                content = [PSCustomObject] @{
+                            content     = [PSCustomObject] @{
                                 b2b = [PSCustomObject] @{
                                     businessIdentities = [PSCustomObject] @{
                                         qualifier = '1';
-                                        value = '12345';
+                                        value     = '12345';
                                     }
                                 }
                             }
@@ -1254,7 +1254,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountPartners -ResourceGroupName $resourceGroupName -Name $integrationAccountName -PartnersFolder $partnersFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -1274,7 +1274,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath -AgreementsFolder $agreementsFolder
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath -AgreementsFolder $agreementsFolder
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific agreement or the file path of a folder containing multiple agreements is required, e.g.: -AgreementFilePath 'C:\Agreements\agreement.json' or -AgreementsFolder 'C:\Agreements'"
 
                 # Assert
@@ -1287,7 +1287,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName
                 } | Should -Throw -ExpectedMessage "Either the file path of a specific agreement or the file path of a folder containing multiple agreements is required, e.g.: -AgreementFilePath 'C:\Agreements\agreement.json' or -AgreementsFolder 'C:\Agreements'"
 
                 # Assert
@@ -1307,17 +1307,17 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                     return [pscustomobject] @{
                         properties = [pscustomobject] @{
                             agreementType = 'AS2';
-                            hostPartner = 'Partner1';
-                            guestPartner = 'Partner2';
-                            hostIdentity = [pscustomobject] @{
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '12345';
+                                value     = '12345';
                             }
                             guestIdentity = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '98765';
+                                value     = '98765';
                             }
-                            content = [pscustomobject] @{
+                            content       = [pscustomobject] @{
                                 aS2 = [pscustomobject] @{}
                             }
                         }
@@ -1330,7 +1330,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the agreement name is empty"
 
                 # Assert
@@ -1348,19 +1348,19 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = $agreementName;
+                        name       = $agreementName;
                         properties = [pscustomobject] @{
-                            hostPartner = 'Partner1';
-                            guestPartner = 'Partner2';
-                            hostIdentity = [pscustomobject] @{
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '12345';
+                                value     = '12345';
                             }
                             guestIdentity = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '98765';
+                                value     = '98765';
                             }
-                            content = [pscustomobject] @{
+                            content       = [pscustomobject] @{
                                 aS2 = [pscustomobject] @{}
                             }
                         }
@@ -1373,7 +1373,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the agreement type is empty"
 
                 # Assert
@@ -1390,24 +1390,24 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
-	                return [pscustomobject] @{
-		                name = $agreementName;
-		                properties = [pscustomobject] @{
-			                agreementType = 'AS2';
-			                guestPartner = 'Partner2';
-			                hostIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '12345';
-			                }
-			                guestIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '98765';
-			                }
-			                content = [pscustomobject] @{
-				                aS2 = [pscustomobject] @{}
-			                }
-		                }
-	                } | ConvertTo-Json -Depth 5;
+                    return [pscustomobject] @{
+                        name       = $agreementName;
+                        properties = [pscustomobject] @{
+                            agreementType = 'AS2';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '98765';
+                            }
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccount {
@@ -1416,7 +1416,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the host partner is empty"
 
                 # Assert
@@ -1433,24 +1433,24 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
-	                return [pscustomobject] @{
-		                name = $agreementName;
-		                properties = [pscustomobject] @{
-			                agreementType = 'AS2';
-			                hostPartner = 'Partner1';
-			                guestPartner = 'Partner2';
-			                hostIdentity = [pscustomobject] @{
-				                value = '12345';
-			                }
-			                guestIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '98765';
-			                }
-			                content = [pscustomobject] @{
-				                aS2 = [pscustomobject] @{}
-			                }
-		                }
-	                } | ConvertTo-Json -Depth 5;
+                    return [pscustomobject] @{
+                        name       = $agreementName;
+                        properties = [pscustomobject] @{
+                            agreementType = 'AS2';
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
+                                value = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '98765';
+                            }
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccount {
@@ -1459,7 +1459,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the host identity qualifier is empty"
 
                 # Assert
@@ -1476,24 +1476,24 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
-	                return [pscustomobject] @{
-		                name = $agreementName;
-		                properties = [pscustomobject] @{
-			                agreementType = 'AS2';
-			                hostPartner = 'Partner1';
-			                guestPartner = 'Partner2';
-			                hostIdentity = [pscustomobject] @{
-				                qualifier = '1';
-			                }
-			                guestIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '98765';
-			                }
-			                content = [pscustomobject] @{
-				                aS2 = [pscustomobject] @{}
-			                }
-		                }
-	                } | ConvertTo-Json -Depth 5;
+                    return [pscustomobject] @{
+                        name       = $agreementName;
+                        properties = [pscustomobject] @{
+                            agreementType = 'AS2';
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
+                                qualifier = '1';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '98765';
+                            }
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccount {
@@ -1502,7 +1502,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the host identity value is empty"
 
                 # Assert
@@ -1519,24 +1519,24 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
-	                return [pscustomobject] @{
-		                name = $agreementName;
-		                properties = [pscustomobject] @{
-			                agreementType = 'AS2';
-			                hostPartner = 'Partner1';
-			                hostIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '12345';
-			                }
-			                guestIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '98765';
-			                }
-			                content = [pscustomobject] @{
-				                aS2 = [pscustomobject] @{}
-			                }
-		                }
-	                } | ConvertTo-Json -Depth 5;
+                    return [pscustomobject] @{
+                        name       = $agreementName;
+                        properties = [pscustomobject] @{
+                            agreementType = 'AS2';
+                            hostPartner   = 'Partner1';
+                            hostIdentity  = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '98765';
+                            }
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccount {
@@ -1545,7 +1545,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the guest partner is empty"
 
                 # Assert
@@ -1562,24 +1562,24 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
-	                return [pscustomobject] @{
-		                name = $agreementName;
-		                properties = [pscustomobject] @{
-			                agreementType = 'AS2';
-			                hostPartner = 'Partner1';
-			                guestPartner = 'Partner2';
-			                hostIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '12345';
-			                }
-			                guestIdentity = [pscustomobject] @{
-				                value = '98765';
-			                }
-			                content = [pscustomobject] @{
-				                aS2 = [pscustomobject] @{}
-			                }
-		                }
-	                } | ConvertTo-Json -Depth 5;
+                    return [pscustomobject] @{
+                        name       = $agreementName;
+                        properties = [pscustomobject] @{
+                            agreementType = 'AS2';
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                value = '98765';
+                            }
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccount {
@@ -1588,7 +1588,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the guest identity qualifier is empty"
 
                 # Assert
@@ -1605,24 +1605,24 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
-	                return [pscustomobject] @{
-		                name = $agreementName;
-		                properties = [pscustomobject] @{
-			                agreementType = 'AS2';
-			                hostPartner = 'Partner1';
-			                guestPartner = 'Partner2';
-			                hostIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '12345';
-			                }
-			                guestIdentity = [pscustomobject] @{
-				                qualifier = '1';
-			                }
-			                content = [pscustomobject] @{
-				                aS2 = [pscustomobject] @{}
-			                }
-		                }
-	                } | ConvertTo-Json -Depth 5;
+                    return [pscustomobject] @{
+                        name       = $agreementName;
+                        properties = [pscustomobject] @{
+                            agreementType = 'AS2';
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                            }
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccount {
@@ -1631,7 +1631,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the guest identity value is empty"
 
                 # Assert
@@ -1648,22 +1648,22 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
-	                return [pscustomobject] @{
-		                name = $agreementName;
-		                properties = [pscustomobject] @{
-			                agreementType = 'AS2';
-			                hostPartner = 'Partner1';
-			                guestPartner = 'Partner2';
-			                hostIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '12345';
-			                }
-			                guestIdentity = [pscustomobject] @{
-				                qualifier = '1';
-				                value = '98765';
-			                }
-		                }
-	                } | ConvertTo-Json -Depth 5;
+                    return [pscustomobject] @{
+                        name       = $agreementName;
+                        properties = [pscustomobject] @{
+                            agreementType = 'AS2';
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '12345';
+                            }
+                            guestIdentity = [pscustomobject] @{
+                                qualifier = '1';
+                                value     = '98765';
+                            }
+                        }
+                    } | ConvertTo-Json -Depth 5;
                 } -Verifiable
 
                 Mock Get-AzIntegrationAccount {
@@ -1672,7 +1672,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { 
-                   Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
+                    Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath
                 } | Should -Throw -ExpectedMessage "Cannot upload Agreement to Azure Integration Account '$integrationAccountName' because the agreement content is empty"
 
                 # Assert
@@ -1690,21 +1690,21 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = 'Agreement';
+                        name       = 'Agreement';
                         properties = [pscustomobject] @{
-                            hostPartner = 'Partner1';
-                            guestPartner = 'Partner2';
-                            hostIdentity = [pscustomobject] @{
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '12345';
+                                value     = '12345';
                             }
                             guestIdentity = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '98765';
+                                value     = '98765';
                             }
                             agreementType = 'AS2';
-                                content = [pscustomobject] @{
-                                    aS2 = [pscustomobject] @{}
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
                             }
                         }
                     } | ConvertTo-Json -Depth 5;
@@ -1728,7 +1728,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -1743,27 +1743,27 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				$agreementName = 'Dummy_Existing_Agreement'
+                $agreementName = 'Dummy_Existing_Agreement'
                 $agreementResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName/agreements/$agreementName"
-				$agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
+                $agreementFilePath = "$PSScriptRoot\Files\IntegrationAccount\Agreements\$agreementName.json"
 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = 'Agreement';
+                        name       = 'Agreement';
                         properties = [pscustomobject] @{
-                            hostPartner = 'Partner1';
-                            guestPartner = 'Partner2';
-                            hostIdentity = [pscustomobject] @{
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '12345';
+                                value     = '12345';
                             }
                             guestIdentity = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '98765';
+                                value     = '98765';
                             }
                             agreementType = 'AS2';
-                                content = [pscustomobject] @{
-                                    aS2 = [pscustomobject] @{}
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
                             }
                         }
                     } | ConvertTo-Json -Depth 5;
@@ -1787,7 +1787,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementFilePath $agreementFilePath } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -1802,7 +1802,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $agreementsFolder = "$PSScriptRoot\Files\IntegrationAccount\Agreements\"
+                $agreementsFolder = "$PSScriptRoot\Files\IntegrationAccount\Agreements\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -1813,21 +1813,21 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = 'Agreement';
+                        name       = 'Agreement';
                         properties = [pscustomobject] @{
-                            hostPartner = 'Partner1';
-                            guestPartner = 'Partner2';
-                            hostIdentity = [pscustomobject] @{
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '12345';
+                                value     = '12345';
                             }
                             guestIdentity = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '98765';
+                                value     = '98765';
                             }
                             agreementType = 'AS2';
-                                content = [pscustomobject] @{
-                                    aS2 = [pscustomobject] @{}
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
                             }
                         }
                     } | ConvertTo-Json -Depth 5;
@@ -1851,7 +1851,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock
@@ -1866,7 +1866,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
                 $resourceGroupName = "rg-infrastructure"
                 $integrationAccountName = "unexisting-integration-account"
                 $integrationAccountResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Logic/integrationAccounts/$integrationAccountName"
-				        $agreementsFolder = "$PSScriptRoot\Files\IntegrationAccount\Agreements\"
+                $agreementsFolder = "$PSScriptRoot\Files\IntegrationAccount\Agreements\"
 
                 Mock Get-ChildItem {
                     return @(
@@ -1877,21 +1877,21 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 Mock Get-Content {
                     return [pscustomobject] @{
-                        name = 'Agreement';
+                        name       = 'Agreement';
                         properties = [pscustomobject] @{
-                            hostPartner = 'Partner1';
-                            guestPartner = 'Partner2';
-                            hostIdentity = [pscustomobject] @{
+                            hostPartner   = 'Partner1';
+                            guestPartner  = 'Partner2';
+                            hostIdentity  = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '12345';
+                                value     = '12345';
                             }
                             guestIdentity = [pscustomobject] @{
                                 qualifier = '1';
-                                value = '98765';
+                                value     = '98765';
                             }
                             agreementType = 'AS2';
-                                content = [pscustomobject] @{
-                                    aS2 = [pscustomobject] @{}
+                            content       = [pscustomobject] @{
+                                aS2 = [pscustomobject] @{}
                             }
                         }
                     } | ConvertTo-Json -Depth 5;
@@ -1915,7 +1915,7 @@ InModuleScope Arcus.Scripting.IntegrationAccount {
 
                 # Act
                 { Set-AzIntegrationAccountAgreements -ResourceGroupName $resourceGroupName -Name $integrationAccountName -AgreementsFolder $agreementsFolder } | 
-                    Should -Not -Throw
+                Should -Not -Throw
  
                 # Assert
                 Assert-VerifiableMock

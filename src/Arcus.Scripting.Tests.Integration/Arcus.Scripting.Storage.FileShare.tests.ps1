@@ -26,9 +26,9 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Assert
                 Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                    where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
-                    % { $_.Name } |
-                    Should -Contain $folderName
+                where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                % { $_.Name } |
+                Should -Contain $folderName
             }
             It "Doesn't create a new Azure FileShare storage folder when already exists" {
                 # Arrange
@@ -44,9 +44,9 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Assert
                 Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                    where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
-                    % { $_.Name } |
-                    Should -Contain $folderName
+                where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                % { $_.Name } |
+                Should -Contain $folderName
             }
         }
         Context "Upload files into Azure FileShare storage folder" {
@@ -84,12 +84,12 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Act / Assert
                 { Upload-AzFileShareStorageFiles `
-                    -ResourceGroupName $config.Arcus.ResourceGroupName `
-                    -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
-                    -FileShareName $nonExistingFileShareName `
-                    -SourceFolderPath "$PSScriptRoot\Blobs" `
-                    -DestinationFolderName $folderName } |
-                    Should -Throw
+                        -ResourceGroupName $config.Arcus.ResourceGroupName `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                        -FileShareName $nonExistingFileShareName `
+                        -SourceFolderPath "$PSScriptRoot\Blobs" `
+                        -DestinationFolderName $folderName } |
+                Should -Throw
             }
             It "Copying file into existing Azure FileShare storage" {
                 # Arrange
@@ -125,12 +125,12 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Act / Assert
                 { Copy-AzFileShareStorageFiles `
-                    -ResourceGroupName $config.Arcus.ResourceGroupName `
-                    -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
-                    -FileShareName $nonExistingFileShareName `
-                    -SourceFolderPath "$PSScriptRoot\Blobs" `
-                    -DestinationFolderName $folderName } |
-                    Should -Throw
+                        -ResourceGroupName $config.Arcus.ResourceGroupName `
+                        -StorageAccountName $config.Arcus.Storage.StorageAccount.Name `
+                        -FileShareName $nonExistingFileShareName `
+                        -SourceFolderPath "$PSScriptRoot\Blobs" `
+                        -DestinationFolderName $folderName } |
+                Should -Throw
             }
         }
         AfterEach {

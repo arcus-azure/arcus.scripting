@@ -8,7 +8,7 @@ param(
     [Parameter(Mandatory = $false)][string] $AccessToken = ""
 )
 
-try{
+try {
     if ($WorkflowName -eq "") {
         if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
             # Request accessToken in case the script contains records
@@ -22,11 +22,11 @@ try{
     
         Write-Verbose "Attempting to disable Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'..."
         $params = @{
-            Method = 'Post'
+            Method  = 'Post'
             Headers = @{ 
-                'authorization'="Bearer $AccessToken"
+                'authorization' = "Bearer $AccessToken"
             }
-            URI = $fullUrl
+            URI     = $fullUrl
         }
 
         $web = Invoke-WebRequest @params -ErrorAction Stop

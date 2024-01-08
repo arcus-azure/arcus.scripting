@@ -31,12 +31,10 @@ function UploadMap {
     try {
         Write-Verbose "Checking if the map '$mapName' already exists in the Azure Integration Account '$Name'..."
         $existingMap = Get-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -ErrorAction Stop
-    }
-    catch {
+    } catch {
         if ($_.Exception.Message.Contains('could not be found')) {
             Write-Warning "No map '$mapName' could not be found in Azure Integration Account '$Name'"
-        }
-        else {
+        } else {
             throw $_.Exception
         }
     }
@@ -46,15 +44,13 @@ function UploadMap {
             Write-Verbose "Creating map '$mapName' in Azure Integration Account '$Name'..."
             $createdMap = New-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -MapType $MapType -MapFilePath $Map.FullName -ErrorAction Stop
             Write-Debug ($createdMap | Format-List -Force | Out-String)
-        }
-        else {
+        } else {
             Write-Verbose "Updating map '$mapName' in Azure Integration Account '$Name'..."
             $updatedMap = Set-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -MapFilePath $Map.FullName -ErrorAction Stop -Force
             Write-Debug ($updatedMap | Format-List -Force | Out-String)
         }
         Write-Host "Map '$mapName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
-    }
-    catch {
+    } catch {
         Write-Error "Failed to upload map '$mapName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
@@ -62,14 +58,12 @@ function UploadMap {
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
-}
-else {
+} else {
     if ($MapsFolder -ne '' -and $MapFilePath -eq '') {
         foreach ($map in Get-ChildItem($MapsFolder) -File) {
             UploadMap -Map $map
         }
-    }
-    elseif ($MapsFolder -eq '' -and $MapFilePath -ne '') {
+    } elseif ($MapsFolder -eq '' -and $MapFilePath -ne '') {
         [System.IO.FileInfo]$map = New-Object System.IO.FileInfo($MapFilePath)
         UploadMap -Map $map
     }

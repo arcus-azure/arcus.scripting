@@ -6,4 +6,4 @@ if (Test-Path $localAppSettings) {
 }
 
 [string]$appsettings = Get-Content $filePath
- return $config = ConvertFrom-Json $appsettings
+return $config = ConvertFrom-Json $appsettings

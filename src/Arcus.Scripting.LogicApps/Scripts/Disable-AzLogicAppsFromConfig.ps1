@@ -33,8 +33,7 @@ function ExecuteStopType() {
                 $ErrorMessage = $_.Exception.Message
                 Write-Debug "Error: $ErrorMessage"
             }                    
-        }
-        elseIf ($stopType -Match "None") {
+        } elseIf ($stopType -Match "None") {
             Write-Host "Executing Stop 'None' => performing no stop"
         } else {
             Write-Warning "StopType '$stopType' has no known implementation, doing nothing.." 
@@ -68,22 +67,22 @@ function ExecuteCheckType() {
 
                                 $listRunningUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listRunning'
                                 $listRunningParams = @{
-                                    Method = 'Get'
+                                    Method  = 'Get'
                                     Headers = @{ 
-                                        'authorization'="Bearer $Global:accessToken"
+                                        'authorization' = "Bearer $Global:accessToken"
                                     }
-                                    URI = $listRunningUrl
+                                    URI     = $listRunningUrl
                                 }
                                 $runHistoryRunning = Invoke-WebRequest @listRunningParams -ErrorAction Stop
                                 $runHistoryRunningContent = $runHistoryRunning.Content | ConvertFrom-Json
 
                                 $listWaitingUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $Global:subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listWaiting'
                                 $listWaitingParams = @{
-                                    Method = 'Get'
+                                    Method  = 'Get'
                                     Headers = @{ 
-                                        'authorization'="Bearer $Global:accessToken"
+                                        'authorization' = "Bearer $Global:accessToken"
                                     }
-                                    URI = $listWaitingUrl
+                                    URI     = $listWaitingUrl
                                 }
                                 $runHistoryWaiting = Invoke-WebRequest @listWaitingParams -ErrorAction Stop
                                 $runHistoryWaitingContent = $runHistoryWaiting.Content | ConvertFrom-Json
@@ -126,7 +125,7 @@ function ExecuteCheckType() {
                 if ($batch.logicApps.Length -gt 0 ) {
                     $batch.logicApps | ForEach-Object {
                         $logicApp = $_;
-                        if ($ResourcePrefix.Length -gt 0){
+                        if ($ResourcePrefix.Length -gt 0) {
                             $logicApp = "$ResourcePrefix$_"
                         }
 
@@ -181,7 +180,7 @@ function ExecuteCheckType() {
             } else {
                 $batch.logicApps | ForEach-Object {
                     $LogicAppName = $_;
-                    if($ResourcePrefix.Length -gt 0){
+                    if ($ResourcePrefix.Length -gt 0) {
                         $LogicAppName = "$ResourcePrefix$_"
                     }
                     ExecuteStopType -resourceGroupName $ResourceGroupName -LogicAppType $batch.logicAppType -LogicAppName $LogicAppName -stopType $batch.stopType
@@ -199,7 +198,7 @@ if ($json -is [array]) {
     [array]::Reverse($json)
 }
 
-if($json.Length -gt 0){
+if ($json.Length -gt 0) {
     # Request accessToken in case the script contains records
     $token = Get-AzCachedAccessToken -AssignGlobalVariables
 }

@@ -203,7 +203,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 } -ModuleName Arcus.Scripting.DevOps
 
                 # Act and Assert
-                { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId  } | Should -Throw
+                { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId } | Should -Throw
             }
             It "Save-AzDevOpsBuild indefinitely succeeds when API call does return success-code" {
                 # Arrange
@@ -216,7 +216,7 @@ InModuleScope Arcus.Scripting.DevOps {
                     $statusCode = 200
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps
+                } -ModuleName Arcus.Scripting.DevOps
 
                 # Act and Assert
                 { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId } | Should -Not -Throw
@@ -232,10 +232,10 @@ InModuleScope Arcus.Scripting.DevOps {
                     $statusCode = 200
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps
+                } -ModuleName Arcus.Scripting.DevOps
 
                 # Act and Assert
-                { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId -DaysToKeep 10} | Should -Not -Throw
+                { Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId -DaysToKeep 10 } | Should -Not -Throw
             }
             It "Save-AzDevOpsBuild correctly builds API endpoint when CollectionUri has trailing slash" {
                 # Arrange
@@ -248,7 +248,7 @@ InModuleScope Arcus.Scripting.DevOps {
                     $statusCode = 200
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps
+                } -ModuleName Arcus.Scripting.DevOps
 
                 # Act
                 Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 
@@ -267,7 +267,7 @@ InModuleScope Arcus.Scripting.DevOps {
                     $statusCode = 200
                     $response = New-Object System.Net.Http.HttpResponseMessage $statusCode
                     return $response
-                 } -ModuleName Arcus.Scripting.DevOps
+                } -ModuleName Arcus.Scripting.DevOps
 
                 # Act
                 Save-AzDevOpsBuild  -ProjectId $projectId -BuildId $buildId 

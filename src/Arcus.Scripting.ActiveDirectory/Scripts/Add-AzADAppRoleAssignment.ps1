@@ -27,13 +27,13 @@ try {
         Write-Verbose "Active Directory Application '$($adApplication.DisplayName)' does not contain the role '$Role', adding the role"
 
         $newRole = @{
-          "DisplayName" = $Role
-          "Description" = $Role
-          "Value" = $Role
-          "Id" = [Guid]::NewGuid().ToString()
-          "IsEnabled" = $true
-          "allowedMemberTypes" = @("User", "Application")
-         }
+            "DisplayName"        = $Role
+            "Description"        = $Role
+            "Value"              = $Role
+            "Id"                 = [Guid]::NewGuid().ToString()
+            "IsEnabled"          = $true
+            "allowedMemberTypes" = @("User", "Application")
+        }
 
         $adApplication.AppRole += $newRole
 

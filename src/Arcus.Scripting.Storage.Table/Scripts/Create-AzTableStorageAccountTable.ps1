@@ -22,18 +22,18 @@ function Try-CreateTable() {
         [Parameter(Mandatory = $true)][string] $TableName,
         [Parameter(Mandatory = $false)][int] $RetryIndex = 1
     )
-     if ($RetryIndex -ge $MaxRetryCount) {
-         throw "Azure storage table '$TableName' was not able to be created in Azure storage account, please check your connection information and access permissions"
-     }
+    if ($RetryIndex -ge $MaxRetryCount) {
+        throw "Azure storage table '$TableName' was not able to be created in Azure storage account, please check your connection information and access permissions"
+    }
 
-     try {
-         Write-Verbose "Creating Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
-         $storageTable = New-AzStorageTable -Name $TableName -Context $StorageAccount.Context -ErrorAction Stop
-         Write-Host "Azure storage table '$TableName' created in Azure storage account '$StorageAccountName'" -ForegroundColor Green
-         return $true
-     } catch {
-         return $false
-     }
+    try {
+        Write-Verbose "Creating Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
+        $storageTable = New-AzStorageTable -Name $TableName -Context $StorageAccount.Context -ErrorAction Stop
+        Write-Host "Azure storage table '$TableName' created in Azure storage account '$StorageAccountName'" -ForegroundColor Green
+        return $true
+    } catch {
+        return $false
+    }
 }
 
 Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."

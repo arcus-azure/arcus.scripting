@@ -9,7 +9,7 @@ param(
 try {
     if ($WorkflowName -eq "") {
         $runs = Get-AzLogicAppRunHistory -ResourceGroupName $ResourceGroupName -Name $LogicAppName -FollowNextPageLink -MaximumFollowNextPageLink $MaximumFollowNextPageLink | 
-            Where-Object {$_.Status -eq 'Running'}
+        Where-Object { $_.Status -eq 'Running' }
 
         foreach ($run in $runs) {
             $runName = $run.name
@@ -25,11 +25,11 @@ try {
 
         $listRunningUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -Action 'listRunning'
         $listRunningParams = @{
-            Method = 'Get'
+            Method  = 'Get'
             Headers = @{ 
-                'authorization'="Bearer $accessToken"
+                'authorization' = "Bearer $accessToken"
             }
-            URI = $listRunningUrl
+            URI     = $listRunningUrl
         }
 
         $runs = Invoke-WebRequest @listRunningParams -ErrorAction Stop
@@ -42,11 +42,11 @@ try {
             while ($nextPageUrl -ne $null -and $nextPageCounter -le $MaximumFollowNextPageLink) {
                 $nextPageCounter = $nextPageCounter + 1
                 $listRunningParams = @{
-                    Method = 'Get'
+                    Method  = 'Get'
                     Headers = @{ 
-                        'authorization'="Bearer $accessToken"
+                        'authorization' = "Bearer $accessToken"
                     }
-                    URI = $nextPageUrl
+                    URI     = $nextPageUrl
                 }
 
                 $runsNextPage = Invoke-WebRequest @listRunningParams -ErrorAction Stop
@@ -61,11 +61,11 @@ try {
 
             $cancelUrl = . $PSScriptRoot\Get-AzLogicAppStandardResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName -SubscriptionId $subscriptionId -ResourceGroupName $ResourceGroupName -LogicAppName $LogicAppName -WorkflowName $WorkflowName -RunName $runName -Action 'cancel'
             $cancelParams = @{
-                Method = 'Post'
+                Method  = 'Post'
                 Headers = @{ 
-                    'authorization'="Bearer $accessToken"
+                    'authorization' = "Bearer $accessToken"
                 }
-                URI = $cancelUrl
+                URI     = $cancelUrl
             }
             $cancel = Invoke-WebRequest @cancelParams -ErrorAction Stop
             Write-Verbose "Cancelled run '$runName' for the workflow '$WorkflowName' in Azure Logic App '$LogicAppName' in resource group '$ResourceGroupName'"

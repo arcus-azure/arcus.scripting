@@ -123,19 +123,19 @@ InModuleScope Arcus.Scripting.Storage.Table {
             }
             It "Create table with zero retry interval in seconds fails" {
                 { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -RetryIntervalInSeconds 0 } |
-                    Should -Throw
+                Should -Throw
             }
             It "Create table with less than zero retry interval in seconds fails" {
                 { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -RetryIntervalInSeconds -3 } |
-                    Should -Throw
+                Should -Throw
             }
             It "Create table with zero max retry-cycle count fails" {
                 { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -MaxRetryCount 0 } |
-                    Should -Throw
+                Should -Throw
             }
             It "Create table with less than zero max retry-cycle count fails" {
                 { Create-AzStorageTable -ResourceGroupName "stock" -StorageAccountName "admin" -TableName "products" -MaxRetryCount -2 } |
-                    Should -Throw
+                Should -Throw
             }
         }
         Context "Setting Azure Table Storage Entities" {
@@ -223,7 +223,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
 
                 # Act
                 { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Retrieving Azure storage account context for Azure storage account '$storageAccountName' in resource group '$resourceGroup' failed."
+                Should -Throw -ExpectedMessage "Retrieving Azure storage account context for Azure storage account '$storageAccountName' in resource group '$resourceGroup' failed."
 
                 # Assert
                 Assert-VerifiableMock
@@ -249,7 +249,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
 
                 # Act
                 { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Retrieving Azure storage table '$tableName' for Azure storage account '$storageAccountName' in resource group '$resourceGroup' failed."
+                Should -Throw -ExpectedMessage "Retrieving Azure storage table '$tableName' for Azure storage account '$storageAccountName' in resource group '$resourceGroup' failed."
 
                 # Assert
                 Assert-VerifiableMock
@@ -263,7 +263,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                 $configFile = ".\SomeFileThatDoesNotExist.json"
 
                 { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because no file was found at: '$configFile'"
+                Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because no file was found at: '$configFile'"
             }
             It "Setting entities in an Azure Table Storage account with a config file that is empty fails" {
                 $resourceGroup = "SomeResourceGroup"
@@ -272,7 +272,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                 $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config-empty.json"
 
                 { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file is empty."
+                Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file is empty."
             }
             It "Setting entities in an Azure Table Storage account with a config file that is not valid JSON fails" {
                 $resourceGroup = "SomeResourceGroup"
@@ -281,7 +281,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
                 $configFile = "$PSScriptRoot\Files\TableStorage\set-aztablestorageentities-config-invalid.json"
 
                 { Set-AzTableStorageEntities -ResourceGroupName $resourceGroup -StorageAccountName $storageAccountName -TableName $tableName -ConfigurationFile $configFile } |
-                    Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file does not contain a valid JSON configuration file."
+                Should -Throw -ExpectedMessage "Cannot re-create entities based on JSON configuration file because the file does not contain a valid JSON configuration file."
             }
         }
     }

@@ -7,9 +7,7 @@ param(
 
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
 $fileShare = Get-AzStorageFile -Context $storageAccount.Context -ShareName $FileShareName
-$fileShareFolders =
-    Get-AzStorageFile -ShareName $FileShareName -Context $storageAccount.Context | 
-        where { $_.GetType().Name -eq "AzureStorageFileDirectory" }
+$fileShareFolders = Get-AzStorageFile -ShareName $FileShareName -Context $storageAccount.Context | where { $_.GetType().Name -eq "AzureStorageFileDirectory" }
 
 if ($FolderName -in $fileShareFolders.Name) {
     Write-Warning "Azure FileShare storage folder '$FolderName' already exists, skipping"

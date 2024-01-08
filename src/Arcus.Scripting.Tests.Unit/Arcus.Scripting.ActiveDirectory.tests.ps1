@@ -14,7 +14,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   List-AzADAppRoleAssignments -ClientId $ClientId
+                    List-AzADAppRoleAssignments -ClientId $ClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -27,7 +27,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 Mock Get-AzADApplication {
                     $Filter | Should -Be "AppId eq '$ClientId'"
-                    return [pscustomobject]@{ AppId = $ClientId; }}
+                    return [pscustomobject]@{ AppId = $ClientId; } }
 
                 Mock Get-AzADServicePrincipal {
                     $Filter | Should -Be "AppId eq '$ClientId'"
@@ -35,7 +35,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   List-AzADAppRoleAssignments -ClientId $ClientId
+                    List-AzADAppRoleAssignments -ClientId $ClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -58,11 +58,11 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 Mock Get-AzADServicePrincipal {
                     $Filter | Should -Be "AppId eq '$ClientId'"
-                    return [pscustomobject]@{ AppId = $ClientId; }}
+                    return [pscustomobject]@{ AppId = $ClientId; } }
 
                 # Act
                 { 
-                   List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
+                    List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$RolesAssignedToClientId' could not be found"
 
                 # Assert
@@ -93,7 +93,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
+                    List-AzADAppRoleAssignments -ClientId $ClientId -RolesAssignedToClientId $RolesAssignedToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$RolesAssignedToClientId' could not be found"
 
                 # Assert
@@ -114,22 +114,22 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-AzADApplication {
                     $Filter | Should -Be "AppId eq '$ClientId'"
                     return [pscustomobject] @{
-                        AppId = $ClientId;
+                        AppId       = $ClientId;
                         DisplayName = $AppName
-                        AppRole = @([pscustomobject] @{
-                            Id = '1';
-                            Value = $RoleName
-                        })
+                        AppRole     = @([pscustomobject] @{
+                                Id    = '1';
+                                Value = $RoleName
+                            })
                     };
                 }
 
                 Mock Get-AzADServicePrincipal {
                     $Filter | Should -Be "AppId eq '$ClientId'"
-                    return [pscustomobject]@{ AppId = $ClientId; Id = '1' }}
+                    return [pscustomobject]@{ AppId = $ClientId; Id = '1' } }
 
                 Mock Get-MgServicePrincipalAppRoleAssignedTo {
                     $ServicePrincipalId | Should -Be '1'
-                    return $null}
+                    return $null }
 
                 # Act
                 List-AzADAppRoleAssignments -ClientId $ClientId
@@ -156,12 +156,12 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-AzADApplication {
                     $Filter | Should -Be "AppId eq '$ClientId'"
                     return [pscustomobject] @{
-                        AppId = $ClientId;
+                        AppId       = $ClientId;
                         DisplayName = $AppName
-                        AppRole = @([pscustomobject] @{
-                            Id = $AppRoleId;
-                            Value = $RoleName
-                        })
+                        AppRole     = @([pscustomobject] @{
+                                Id    = $AppRoleId;
+                                Value = $RoleName
+                            })
                     };
                 }
 
@@ -176,10 +176,10 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-MgServicePrincipalAppRoleAssignedTo {
                     $ServicePrincipalId | Should -Be $ClientId
                     return @([pscustomobject] @{
-                        AppRoleId = $AppRoleId;
-                        PrincipalId = $PrincipalId;
-                        PrincipalDisplayName = $AssignmentName
-                    })
+                            AppRoleId            = $AppRoleId;
+                            PrincipalId          = $PrincipalId;
+                            PrincipalDisplayName = $AssignmentName
+                        })
                 };
 
                 # Act
@@ -207,7 +207,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
+                    Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -222,7 +222,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 Mock Get-AzADApplication {
                     $Filter | Should -Be "AppId eq '$ClientId'"
-                    return [pscustomobject]@{ AppId = $ClientId; }}
+                    return [pscustomobject]@{ AppId = $ClientId; } }
 
                 Mock Get-AzADServicePrincipal {
                     $Filter | Should -Be "AppId eq '$ClientId'"
@@ -230,7 +230,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
+                    Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -254,11 +254,11 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 Mock Get-AzADServicePrincipal {
                     $Filter | Should -Be "AppId eq '$ClientId'"
-                    return [pscustomobject]@{ AppId = $ClientId; }}
+                    return [pscustomobject]@{ AppId = $ClientId; } }
 
                 # Act
                 { 
-                   Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
+                    Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$AssignRoleToClientId' could not be found"
 
                 # Assert
@@ -290,7 +290,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
+                    Add-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -AssignRoleToClientId $AssignRoleToClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$AssignRoleToClientId' could not be found"
 
                 # Assert
@@ -312,15 +312,15 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
                         return [pscustomobject] @{
-                            AppId = $ClientId;
+                            AppId       = $ClientId;
                             DisplayName = $AppName
-                            AppRole = @([pscustomobject] @{
-                                Id = $AppRoleId;
-                                Value = $RoleName
-                            })
+                            AppRole     = @([pscustomobject] @{
+                                    Id    = $AppRoleId;
+                                    Value = $RoleName
+                                })
                         };
                     } elseif ($Filter -eq "AppId eq '$AssignRoleToClientId'") {
-                        return [pscustomobject]@{ AppId = $AssignRoleToClientId; DisplayName = $AssignRoleToAppName}
+                        return [pscustomobject]@{ AppId = $AssignRoleToClientId; DisplayName = $AssignRoleToAppName }
                     }
                 }
 
@@ -335,10 +335,10 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-MgServicePrincipalAppRoleAssignedTo {
                     $ServicePrincipalId | Should -Be $ClientId
                     return @([pscustomobject] @{
-                        AppRoleId = $AppRoleId;
-                        PrincipalId = $PrincipalId;
-                        PrincipalDisplayName = $AssignmentName
-                    })
+                            AppRoleId            = $AppRoleId;
+                            PrincipalId          = $PrincipalId;
+                            PrincipalDisplayName = $AssignmentName
+                        })
                 };
 
                 # Act
@@ -368,15 +368,15 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
                         return [pscustomobject] @{
-                            AppId = $ClientId;
+                            AppId       = $ClientId;
                             DisplayName = $AppName
-                            AppRole = @([pscustomobject] @{
-                                Id = $AppRoleId;
-                                Value = $RoleName
-                            })
+                            AppRole     = @([pscustomobject] @{
+                                    Id    = $AppRoleId;
+                                    Value = $RoleName
+                                })
                         };
                     } elseif ($Filter -eq "AppId eq '$AssignRoleToClientId'") {
-                        return [pscustomobject]@{ AppId = $AssignRoleToClientId; DisplayName = $AssignRoleToAppName}
+                        return [pscustomobject]@{ AppId = $AssignRoleToClientId; DisplayName = $AssignRoleToAppName }
                     }
                 }
 
@@ -396,10 +396,10 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-MgServicePrincipal {
                     $ServicePrincipalId | Should -Be $ClientId
                     return @([pscustomobject] @{
-                        AppRoles = @([pscustomobject] @{
-                            Value = $RoleName
+                            AppRoles = @([pscustomobject] @{
+                                    Value = $RoleName
+                                })
                         })
-                    })
                 };
 
                 Mock New-MgServicePrincipalAppRoleAssignment {
@@ -437,13 +437,13 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
                         return [pscustomobject] @{
-                            Id = $ClientId;
-                            AppId = $ClientId;
+                            Id          = $ClientId;
+                            AppId       = $ClientId;
                             DisplayName = $AppName
-                            AppRole = $null
+                            AppRole     = $null
                         };
                     } elseif ($Filter -eq "AppId eq '$AssignRoleToClientId'") {
-                        return [pscustomobject]@{ AppId = $AssignRoleToClientId; DisplayName = $AssignRoleToAppName}
+                        return [pscustomobject]@{ AppId = $AssignRoleToClientId; DisplayName = $AssignRoleToAppName }
                     }
                 }
 
@@ -468,10 +468,10 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-MgServicePrincipal {
                     $ServicePrincipalId | Should -Be $ClientId
                     return @([pscustomobject] @{
-                        AppRoles = @([pscustomobject] @{
-                            Value = $RoleName
+                            AppRoles = @([pscustomobject] @{
+                                    Value = $RoleName
+                                })
                         })
-                    })
                 };
 
                 Mock New-MgServicePrincipalAppRoleAssignment {
@@ -510,7 +510,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
+                    Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -525,7 +525,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 Mock Get-AzADApplication {
                     $Filter | Should -Be "AppId eq '$ClientId'"
-                    return [pscustomobject]@{ AppId = $ClientId; }}
+                    return [pscustomobject]@{ AppId = $ClientId; } }
 
                 Mock Get-AzADServicePrincipal {
                     $Filter | Should -Be "AppId eq '$ClientId'"
@@ -533,7 +533,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
+                    Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$ClientId' could not be found"
 
                 # Assert
@@ -557,11 +557,11 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 Mock Get-AzADServicePrincipal {
                     $Filter | Should -Be "AppId eq '$ClientId'"
-                    return [pscustomobject]@{ AppId = $ClientId; }}
+                    return [pscustomobject]@{ AppId = $ClientId; } }
 
                 # Act
                 { 
-                   Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
+                    Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Application for the ClientId '$RemoveRoleFromClientId' could not be found"
 
                 # Assert
@@ -593,7 +593,7 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
 
                 # Act
                 { 
-                   Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
+                    Remove-AzADAppRoleAssignment -ClientId $ClientId -Role $Role -RemoveRoleFromClientId $RemoveRoleFromClientId
                 } | Should -Throw -ExpectedMessage "Active Directory Service Principal for the ClientId '$RemoveRoleFromClientId' could not be found"
 
                 # Assert
@@ -649,13 +649,13 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
                         return [pscustomobject] @{
-                            Id = $ClientId;
-                            AppId = $ClientId;
+                            Id          = $ClientId;
+                            AppId       = $ClientId;
                             DisplayName = $AppName
-                            AppRole = @([pscustomobject] @{
-                                Id = $AppRoleId;
-                                Value = $RoleName
-                            })
+                            AppRole     = @([pscustomobject] @{
+                                    Id    = $AppRoleId;
+                                    Value = $RoleName
+                                })
                         };
                     } elseif ($Filter -eq "AppId eq '$RemoveRoleFromClientId'") {
                         return [pscustomobject]@{ AppId = $RemoveRoleFromClientId; DisplayName = $RemoveRoleFromAppName }
@@ -700,14 +700,14 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-AzADApplication {
                     if ($Filter -eq "AppId eq '$ClientId'") {
                         return [pscustomobject] @{
-                            Id = $ClientId;
-                            AppId = $ClientId;
+                            Id          = $ClientId;
+                            AppId       = $ClientId;
                             DisplayName = $AppName
-                            AppRole = @([pscustomobject] @{
-                                Id = $AppRoleId;
-                                Value = $RoleName;
-                                DisplayName = $RoleName;
-                            })
+                            AppRole     = @([pscustomobject] @{
+                                    Id          = $AppRoleId;
+                                    Value       = $RoleName;
+                                    DisplayName = $RoleName;
+                                })
                         };
                     } elseif ($Filter -eq "AppId eq '$RemoveRoleFromClientId'") {
                         return [pscustomobject]@{ AppId = $RemoveRoleFromClientId; DisplayName = $RemoveRoleFromAppName }
@@ -725,11 +725,11 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
                 Mock Get-MgServicePrincipalAppRoleAssignedTo {
                     $ServicePrincipalId | Should -Be $ClientId
                     return @([pscustomobject] @{
-                        Id = $AppRoleId;
-                        AppRoleId = $AppRoleId;
-                        PrincipalId = $RemoveRoleFromClientId;
-                        PrincipalDisplayName = $AssignmentName
-                    })
+                            Id                   = $AppRoleId;
+                            AppRoleId            = $AppRoleId;
+                            PrincipalId          = $RemoveRoleFromClientId;
+                            PrincipalDisplayName = $AssignmentName
+                        })
                 };
 
                 Mock Remove-MgServicePrincipalAppRoleAssignment {

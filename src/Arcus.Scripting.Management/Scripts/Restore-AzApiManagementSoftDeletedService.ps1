@@ -15,7 +15,7 @@ if ($SubscriptionId -eq "" -or $AccessToken -eq "") {
 }
 
 $authHeader = @{
-   'Authorization'='Bearer ' + $AccessToken
+    'Authorization' = 'Bearer ' + $AccessToken
 }
 
 $resourceManagerUrl = . $PSScriptRoot\Get-AzApiManagementResourceManagementUrl.ps1 -EnvironmentName $EnvironmentName
@@ -27,7 +27,7 @@ try {
     $location = ($deletedServices.value | Where-Object name -eq $Name).location
     $serviceId = ($deletedServices.value | Where-Object name -eq $Name).properties.serviceId
     $data = @{   
-        location = $location
+        location   = $location
         properties = @{
             restore = $true
         };

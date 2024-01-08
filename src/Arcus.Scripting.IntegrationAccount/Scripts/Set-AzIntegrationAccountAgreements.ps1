@@ -71,12 +71,10 @@ function UploadAgreement {
     try {
         Write-Verbose "Checking if the agreement '$agreementName' already exists in the Azure Integration Account '$Name'..."
         $existingAgreement = Get-AzIntegrationAccountAgreement -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -AgreementName $agreementName -ErrorAction Stop
-    }
-    catch {
+    } catch {
         if ($_.Exception.Message.Contains('could not be found')) {
             Write-Warning "No agreement '$agreementName' could not be found in Azure Integration Account '$Name'"
-        }
-        else {
+        } else {
             throw $_.Exception
         }
     }
@@ -86,15 +84,13 @@ function UploadAgreement {
             Write-Verbose "Creating agreement '$agreementName' in Azure Integration Account '$Name'..."
             $createdAgreement = New-AzIntegrationAccountAgreement -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -AgreementName $agreementName -AgreementType $agreementType -HostPartner $hostPartner -HostIdentityQualifier $hostIdentityQualifier -HostIdentityQualifierValue $hostIdentityQualifierValue -GuestPartner $guestPartner -GuestIdentityQualifier $guestIdentityQualifier -GuestIdentityQualifierValue $guestIdentityQualifierValue -AgreementContent $agreementContent -ErrorAction Stop
             Write-Debug ($createdAgreement | Format-List -Force | Out-String)
-        }
-        else {
+        } else {
             Write-Verbose "Updating agreement '$agreementName' in Azure Integration Account '$Name'..."
             $updatedAgreement = Set-AzIntegrationAccountAgreement -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -AgreementName $agreementName -AgreementType $agreementType -HostPartner $hostPartner -HostIdentityQualifier $hostIdentityQualifier -HostIdentityQualifierValue $hostIdentityQualifierValue -GuestPartner $guestPartner -GuestIdentityQualifier $guestIdentityQualifier -GuestIdentityQualifierValue $guestIdentityQualifierValue -AgreementContent $agreementContent -Force -ErrorAction Stop
             Write-Debug ($updatedAgreement | Format-List -Force | Out-String)
         }
         Write-Host "Agreement '$agreementName' has been uploaded into the Azure Integration Account '$Name'" -ForegroundColor Green
-    }
-    catch {
+    } catch {
         Write-Error "Failed to upload agreement '$agreementName' in Azure Integration Account '$Name': '$($_.Exception.Message)'"
     }
 }
@@ -102,14 +98,12 @@ function UploadAgreement {
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
 if ($integrationAccount -eq $null) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
-}
-else {
+} else {
     if ($AgreementsFolder -ne '' -and $AgreementFilePath -eq '') {
         foreach ($agreement in Get-ChildItem($AgreementsFolder) -File) {
             UploadAgreement -Agreement $agreement
         }
-    }
-    elseif ($AgreementsFolder -eq '' -and $AgreementFilePath -ne '') {
+    } elseif ($AgreementsFolder -eq '' -and $AgreementFilePath -ne '') {
         [System.IO.FileInfo]$agreement = New-Object System.IO.FileInfo($AgreementFilePath)
         UploadAgreement -Agreement $agreement
     }

@@ -33,6 +33,7 @@
     <Compile Include="Arcus.Scripting.Storage.Table.psd1" />
     <Compile Include="Arcus.Scripting.Storage.Table.psm1" />
     <Compile Include="Scripts\Create-AzTableStorageAccountTable.ps1" />
+    <Compile Include="Scripts\Set-AzTableStorageEntities.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

@@ -1,9 +1,9 @@
 param(
-    [Parameter(Mandatory=$true)][string] $Action = $(throw "Action is required [Start|Stop]"),
-    [Parameter(Mandatory=$true)][string] $ResourceGroupName = $(throw "ResourceGroup is required"),
-    [Parameter(Mandatory=$true)][string] $DataFactoryName = $(throw "The name of the data factory is required"),
-    [Parameter(Mandatory=$true)][string] $DataFactoryTriggerName = $(throw "The name of the trigger is required"),
-    [Parameter(Mandatory=$false)][switch] $FailWhenTriggerIsNotFound = $false
+    [Parameter(Mandatory = $true)][string] $Action = $(throw "Action is required [Start|Stop]"),
+    [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "ResourceGroup is required"),
+    [Parameter(Mandatory = $true)][string] $DataFactoryName = $(throw "The name of the data factory is required"),
+    [Parameter(Mandatory = $true)][string] $DataFactoryTriggerName = $(throw "The name of the trigger is required"),
+    [Parameter(Mandatory = $false)][switch] $FailWhenTriggerIsNotFound = $false
 )
 
 try {
