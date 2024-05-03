@@ -21,6 +21,12 @@
  .Parameter ContainerName
   The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.
 
+ .Parameter AccessType
+  The type of access to be used for the connection from APIM to the storage account, valid values are `SystemAssignedManagedIdentity` and `UserAssignedManagedIdentity`.
+
+ .Parameter IdentityClientId
+  The client id of the managed identity to connect from API Management to Storage Account, this is only required when AccessType is set to `UserAssignedManagedIdentity`.
+
  .Parameter BlobName
   The name of the blob for the backup. If the blob does not exist, this cmdlet creates it. 
   This cmdlet generates a default value based on the following pattern: {Name}-{yyyy-MM-dd-HH-mm}.apimbackup
@@ -36,17 +42,19 @@ function Backup-AzApiManagementService {
         [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
         [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
         [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Storage account name is required"),
-        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API managgement service name is required"),
+        [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API management service name is required"),
         [Parameter(Mandatory = $true)][string] $ContainerName = $(throw "Name of the target blob container is required"),
+        [Parameter(Mandatory = $true)][string][ValidateSet('SystemAssignedManagedIdentity', 'UserAssignedManagedIdentity')] $AccessType = $(throw "The access type is required"),
+        [Parameter(Mandatory = $false)][string] $IdentityClientId = "",
         [Parameter(Mandatory = $false)][string] $BlobName = $null,
         [Parameter(Mandatory = $false)][switch] $PassThru = $false,
         [Parameter(Mandatory = $false)][Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer] $DefaultProfile = $null
     )
 
     if ($PassThru) {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName -PassThru
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -AccessType $AccessType -IdentityClientId $IdentityClientId -BlobName $BlobName -PassThru
     } else {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -AccessType $AccessType -IdentityClientId $IdentityClientId -BlobName $BlobName
     }
 }
 
