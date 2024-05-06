@@ -47,6 +47,7 @@ if ($TableName -in $tables.Name) {
     if ($Recreate) {
         Write-Verbose "Deleting existing Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
         $isRemoved = Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context -Force
+        Start-Sleep -Seconds 40
         if ($isRemoved -eq $false) {
             throw "Could not successfully remove Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'"
         }
