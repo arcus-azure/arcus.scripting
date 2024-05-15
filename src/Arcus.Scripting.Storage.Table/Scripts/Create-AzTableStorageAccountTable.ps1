@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
     [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
     [Parameter()][switch] $Recreate = $false,
-    [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 5,
+    [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 10,
     [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
 )
 
@@ -47,7 +47,6 @@ if ($TableName -in $tables.Name) {
     if ($Recreate) {
         Write-Verbose "Deleting existing Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'..."
         $isRemoved = Remove-AzStorageTable -Name $TableName -Context $storageAccount.Context -Force
-        Start-Sleep -Seconds 40
         if ($isRemoved -eq $false) {
             throw "Could not successfully remove Azure storage table '$TableName' in the Azure storage account '$StorageAccountName'"
         }
