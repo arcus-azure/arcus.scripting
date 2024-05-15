@@ -55,7 +55,7 @@ if ($TableName -in $tables.Name) {
         
         $retryIndex = 1
         while (-not (Try-CreateTable -StorageAccount $storageAccount -TableName $TableName -RetryIndex $retryIndex)) {
-            Write-Warning "Failed to re-create the Azure storage table '$TableName' in Azure storage account '$StorageAccountName', retrying in 5 seconds..."
+            Write-Warning "Failed to re-create the Azure storage table '$TableName' in Azure storage account '$StorageAccountName', retrying in '$RetryIntervalSeconds' seconds..."
             $retryIndex = $retryIndex + 1
             Start-Sleep -Seconds $RetryIntervalSeconds
         }
