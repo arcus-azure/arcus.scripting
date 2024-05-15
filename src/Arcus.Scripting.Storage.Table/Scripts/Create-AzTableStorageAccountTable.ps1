@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
     [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
     [Parameter()][switch] $Recreate = $false,
-    [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 5,
+    [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 10,
     [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
 )
 
@@ -55,7 +55,7 @@ if ($TableName -in $tables.Name) {
         
         $retryIndex = 1
         while (-not (Try-CreateTable -StorageAccount $storageAccount -TableName $TableName -RetryIndex $retryIndex)) {
-            Write-Warning "Failed to re-create the Azure storage table '$TableName' in Azure storage account '$StorageAccountName', retrying in 5 seconds..."
+            Write-Warning "Failed to re-create the Azure storage table '$TableName' in Azure storage account '$StorageAccountName', retrying in '$RetryIntervalSeconds' seconds..."
             $retryIndex = $retryIndex + 1
             Start-Sleep -Seconds $RetryIntervalSeconds
         }

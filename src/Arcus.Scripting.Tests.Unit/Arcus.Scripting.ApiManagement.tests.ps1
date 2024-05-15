@@ -21,6 +21,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
+                $accessType = 'SystemAssignedManagedIdentity'
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
@@ -33,6 +34,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
+                    $AccessType | Should -Be $accessType
                     $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -BeNullOrEmpty 
@@ -40,7 +42,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -AccessType $accessType
 
                 # Assert
                 Assert-VerifiableMock
@@ -58,7 +60,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $targetBlobName = "backup-storage-blob"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                
+                $accessType = 'SystemAssignedManagedIdentity'
+
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
                     $StorageAccountName | Should -Be $expectedStorageAccountName
@@ -70,6 +73,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
+                    $AccessType | Should -Be $accessType
                     $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -Be $targetBlobName
@@ -77,7 +81,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -BlobName $targetBlobName
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -BlobName $targetBlobName -AccessType $accessType
 
                 # Assert
                 Assert-VerifiableMock
@@ -94,7 +98,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $targetContainerName = "backup-storage"
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-                
+                $accessType = 'SystemAssignedManagedIdentity'
+
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
                     $StorageAccountName | Should -Be $expectedStorageAccountName
@@ -106,6 +111,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
+                    $AccessType | Should -Be $accessType
                     $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -BeNullOrEmpty 
@@ -113,7 +119,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $DefaultProfile | Should -Be $null }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -AccessType $accessType -PassThru
 
                 # Assert
                 Assert-VerifiableMock
@@ -131,6 +137,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $defaultProfile = New-Object -TypeName Microsoft.Azure.Commands.Common.Authentication.Models.AzureRmProfile
+                $accessType = 'SystemAssignedManagedIdentity'
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
@@ -143,6 +150,7 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 Mock Backup-AzApiManagement {
                     $ResourceGroupName | Should -Be $resourceGroup
                     $Name | Should -Be $serviceName
+                    $AccessType | Should -Be $accessType
                     $StorageContext | Should -be $expectedStorageContext
                     $TargetContainerName | Should -Be $targetContainerName
                     $TargetBlobName | Should -BeNullOrEmpty 
@@ -150,7 +158,47 @@ InModuleScope Arcus.Scripting.ApiManagement {
                     $DefaultProfile | Should -Be $defaultProfile }
 
                 # Act
-                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -PassThru -DefaultProfile $defaultProfile
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -AccessType $accessType -PassThru -DefaultProfile $defaultProfile
+
+                # Assert
+                Assert-VerifiableMock
+                Assert-MockCalled Get-AzStorageAccountKey -Times 1
+                Assert-MockCalled New-AzStorageContext -Times 1
+                Assert-MockCalled Backup-AzApiManagement -Times 1
+            }
+            It "Backs up API management with User Assigned Managed Identity" {
+                # Arrange
+                $resourceGroup = "shopping"
+                $storageAccountResourceGroup = "stock"
+                $expectedStorageAccountName = "shopping-storage"
+                $serviceName = "shopping-API-management"
+                $targetContainerName = "backup-storage"
+                $storageKeyValue = "my-storage-key"
+                $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
+                $accessType = 'UserAssignedManagedIdentity'
+                $identityClientId = 'someidentityid'
+
+                Mock Get-AzStorageAccountKey {
+                    $ResourceGroupName | Should -Be $storageAccountResourceGroup
+                    $StorageAccountName | Should -Be $expectedStorageAccountName
+                    return $storageKey }
+                Mock New-AzStorageContext { 
+                    $StorageAccountName | Should -Be $StorageAccountName
+                    $StorageAccountKey | Should -Be $storageKeyValue
+                    return $expectedStorageContext }
+                Mock Backup-AzApiManagement {
+                    $ResourceGroupName | Should -Be $resourceGroup
+                    $Name | Should -Be $serviceName
+                    $AccessType | Should -Be $accessType
+                    $IdentityClientId | Should -Be $identityClientId
+                    $StorageContext | Should -be $expectedStorageContext
+                    $TargetContainerName | Should -Be $targetContainerName
+                    $TargetBlobName | Should -BeNullOrEmpty 
+                    $PassThru | Should -Be $false
+                    $DefaultProfile | Should -Be $null }
+
+                # Act
+                Backup-AzApiManagementService -ResourceGroupName $resourceGroup -StorageAccountResourceGroup $storageAccountResourceGroup -StorageAccountName $expectedStorageAccountName -ServiceName $serviceName -ContainerName $targetContainerName -AccessType $accessType -IdentityClientId $identityClientId
 
                 # Assert
                 Assert-VerifiableMock

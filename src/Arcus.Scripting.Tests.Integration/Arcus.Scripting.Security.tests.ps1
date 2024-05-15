@@ -57,9 +57,13 @@ InModuleScope Arcus.Scripting.Security {
                     -LockLevel CanNotDelete `
                     -Force
 
+                Start-Sleep -Seconds 10
+
                 try {
                     # Act
                     Remove-AzResourceGroupLocks -ResourceGroupName $targetResourceGroupName -LockName $lockName
+
+                    Start-Sleep -Seconds 10
                 
                     # Assert
                     $locks = Get-AzResourceLock -ResourceGroupName $targetResourceGroupName
@@ -89,9 +93,13 @@ InModuleScope Arcus.Scripting.Security {
                     -LockLevel CanNotDelete `
                     -Force
 
+                Start-Sleep -Seconds 10
+
                 try {
                     # Act
                     Remove-AzResourceGroupLocks -ResourceGroupName $targetResourceGroupName
+
+                    Start-Sleep -Seconds 10
                 
                     # Assert
                     $locks = Get-AzResourceLock -ResourceGroupName $targetResourceGroupName

@@ -17,16 +17,18 @@ PS> Install-Module -Name Arcus.Scripting.ApiManagement
 
 Backs up an API Management service (with built-in storage context retrieval).
 
-| Parameter                         | Mandatory | Description                                                                                                                                                      |
-| --------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`               | yes       | The name of the of resource group under which the API Management deployment exists.                                                                              |
-| `StorageAccountResourceGroupName` | yes       | The name of the resource group under which the storage account exists.                                                                                           |
-| `StorageAccountName`              | yes       | The name of the Storage account for which this cmdlet gets keys.                                                                                                 |
-| `ServiceName`                     | yes       | The name of the API Management deployment that this cmdlet backs up.                                                                                             |
-| `ContainerName`                   | yes       | The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.                                                   |
-| `BlobName`                        | no        | The name of the blob for the backup. If the blob does not exist, this cmdlet creates it (default value based on pattern: `{Name}-{yyyy-MM-dd-HH-mm}.apimbackup`. |
-| `PassThru`                        | no        | Indicates that this cmdlet returns the backed up PsApiManagement object, if the operation succeeds.                                                              |
-| `DefaultProfile`                  | no        | The credentials, account, tenant, and subscription used for communication with azure.                                                                            |
+| Parameter                         | Mandatory | Description                                                                                                                                                             |
+| --------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`               | yes       | The name of the of resource group under which the API Management deployment exists.                                                                                     |
+| `StorageAccountResourceGroupName` | yes       | The name of the resource group under which the storage account exists.                                                                                                  |
+| `StorageAccountName`              | yes       | The name of the Storage account for which this cmdlet gets keys.                                                                                                        |
+| `ServiceName`                     | yes       | The name of the API Management deployment that this cmdlet backs up.                                                                                                    |
+| `ContainerName`                   | yes       | The name of the container of the blob for the backup. If the container does not exist, this cmdlet creates it.                                                          |
+| `AccessType`                      | yes       | The type of access to be used for the connection from APIM to the storage account, valid values are `SystemAssignedManagedIdentity` and `UserAssignedManagedIdentity`.  |
+| `IdentityClientId`                | no        | The client id of the managed identity to connect from API Management to Storage Account, this is only required when AccessType is set to `UserAssignedManagedIdentity`. |
+| `BlobName`                        | no        | The name of the blob for the backup. If the blob does not exist, this cmdlet creates it (default value based on pattern: `{Name}-{yyyy-MM-dd-HH-mm}.apimbackup`.        |
+| `PassThru`                        | no        | Indicates that this cmdlet returns the backed up PsApiManagement object, if the operation succeeds.                                                                     |
+| `DefaultProfile`                  | no        | The credentials, account, tenant, and subscription used for communication with azure.                                                                                   |
 
 **Example**
 
@@ -38,7 +40,8 @@ PS> Backup-AzApiManagementService `
 -StorageAccountResourceGroupName "my-storage-account-resource-group" `
 -StorageAccountName "my-storage-account" `
 -ServiceName "my-service" `
--ContainerName "my-target-blob-container"
+-ContainerName "my-target-blob-container" `
+-AccessType "SystemAssignedManagedIdentity"
 # New Azure storage context for storage account 'my-storage-account' with storage key created!
 # Azure API management service 'my-service' in resource group 'my-resource-group' is backed-up!
 ```

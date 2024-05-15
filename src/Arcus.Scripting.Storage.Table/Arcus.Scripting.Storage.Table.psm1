@@ -29,7 +29,7 @@ function Create-AzStorageTable {
         [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
         [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
         [Parameter()][switch] $Recreate = $false,
-        [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 5,
+        [Parameter(Mandatory = $false)][int] $RetryIntervalSeconds = 10,
         [Parameter(Mandatory = $false)][int] $MaxRetryCount = 10
     )
 

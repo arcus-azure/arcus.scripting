@@ -23,7 +23,7 @@ PS> Install-Module -Name Arcus.Scripting.Storage.Table
 | `StorageAccountName`   | yes       | The name of the Azure Storage Account to add the table to                                                                  |
 | `TableName`            | yes       | The name of the table to add on the Azure Storage Account                                                                  |
 | `Recreate`             | no        | The optional flag to indicate whether or not a possible already existing table should be deleted and re-created            |
-| `RetryIntervalSeconds` | no        | The optional amount of seconds to wait each retry-run when a failure occurs during the re-creating process (default: 5s)  |
+| `RetryIntervalSeconds` | no        | The optional amount of seconds to wait each retry-run when a failure occurs during the re-creating process (default: 10s)  |
 | `MaxRetryCount`        | no        | The optional maximum amount of retry-runs should happen when a failure occurs during the re-creating process (default: 10) |
 
 **Example**
@@ -49,8 +49,8 @@ PS> Create-AzStorageTable `
 -Recreate `
 -RetryIntervalSeconds 3
 # Azure storage table 'products' has been removed from Azure storage account 'admin'
-# Failed to re-create the Azure storage table 'products' in Azure storage account 'admin', retrying in 5 seconds...
-# Failed to re-create the Azure storage table 'products' in Azure storage account 'admin', retrying in 5 seconds...
+# Failed to re-create the Azure storage table 'products' in Azure storage account 'admin', retrying in 3 seconds...
+# Failed to re-create the Azure storage table 'products' in Azure storage account 'admin', retrying in 3 seconds...
 # Azure storage table 'products' created in Azure storage account 'admin'
 ```
 
