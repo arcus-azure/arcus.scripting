@@ -28,36 +28,30 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
     $storageContext = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageKey.Value
     Write-Host "New Azure storage context for storage account '$($StorageAccountName)' with storage key created!" -ForegroundColor Green
 
-    Write-Verbose "Start backing up Azure API Management instance '$($ServiceName)' in resource group '$($ResourceGroupName)'..."
-    if ($BlobName -ne $null -and $BlobName -ne "") {
-        if ($PassThru) {
-            if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
-            } else {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
-            }
-        } else {
-            if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -DefaultProfile $DefaultProfile
-            } else {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -DefaultProfile $DefaultProfile
-            }
-        }
-    } else {
-        if ($PassThru) {
-            if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru -DefaultProfile $DefaultProfile
-            } else {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru -DefaultProfile $DefaultProfile
-            }
-        } else {
-            if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -DefaultProfile $DefaultProfile
-            } else {
-                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -DefaultProfile $DefaultProfile
-            }
-        }
+    $backupArguments = @{
+      ResourceGroupName = $ResourceGroupName
+      Name = $ServiceName
+      AccessType = $AccessType
+      StorageContext = $storageContext
+      TargetContainerName = $ContainerName
+      DefaultProfile = $DefaultProfile
     }
 
+    if ($PassThru) {
+      $backupArguments.PassThru = $true
+    } else {
+      $backupArguments.PassThru = $false
+    }
+
+    if ($AccessType -eq 'UserAssignedManagedIdentity') {
+      $backupArguments.IdentityClientId = $IdentityClientId
+    }
+
+    if ($BlobName -ne $null -and $BlobName -ne "") {
+      $backupArguments.TargetBlobName = $BlobName
+    }
+
+    Write-Verbose "Start backing up Azure API Management instance '$($ServiceName)' in resource group '$($ResourceGroupName)'..."
+    Backup-AzApiManagement @backupArguments
     Write-Host "Azure API Management instance '$($ServiceName)' in resource group '$($ResourceGroupName)' is backed-up!" -ForegroundColor Green
 }
