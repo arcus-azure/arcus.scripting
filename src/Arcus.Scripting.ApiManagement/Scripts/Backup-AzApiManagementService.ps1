@@ -31,62 +31,30 @@ if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
     Write-Verbose "Start backing up Azure API Management instance '$($ServiceName)' in resource group '$($ResourceGroupName)'..."
     if ($BlobName -ne $null -and $BlobName -ne "") {
         if ($PassThru) {
-            if ($DefaultProfile -ne $null) {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
-                }
+            if ($AccessType -eq 'UserAssignedManagedIdentity') {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
             } else {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru
-                }
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
             }
         } else {
-            if ($DefaultProfile -ne $null) {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -DefaultProfile $DefaultProfile
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -DefaultProfile $DefaultProfile
-                }
+            if ($AccessType -eq 'UserAssignedManagedIdentity') {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -DefaultProfile $DefaultProfile
             } else {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName
-                }
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -TargetBlobName $BlobName -DefaultProfile $DefaultProfile
             }
         }
     } else {
         if ($PassThru) {
-            if ($DefaultProfile -ne $null) {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru -DefaultProfile $DefaultProfile
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru -DefaultProfile $DefaultProfile
-                }
+            if ($AccessType -eq 'UserAssignedManagedIdentity') {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru -DefaultProfile $DefaultProfile
             } else {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru
-                }
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -PassThru -DefaultProfile $DefaultProfile
             }
         } else {
-            if ($DefaultProfile -ne $null) {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -DefaultProfile $DefaultProfile
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -DefaultProfile $DefaultProfile
-                }
+            if ($AccessType -eq 'UserAssignedManagedIdentity') {
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName -DefaultProfile $DefaultProfile
             } else {
-                if ($AccessType -eq 'UserAssignedManagedIdentity') {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -IdentityClientId $IdentityClientId -StorageContext $storageContext -TargetContainerName $ContainerName
-                } else {
-                    Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName
-                }
+                Backup-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -AccessType $AccessType -StorageContext $storageContext -TargetContainerName $ContainerName -DefaultProfile $DefaultProfile
             }
         }
     }
