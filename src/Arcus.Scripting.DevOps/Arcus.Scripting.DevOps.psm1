@@ -19,9 +19,9 @@ function Set-AzDevOpsVariable {
     )
     
     if ($AsSecret) {
-        Write-Host "##vso[task.setvariable variable=$Name;issecret=true] $Value"
+        Write-Host "##vso[task.setvariable variable=$Name;issecret=true]$Value"
     } else {
-        Write-Host "##vso[task.setvariable variable=$Name] $Value"
+        Write-Host "##vso[task.setvariable variable=$Name]$Value"
     }
 }
 
