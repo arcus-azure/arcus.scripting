@@ -21,7 +21,7 @@ ID = "52a5e73a-fd4e-4d18-8321-5334c5de88c9"
   # functions = "project/functions/"
 
 [build.environment]
-  NODE_VERSION = "16.14"
+  NODE_VERSION = "18.19"
 
 [[redirects]]
   from = "/:version/features/powershell/azure-storage-all"
