@@ -22,7 +22,7 @@ stages:
       - job: DeployBicep
         displayName: 'Deploy test resources'
         pool:
-          vmImage: '$(Vm.Image)'
+          vmImage: '$(Vm.Linux.Image)'
         steps:
           - task: AzureCLI@2
             env:
