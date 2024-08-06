@@ -46,7 +46,7 @@ stages:
 
                 az deployment group create `
                   --location westeurope `
-                  --resource-group $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME
+                  --resource-group $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME `
                   --template-file ./build/templates/deploy-test-resources.bicep `
                   --parameters keyVaultName=$env:ARCUS_SCRIPTING_KEYVAULT_NAME `
                   --parameters storageAccountName=$env:ARCUS_SCRIPTING_STORAGEACCOUNT_NAME `
