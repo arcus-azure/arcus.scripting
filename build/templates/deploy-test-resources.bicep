@@ -75,6 +75,10 @@ module functionApp 'br/public:avm/res/web/site:0.3.9' = {
     name: appServiceName
     serverFarmResourceId: serverfarm.outputs.resourceId
     location: location
+    enableTelemetry: false
+    siteConfig: {
+      alwaysOn: false
+    }
   }
 }
 
@@ -96,7 +100,6 @@ module sqlServer 'br/public:avm/res/sql/server:0.4.1' = {
         name: sqlDatabaseName
         capacity: 1
         skuName: 'GP_S_Gen5'
-        skuTier: 'GeneralPurpose'
         collaction: 'SQL_Latin1_General_CP1_CI_AS'
       }
     ]
