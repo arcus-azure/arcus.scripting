@@ -3,7 +3,7 @@ variables:
   Arcus.Scripting.DevOps.VariableGroup.Name: 'Arcus Scripting - Integration Testing - DevOps (existing variable group)'
   Arcus.Scripting.DevOps.VariableGroup.UrlEncoded: 'Arcus%20Scripting%20-%20Integration%20Testing%20-%20DevOps%20(existing%20variable%20group)'
   Arcus.Scripting.KeyVault.Name: 'arcus-scripting-kv'
-  Arcus.Scripting.AppService.Name: 'arcus-scripting-dev-we-appservice'
+  Arcus.Scripting.AppService.Name: 'arcus-scripting-dev-we'
   Arcus.Scripting.IntegrationAccount.Name: 'arcus-scripting-dev-ne-ia'
   Arcus.Scripting.IoTHub.Name: 'arcus-scripting-dev-we-iot-hub'
   Arcus.Scripting.LogicApps.TriggerName: 'arc-dev-we-rcv-http-trigger'
