@@ -52,10 +52,10 @@ stages:
                             $password += $characterList[$randomIndex]
                         }
 
-                        [int]$hasLowerChar = $password -cmatch '[a-z]'
-                        [int]$hasUpperChar = $password -cmatch '[A-Z]'
-                        [int]$hasDigit = $password -match '[0-9]'
-                        [int]$hasSymbol = $password.IndexOfAny($symbols) -ne -1
+                        $hasLowerChar = $password -cmatch '[a-z]'
+                        $hasUpperChar = $password -cmatch '[A-Z]'
+                        $hasDigit = $password -match '[0-9]'
+                        $hasSymbol = $password.IndexOfAny($symbols) -ne -1
                     }
                     until (($hasLowerChar + $hasUpperChar + $hasDigit + $hasSymbol) -ge 3)
                     $password | ConvertTo-SecureString -AsPlainText
@@ -63,7 +63,6 @@ stages:
 
                 $sqlAdminPassword = Gen-Password 14
                 az deployment group create `
-                  --location westeurope `
                   --resource-group $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME `
                   --template-file ./build/templates/deploy-test-resources.bicep `
                   --parameters keyVaultName=$env:ARCUS_SCRIPTING_KEYVAULT_NAME `
