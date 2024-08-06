@@ -44,10 +44,9 @@ stages:
                 $symbols = '!@#$%^&*=(),.?'.ToCharArray()
                 $characterList = 'a'..'z' + 'A'..'Z' + '0'..'9' + $symbols
                 function Gen-Password {
-                    params($length)
+                    param($length)
                     do {
                         $password = ""
-                        
                         for ($i = 0; $i -lt $length; $i++) {
                             $randomIndex = [System.Security.Cryptography.RandomNumberGenerator]::GetInt32(0, $characterList.Length)
                             $password += $characterList[$randomIndex]
@@ -57,10 +56,8 @@ stages:
                         [int]$hasUpperChar = $password -cmatch '[A-Z]'
                         [int]$hasDigit = $password -match '[0-9]'
                         [int]$hasSymbol = $password.IndexOfAny($symbols) -ne -1
-
                     }
                     until (($hasLowerChar + $hasUpperChar + $hasDigit + $hasSymbol) -ge 3)
-
                     $password | ConvertTo-SecureString -AsPlainText
                 }
 
