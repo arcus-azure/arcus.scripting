@@ -65,11 +65,14 @@ stages:
                 az deployment group create `
                   --resource-group $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME `
                   --template-file ./build/templates/deploy-test-resources.bicep `
+                  --parameters location=westeurope `
                   --parameters keyVaultName=$env:ARCUS_SCRIPTING_KEYVAULT_NAME `
                   --parameters storageAccountName=$env:ARCUS_SCRIPTING_STORAGEACCOUNT_NAME `
+                  --parameters appServiceName=$env:ARCUS_SCRIPTING_APPSERVICE_NAME `
                   --parameters sqlServerName=$env:ARCUS_SCRIPTING_SQL_SERVERNAME `
                   --parameters sqlDatabaseName=$env:ARCUS_SCRIPTING_SQL_DATABASENAME `
                   --parameters sqlAdminUserName=$env:ARCUS_SCRIPTING_SQL_USERNAME `
                   --parameters sqlAdminPassword=$sqlAdminPassword `
                   --parameters sqlAdminPassword_secretName=$env:ARCUS_SCRIPTING_SQL_PASSWORD_SECRETNAME `
+                  --parameters integrationAccountName=$env:ARCUS_SCRIPTING_INTEGRATIONACCOUNT_NAME `
                   --parameters servicePrincipal_objectId=$objectId
