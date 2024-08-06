@@ -11,6 +11,9 @@ parameters:
   - name: resourceGroupName
     displayName: 'Resource group name'
     default: arcus-scripting-dev-we-rg
+  - name: sqlAdminPassword
+    displayName: 'SQL server admin password'
+    type: string
 
 variables:
   - template: ./variables/build.yml
@@ -41,9 +44,6 @@ stages:
 
                 $objectId = (az ad sp show --id $env:servicePrincipalId | ConvertFrom-Json).id
 
-                Add-Type -AssemblyName 'System.Web'
-                $sqlAdminPassword = [System.Web.Security.Membership]::GeneratePassword(12, 5)
-
                 az deployment group create `
                   --location westeurope `
                   --resource-group $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME `
@@ -53,6 +53,6 @@ stages:
                   --parameters sqlServerName=$env:ARCUS_SCRIPTING_SQL_SERVERNAME `
                   --parameters sqlDatabaseName=$env:ARCUS_SCRIPTING_SQL_DATABASENAME `
                   --parameters sqlAdminUserName=$env:ARCUS_SCRIPTING_SQL_USERNAME `
-                  --parameters sqlAdminPassword=$sqlAdminPassword `
+                  --parameters sqlAdminPassword=${{ parameters.sqlAdminPassword }} `
                   --parameters sqlAdminPassword_secretName=$env:ARCUS_SCRIPTING_SQL_PASSWORD_SECRETNAME `
                   --parameters servicePrincipal_objectId=$objectId
