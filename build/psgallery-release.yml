@@ -10,6 +10,10 @@ parameters:
     displayName: 'Prerelease string (ex. -alpha, -alpha1, -BETA, -update20171020) or none'
     type: 'string'
     default: 'none'
+  - name: azureServiceConnection
+    displayName: 'Azure service connection'
+    type: string
+    default: 'Azure Codit-Arcus Service Principal'
   - name: 'UnitTests'
     type: object
     default: 
@@ -53,7 +57,6 @@ resources:
 
 variables:
   - group: 'Build Configuration'
-  - group: 'Arcus Scripting - Integration Testing'
   - group: 'Arcus.Scripting - Releasing PS Gallery'
   - template: ./variables/build.yml
   - name: 'Repository'

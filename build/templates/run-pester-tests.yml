@@ -1,4 +1,5 @@
 parameters:
+  azureServiceConnection: ''
   projectName: ''
   testName: ''
 
@@ -8,9 +9,11 @@ steps:
      wget -O - https://aka.ms/install-powershell.sh | sudo bash
     displayName: 'Update Powershell on Linux'
     condition: eq( variables['Agent.OS'], 'Linux' )
+
   - powershell: 'Invoke-Expression -Command "& { $(Invoke-RestMethod -Uri ''https://aka.ms/install-powershell.ps1'') } -UseMSI -quiet" '
     displayName: 'Update Powershell on Windows'
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
   - bash: |
       if [ -z "$PROJECT_NAME" ]; then
         echo "##vso[task.logissue type=error;]Missing template parameter \"projectName\""
@@ -19,6 +22,27 @@ steps:
     env:
       PROJECT_NAME: ${{ parameters.projectName }}
     displayName: 'Guard against invalid parameters'
+
+  - task: AzureCLI@2
+    displayName: 'Import secrets from Azure Key Vault'
+    inputs:
+      azureSubscription: '${{ parameters.azureServiceConnection }}'
+      addSpnToEnvironment: true
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+        Install-Module -Name Arcus.Scripting.DevOps -AllowClobber
+
+        $subscriptionId = (az account show | ConvertFrom-Json).id
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.SubscriptionId' -Value $subscriptionId -AsSecret
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.TenantId' -Value $env:tenantId -AsSecret
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.ServicePrincipal.ClientId' -Value $env:servicePrincipalId -AsSecret
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.ServicePrincipal.ClientSecret' -Value $env:servicePrincipalKey -AsSecret
+
+        $sqlAdminPasswordSecret = az keyvault secret show --name $env:ARCUS_SCRIPTING_SQL_PASSWORD_SECRETNAME --vault-name $env:ARCUS_SCRIPTING_KEYVAULT_NAME | ConvertFrom-Json
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.Sql.Password' -Value $sqlAdminPassword.value -AsSecret
+
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace integration test tokens'
     inputs:
@@ -31,6 +55,7 @@ steps:
       keepToken: false
       tokenPrefix: '#{'
       tokenSuffix: '}#'
+
   - powershell: |
       Write-Host "Installing Pester test framework and Az required modules"
       Install-Module -Name Pester -Force -SkipPublisherCheck -MaximumVersion 5.1.1
@@ -46,6 +71,7 @@ steps:
       Install-Module -Name Microsoft.Graph.Applications -Force -SkipPublisherCheck -MaximumVersion 1.15.0
       Write-Host "Done installing, start importing modules"
     displayName: 'Install Pester test framework and Az required modules'
+
   - pwsh: |
       Import-Module ./src/Arcus.Scripting.Security
       Get-ChildItem -Path ./src -Filter *.psm1 -Recurse -Exclude "*Arcus.Scripting.Security*", "*.All.psm1" |
@@ -56,6 +82,7 @@ steps:
     failOnStderr: true
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
   - task: PublishTestResults@2
     displayName: 'Publish test results'
     inputs:

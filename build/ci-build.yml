@@ -18,6 +18,10 @@ parameters:
   - name: 'Package.Version.ManualTrigger'
     type: string
     default: 'preview'
+  - name: azureServiceConnection
+    displayName: 'Azure service connection'
+    type: string
+    default: 'Azure Codit-Arcus Service Principal'
   - name: 'UnitTests'
     type: object
     default: 
@@ -61,8 +65,6 @@ resources:
 
 variables:
   - group: 'Build Configuration'
-  - group: 'Arcus Scripting - Integration Testing'
-  - group: 'Arcus - GitHub Package Registry'
   - group: 'MyGet'
   - template: ./variables/build.yml
   - name: 'Package.Version'
