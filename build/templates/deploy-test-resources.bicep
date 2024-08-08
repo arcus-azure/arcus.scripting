@@ -98,8 +98,9 @@ module sqlServer 'br/public:avm/res/sql/server:0.4.1' = {
     databases: [
       {
         name: sqlDatabaseName
-        skuName: 'GeneralPurpose'
-        skuTier: 'GP_S_Gen5'
+        skuName: 'GP_S_Gen5'
+        skuTier: 'GeneralPurpose'
+        skuCapacity: 1
       }
     ]
   }
