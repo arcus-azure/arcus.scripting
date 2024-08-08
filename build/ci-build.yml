@@ -67,6 +67,7 @@ variables:
   - group: 'Build Configuration'
   - group: 'MyGet'
   - template: ./variables/build.yml
+  - template: ./variables/test.yml
   - name: 'Package.Version'
     value: '0.$(Build.BuildNumber)'
   - name: 'Prerelease'

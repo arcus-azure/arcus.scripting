@@ -25,6 +25,7 @@ steps:
 
   - task: AzureCLI@2
     displayName: 'Import secrets from Azure Key Vault'
+    condition: contains(${{ parameters.projectName }}, 'Integration')
     inputs:
       azureSubscription: '${{ parameters.azureServiceConnection }}'
       addSpnToEnvironment: true
@@ -50,6 +51,7 @@ steps:
 
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace integration test tokens'
+    condition: contains(${{ parameters.projectName }}, 'Integration')
     inputs:
       rootDirectory: 'src/${{ parameters.projectName }}/'
       targetFiles: 'appsettings.json'
