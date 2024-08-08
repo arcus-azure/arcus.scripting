@@ -58,7 +58,7 @@ stages:
                         $hasSymbol = $password.IndexOfAny($symbols) -ne -1
                     }
                     until (($hasLowerChar + $hasUpperChar + $hasDigit + $hasSymbol) -ge 3)
-                    $password | ConvertTo-SecureString -AsPlainText
+                    $password
                 }
 
                 $sqlAdminPassword = Gen-Password 14
