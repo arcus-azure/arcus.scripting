@@ -1,4 +1,7 @@
 variables:
+  Arcus.General.KeyVault.Name: 'arcus-kv'
+  Arcus.General.ActiveDirectory.MainApp.ClientId.SecretName: 'ActiveDirectory-MainApp-ClientId'
+  Arcus.General.ActiveDirectory.ClientApp.ClientId.SecretName: 'ActiveDirectory-ClientApp-ClientId'
   Arcus.Scripting.ResourceGroup.Name: 'arcus-scripting-dev-we-rg'
   Arcus.Scripting.DevOps.VariableGroup.Name: 'Arcus Scripting - Integration Testing - DevOps (existing variable group)'
   Arcus.Scripting.DevOps.VariableGroup.UrlEncoded: 'Arcus%20Scripting%20-%20Integration%20Testing%20-%20DevOps%20(existing%20variable%20group)'

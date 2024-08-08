@@ -43,6 +43,11 @@ steps:
         $sqlAdminPasswordSecret = az keyvault secret show --name $env:ARCUS_SCRIPTING_SQL_PASSWORD_SECRETNAME --vault-name $env:ARCUS_SCRIPTING_KEYVAULT_NAME | ConvertFrom-Json
         Set-AzDevOpsVariable -Name 'Arcus.Scripting.Sql.Password' -Value $sqlAdminPassword.value -AsSecret
 
+        $mainAppClientIdSecret = az keyvault secret show --name $env:ARCUS_GENERAL_ACTIVEDIRECTORY_MAINAPP_CLIENTID_SECRETNAME --vault-name $env:ARCUS_GENERAL_KEYVAULT_NAME | ConvertFrom-Json
+        $clientAppClientIdSecret = az keyvault secret show --name $env:ARCUS_GENERAL_ACTIVEDIRECTORY_CLIENTAPP_CLIENTID_SECRETNAME --vault-name $env:ARCUS_GENERAL_KEYVAULT_NAME | ConvertFrom-Json
+        Set-AzDevOpsVariable -Name 'Arcus.ActiveDirectory.MainApp.ClientId' -Value $mainAppClientIdSecret.value -AsSecret
+        Set-AzDevOpsVariable -Nme 'Arcus.ActiveDirectory.ClientApp.ClientId' -Value $clientAppClientIdSecret.value -AsSecret
+
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace integration test tokens'
     inputs:

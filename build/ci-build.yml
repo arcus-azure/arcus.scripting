@@ -113,6 +113,7 @@ stages:
             parameters:
               projectName: '$(Project).Tests.Unit'
               testName: '$(Project).${{UnitTest.name}}'
+              azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
   - stage: IntegrationTests
     displayName: Integration Tests
@@ -141,6 +142,7 @@ stages:
             parameters:
               projectName: '$(Project).Tests.Integration'
               testName: '$(Project).${{IntegrationTest.name}}'
+              azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'
