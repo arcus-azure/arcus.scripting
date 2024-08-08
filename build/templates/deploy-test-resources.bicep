@@ -101,7 +101,7 @@ module sqlServer 'br/public:avm/res/sql/server:0.4.1' = {
         skuName: 'GP_S_Gen5'
         skuTier: 'GeneralPurpose'
         skuCapacity: 1
-        minCapacity: 1
+        capacity: 1
       }
     ]
   }
