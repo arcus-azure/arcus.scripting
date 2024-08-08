@@ -98,6 +98,7 @@ module sqlServer 'br/public:avm/res/sql/server:0.4.1' = {
     databases: [
       {
         name: sqlDatabaseName
+        maxSizeBytes: 134217700
         skuName: 'Basic'
         skuTier: 'Basic'
       }
