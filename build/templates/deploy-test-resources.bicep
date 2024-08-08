@@ -98,9 +98,8 @@ module sqlServer 'br/public:avm/res/sql/server:0.4.1' = {
     databases: [
       {
         name: sqlDatabaseName
-        maxSizeBytes: 2147483648
-        skuName: 'Basic'
-        skuTier: 'Basic'
+        skuName: 'GeneralPurpose'
+        skuTier: 'GP_S_Gen5'
       }
     ]
   }
