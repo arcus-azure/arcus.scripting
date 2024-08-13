@@ -132,6 +132,10 @@ module vault 'br/public:avm/res/key-vault/vault:0.6.1' = {
         roleDefinitionIdOrName: 'Key Vault Crypto Officer'
       }
       {
+        principalId: servicePrincipal_objectId
+        roleDefinitionIdOrName: 'Contributor'
+      }
+      {
         principalId: '0d926a02-88dc-4279-8265-fbcd8178ecb0' // (built-in) Azure Logic Apps service principal
         roleDefinitionIdOrName: 'Key Vault Certificates Officer'
       }
