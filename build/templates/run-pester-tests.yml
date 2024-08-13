@@ -49,6 +49,10 @@ steps:
         Set-AzDevOpsVariable -Name 'Arcus.ActiveDirectory.MainApp.ClientId' -Value $mainAppClientIdSecret.value -AsSecret
         Set-AzDevOpsVariable -Name 'Arcus.ActiveDirectory.ClientApp.ClientId' -Value $clientAppClientIdSecret.value -AsSecret
 
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.DevOps.VariableGroup.Authorization' -Value $env:SYSTEM_ACCESSTOKEN -AsSecret
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace integration test tokens'
     condition: contains('${{ parameters.projectName }}', 'Integration')

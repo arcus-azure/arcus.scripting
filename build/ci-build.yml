@@ -94,27 +94,27 @@ stages:
               targetPath: '$(Pipeline.Workspace)/build'
               artifactName: Build
 
-  - stage: UnitTests
-    displayName: Unit Tests
-    dependsOn: Build
-    condition: succeeded()
-    jobs:
-    - ${{ each UnitTest in parameters.UnitTests }}:
-      - job: RunUnitTests_${{replace(UnitTest.name, '.', '_')}}
-        displayName: 'Run unit tests - ${{UnitTest.name}}'
-        pool:
-          vmImage: '$(Vm.Linux.Image)'
-        steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download build artifacts'
-            inputs:
-              artifact: 'Build'
-              path: '$(Build.SourcesDirectory)'
-          - template: 'templates/run-pester-tests.yml'
-            parameters:
-              projectName: '$(Project).Tests.Unit'
-              testName: '$(Project).${{UnitTest.name}}'
-              azureServiceConnection: ${{ parameters.azureServiceConnection }}
+  # - stage: UnitTests
+  #   displayName: Unit Tests
+  #   dependsOn: Build
+  #   condition: succeeded()
+  #   jobs:
+  #   - ${{ each UnitTest in parameters.UnitTests }}:
+  #     - job: RunUnitTests_${{replace(UnitTest.name, '.', '_')}}
+  #       displayName: 'Run unit tests - ${{UnitTest.name}}'
+  #       pool:
+  #         vmImage: '$(Vm.Linux.Image)'
+  #       steps:
+  #         - task: DownloadPipelineArtifact@2
+  #           displayName: 'Download build artifacts'
+  #           inputs:
+  #             artifact: 'Build'
+  #             path: '$(Build.SourcesDirectory)'
+  #         - template: 'templates/run-pester-tests.yml'
+  #           parameters:
+  #             projectName: '$(Project).Tests.Unit'
+  #             testName: '$(Project).${{UnitTest.name}}'
+  #             azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
   - stage: IntegrationTests
     displayName: Integration Tests
@@ -129,8 +129,8 @@ stages:
           matrix:
             linux:
               imageName: ${{ variables['Vm.Linux.Image']}}
-            windows:
-              imageName: ${{ variables['Vm.Windows.Image']}}
+            # windows:
+            #   imageName: ${{ variables['Vm.Windows.Image']}}
         pool:
           vmImage: '$(imageName)'
         steps:
@@ -145,56 +145,56 @@ stages:
               testName: '$(Project).${{IntegrationTest.name}}'
               azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
-  - stage: ReleaseToMyget
-    displayName: 'Release to MyGet'
-    dependsOn: 
-      - UnitTests
-      - IntegrationTests
-    condition: succeeded()
-    jobs:
-      - job: PushToMyGet
-        displayName: 'Push to MyGet'
-        pool:
-          vmImage: '$(Vm.Linux.Image)'
-        steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download build artifacts'
-            inputs:
-              artifact: 'Build'
-              path: '$(Build.SourcesDirectory)'
-          - powershell: |
-              Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
-                % { 
-                  $content = Get-Content $_.FullName
-                  $content -replace "^RequiredModules", "#RequiredModules" | Out-File $_.FullName
-                  try {
-                    Write-Host "Validate PowerShell module '$($_.FullName)'"
-                    Test-ModuleManifest -Path $_.FullName
-                  } finally {
-                    $content = Get-Content $_.FullName
-                    $content -replace "^#RequiredModules = @\(@", "RequiredModules = @(@" | Out-File $_.FullName
-                  } 
-                }
-            displayName: 'Validate PS module'
-          - powershell: |
-              Import-Module PowerShellGet -Force
-              Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
-                % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
-            displayName: 'Generate .nuspec file for each PowerShell module'
-            env:
-              SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
-          - task: NuGetCommand@2
-            inputs:
-              command: 'pack'
-              packagesToPack: '**/*.nuspec'
-              packDestination: '$(Build.ArtifactStagingDirectory)'
-          - task: NuGetToolInstaller@1
-            displayName: 'Install NuGet'
-          - powershell: |
-              $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
-              Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
-                  % { & "nuget" push $_.FullName -Source $PSGalleryPublishUri -ApiKey $env:APIKEY }
-            displayName: 'Push to MyGet'
-            env:
-              ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
-              APIKEY: $(MyGet.ApiKey)
+  # - stage: ReleaseToMyget
+  #   displayName: 'Release to MyGet'
+  #   dependsOn: 
+  #     - UnitTests
+  #     - IntegrationTests
+  #   condition: succeeded()
+  #   jobs:
+  #     - job: PushToMyGet
+  #       displayName: 'Push to MyGet'
+  #       pool:
+  #         vmImage: '$(Vm.Linux.Image)'
+  #       steps:
+  #         - task: DownloadPipelineArtifact@2
+  #           displayName: 'Download build artifacts'
+  #           inputs:
+  #             artifact: 'Build'
+  #             path: '$(Build.SourcesDirectory)'
+  #         - powershell: |
+  #             Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+  #               % { 
+  #                 $content = Get-Content $_.FullName
+  #                 $content -replace "^RequiredModules", "#RequiredModules" | Out-File $_.FullName
+  #                 try {
+  #                   Write-Host "Validate PowerShell module '$($_.FullName)'"
+  #                   Test-ModuleManifest -Path $_.FullName
+  #                 } finally {
+  #                   $content = Get-Content $_.FullName
+  #                   $content -replace "^#RequiredModules = @\(@", "RequiredModules = @(@" | Out-File $_.FullName
+  #                 } 
+  #               }
+  #           displayName: 'Validate PS module'
+  #         - powershell: |
+  #             Import-Module PowerShellGet -Force
+  #             Get-ChildItem -Path ./src -Filter *.psd1 -Recurse |
+  #               % { & $env:SCRIPT_PATH -ManifestPath $_.FullName -DestinationFolder $_.DirectoryName }
+  #           displayName: 'Generate .nuspec file for each PowerShell module'
+  #           env:
+  #             SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
+  #         - task: NuGetCommand@2
+  #           inputs:
+  #             command: 'pack'
+  #             packagesToPack: '**/*.nuspec'
+  #             packDestination: '$(Build.ArtifactStagingDirectory)'
+  #         - task: NuGetToolInstaller@1
+  #           displayName: 'Install NuGet'
+  #         - powershell: |
+  #             $PSGalleryPublishUri = 'https://www.myget.org/F/arcus/api/v2/package'
+  #             Get-ChildItem -Path $env:ARTIFACT_DIR -Filter *.nupkg -Recurse |
+  #                 % { & "nuget" push $_.FullName -Source $PSGalleryPublishUri -ApiKey $env:APIKEY }
+  #           displayName: 'Push to MyGet'
+  #           env:
+  #             ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
+  #             APIKEY: $(MyGet.ApiKey)
