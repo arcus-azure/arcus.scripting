@@ -125,11 +125,15 @@ module vault 'br/public:avm/res/key-vault/vault:0.6.1' = {
     roleAssignments: [
       {
         principalId: servicePrincipal_objectId
-        roleDefinitionIdOrName: 'Key Vault Secrets officer'
+        roleDefinitionIdOrName: 'Key Vault Secrets Officer'
       }
       {
         principalId: servicePrincipal_objectId
-        roleDefinitionIdOrName: 'Key Vault Crypto officer'
+        roleDefinitionIdOrName: 'Key Vault Crypto Officer'
+      }
+      {
+        principalId: '0d926a02-88dc-4279-8265-fbcd8178ecb0' // (built-in) Azure Logic Apps service principal
+        roleDefinitionIdOrName: 'Key Vault Certificates Officer'
       }
     ]
     secrets: [
