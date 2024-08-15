@@ -46,7 +46,7 @@ InModuleScope Arcus.Scripting.Security {
             }
             It "Newly added resource lock gets removed by removing all resource locks with a given lock name" {
                 # Arrange
-                $lockName = "NewTestingLockWithName"
+                $lockName = "NewTestingLockWithName-$([System.Guid]::NewGuid())"
                 $targetResourceName = $config.Arcus.KeyVault.VaultName
                 $targetResourceGroupName = $config.Arcus.ResourceGroupName
                 New-AzResourceLock `
@@ -82,7 +82,7 @@ InModuleScope Arcus.Scripting.Security {
             }
             It "Newly added resource lock gets removed by removing all resource locks without giving any lock name" {
                 # Arrange
-                $lockName = "NewTestingLockWithoutName"
+                $lockName = "NewTestingLockWithName-$([System.Guid]::NewGuid())"
                 $targetResourceName = $config.Arcus.KeyVault.VaultName
                 $targetResourceGroupName = $config.Arcus.ResourceGroupName
                 New-AzResourceLock `

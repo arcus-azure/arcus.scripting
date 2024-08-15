@@ -8,6 +8,7 @@ param(
 
 Write-Verbose "Checking if the Azure API Management service '$Name' is listed as a soft deleted service..."
 $getUri = "$ResourceManagerUrl" + "subscriptions/$SubscriptionId/providers/Microsoft.ApiManagement/deletedservices" + "?api-version=$ApiVersion"
+Write-Host "Get soft deleted services at: $getUri $AuthHeader"
 
 $deletedServices = (Invoke-RestMethod -Method GET -Uri $getUri -Headers $AuthHeader)
 
