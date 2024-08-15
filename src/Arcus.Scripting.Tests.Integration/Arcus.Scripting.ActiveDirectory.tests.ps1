@@ -5,8 +5,33 @@ InModuleScope Arcus.Scripting.ActiveDirectory {
     Describe "Arcus Azure Active Directory integration tests" {
         BeforeEach {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
-            & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
-            & $PSScriptRoot\Connect-MgGraphFromConfig.ps1 -config $config
+            $clientSecret = ConvertTo-SecureString $config.Arcus.ActiveDirectory.ServicePrincipal.ClientSecret -AsPlainText -Force
+            $pscredential = New-Object -TypeName System.Management.Automation.PSCredential($config.Arcus.ActiveDirectory.ServicePrincipal.ClientId, $clientSecret)
+            Disable-AzContextAutosave -Scope Process
+            Connect-AzAccount -Credential $pscredential -TenantId $config.Arcus.ActiveDirectory.TenantId -ServicePrincipal
+
+            $tenantid = $config.Arcus.ActiveDirectory.TenantId
+            $body = @{
+              Grant_Type    = "client_credentials"
+              Scope         = "https://graph.microsoft.com/.default"
+              Client_Id     = $config.Arcus.ActiveDirectory.ServicePrincipal.ClientId
+              Client_Secret = $config.Arcus.ActiveDirectory.ServicePrincipal.ClientSecret
+            }
+
+            $connection = Invoke-RestMethod `
+              -Uri https://login.microsoftonline.com/$tenantid/oauth2/v2.0/token `
+              -Method POST `
+              -Body $body
+
+            $token = $connection.access_token
+
+            $targetParameter = (Get-Command Connect-MgGraph).Parameters['AccessToken']
+
+            if ($targetParameter.ParameterType -eq [securestring]) {
+              Connect-MgGraph -AccessToken ($token | ConvertTo-SecureString -AsPlainText -Force)
+            } else {
+              Connect-MgGraph -AccessToken $token
+            }
         }
         Context "Add an Active Directory Application Role Assignment" {
             It "Creating a new role and assigning it should succeed" {

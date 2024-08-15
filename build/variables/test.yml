@@ -1,5 +1,8 @@
 variables:
   Arcus.General.KeyVault.Name: 'arcus-kv'
+  Arcus.General.ActiveDirectory.TenantId.SecretName: 'Arcus-ActiveDirectory-TenantId'
+  Arcus.General.ActiveDirectory.ServicePrincipal.ClientId.SecretName: 'Arcus-ActiveDirectory-ServicePrincipal-ClientId'
+  Arcus.General.ActiveDirectory.ServicePrincipal.ClientSecret.SecretName: 'Arcus-ActiveDirectory-ServicePrincipal-ClientSecret'
   Arcus.General.ActiveDirectory.MainApp.ClientId.SecretName: 'ActiveDirectory-MainApp-ClientId'
   Arcus.General.ActiveDirectory.ClientApp.ClientId.SecretName: 'ActiveDirectory-ClientApp-ClientId'
   Arcus.Scripting.ResourceGroup.Name: 'arcus-scripting-dev-we-rg'
