@@ -102,12 +102,10 @@ InModuleScope Arcus.Scripting.Sql {
         BeforeAll {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             $params = @{
-                'ServerInstance'  = $config.Arcus.Sql.ServerName
+                'ServerInstance'  = 'tcp:' + $config.Arcus.Sql.ServerName + '.database.windows.net'
                 'Database'        = $config.Arcus.Sql.DatabaseName
                 'Username'        = $config.Arcus.Sql.UserName
                 'Password'        = $config.Arcus.Sql.Password
-                'OutputSqlErrors' = $true
-                'AbortOnError'    = $true
             }
 
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
