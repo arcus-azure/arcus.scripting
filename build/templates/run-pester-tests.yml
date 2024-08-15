@@ -33,7 +33,7 @@ steps:
       scriptLocation: 'inlineScript'
       inlineScript: |
         Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-        Install-Module -Name Arcus.Scripting.DevOps -AllowClobber
+        Install-Module -Name Arcus.Scripting.DevOps -AllowClobber -MinimumVersion 1.3.0
 
         $subscriptionId = (az account show | ConvertFrom-Json).id
         Set-AzDevOpsVariable -Name 'Arcus.Scripting.SubscriptionId' -Value $subscriptionId -AsSecret

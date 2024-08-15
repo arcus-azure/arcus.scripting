@@ -122,22 +122,24 @@ module vault 'br/public:avm/res/key-vault/vault:0.6.1' = {
   params: {
     name: keyVaultName
     location: location
-    roleAssignments: [
+    enableRbacAuthorization: false
+    sku: 'standard'
+    accessPolicies: [
       {
-        principalId: servicePrincipal_objectId
-        roleDefinitionIdOrName: 'Key Vault Secrets Officer'
+        objectId: servicePrincipal_objectId
+        permissions: {
+          secrets: [
+            'get', 'set', 'list', 'delete'
+          ]
+        }
       }
       {
-        principalId: servicePrincipal_objectId
-        roleDefinitionIdOrName: 'Key Vault Crypto Officer'
-      }
-      {
-        principalId: servicePrincipal_objectId
-        roleDefinitionIdOrName: 'Contributor'
-      }
-      {
-        principalId: '0d926a02-88dc-4279-8265-fbcd8178ecb0' // (built-in) Azure Logic Apps service principal
-        roleDefinitionIdOrName: 'Key Vault Certificates Officer'
+        objectId: '0d926a02-88dc-4279-8265-fbcd8178ecb0' // (built-in) Azure Logic Apps service principal
+        permissions: {
+          keys: [
+            'list', 'get', 'decrypt', 'sign'
+          ]
+        }
       }
     ]
     secrets: [
