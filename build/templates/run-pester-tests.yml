@@ -65,7 +65,7 @@ steps:
 
   - task: AzurePowerShell@5
     displayName: 'Allow current DevOps agent to access SQL database'
-    condition: eq('${{ parameters.testName }}', 'Sql')
+    condition: contains('${{ parameters.testName }}', 'Sql')
     inputs:
       azureSubscription: '${{ parameters.azureServiceConnection }}'
       azurePowerShellVersion: LatestVersion
@@ -103,7 +103,7 @@ steps:
 
   - task: AzurePowerShell@5
     displayName: 'Remove current DevOps agent to access SQL database'
-    condition: always()
+    condition: contains('${{ parameters.testName }}', 'Sql')
     inputs:
       azureSubscription: '${{ parameters.azureServiceConnection }}'
       azurePowerShellVersion: LatestVersion
