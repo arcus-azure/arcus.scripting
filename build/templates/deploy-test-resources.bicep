@@ -129,7 +129,10 @@ module vault 'br/public:avm/res/key-vault/vault:0.6.1' = {
         objectId: servicePrincipal_objectId
         permissions: {
           secrets: [
-            'get', 'set', 'list', 'delete'
+            'get', 'list', 'set', 'delete'
+          ]
+          keys: [
+            'get', 'list', 'create'
           ]
         }
       }

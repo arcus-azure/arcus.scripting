@@ -65,6 +65,7 @@ resources:
 
 variables:
   - group: 'Build Configuration'
+  - group: 'Arcus Scripting - Integration Testing'
   - group: 'MyGet'
   - template: ./variables/build.yml
   - template: ./variables/test.yml

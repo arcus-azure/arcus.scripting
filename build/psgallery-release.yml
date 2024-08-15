@@ -57,6 +57,7 @@ resources:
 
 variables:
   - group: 'Build Configuration'
+  - group: 'Arcus Scripting - Integration Testing'
   - group: 'Arcus.Scripting - Releasing PS Gallery'
   - template: ./variables/build.yml
   - template: ./variables/test.yml
