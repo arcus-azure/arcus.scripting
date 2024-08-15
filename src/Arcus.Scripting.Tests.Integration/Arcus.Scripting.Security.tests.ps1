@@ -43,6 +43,8 @@ InModuleScope Arcus.Scripting.Security {
             BeforeEach {
                 $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
                 & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+
+                Remove-AzResourceGroupLocks -ResourceGroupName $config.Arcus.ResourceGroupName
             }
             It "Newly added resource lock gets removed by removing all resource locks with a given lock name" {
                 # Arrange

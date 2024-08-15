@@ -102,7 +102,7 @@ InModuleScope Arcus.Scripting.Sql {
         BeforeAll {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             $params = @{
-                'ServerInstance'  = 'tcp:' + $config.Arcus.Sql.ServerName + '.database.windows.net'
+                'ServerInstance'  = $config.Arcus.Sql.ServerName + '.database.windows.net'
                 'Database'        = $config.Arcus.Sql.DatabaseName
                 'Username'        = $config.Arcus.Sql.UserName
                 'Password'        = $config.Arcus.Sql.Password
