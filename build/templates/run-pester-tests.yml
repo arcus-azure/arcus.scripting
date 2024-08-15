@@ -70,16 +70,16 @@ steps:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - task: AzurePowerShell@5
-    displayName: 'Allow current DevOps agent to access SQL database'
-    condition: contains('${{ parameters.testName }}', 'Sql')
-    inputs:
-      azureSubscription: '${{ parameters.azureServiceConnection }}'
-      azurePowerShellVersion: LatestVersion
-      ScriptType: InlineScript
-      Inline: |
-        $agentIP = (New-Object net.webclient).downloadstring("https://api.ipify.org")
-        New-AzSqlServerFirewallRule -ResourceGroupName $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME -ServerName $env:ARCUS_SCRIPTING_SQL_SERVERNAME -FirewallRuleName 'AzureDevOpsFirewall-$($env:AGENT_ID)' -StartIPAddress $agentIp -EndIPAddress $agentIP
+  # - task: AzurePowerShell@5
+  #   displayName: 'Allow current DevOps agent to access SQL database'
+  #   condition: contains('${{ parameters.testName }}', 'Sql')
+  #   inputs:
+  #     azureSubscription: '${{ parameters.azureServiceConnection }}'
+  #     azurePowerShellVersion: LatestVersion
+  #     ScriptType: InlineScript
+  #     Inline: |
+  #       $agentIP = (New-Object net.webclient).downloadstring("https://api.ipify.org")
+  #       New-AzSqlServerFirewallRule -ResourceGroupName $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME -ServerName $env:ARCUS_SCRIPTING_SQL_SERVERNAME -FirewallRuleName 'AzureDevOpsFirewall-$($env:AGENT_ID)' -StartIPAddress $agentIp -EndIPAddress $agentIP
 
   - powershell: |
       Write-Host "Installing Pester test framework and Az required modules"
@@ -108,15 +108,15 @@ steps:
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
-  - task: AzurePowerShell@5
-    displayName: 'Remove current DevOps agent to access SQL database'
-    condition: contains('${{ parameters.testName }}', 'Sql')
-    inputs:
-      azureSubscription: '${{ parameters.azureServiceConnection }}'
-      azurePowerShellVersion: LatestVersion
-      ScriptType: InlineScript
-      Inline: |
-        Remove-AzSqlServerFirewallRule -ResourceGroupName $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME -ServerName $env:ARCUS_SCRIPTING_SQL_SERVERNAME -FirewallRuleName 'AzureDevOpsFirewall-$($env:AGENT_ID)'
+  # - task: AzurePowerShell@5
+  #   displayName: 'Remove current DevOps agent to access SQL database'
+  #   condition: contains('${{ parameters.testName }}', 'Sql')
+  #   inputs:
+  #     azureSubscription: '${{ parameters.azureServiceConnection }}'
+  #     azurePowerShellVersion: LatestVersion
+  #     ScriptType: InlineScript
+  #     Inline: |
+  #       Remove-AzSqlServerFirewallRule -ResourceGroupName $env:ARCUS_SCRIPTING_RESOURCEGROUP_NAME -ServerName $env:ARCUS_SCRIPTING_SQL_SERVERNAME -FirewallRuleName 'AzureDevOpsFirewall-$($env:AGENT_ID)'
 
   - task: PublishTestResults@2
     displayName: 'Publish test results'

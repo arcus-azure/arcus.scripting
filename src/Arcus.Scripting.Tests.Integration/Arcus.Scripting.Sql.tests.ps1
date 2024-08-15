@@ -85,7 +85,7 @@ function global:Retry-Function ($func, $retryCount = 5, $retryIntervalSeconds = 
             $success = $true
         } catch {
             if (++$attempt -eq $retryCount) {
-                Write-Error "Task failed. With all $attempt attempts. Error: $($Error[0])"
+                Write-Error "Task failed. With all $attempt attempts. Error: $($_.Exception.ToString()) $($Error[0])"
                 throw
             }
 
@@ -119,18 +119,7 @@ InModuleScope Arcus.Scripting.Sql {
                 Write-Host "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
                 Invoke-Sqlcmd @params -Query "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
             } catch {
-                Write-Host $_.Exception.ToString()
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database.
-            }
-
-            $tables = Retry-Function { Run-AzSqlQuery $params "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" }
-            foreach ($table in $tables) {
-                try {
-                    Write-Verbose "Drop table $($table.TABLE_NAME) in SQL database"
-                    Drop-AzSqlDatabaseTable $params $table.TABLE_NAME $table.TABLE_SCHEMA
-                } catch {
-                    Write-Warning "Could not drop table '$($table.TABLE_NAME)' due to an exception: $($_.Exception.Message)"
-                }
             }
         }
         AfterEach {
