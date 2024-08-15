@@ -42,7 +42,7 @@ steps:
         Set-AzDevOpsVariable -Name 'Arcus.Scripting.ServicePrincipal.ClientSecret' -Value $env:servicePrincipalKey -AsSecret
 
         $sqlAdminPasswordSecret = az keyvault secret show --name $env:ARCUS_SCRIPTING_SQL_PASSWORD_SECRETNAME --vault-name $env:ARCUS_SCRIPTING_KEYVAULT_NAME | ConvertFrom-Json
-        Set-AzDevOpsVariable -Name 'Arcus.Scripting.Sql.Password' -Value $sqlAdminPasswordSecret.value
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.Sql.Password' -Value $sqlAdminPasswordSecret.value -AsSecret
 
         $mainAppClientIdSecret = az keyvault secret show --name $env:ARCUS_GENERAL_ACTIVEDIRECTORY_MAINAPP_CLIENTID_SECRETNAME --vault-name $env:ARCUS_GENERAL_KEYVAULT_NAME | ConvertFrom-Json
         $clientAppClientIdSecret = az keyvault secret show --name $env:ARCUS_GENERAL_ACTIVEDIRECTORY_CLIENTAPP_CLIENTID_SECRETNAME --vault-name $env:ARCUS_GENERAL_KEYVAULT_NAME | ConvertFrom-Json
