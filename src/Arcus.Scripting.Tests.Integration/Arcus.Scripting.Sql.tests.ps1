@@ -106,6 +106,8 @@ InModuleScope Arcus.Scripting.Sql {
                 'Database'        = $config.Arcus.Sql.DatabaseName
                 'Username'        = $config.Arcus.Sql.UserName
                 'Password'        = $config.Arcus.Sql.Password
+                'OutputSqlErrors' = $true
+                'AbortOnError'    = $true
             }
 
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
@@ -118,6 +120,16 @@ InModuleScope Arcus.Scripting.Sql {
                 Invoke-Sqlcmd @params -Query "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
             } catch {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database.
+            }
+
+            $tables = Retry-Function { Run-AzSqlQuery $params "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" }
+            foreach ($table in $tables) {
+                try {
+                    Write-Verbose "Drop table $($table.TABLE_NAME) in SQL database"
+                    Drop-AzSqlDatabaseTable $params $table.TABLE_NAME $table.TABLE_SCHEMA
+                } catch {
+                    Write-Warning "Could not drop table '$($table.TABLE_NAME)' due to an exception: $($_.Exception.Message)"
+                }
             }
         }
         AfterEach {
