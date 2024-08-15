@@ -132,7 +132,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.6.1' = {
             'get', 'list', 'set', 'delete'
           ]
           keys: [
-            'get', 'list', 'create'
+            'get', 'list', 'create', 'delete'
           ]
         }
       }
