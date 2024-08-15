@@ -51,8 +51,8 @@ steps:
 
         $activeDirectoryServicePrincipalClientIdSecret = az keyvault secret show --name $env:ARCUS_GENERAL_ACTIVEDIRECTORY_SERVICEPRINCIPAL_CLIENTID_SECRETNAME --vault-name $env:ARCUS_GENERAL_KEYVAULT_NAME | ConvertFrom-Json
         $activeDirectoryServicePrincipalClientSecretSecret = az keyvault secret show --name $env:ARCUS_GENERAL_ACTIVEDIRECTORY_SERVICEPRINCIPAL_CLIENTSECRET_SECRETNAME --vault-name $env:ARCUS_GENERAL_KEYVAULT_NAME | ConvertFrom-Json
-        Set-AzDevOpsVariable -Name 'Arcus.ActiveDirectory.ServicePrincipal.ClientId' -Value $activeDirectoryServicePrincipalClientIdSecret.value -AsSecret
-        Set-AzDevOpsVariable -Name 'Arcus.ActiveDirectory.ServicePrincipal.ClientSecret' -Value $activeDirectoryServicePrincipalClientSecretSecret.value -AsSecret
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.ActiveDirectory.ServicePrincipal.ClientId' -Value $activeDirectoryServicePrincipalClientIdSecret.value -AsSecret
+        Set-AzDevOpsVariable -Name 'Arcus.Scripting.ActiveDirectory.ServicePrincipal.ClientSecret' -Value $activeDirectoryServicePrincipalClientSecretSecret.value -AsSecret
 
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
     displayName: 'Replace integration test tokens'
