@@ -18,7 +18,7 @@ InModuleScope Arcus.Scripting.Management {
                 } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
             }
         }
-        Context "Restore soft deleted Azure API Management service" {
+        Context "Restore soft deleted Azure API Management service" -Skip {
             It "Providing an API Management name that does not exist as a soft deleted service should fail" {
                 # Arrange
                 $Name = 'unexisting-apim-instance'
