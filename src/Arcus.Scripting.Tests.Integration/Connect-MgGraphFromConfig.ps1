@@ -20,9 +20,10 @@ $token = $connection.access_token
 $targetParameter = (Get-Command Connect-MgGraph).Parameters['AccessToken']
 
 if ($targetParameter.ParameterType -eq [securestring]) {
-  Connect-MgGraph -AccessToken ($token | ConvertTo-SecureString -AsPlainText -Force)
+  $secureToken = $token | ConvertTo-SecureString -AsPlainText -Force
+  Connect-MgGraph -AccessToken $secureToken
+  return ConvertFrom-SecureString -SecureString $secureToken -AsPlainText
 } else {
   Connect-MgGraph -AccessToken $token
+  return $token
 }
-
-return $token | ConvertFrom-SecureString -AsPlainText
