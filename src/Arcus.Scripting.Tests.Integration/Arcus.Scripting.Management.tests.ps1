@@ -2,10 +2,11 @@ Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Management -ErrorAction Sto
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Management {
-    Describe "Arcus Azure Management integration tests" -Skip {
+    Describe "Arcus Azure Management integration tests" {
         BeforeEach {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+            & $PSScriptRoot\Connect-MgGraphFromConfig.ps1 -config $config
         }
         Context "Remove soft deleted Azure API Management service" {
             It "Providing an API Management name that does not exist as a soft deleted service should fail" {

@@ -101,7 +101,7 @@ InModuleScope Arcus.Scripting.Sql {
     Describe "Arcus Azure SQL integration tests" {
         BeforeAll {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
-            $config.Arcus.Sql.ServerInstance = $config.Arcus.Sql.ServerName = '.database.windows.net'
+            $config.Arcus.Sql.ServerInstance = $config.Arcus.Sql.ServerName + '.database.windows.net'
             $params = @{
                 'ServerInstance'  = $config.Arcus.Sql.ServerInstance
                 'Database'        = $config.Arcus.Sql.DatabaseName
