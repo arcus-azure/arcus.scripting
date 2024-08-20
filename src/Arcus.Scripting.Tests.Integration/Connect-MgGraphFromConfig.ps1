@@ -25,4 +25,4 @@ if ($targetParameter.ParameterType -eq [securestring]) {
   Connect-MgGraph -AccessToken $token
 }
 
-return $token
+return $token | ConvertFrom-SecureString -AsPlainText -Force
