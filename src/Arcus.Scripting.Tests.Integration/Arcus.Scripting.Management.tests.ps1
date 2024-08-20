@@ -6,7 +6,7 @@ InModuleScope Arcus.Scripting.Management {
         BeforeEach {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
-            & $PSScriptRoot\Connect-MgGraphFromConfig.ps1 -config $config
+            $token = & $PSScriptRoot\Connect-MgGraphFromConfig.ps1 -config $config
         }
         Context "Remove soft deleted Azure API Management service" {
             It "Providing an API Management name that does not exist as a soft deleted service should fail" {
@@ -15,7 +15,7 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                    Remove-AzApiManagementSoftDeletedService -Name $Name
+                    Remove-AzApiManagementSoftDeletedService -Name $Name -SubscriptionId $config.Arcus.SubscriptionId -AccessToken $token
                 } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
             }
         }
@@ -26,7 +26,7 @@ InModuleScope Arcus.Scripting.Management {
 
                 # Act
                 { 
-                    Restore-AzApiManagementSoftDeletedService -Name $Name
+                    Restore-AzApiManagementSoftDeletedService -Name $Name -SubscriptionId $config.Arcus.SubscriptionId -AccessToken $token
                 } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
             }
         }

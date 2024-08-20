@@ -24,3 +24,5 @@ if ($targetParameter.ParameterType -eq [securestring]) {
 } else {
   Connect-MgGraph -AccessToken $token
 }
+
+return $token
