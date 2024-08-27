@@ -83,7 +83,6 @@ InModuleScope Arcus.Scripting.DevOps {
 
                 # Assert
                 $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
-                Write-Host "Response: $($getResponse.Content)"
                 $json = ConvertFrom-Json $getResponse.Content
                 $json.value[0].description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
             }
