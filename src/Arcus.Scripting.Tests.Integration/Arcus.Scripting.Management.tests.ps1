@@ -7,7 +7,7 @@ InModuleScope Arcus.Scripting.Management {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
         }
-        Context "Remove soft deleted Azure API Management service" -Skip {
+        Context "Remove soft deleted Azure API Management service" {
             It "Providing an API Management name that does not exist as a soft deleted service should fail" {
                 # Arrange
                 $Name = 'unexisting-apim-instance'
@@ -18,7 +18,7 @@ InModuleScope Arcus.Scripting.Management {
                 } | Should -Throw -ExpectedMessage "Azure API Management service '$Name' is not listed as a soft deleted service and therefore it cannot be removed or restored"
             }
         }
-        Context "Restore soft deleted Azure API Management service" -Skip {
+        Context "Restore soft deleted Azure API Management service" {
             It "Providing an API Management name that does not exist as a soft deleted service should fail" {
                 # Arrange
                 $Name = 'unexisting-apim-instance'
