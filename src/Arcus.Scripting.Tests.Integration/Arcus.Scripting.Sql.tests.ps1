@@ -85,7 +85,7 @@ function global:Retry-Function ($func, $retryCount = 5, $retryIntervalSeconds = 
             $success = $true
         } catch {
             if (++$attempt -eq $retryCount) {
-                Write-Error "Task failed. With all $attempt attempts. Error: $($Error[0])"
+                Write-Error "Task failed. With all $attempt attempts. Error: $($_.Exception.ToString()) $($Error[0])"
                 throw
             }
 
@@ -101,8 +101,9 @@ InModuleScope Arcus.Scripting.Sql {
     Describe "Arcus Azure SQL integration tests" {
         BeforeAll {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
+            $serverInstance = $config.Arcus.Sql.ServerName + '.database.windows.net'
             $params = @{
-                'ServerInstance'  = $config.Arcus.Sql.ServerName
+                'ServerInstance'  = $serverInstance
                 'Database'        = $config.Arcus.Sql.DatabaseName
                 'Username'        = $config.Arcus.Sql.UserName
                 'Password'        = $config.Arcus.Sql.Password
@@ -142,7 +143,7 @@ InModuleScope Arcus.Scripting.Sql {
                 
                 # Act
                 Invoke-AzSqlDatabaseMigration `
-                    -ServerName $config.Arcus.Sql.ServerName `
+                    -ServerName $serverInstance `
                     -DatabaseName $config.Arcus.Sql.DatabaseName `
                     -Username $config.Arcus.Sql.Username `
                     -Password $config.Arcus.Sql.Password `
@@ -164,7 +165,7 @@ InModuleScope Arcus.Scripting.Sql {
 
                     # Act
                     Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
+                        -ServerName $serverInstance `
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `
@@ -196,7 +197,7 @@ InModuleScope Arcus.Scripting.Sql {
                 
                 # Act
                 Invoke-AzSqlDatabaseMigration `
-                    -ServerName $config.Arcus.Sql.ServerName `
+                    -ServerName $serverInstance `
                     -DatabaseName $config.Arcus.Sql.DatabaseName `
                     -Username $config.Arcus.Sql.Username `
                     -Password $config.Arcus.Sql.Password `
@@ -230,7 +231,7 @@ InModuleScope Arcus.Scripting.Sql {
                 try {
                     # Act: execute the specified migration-scripts
                     Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
+                        -ServerName $serverInstance `
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `
@@ -277,7 +278,7 @@ InModuleScope Arcus.Scripting.Sql {
                 
                 # Act and arrange: execute the specified migration-scripts
                 { Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
+                        -ServerName $serverInstance `
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `
@@ -296,7 +297,7 @@ InModuleScope Arcus.Scripting.Sql {
                 #      is a mix between the old (versionnumber_description.sql) naming convention
                 #      and the new (major.minor.patch_description.sql) naming convention.
                 Invoke-AzSqlDatabaseMigration `
-                    -ServerName $config.Arcus.Sql.ServerName `
+                    -ServerName $serverInstance `
                     -DatabaseName $config.Arcus.Sql.DatabaseName `
                     -Username $config.Arcus.Sql.Username `
                     -Password $config.Arcus.Sql.Password `
@@ -311,7 +312,7 @@ InModuleScope Arcus.Scripting.Sql {
                 try {
                     # Act and arrange: execute the specified migration-scripts
                     Invoke-AzSqlDatabaseMigration `
-                        -ServerName $config.Arcus.Sql.ServerName `
+                        -ServerName $serverInstance `
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `

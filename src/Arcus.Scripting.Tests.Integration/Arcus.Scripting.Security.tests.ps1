@@ -43,10 +43,12 @@ InModuleScope Arcus.Scripting.Security {
             BeforeEach {
                 $config = & $PSScriptRoot\Load-JsonAppsettings.ps1 -fileName "appsettings.json"
                 & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
+
+                Remove-AzResourceGroupLocks -ResourceGroupName $config.Arcus.ResourceGroupName
             }
             It "Newly added resource lock gets removed by removing all resource locks with a given lock name" {
                 # Arrange
-                $lockName = "NewTestingLockWithName"
+                $lockName = "NewTestingLockWithName-$([System.Guid]::NewGuid())"
                 $targetResourceName = $config.Arcus.KeyVault.VaultName
                 $targetResourceGroupName = $config.Arcus.ResourceGroupName
                 New-AzResourceLock `
@@ -82,7 +84,7 @@ InModuleScope Arcus.Scripting.Security {
             }
             It "Newly added resource lock gets removed by removing all resource locks without giving any lock name" {
                 # Arrange
-                $lockName = "NewTestingLockWithoutName"
+                $lockName = "NewTestingLockWithName-$([System.Guid]::NewGuid())"
                 $targetResourceName = $config.Arcus.KeyVault.VaultName
                 $targetResourceGroupName = $config.Arcus.ResourceGroupName
                 New-AzResourceLock `
