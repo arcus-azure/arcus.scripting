@@ -4,16 +4,6 @@ parameters:
   testName: ''
 
 steps:
-  - pwsh: |
-     Import-Module Microsoft.PowerShell.Management -Force
-     wget -O - https://aka.ms/install-powershell.sh | sudo bash
-    displayName: 'Update Powershell on Linux'
-    condition: eq( variables['Agent.OS'], 'Linux' )
-
-  - powershell: 'Invoke-Expression -Command "& { $(Invoke-RestMethod -Uri ''https://aka.ms/install-powershell.ps1'') } -UseMSI -quiet" '
-    displayName: 'Update Powershell on Windows'
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
-
   - bash: |
       if [ -z "$PROJECT_NAME" ]; then
         echo "##vso[task.logissue type=error;]Missing template parameter \"projectName\""
