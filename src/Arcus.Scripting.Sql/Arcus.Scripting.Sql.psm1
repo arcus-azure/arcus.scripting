@@ -73,6 +73,9 @@ class DatabaseVersion : System.IComparable {
  .Parameter Password
   The password to be used to connect to the Azure SQL Database.
 
+ .Parameter TrustServerCertificate
+  Indicates whether the channel will be encrypted while bypassing walking the certificate chain to validate trust.
+
  .Parameter ScriptsFolder
   The directory folder where the SQL migration scripts are located on the file system.
 
@@ -88,12 +91,13 @@ function Invoke-AzSqlDatabaseMigration {
         [Parameter(Mandatory = $true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
         [Parameter(Mandatory = $true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
         [Parameter(Mandatory = $true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
+        [Parameter(Mandatory = $false)][switch] $TrustServerCertificate,
         [Parameter(Mandatory = $false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
         [Parameter(Mandatory = $false)][string] $ScriptsFileFilter = "*.sql",
         [Parameter(Mandatory = $false)][string] $DatabaseSchema = "dbo"
     )
 
-    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
+    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -TrustServerCertificate $TrustServerCertificate -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
 }
 
 Export-ModuleMember -Function Invoke-AzSqlDatabaseMigration
