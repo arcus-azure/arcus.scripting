@@ -30,7 +30,7 @@ The current version is stored in a table "DatabaseVersion", which will be create
 | `DatabaseName`          | yes                                     | The name of the SQL Database                                                        |
 | `UserName`              | yes                                     | The UserName of the SQL Database                                                    |
 | `Password`              | yes                                     | The Password of the SQL Database                                                    |
-| `TrustServerCertificate`| no (default: `$false`)                  | The directory folder where the SQL migration scripts are located on the file system |
+| `TrustServerCertificate`| no (default: `$false`)                  | Indicates whether the channel will be encrypted while bypassing walking the certificate chain to validate trust. |
 | `ScriptsFolder`         | no (default: `$PSScriptRoot/sqlScripts` | The directory folder where the SQL migration scripts are located on the file system |
 | `ScriptsFileFilter`     | no (default: `*.sql`)                   | The file filter to limit the SQL script files to use during the migrations          |
 | `DatabaseSchema`        | no (default: `dbo`)                     | The database schema to use when running SQL commands on the target database         |
