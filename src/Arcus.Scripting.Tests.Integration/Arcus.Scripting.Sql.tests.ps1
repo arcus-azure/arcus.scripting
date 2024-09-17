@@ -101,14 +101,15 @@ InModuleScope Arcus.Scripting.Sql {
     Describe "Arcus Azure SQL integration tests" {
         BeforeAll {
             $config = & $PSScriptRoot\Load-JsonAppsettings.ps1
-            $serverInstance = $config.Arcus.Sql.ServerName + '.database.windows.net'
+            $serverInstance = If($config.Arcus.Sql.UseLocalDb) { $config.Arcus.Sql.ServerName } Else { $config.Arcus.Sql.ServerName + '.database.windows.net' }
             $params = @{
-                'ServerInstance'  = $serverInstance
-                'Database'        = $config.Arcus.Sql.DatabaseName
-                'Username'        = $config.Arcus.Sql.UserName
-                'Password'        = $config.Arcus.Sql.Password
-                'OutputSqlErrors' = $true
-                'AbortOnError'    = $true
+                'ServerInstance'         = $serverInstance
+                'Database'               = $config.Arcus.Sql.DatabaseName
+                'Username'               = $config.Arcus.Sql.UserName
+                'Password'               = $config.Arcus.Sql.Password
+                'TrustServerCertificate' = $config.Arcus.Sql.TrustServerCertificate
+                'OutputSqlErrors'        = $true
+                'AbortOnError'           = $true
             }
 
             & $PSScriptRoot\Connect-AzAccountFromConfig.ps1 -config $config
@@ -147,6 +148,7 @@ InModuleScope Arcus.Scripting.Sql {
                     -DatabaseName $config.Arcus.Sql.DatabaseName `
                     -Username $config.Arcus.Sql.Username `
                     -Password $config.Arcus.Sql.Password `
+                    -TrustServerCertificate:([bool]::Parse($config.Arcus.Sql.TrustServerCertificate)) `
                     -ScriptsFolder "$PSScriptRoot\SqlScripts"
 
                 # Assert
@@ -169,6 +171,7 @@ InModuleScope Arcus.Scripting.Sql {
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `
+                        -TrustServerCertificate:([bool]::Parse($config.Arcus.Sql.TrustServerCertificate)) `
                         -DatabaseSchema $customSchema `
                         -ScriptsFolder "$PSScriptRoot\SqlScripts"
 
@@ -201,6 +204,7 @@ InModuleScope Arcus.Scripting.Sql {
                     -DatabaseName $config.Arcus.Sql.DatabaseName `
                     -Username $config.Arcus.Sql.Username `
                     -Password $config.Arcus.Sql.Password `
+                    -TrustServerCertificate:([bool]::Parse($config.Arcus.Sql.TrustServerCertificate)) `
                     -ScriptsFolder "$PSScriptRoot\SqlScripts"
 
                 # Assert
@@ -235,6 +239,7 @@ InModuleScope Arcus.Scripting.Sql {
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `
+                        -TrustServerCertificate:([bool]::Parse($config.Arcus.Sql.TrustServerCertificate)) `
                         -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationScriptsAreSuccessfullyExecuted"
 
                     # Assert
@@ -282,6 +287,7 @@ InModuleScope Arcus.Scripting.Sql {
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `
+                        -TrustServerCertificate:([bool]::Parse($config.Arcus.Sql.TrustServerCertificate)) `
                         -ScriptsFolder "$PSScriptRoot\SqlScripts\MigrationStopsOnError" } | Should -Throw
 
                 $version = Get-AzSqlDatabaseVersion $params
@@ -301,6 +307,7 @@ InModuleScope Arcus.Scripting.Sql {
                     -DatabaseName $config.Arcus.Sql.DatabaseName `
                     -Username $config.Arcus.Sql.Username `
                     -Password $config.Arcus.Sql.Password `
+                    -TrustServerCertificate:([bool]::Parse($config.Arcus.Sql.TrustServerCertificate)) `
                     -ScriptsFolder "$PSScriptRoot\SqlScripts\OldMigrationScriptsAreStillSupported"
                     
                 $version = Get-AzSqlDatabaseVersion $params
@@ -316,6 +323,7 @@ InModuleScope Arcus.Scripting.Sql {
                         -DatabaseName $config.Arcus.Sql.DatabaseName `
                         -Username $config.Arcus.Sql.Username `
                         -Password $config.Arcus.Sql.Password `
+                        -TrustServerCertificate:([bool]::Parse($config.Arcus.Sql.TrustServerCertificate)) `
                         -ScriptsFolder "$PSScriptRoot\SqlScripts\OldAndNewNamingConventionSupported"
                     
                     $version = Get-AzSqlDatabaseVersion $params
