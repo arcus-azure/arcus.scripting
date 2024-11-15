@@ -30,12 +30,12 @@ if ([string]::IsNullOrEmpty($releaseName)) {
 if ($variableGroup.value) {
     Write-Host "Set properties for update of existing Azure DevOps variable group '$variableGroupName'"
     $variableGroup = $variableGroup.value[0]
-    $variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by release '$releaseName'." -Force
+    $variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by pipeline '$releaseName'." -Force
     $method = "Put"
     $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion    
 } else {
     Write-Host "Set properties for creation of new Azure DevOps variable group '$VariableGroupName'"
-    $variableGroup = @{name = $VariableGroupName; type = "Vsts"; description = "Variable group that got auto-updated by release '$releaseName'."; variables = New-Object PSObject; }
+    $variableGroup = @{name = $VariableGroupName; type = "Vsts"; description = "Variable group that got auto-updated by pipeline '$releaseName'."; variables = New-Object PSObject; }
     $method = "Post"
     $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups?api-version=" + $apiVersion
 }
