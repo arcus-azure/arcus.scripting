@@ -56,7 +56,7 @@ function global:Remove-AzDevOpsGroupVariable {
     $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
     
     Write-Host "PUT -> $upsertVariableGroupUrl"
-    $putResponse = Invoke-WebRequest -Uri $upsertVariableGroupUrl -Method Put -Headers $headers
+    $putResponse = Invoke-WebRequest -Uri $upsertVariableGroupUrl -Method Put -Headers $headers -Body $json -ContentType 'application/json; charset=utf-8'
     Write-Host "$($putResponse.StatusCode) <- $upsertVariableGroupUrl"
 }
 
