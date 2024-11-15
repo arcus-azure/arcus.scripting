@@ -55,7 +55,8 @@ function global:Remove-AzDevOpsGroupVariable {
     $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/$($json.id)?api-version=7.1"
     $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
     
-    Write-Host "PUT -> $upsertVariableGroupUrl"
+    $json = $json | ConvertTo-Json -Depth 10 -Compress
+    Write-Host "PUT $json -> $upsertVariableGroupUrl"
     $putResponse = Invoke-WebRequest -Uri $upsertVariableGroupUrl -Method Put -Headers $headers -Body $json -ContentType 'application/json; charset=utf-8'
     Write-Host "$($putResponse.StatusCode) <- $upsertVariableGroupUrl"
 }
