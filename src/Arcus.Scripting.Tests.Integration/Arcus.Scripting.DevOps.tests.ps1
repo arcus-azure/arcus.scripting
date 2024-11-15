@@ -17,7 +17,7 @@ function global:Get-AzDevOpsGroup {
     return $json.value[0]
 }
 
-function global:Remove-AzDevOpsGroup {
+function global:Remove-AzDevOpsVariableGroup {
     param($VariableGroupName)
 
     $variableGroup = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
@@ -48,6 +48,8 @@ function global:Remove-AzDevOpsGroupVariable {
     $json = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
     $json.variables.PSObject.Properties.Remove($VariableName)
 
+    $project = "$env:SYSTEM_TEAMPROJECT"
+    $projectUri = "$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"
     $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/$($json.id)?api-version=7.1"
     $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
     
@@ -169,7 +171,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 $variableValue = [System.Guid]::NewGuid()
                 try {
                     # Act
-                    Set-AzDevOpsVariable -VariableGroupName $variableGroupName -VariableName $variableName -VariableValue $variableValue
+                    Set-AzDevOpsGroupVariable -VariableGroupName $variableGroupName -VariableName $variableName -VariableValue $variableValue
 
                     # Assert
                     $actualValue = Get-AzDevOpsGroupVariable -VariableGroupName $variableGroupName -VariableName $variableName

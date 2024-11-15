@@ -32,7 +32,7 @@ if ($variableGroup.value) {
     $variableGroup = $variableGroup.value[0]
     $variableGroup | Add-Member -Name "description" -MemberType NoteProperty -Value "Variable group that got auto-updated by pipeline '$releaseName'." -Force
     $method = "Put"
-    $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion    
+    $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=" + $apiVersion
 } else {
     Write-Host "Set properties for creation of new Azure DevOps variable group '$VariableGroupName'"
     $variableGroup = @{name = $VariableGroupName; type = "Vsts"; description = "Variable group that got auto-updated by pipeline '$releaseName'."; variables = New-Object PSObject; }
@@ -44,5 +44,7 @@ $variableGroup.variables | Add-Member -Name $VariableName -MemberType NoteProper
 
 Write-Verbose "Upserting Azure DevOps variable group '$variableGroupName'..."
 $body = $variableGroup | ConvertTo-Json -Depth 10 -Compress
-Write-Debug $body
+Write-Host $body
+
+Write-Host "$method -> $upsertVariableGroupUrl"
 Invoke-RestMethod $upsertVariableGroupUrl -Method $method -Body $body -Headers $headers -ContentType 'application/json; charset=utf-8' -Verbose
