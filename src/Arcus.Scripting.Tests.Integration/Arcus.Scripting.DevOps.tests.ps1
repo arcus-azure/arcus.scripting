@@ -1,6 +1,6 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
 
-function Get-AzDevOpsGroup {
+function global:Get-AzDevOpsGroup {
     params($VariableGroupName)
 
     $VariableGroupName = $VariableGroupName -replace ' ', '%20'
@@ -17,7 +17,7 @@ function Get-AzDevOpsGroup {
     return $json.value[0]
 }
 
-function Remove-AzDevOpsGroup {
+function global:Remove-AzDevOpsGroup {
     params($VariableGroupName)
 
     $variableGroup = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
@@ -33,7 +33,7 @@ function Remove-AzDevOpsGroup {
     Write-Host "$($deleteResponse.StatusCode) <- $deleteUri"
 }
 
-function Get-AzDevOpsGroupVariable {
+function global:Get-AzDevOpsGroupVariable {
     params($VariableGroupName, $VariableName)
 
     $json = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
@@ -42,7 +42,7 @@ function Get-AzDevOpsGroupVariable {
     return $variable
 }
 
-function Remove-AzDevOpsGroupVariable {
+function global:Remove-AzDevOpsGroupVariable {
     params($VariableGroupName, $VariableName)
 
     $json = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
