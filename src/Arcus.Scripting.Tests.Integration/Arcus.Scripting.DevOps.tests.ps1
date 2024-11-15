@@ -1,7 +1,7 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
 
 function global:Get-AzDevOpsGroup {
-    params($VariableGroupName)
+    param($VariableGroupName)
 
     $VariableGroupName = $VariableGroupName -replace ' ', '%20'
     $projectId = $env:SYSTEM_TEAMPROJECTID
@@ -18,7 +18,7 @@ function global:Get-AzDevOpsGroup {
 }
 
 function global:Remove-AzDevOpsGroup {
-    params($VariableGroupName)
+    param($VariableGroupName)
 
     $variableGroup = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
 
@@ -34,7 +34,7 @@ function global:Remove-AzDevOpsGroup {
 }
 
 function global:Get-AzDevOpsGroupVariable {
-    params($VariableGroupName, $VariableName)
+    param($VariableGroupName, $VariableName)
 
     $json = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
     $variable = $json.variables.PSObject.Properties | where { $_.Name -eq $VariableName }
@@ -43,7 +43,7 @@ function global:Get-AzDevOpsGroupVariable {
 }
 
 function global:Remove-AzDevOpsGroupVariable {
-    params($VariableGroupName, $VariableName)
+    param($VariableGroupName, $VariableName)
 
     $json = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
     $json.variables.PSObject.Properties.Remove($VariableName)
