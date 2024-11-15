@@ -11,8 +11,8 @@ function global:Get-AzDevOpsGroup {
 
     Write-Host "GET -> $getUri"
     $getResponse = Invoke-WebRequest -Uri $getUri -Method Get -Headers $headers
-    Write-Host "$($getResponse.StatusCode) <- $getUri"
     $json = ConvertFrom-Json $getResponse.Content
+    Write-Host "$($getResponse.StatusCode) $json <- $getUri"
     
     return $json.value[0]
 }
