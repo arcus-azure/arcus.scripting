@@ -1,5 +1,61 @@
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.DevOps -ErrorAction Stop
 
+function Get-AzDevOpsGroup {
+    params($VariableGroupName)
+
+    $VariableGroupName = $VariableGroupName -replace ' ', '%20'
+    $projectId = $env:SYSTEM_TEAMPROJECTID
+    $collectionUri = $env:SYSTEM_COLLECTIONURI
+    $getUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups?groupName=" + $VariableGroupName + "&api-version=7.1"
+    $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+
+    Write-Host "GET -> $getUri"
+    $getResponse = Invoke-WebRequest -Uri $getUri -Method Get -Headers $headers
+    Write-Host "$($getResponse.StatusCode) <- $getUri"
+    $json = ConvertFrom-Json $getResponse.Content
+    
+    return $json.value[0]
+}
+
+function Remove-AzDevOpsGroup {
+    params($VariableGroupName)
+
+    $variableGroup = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
+
+    $VariableGroupName = $VariableGroupName -replace ' ', '%20'
+    $projectId = $env:SYSTEM_TEAMPROJECTID
+    $collectionUri = $env:SYSTEM_COLLECTIONURI
+    $deleteUri = "$collectionUri" + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?projectIds=$projectId&api-version=7.1"
+    $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+
+    Write-Host "DELETE -> $deleteUri"
+    $deleteResponse = Invoke-WebRequest -Uri $deleteUri -Method Delete -Headers $headers
+    Write-Host "$($deleteResponse.StatusCode) <- $deleteUri"
+}
+
+function Get-AzDevOpsGroupVariable {
+    params($VariableGroupName, $VariableName)
+
+    $json = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
+    $variable = $json.variables.PSObject.Properties | where { $_.Name -eq $VariableName }
+    
+    return $variable
+}
+
+function Remove-AzDevOpsGroupVariable {
+    params($VariableGroupName, $VariableName)
+
+    $json = Get-AzDevOpsGroup -VariableGroupName $VariableGroupName
+    $json.variables.PSObject.Properties.Remove($VariableName)
+
+    $upsertVariableGroupUrl = $projectUri + $project + "/_apis/distributedtask/variablegroups/$($json.id)?api-version=7.1"
+    $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+    
+    Write-Host "PUT -> $upsertVariableGroupUrl"
+    $putResponse = Invoke-WebRequest -Uri $upsertVariableGroupUrl -Method Put -Headers $headers
+    Write-Host "$($putResponse.StatusCode) <- $upsertVariableGroupUrl"
+}
+
 InModuleScope Arcus.Scripting.DevOps {
     Describe "Arcus Azure DevOps integration tests" {
         BeforeEach {
@@ -43,6 +99,7 @@ InModuleScope Arcus.Scripting.DevOps {
                 $collectionUri = $env:SYSTEM_COLLECTIONURI
                 $requestUri = "$collectionUri" + "$projectId/_apis/build/builds/" + $buildId + "/leases?api-version=7.0"
                 $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+
                 try {
                     # Act
                     Save-AzDevOpsBuild -ProjectId $projectId -BuildId $buildId -DaysToKeep 10
@@ -66,6 +123,8 @@ InModuleScope Arcus.Scripting.DevOps {
                     }
                 }
             }
+        }
+        Context "Azure DevOps variable group" {
             It "Sets the DevOps variable group description with the release name" {
                 # Arrange
                 $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
@@ -85,6 +144,40 @@ InModuleScope Arcus.Scripting.DevOps {
                 $getResponse = Invoke-WebRequest -Uri $requestUri -Method Get -Headers $headers
                 $json = ConvertFrom-Json $getResponse.Content
                 $json.value[0].description | Should -BeLike "*$env:Build_DefinitionName*$env:Build_BuildNumber*"
+            }
+            It "Sets a new variable to an existing DevOps variable group" {
+                # Arrange
+                $variableGroupName = $config.Arcus.DevOps.VariableGroup.Name
+                $variableName = [System.Guid]::NewGuid().ToString()
+                $expectedValue = [System.Guid]::NewGuid().ToString()
+                try { 
+                    # Act
+                    Set-AzDevOpsGroupVariable -VariableGroupName $variableGroupName -VariableName $variableName -VariableValue $expectedValue
+                    
+                    # Assert
+                    $actualValue = Get-AzDevOpsGroupVariable -VariableGroupName $variableGroupName -VariableName $variableName
+                    $actualValue | Should -Be $variableValue
+
+                } finally {
+                    Remove-AzDevOpsGroupVariable -VariableGroupName $variableGroupName -VariableName $variableName
+                }
+            }
+            It "Sets a new variable to a new DevOps variable group" {
+                # Arrange
+                $variableGroupName = [System.Guid]::NewGuid()
+                $variableName = [System.Guid]::NewGuid()
+                $variableValue = [System.Guid]::NewGuid()
+                try {
+                    # Act
+                    Set-AzDevOpsVariable -VariableGroupName $variableGroupName -VariableName $variableName -VariableValue $variableValue
+
+                    # Assert
+                    $actualValue = Get-AzDevOpsGroupVariable -VariableGroupName $variableGroupName -VariableName $variableName
+                    $actualValue | Should -Be $variableValue
+
+                } finally {
+                    Remove-AzDevOpsVariableGroup -VariableGroupName $variableGroupName
+                }
             }
         }
     }

@@ -5,10 +5,10 @@
  .Description
   Assign a value to a DevOps pipeline variable during the execution of this pipeline.
 
- .Parameter VariableName
+ .Parameter Name
   The name of the variable to set in the pipeline.
  
- .Parameter VariableValue
+ .Parameter Value
   The value of the variable to set in the pipeline.
 #>
 function Set-AzDevOpsVariable {
@@ -26,6 +26,34 @@ function Set-AzDevOpsVariable {
 }
 
 Export-ModuleMember -Function Set-AzDevOpsVariable
+
+<#
+ .Synopsis
+  Set a variable in the Azure DevOps variable group.
+ 
+ .Description
+  Assign a value to a DevOps variable group during the execution of an Azure DevOps pipeline.
+
+ .Parameter VariableGroupName
+  The name of the Azure DevOps variable group to updat with a new variable.
+
+ .Parameter VariableName
+  The name of the variable to set in the variable group.
+ 
+ .Parameter VariableValue
+  The value of the variable to set in the variable group.
+#>
+function Set-AzDevOpsGroupVariable {
+    param(
+        [string][parameter(Mandatory = $true)]$VariableGroupName,
+        [string][parameter(Mandatory = $true)]$VariableName,
+        [string][parameter(Mandatory = $true)]$VariableValue
+    )
+
+    . $PSScriptRoot\Scripts\Set-AzDevOpsGroupVariable.ps1 -VariableGroupName $VariableGroupName -VariableName $VariableName -VariableValue $VariableValue
+}
+
+Export-ModuleMember -Function Set-AzDevOpsGroupVariable
 
 <#
  .Synopsis
