@@ -12,9 +12,11 @@ function global:Get-AzDevOpsGroup {
     Write-Host "GET -> $getUri"
     $getResponse = Invoke-WebRequest -Uri $getUri -Method Get -Headers $headers
     $json = ConvertFrom-Json $getResponse.Content
-    Write-Host "$($getResponse.StatusCode) $json <- $getUri"
+
+    $variableGroup = $json.value[0]
+    Write-Host "$($getResponse.StatusCode) $variableGroup <- $getUri"
     
-    return $json.value[0]
+    return $variableGroup
 }
 
 function global:Remove-AzDevOpsVariableGroup {
@@ -25,7 +27,7 @@ function global:Remove-AzDevOpsVariableGroup {
     $VariableGroupName = $VariableGroupName -replace ' ', '%20'
     $projectId = $env:SYSTEM_TEAMPROJECTID
     $collectionUri = $env:SYSTEM_COLLECTIONURI
-    $deleteUri = "$collectionUri" + "/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?projectIds=$projectId&api-version=7.1"
+    $deleteUri = "$collectionUri" + "$projectId/_apis/distributedtask/variablegroups/" + $variableGroup.id + "?api-version=7.1"
     $headers = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
 
     Write-Host "DELETE -> $deleteUri"
