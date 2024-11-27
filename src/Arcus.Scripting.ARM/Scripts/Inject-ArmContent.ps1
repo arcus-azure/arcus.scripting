@@ -8,7 +8,8 @@
     ${ FileToInject = "c:\Parent Directory\file.xml" }
     ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars }
     ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
- #>
+    ${ FileToInject = '.\Parent Directory\file.json', InjectAsBase64 }
+#>
 
 param(
     [string] $Path = $PSScriptRoot
@@ -105,6 +106,13 @@ function InjectFile {
                 } catch {
                     Write-Warning "Content to inject into ARM template file '$filePath' cannot be parsed as a JSON object!"
                 }
+            }
+
+            if ($optionParts.Contains("InjectAsBase64")) {
+                Write-Verbose "Read binary file as base64 string"
+
+                $bytes = [System.Text.Encoding]::Unicode.GetBytes($newString)
+                $newString = [Convert]::ToBase64String($bytes)
             }
         }
 

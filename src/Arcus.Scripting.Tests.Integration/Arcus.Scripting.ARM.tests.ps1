@@ -111,6 +111,23 @@ InModuleScope Arcus.Scripting.ARM {
                     $originalContents | Out-File -FilePath $armTemplateFile
                 }
             }
+            It "Replaces file path with file contents as base64 string" {
+                # Arrange
+                $armTemplateFile = "$PSScriptRoot\Files\arm-template-certificate.json"
+                $originalContents = Get-Content $armTemplateFile
+                try {
+                    # Act
+                    Inject-ArmContent -Path $armTemplateFile
+
+                    # Assert
+                    $expected = Get-Content "$PSScriptRoot\Files\arm-template-certificate-value.xml"
+                    $actual = Get-Content $armTemplateFile
+                    $actual
+                    $actual[7] | Should -Be '    "value": "$expected",'
+                } finally {
+                    $originalContents | Out-File -FilePath $armTemplateFile
+                }
+            }
         }
     }
 }
