@@ -18,6 +18,10 @@ parameters:
   - name: 'Package.Version.ManualTrigger'
     type: string
     default: 'preview'
+  - name: azureServiceConnection
+    displayName: 'Azure service connection'
+    type: string
+    default: 'Azure Codit-Arcus Service Principal'
   - name: 'UnitTests'
     type: object
     default: 
@@ -62,9 +66,9 @@ resources:
 variables:
   - group: 'Build Configuration'
   - group: 'Arcus Scripting - Integration Testing'
-  - group: 'Arcus - GitHub Package Registry'
   - group: 'MyGet'
   - template: ./variables/build.yml
+  - template: ./variables/test.yml
   - name: 'Package.Version'
     value: '0.$(Build.BuildNumber)'
   - name: 'Prerelease'
@@ -111,6 +115,7 @@ stages:
             parameters:
               projectName: '$(Project).Tests.Unit'
               testName: '$(Project).${{UnitTest.name}}'
+              azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
   - stage: IntegrationTests
     displayName: Integration Tests
@@ -139,6 +144,7 @@ stages:
             parameters:
               projectName: '$(Project).Tests.Integration'
               testName: '$(Project).${{IntegrationTest.name}}'
+              azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
   - stage: ReleaseToMyget
     displayName: 'Release to MyGet'

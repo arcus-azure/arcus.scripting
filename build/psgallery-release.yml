@@ -10,6 +10,10 @@ parameters:
     displayName: 'Prerelease string (ex. -alpha, -alpha1, -BETA, -update20171020) or none'
     type: 'string'
     default: 'none'
+  - name: azureServiceConnection
+    displayName: 'Azure service connection'
+    type: string
+    default: 'Azure Codit-Arcus Service Principal'
   - name: 'UnitTests'
     type: object
     default: 
@@ -56,6 +60,7 @@ variables:
   - group: 'Arcus Scripting - Integration Testing'
   - group: 'Arcus.Scripting - Releasing PS Gallery'
   - template: ./variables/build.yml
+  - template: ./variables/test.yml
   - name: 'Repository'
     value: 'arcus-azure/arcus.scripting'
   - name: 'Package.Version'
@@ -104,6 +109,7 @@ stages:
             parameters:
               projectName: '$(Project).Tests.Unit'
               testName: '$(Project).${{UnitTest.name}}'
+              azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
   - stage: IntegrationTests
     displayName: Integration Tests
@@ -132,6 +138,7 @@ stages:
             parameters:
               projectName: '$(Project).Tests.Integration'
               testName: '$(Project).${{IntegrationTest.name}}'
+              azureServiceConnection: ${{ parameters.azureServiceConnection }}
 
   - stage: Release
     displayName: 'Release to PowerShell Gallery'
