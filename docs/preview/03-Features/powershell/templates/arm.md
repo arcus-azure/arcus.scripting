@@ -60,6 +60,7 @@ It is possible to supply injection instructions in the injection annotation, thi
 | `EscapeJson`          | Replace double quotes not preceded by a backslash with escaped quotes                                       |
 | `ReplaceSpecialChars` | Replace newline characters with literal equivalents, tabs with spaces and `"` with `\"`                     |
 | `InjectAsJsonObject`  | Tests if the content is valid JSON and makes sure the content is injected without surrounding double quotes |
+| `InjectAsBase64`      | Converts the file to a base64 string and injects the result. Useful for binary files                        |
 
 Usage of multiple injection instructions is supported as well, for example if you need both the `EscapeJson` and `ReplaceSpecialChars` functionality.
 The reference to the file to inject can either be a path relative to the 'parent' file or an absolute path.
@@ -70,6 +71,7 @@ ${ FileToInject = ".\Parent Directory\file.xml" }
 ${ FileToInject = "c:\Parent Directory\file.xml" }
 ${ FileToInject = ".\Parent Directory\file.xml", EscapeJson, ReplaceSpecialChars }
 ${ FileToInject = '.\Parent Directory\file.json', InjectAsJsonObject }
+${ FileToInject = '.\Parent Directory\file.json', InjectAsBase64 }
 ```
 
 ### 🥇 Recommendations
