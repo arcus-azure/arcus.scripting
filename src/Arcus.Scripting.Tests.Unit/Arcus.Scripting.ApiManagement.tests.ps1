@@ -1,25 +1,20 @@
-﻿Import-Module Az.Storage
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.ApiManagement -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.ApiManagement {
     Describe "Arcus Azure API Management unit tests" {
         Context "Back up Azure API Management instance" {
             BeforeEach {
                 # Test values, not really pointing to anything
-                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
-                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
-                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
-                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
+                $expectedStorageAccountName = "shopping-storage"
+                $storageKeyValue = "mystoragekey"
+                $expectedStorageContext = New-AzStorageContext -StorageAccountName $expectedStorageAccountName -StorageAccountKey $storageKeyValue
             }
             It "Creates storage context during API management backup" {
                 # Arrange
                 $resourceGroup = "shopping"
-                $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
+                $storageAccountResourceGroup = "stock"                
                 $serviceName = "shopping-API-management"
-                $targetContainerName = "backup-storage"
-                $storageKeyValue = "my-storage-key"
+                $targetContainerName = "backup-storage"                
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $accessType = 'SystemAssignedManagedIdentity'
 
@@ -54,11 +49,9 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
                 $targetBlobName = "backup-storage-blob"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $accessType = 'SystemAssignedManagedIdentity'
 
@@ -93,10 +86,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $accessType = 'SystemAssignedManagedIdentity'
 
@@ -131,10 +122,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $defaultProfile = New-Object -TypeName Microsoft.Azure.Commands.Common.Authentication.Models.AzureRmProfile
                 $accessType = 'SystemAssignedManagedIdentity'
@@ -170,10 +159,8 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $targetContainerName = "backup-storage"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $accessType = 'UserAssignedManagedIdentity'
                 $identityClientId = 'someidentityid'
@@ -788,23 +775,20 @@ InModuleScope Arcus.Scripting.ApiManagement {
             }
         }
         Context "Restore Azure API Management instance" {
+            BeforeEach {
+                # Test values, not really pointing to anything
+                $expectedStorageAccountName = "shopping-storage"
+                $storageKeyValue = "mystoragekey"
+                $expectedStorageContext = New-AzStorageContext -StorageAccountName $expectedStorageAccountName -StorageAccountKey $storageKeyValue
+            }
             It "Restores API management service w/o pass thru and profile" {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-
-                # Test values, not really pointing to anything
-                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
-                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
-                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
-                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
@@ -836,19 +820,10 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
-
-                # Test values, not really pointing to anything
-                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
-                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
-                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
-                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
@@ -880,20 +855,11 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $defaultProfile = New-Object -TypeName Microsoft.Azure.Commands.Common.Authentication.Models.AzureRmProfile
-
-                # Test values, not really pointing to anything
-                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
-                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
-                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
-                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
@@ -925,20 +891,11 @@ InModuleScope Arcus.Scripting.ApiManagement {
                 # Arrange
                 $resourceGroup = "shopping"
                 $storageAccountResourceGroup = "stock"
-                $expectedStorageAccountName = "shopping-storage"
                 $serviceName = "shopping-API-management"
                 $containerName = "backup-storage"
                 $blobName = "backup-storage-blob"
-                $storageKeyValue = "my-storage-key"
                 $storageKey = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccountKey -ArgumentList @($null, $storageKeyValue, $null)
                 $defaultProfile = New-Object -TypeName Microsoft.Azure.Commands.Common.Authentication.Models.AzureRmProfile
-
-                # Test values, not really pointing to anything
-                $testSasToken = "?st=2013-09-03T04%3A12%3A15Z&se=2013-09-03T05%3A12%3A15Z&sr=c&sp=r&sig=fN2NPxLK99tR2%2BWnk48L3lMjutEj7nOwBo7MXs2hEV8%3D"
-                $testEndpoint = "http://storageaccountname.blob.core.windows.net"
-                $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
-                $storageAccount = [Microsoft.Azure.Storage.CloudStorageAccount]::Parse($testConnection)
-                $expectedStorageContext = New-Object -TypeName Microsoft.WindowsAzure.Commands.Storage.AzureStorageContext -ArgumentList $storageAccount
 
                 Mock Get-AzStorageAccountKey {
                     $ResourceGroupName | Should -Be $storageAccountResourceGroup
