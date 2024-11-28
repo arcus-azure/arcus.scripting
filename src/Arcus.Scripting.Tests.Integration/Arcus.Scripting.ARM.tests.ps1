@@ -122,7 +122,6 @@ InModuleScope Arcus.Scripting.ARM {
                     # Assert
                     $expected = Get-Content "$PSScriptRoot\Files\arm-template-certificate-value.txt"
                     $actual = Get-Content $armTemplateFile
-                    Write-Host $actual
                     $actual[7] | Should -Be ('    "value": "{0}",' -f $expected)
                 } finally {
                     $originalContents | Out-File -FilePath $armTemplateFile

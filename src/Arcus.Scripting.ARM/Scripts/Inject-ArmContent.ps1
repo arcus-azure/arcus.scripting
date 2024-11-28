@@ -111,7 +111,7 @@ function InjectFile {
             if ($optionParts.Contains("InjectAsBase64")) {
                 Write-Verbose "Read binary file as base64 string"
 
-                $bytes = [System.Text.Encoding]::Unicode.GetBytes($newString)
+                $bytes = [System.Text.Encoding]::UTF8.GetBytes($newString)
                 $newString = [Convert]::ToBase64String($bytes)
             }
         }
