@@ -120,10 +120,10 @@ InModuleScope Arcus.Scripting.ARM {
                     Inject-ArmContent -Path $armTemplateFile
 
                     # Assert
-                    $expected = Get-Content "$PSScriptRoot\Files\arm-template-certificate-value.xml"
+                    $expected = Get-Content "$PSScriptRoot\Files\arm-template-certificate-value.txt"
                     $actual = Get-Content $armTemplateFile
-                    $actual
-                    $actual[7] | Should -Be '    "value": "$expected",'
+                    Write-Host $actual
+                    $actual[7] | Should -Be ('    "value": "{0}",' -f $expected)
                 } finally {
                     $originalContents | Out-File -FilePath $armTemplateFile
                 }
