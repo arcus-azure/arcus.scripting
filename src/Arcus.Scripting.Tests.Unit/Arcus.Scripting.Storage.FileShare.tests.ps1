@@ -52,9 +52,11 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                 $fileAddress = "http://test.file.core.windows.net/$fileShareName/$folderName"
                 Write-Host $fileAddress
 
+
                 $storageUri = New-Object -TypeName System.Uri -ArgumentList $fileAddress
-                $cloudFileDirectory = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileDirectory -ArgumentList $storageUri
-                $fileShareDirectory = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileDirectory -ArgumentList $cloudFileDirectory, $psStorageAccount.Context
+                $shareClientOptions = New-Object -TypeName Azure.Storage.Files.Shares.ShareClientOptions('V2023_08_03')
+                $shareDirectoryClient = New-Object -TypeName Azure.Storage.Files.Shares.ShareDirectoryClient($storageUri, $shareClientOptions)
+                $fileShareDirectory = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileDirectory -ArgumentList $shareDirectoryClient, $psStorageAccount.Context 
                 Write-Host "Name: " $fileShareDirectory.Name
 
                 Mock Get-AzStorageAccount {
