@@ -10,9 +10,6 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
             $testConnection = [System.String]::Format("BlobEndpoint={0};QueueEndpoint={0};TableEndpoint={0};SharedAccessSignature={1}", $testEndpoint, $testSasToken)
             $storageAccount = New-Object -TypeName Microsoft.Azure.Management.Storage.Models.StorageAccount
             $psStorageAccount = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount -ArgumentList $storageAccount
-
-            $cloudShare = New-Object -TypeName Microsoft.Azure.Storage.File.CloudFileShare -ArgumentList (New-Object -TypeName System.Uri "https://something")
-            $fileShare = New-Object -TypeName Microsoft.WindowsAzure.Commands.Common.Storage.ResourceModel.AzureStorageFileShare -ArgumentList $cloudShare, $storageContext
         }
         Context "Creating Azure File Share folder" {
             It "Create new folder on Azure File Share succeeds" {
