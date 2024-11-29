@@ -72,8 +72,9 @@
     <Content Include="appsettings.local.json" />
     <Content Include="appsettings.json" />
     <Content Include="Blobs\arcus.png" />
+    <Content Include="Files\arm-template-certificate-value %28linux%29.txt" />
+    <Content Include="Files\arm-template-certificate-value %28windows%29.txt" />
     <Content Include="Files\arm-template-certificate.json" />
-    <Content Include="Files\arm-template-certificate-value.xml" />
     <Content Include="Files\arm-template-object %28linux%29.json" />
     <Content Include="Files\arm-template-object-absolutepath %28linux%29.json" />
     <Content Include="Files\arm-template-object-absolutepath %28windows%29.json" />
