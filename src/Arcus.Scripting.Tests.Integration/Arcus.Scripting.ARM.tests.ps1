@@ -57,6 +57,22 @@ InModuleScope Arcus.Scripting.ARM {
                         $originalContents | Out-File -FilePath $armTemplateFile
                     }
                 }
+                It "Replaces file path with file contents as base64 string (windows)" {
+                # Arrange
+                $armTemplateFile = "$PSScriptRoot\Files\arm-template-certificate.json"
+                $originalContents = Get-Content $armTemplateFile
+                try {
+                    # Act
+                    Inject-ArmContent -Path $armTemplateFile
+
+                    # Assert
+                    $expected = Get-Content "$PSScriptRoot\Files\arm-template-certificate-value (windows).txt"
+                    $actual = Get-Content $armTemplateFile
+                    $actual[7] | Should -Be ('    "value": "{0}",' -f $expected)
+                } finally {
+                    $originalContents | Out-File -FilePath $armTemplateFile
+                }
+            }
             } else {
                 It "Replaces relative file path with file contents as JSON object (linux)" {
                     # Arrange
@@ -94,6 +110,22 @@ InModuleScope Arcus.Scripting.ARM {
                         $originalContents | Out-File -FilePath $armTemplateFile
                     }
                 }
+                It "Replaces file path with file contents as base64 string (linux)" {
+                # Arrange
+                $armTemplateFile = "$PSScriptRoot\Files\arm-template-certificate.json"
+                $originalContents = Get-Content $armTemplateFile
+                try {
+                    # Act
+                    Inject-ArmContent -Path $armTemplateFile
+
+                    # Assert
+                    $expected = Get-Content "$PSScriptRoot\Files\arm-template-certificate-value (linux).txt"
+                    $actual = Get-Content $armTemplateFile
+                    $actual[7] | Should -Be ('    "value": "{0}",' -f $expected)
+                } finally {
+                    $originalContents | Out-File -FilePath $armTemplateFile
+                }
+            }
             }
             It "Replaces file path with file contents as escaped JSON and replaced special characters" {
                 # Arrange
