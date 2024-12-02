@@ -6,7 +6,7 @@ steps:
             $contents = $contents -replace "ModuleVersion = '\d\.\d\.\d'", "ModuleVersion = '#{Package.Version}#'"
             $contents | Out-File $_.FullName -Force }
     displayName: 'Replace 0.0.0 in module datafile to Package.Version token'
-  - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@5
     displayName: 'Replace package version tokens'
     inputs:
       rootDirectory: 'src/'
