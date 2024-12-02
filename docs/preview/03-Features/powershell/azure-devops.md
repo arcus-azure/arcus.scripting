@@ -40,6 +40,22 @@ PS> Set-AzDevOpsVariable "my-variable" "my-variable-value" -AsSecret
 ##vso[task.setvariable variable=my-variable;issecret=true] ***
 ```
 
+## Setting a variable in an Azure DevOps variable group
+
+Assign a value to a DevOps variable group during the execution of a pipeline.
+
+| Parameter             | Mandatory | Description                                            |
+| --------------------- | --------- | ------------------------------------------------------ |
+| `VariableGroupName`   | yes       | The name of the remote variable group on Azure DevOps  |
+| `VariableName`        | yes       | The name of the variable to set in the variable group  |
+| `VariableValue`       | yes       | The value of the variable to set in the variable group |
+
+**Example**
+
+```powershell
+PS> Set-AzDevOpsGroupVariable -VariableGroupName "product-v1-dev" -VariableName "Product.Api.Url" -VariableValue "https://product/api/"
+```
+
 ## Setting ARM outputs to Azure DevOps variable group
 
 Stores the Azure Resource Management (ARM) outputs in a variable group on Azure DevOps.
