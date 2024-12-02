@@ -46,7 +46,7 @@ steps:
         Set-AzDevOpsVariable -Name 'Arcus.Scripting.ActiveDirectory.ServicePrincipal.ClientId' -Value $activeDirectoryServicePrincipalClientIdSecret.value -AsSecret
         Set-AzDevOpsVariable -Name 'Arcus.Scripting.ActiveDirectory.ServicePrincipal.ClientSecret' -Value $activeDirectoryServicePrincipalClientSecretSecret.value -AsSecret
 
-  - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@5
     displayName: 'Replace integration test tokens'
     condition: contains('${{ parameters.projectName }}', 'Integration')
     inputs:
