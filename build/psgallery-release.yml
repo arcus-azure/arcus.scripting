@@ -166,7 +166,7 @@ stages:
               releaseNotes: |
                 Install the $(Project) packages that you need via PowerShell Gallery, for instance [$(Project).ARM](https://www.powershellgallery.com/packages/$(Project).ARM/$(Build.BuildNumber)):
                 ```shell
-                PS > Install-Module -Name $(Project).ARM --Version $(Build.BuildNumber)
+                PS > Install-Module -Name $(Project).ARM --RequiredVersion $(Build.BuildNumber)
                 ```
                 For a complete list of all $(Project) packages see the [documentation](https://scripting.arcus-azure.net/).
                 ## What's new?
