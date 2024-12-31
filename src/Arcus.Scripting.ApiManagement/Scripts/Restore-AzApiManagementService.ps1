@@ -24,13 +24,13 @@ if ($null -eq $storageKeys -or $storageKeys.count -eq 0) {
 
     Write-Verbose "Start restoring up Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'..."
     if ($PassThru) {
-        if ($DefaultProfile -ne $null) {
+        if ($null -ne $DefaultProfile) {
             Restore-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -SourceContainerName $ContainerName -SourceBlobName $BlobName -PassThru -DefaultProfile $DefaultProfile
         } else {
             Restore-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -SourceContainerName $ContainerName -SourceBlobName $BlobName -PassThru
         }
     } else {
-        if ($DefaultProfile -ne $null) {
+        if ($null -ne $DefaultProfile) {
             Restore-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -SourceContainerName $ContainerName -SourceBlobName $BlobName -DefaultProfile $DefaultProfile
         } else {
             Restore-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName -StorageContext $storageContext -SourceContainerName $ContainerName -SourceBlobName $BlobName
