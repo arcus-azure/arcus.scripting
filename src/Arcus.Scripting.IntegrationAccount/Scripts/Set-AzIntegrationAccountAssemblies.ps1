@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $AssemblyFilePath = $(if ($AssembliesFolder -eq '') { throw "Either the file path of a specific assembly or the file path of a folder containing multiple assemblies is required, e.g.: -AssemblyFilePath 'C:\Assemblies\assembly.dll' or -AssembliesFolder 'C:\Assemblies'" }),
@@ -34,7 +34,7 @@ function UploadAssembly {
     }
         
     try {
-        if ($existingAssembly -eq $null) {
+        if ($null -eq $existingAssembly) {
             Write-Verbose "Creating assembly '$assemblyName' in Azure Integration Account '$Name'..."
             $createdAssembly = New-AzIntegrationAccountAssembly -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -Name $assemblyName -AssemblyFilePath $Assembly.FullName -ErrorAction Stop
             Write-Debug ($createdAssembly | Format-List -Force | Out-String)
@@ -50,7 +50,7 @@ function UploadAssembly {
 }
 
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
-if ($integrationAccount -eq $null) {
+if ($null -eq $integrationAccount) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
 } else {
     if ($AssembliesFolder -ne '' -and $AssemblyFilePath -eq '') {

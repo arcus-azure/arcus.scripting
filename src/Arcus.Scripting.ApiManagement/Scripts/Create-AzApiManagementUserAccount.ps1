@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
     [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
     [string][parameter(Mandatory = $true)] $FirstName = $(throw "The first name of the user is required"),
@@ -15,7 +15,7 @@ param(
 )
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apim -eq $null) {
+if ($null -eq $apim) {
     throw "Unable to find the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
 

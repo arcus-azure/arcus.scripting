@@ -1,4 +1,4 @@
-<#
+﻿<#
     Possible injection instructions in ARM templates or recursively referenced files:
     
     ${ fileToInject.xml }
@@ -40,7 +40,7 @@ function InjectFile {
         param($match)
 
         $completeInjectionInstruction = $match.Groups[1].Value;
-        $instructionParts = @($completeInjectionInstruction -split "," | foreach { $_.Trim() } )
+        $instructionParts = @($completeInjectionInstruction -split "," | ForEach-Object { $_.Trim() } )
                 
         $filePart = $instructionParts[0];
         # Regex uses non-capturing group for 'FileToInject' part, 
@@ -70,7 +70,7 @@ function InjectFile {
         $surroundContentWithDoubleQuotes = $match.Value.StartsWith('"') -and $match.Value.EndsWith('"')
 
         if ($instructionParts.Length -gt 1) {
-            $optionParts = $instructionParts | select -Skip 1
+            $optionParts = $instructionParts | Select-Object -Skip 1
 
             if ($optionParts.Contains("ReplaceSpecialChars")) {
                 Write-Verbose "`t Replacing special characters"

@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
     [Parameter(Mandatory = $false)][string] $LockName = $null
 )
@@ -11,7 +11,7 @@ if ($LockName) {
 
 $locks = Get-AzResourceLock -ResourceGroupName $ResourceGroupName
 
-if ($locks -ne $null) {
+if ($null -ne $locks) {
     Write-Host "Start removing all locks '$($locks.Name)' in resourceGroup '$ResourceGroupName'"
     foreach ($lock in $locks) {
         $lockId = $lock.LockId

@@ -1,4 +1,4 @@
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Security -ErrorAction Stop
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.LogicApps -ErrorAction Stop
 
 function global:Create-AzLogicAppName () {
@@ -217,7 +217,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                     # Assert
                     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
-                    Where-Object { $_.Status -eq 'Cancelled' } | measure
+                    Where-Object { $_.Status -eq 'Cancelled' } | Measure-Object
 
                     $runs.Count | Should -BeGreaterThan 0
 
@@ -273,7 +273,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                     # Assert
                     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
-                    Where-Object { $_.StartTime -ge $startTime } | measure
+                    Where-Object { $_.StartTime -ge $startTime } | Measure-Object
 
                     $runs.Count | Should -BeGreaterThan 0
 
@@ -328,7 +328,7 @@ InModuleScope Arcus.Scripting.LogicApps {
 
                     # Assert
                     $runs = Get-AzLogicAppRunHistory -ResourceGroupName $resourceGroupName -Name $logicAppName | 
-                    Where-Object { $_.StartTime -ge $startTime } | measure
+                    Where-Object { $_.StartTime -ge $startTime } | Measure-Object
 
                     $runs.Count | Should -BeGreaterThan 0
 

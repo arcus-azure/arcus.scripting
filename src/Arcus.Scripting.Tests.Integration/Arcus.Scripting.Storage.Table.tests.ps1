@@ -107,7 +107,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
 
                     # Assert
                     $storageTable = Get-AzStorageTable –Name $tableName –Context $storageAccount.Context
-                    (Get-AzTableRow -table $storageTable.CloudTable | measure).Count | 
+                    (Get-AzTableRow -table $storageTable.CloudTable | Measure-Object).Count | 
                     Should -Be 2
                 } finally {
                     Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force -ErrorAction SilentlyContinue
@@ -132,7 +132,7 @@ InModuleScope Arcus.Scripting.Storage.Table {
 
                     # Assert
                     $storageTable = Get-AzStorageTable –Name $tableName –Context $storageAccount.Context
-                    (Get-AzTableRow -table $storageTable.CloudTable | measure).Count | 
+                    (Get-AzTableRow -table $storageTable.CloudTable | Measure-Object).Count | 
                     Should -Be 2
                 } finally {
                     Remove-AzStorageTable -Name $tableName -Context $storageAccount.Context -Force -ErrorAction SilentlyContinue

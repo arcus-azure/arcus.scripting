@@ -52,9 +52,9 @@ function Backup-AzApiManagementService {
     )
 
     if ($PassThru) {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -AccessType $AccessType -IdentityClientId $IdentityClientId -BlobName $BlobName -PassThru
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -AccessType $AccessType -IdentityClientId $IdentityClientId -BlobName $BlobName -DefaultProfile $DefaultProfile -PassThru
     } else {
-        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -AccessType $AccessType -IdentityClientId $IdentityClientId -BlobName $BlobName
+        . $PSScriptRoot\Scripts\Backup-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -AccessType $AccessType -IdentityClientId $IdentityClientId -BlobName $BlobName -DefaultProfile $DefaultProfile
     }
 }
 
@@ -264,7 +264,7 @@ function Remove-AzApiManagementUserAccount {
         [string][parameter(Mandatory = $false)] $AccessToken
     )
 
-    . $PSScriptRoot\Scripts\Remove-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -MailAddress $MailAddress
+    . $PSScriptRoot\Scripts\Remove-AzApiManagementUserAccount.ps1 -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName -MailAddress $MailAddress -SubscriptionId $SubscriptionId -AccessToken $AccessToken
 
 }
 
@@ -438,9 +438,9 @@ function Restore-AzApiManagementService {
     )
 
     if ($PassThru) {
-        . $PSScriptRoot\Scripts\Restore-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName -PassThru
+        . $PSScriptRoot\Scripts\Restore-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName -DefaultProfile $DefaultProfile -PassThru
     } else {
-        . $PSScriptRoot\Scripts\Restore-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName
+        . $PSScriptRoot\Scripts\Restore-AzApiManagementService.ps1 -ResourceGroupName $ResourceGroupName -StorageAccountResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName -ServiceName $ServiceName -ContainerName $ContainerName -BlobName $BlobName -DefaultProfile $DefaultProfile
     }
 }
 

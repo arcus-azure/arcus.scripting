@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [Parameter(Mandatory = $true)][string] $CertificateType = $(throw "Certificate type is required, this can be either 'Public' or 'Private'"),
@@ -46,7 +46,7 @@ function UploadCertificate {
     }
         
     try {
-        if ($existingCertificate -eq $null) {
+        if ($null -eq $existingCertificate) {
             Write-Verbose "Creating certificate '$certificateName' in Azure Integration Account '$Name'..."
             if ($CertificateType -eq 'Public') {
                 $createdCertificate = New-AzIntegrationAccountCertificate -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -CertificateName $certificateName -PublicCertificateFilePath $Certificate.FullName -ErrorAction Stop
@@ -70,7 +70,7 @@ function UploadCertificate {
 }
 
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
-if ($integrationAccount -eq $null) {
+if ($null -eq $integrationAccount) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
 } else {
     if ($CertificatesFolder -ne '' -and $CertificateFilePath -eq '') {

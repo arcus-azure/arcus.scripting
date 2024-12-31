@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName,
     [Parameter(Mandatory = $true)][string] $ServiceName,
     [Parameter(Mandatory = $true)][string] $ProductId,
@@ -6,7 +6,7 @@ param(
 )
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apim -eq $null) {
+if ($null -eq $apim) {
     throw "Unable to find the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName

@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $SchemaFilePath = $(if ($SchemasFolder -eq '') { throw "Either the file path of a specific schema or the file path of a folder containing multiple schemas is required, e.g.: -SchemaFilePath 'C:\Schemas\Schema.xsd' or -SchemasFolder 'C:\Schemas'" }),
@@ -38,7 +38,7 @@ function UploadSchema {
     }
         
     try {
-        if ($existingSchema -eq $null) {
+        if ($null -eq $existingSchema) {
             Write-Verbose "Creating schema '$schemaName' in Azure Integration Account '$Name'..."
             $createdSchema = New-AzIntegrationAccountSchema -ResourceGroupName $ResourceGroupName -Name $Name -SchemaName $schemaName -SchemaFilePath $schema.FullName -ErrorAction Stop
             Write-Debug ($createdSchema | Format-List -Force | Out-String)
@@ -54,7 +54,7 @@ function UploadSchema {
 }
 
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
-if ($integrationAccount -eq $null) {
+if ($null -eq $integrationAccount) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
 } else {
     if ($SchemasFolder -ne '' -and $SchemaFilePath -eq '') {

@@ -1,11 +1,11 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName,
     [Parameter(Mandatory = $true)][string] $ServiceName
 )
 
 Write-Verbose "Start removing Azure API Management instance '$ServiceName' defaults in resource group '$ResourceGroupName'..."
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apim -eq $null) {
+if ($null -eq $apim) {
     throw "Unable to find the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName

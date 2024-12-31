@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
     [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Storage account name is required"),
@@ -12,7 +12,7 @@ param(
 Write-Verbose "Getting Azure storage account key for Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'..."
 $storageKeys = Get-AzStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName
 
-if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
+if ($null -eq $storageKeys -or $storageKeys.count -eq 0) {
     Write-Error "Cannot restore Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' because no access keys found for storage account '$StorageAccountName'"
 } else {
     Write-Host "Got Azure storage key for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'!" -ForegroundColor Green

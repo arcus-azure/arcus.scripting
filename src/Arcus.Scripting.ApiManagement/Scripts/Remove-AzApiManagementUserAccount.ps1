@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
     [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
     [string][parameter(Mandatory = $true)] $MailAddress = $(throw "The mail-address of the user is required"),
@@ -7,7 +7,7 @@ param(
 )
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apim -eq $null) {
+if ($null -eq $apim) {
     throw "Unable to find the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName
@@ -24,7 +24,7 @@ try {
     Write-Verbose "Retrieving the user account with e-mail '$mailAddress' for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
     $apimUser = Get-AzApiManagementUser -Context $apimContext -Email $MailAddress
 
-    if ($apimUser -ne $null) {
+    if ($null -ne $apimUser) {
         $apimUserId = $apimUser.UserId
 
         Write-Verbose "Attempting to remove the user account with e-mail '$mailAddress' and ID '$apimUserId' for the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
