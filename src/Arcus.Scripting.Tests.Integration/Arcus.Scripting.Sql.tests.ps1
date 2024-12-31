@@ -121,8 +121,8 @@ InModuleScope Arcus.Scripting.Sql {
                 Write-Host "Execute dummy SQL statement to make sure the Azure SQL DB is resumed."
                 Invoke-Sqlcmd @params -Query "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
             } catch {
-                [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingEmptyCatchBlock', '', Justification="We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database")]
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database.
+                Write-Debug "We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database."
             }
 
             $tables = Retry-Function { Run-AzSqlQuery $params "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" }
