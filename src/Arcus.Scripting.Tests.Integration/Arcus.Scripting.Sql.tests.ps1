@@ -122,6 +122,7 @@ InModuleScope Arcus.Scripting.Sql {
                 Invoke-Sqlcmd @params -Query "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" -ConnectionTimeout 60 -Verbose -ErrorAction SilentlyContinue
             } catch {
                 # We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database.
+                Write-Debug "We don't care if an exception is thrown; we just want to 'activate' the Azure SQL database."
             }
 
             $tables = Retry-Function { Run-AzSqlQuery $params "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" }

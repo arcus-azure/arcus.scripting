@@ -1,4 +1,4 @@
-Import-Module Az.KeyVault
+﻿Import-Module Az.KeyVault
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.KeyVault {
@@ -38,7 +38,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                     # Assert
                     $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual) |
-                    % { [System.Text.Encoding]::UTF8.GetString($_) } |
+                    ForEach-Object { [System.Text.Encoding]::UTF8.GetString($_) } |
                     Should -Be $expected.ToCharArray()
                 } finally {
                     Remove-Item -Path $file.FullName
@@ -82,7 +82,7 @@ InModuleScope Arcus.Scripting.KeyVault {
                     $actual.Expires | Should -Be $expirationDate
                     $actual = Get-AzKeyVaultSecret -VaultName $config.Arcus.KeyVault.VaultName -Name $secretName -AsPlainText
                     [System.Convert]::FromBase64String($actual) |
-                    % { [System.Text.Encoding]::UTF8.GetString($_) } |
+                    ForEach-Object { [System.Text.Encoding]::UTF8.GetString($_) } |
                     Should -Be $expected.ToCharArray()
 
                 } finally {

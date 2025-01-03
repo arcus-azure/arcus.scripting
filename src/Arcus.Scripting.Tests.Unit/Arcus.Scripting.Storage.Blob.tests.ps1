@@ -1,4 +1,4 @@
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Storage.Blob {
     Describe "Arcus Azure Blob storage unit tests" {
@@ -28,7 +28,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     $Path | Should -Be $targetFolderPath
                     return $files } -Verifiable
                 Mock Set-AzStorageBlobContent {
-                    $File | Should -BeIn ($files | % { $_.FullName })
+                    $File | Should -BeIn ($files | ForEach-Object { $_.FullName })
                     $Container | Should -Be $containerName
                     $Blob | Should -Be ($filePrefix + ($File -replace "-full", ""))
                     $Context | Should -Be $psStorageAccount.Context } -Verifiable
@@ -73,7 +73,7 @@ InModuleScope Arcus.Scripting.Storage.Blob {
                     $Path | Should -Be $targetFolderPath
                     return $files } -Verifiable
                 Mock Set-AzStorageBlobContent {
-                    $File | Should -BeIn ($files | % { $_.FullName })
+                    $File | Should -BeIn ($files | ForEach-Object { $_.FullName })
                     $Container | Should -Be $containerName
                     $Blob | Should -Be ($filePrefix + ($File -replace "-full", ""))
                     $Context | Should -Be $psStorageAccount.Context } -Verifiable

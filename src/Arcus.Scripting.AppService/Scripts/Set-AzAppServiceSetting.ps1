@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $AppServiceName = $(throw "App Service name is required"),
     [Parameter(Mandatory = $true)][string] $AppServiceSettingName = $(throw "App Service setting name is required"),
@@ -9,7 +9,7 @@ param(
 Write-Verbose "Checking if the Azure App Service with name '$AppServiceName' can be found in the resource group '$ResourceGroupName'..."
 $appService = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $AppServiceName -ErrorAction Ignore
 
-if ($appService -eq $null) {
+if ($null -eq $appService) {
     throw "No Azure App Service with name '$AppServiceName' could be found in the resource group '$ResourceGroupName'"
 }
 

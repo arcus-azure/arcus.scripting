@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $PartnerFilePath = $(if ($PartnersFolder -eq '') { throw "Either the file path of a specific partner or the file path of a folder containing multiple partners is required, e.g.: -PartnerFilePath 'C:\Partners\partner.json' or -PartnersFolder 'C:\Partners'" }),
@@ -18,7 +18,7 @@ function UploadPartner {
     $partnerData = Get-Content -Raw -Path $Partner.FullName | ConvertFrom-Json
 
     $partnerName = $partnerData.name
-    if ($partnerName -eq $null -or $partnerName -eq '') {
+    if ($null -eq $partnerName -or $partnerName -eq '') {
         throw "Cannot upload Partner to Azure Integration Account '$Name' because the partner name is empty"
     }
 
@@ -52,7 +52,7 @@ function UploadPartner {
     }
         
     try {
-        if ($existingPartner -eq $null) {
+        if ($null -eq $existingPartner) {
             Write-Verbose "Creating partner '$partnerName' in Azure Integration Account '$Name'..."
             $createdPartner = New-AzIntegrationAccountPartner -ResourceGroupName $ResourceGroupName -IntegrationAccount $Name -PartnerName $partnerName -BusinessIdentities $businessIdentities -ErrorAction Stop
             Write-Debug ($createdPartner | Format-List -Force | Out-String)
@@ -68,7 +68,7 @@ function UploadPartner {
 }
 
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
-if ($integrationAccount -eq $null) {
+if ($null -eq $integrationAccount) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
 } else {
     if ($PartnersFolder -ne '' -and $PartnerFilePath -eq '') {

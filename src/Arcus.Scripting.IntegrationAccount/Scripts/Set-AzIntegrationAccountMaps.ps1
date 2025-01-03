@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $Name = $(throw "Name of the Integration Account is required"),
     [parameter(Mandatory = $false)][string] $MapFilePath = $(if ($MapsFolder -eq '') { throw "Either the file path of a specific map or the file path of a folder containing multiple maps is required, e.g.: -MapFilePath 'C:\Maps\map.xslt' or -MapsFolder 'C:\Maps'" }),
@@ -39,7 +39,7 @@ function UploadMap {
     }
         
     try {
-        if ($existingMap -eq $null) {
+        if ($null -eq $existingMap) {
             Write-Verbose "Creating map '$mapName' in Azure Integration Account '$Name'..."
             $createdMap = New-AzIntegrationAccountMap -ResourceGroupName $ResourceGroupName -Name $Name -MapName $mapName -MapType $MapType -MapFilePath $Map.FullName -ErrorAction Stop
             Write-Debug ($createdMap | Format-List -Force | Out-String)
@@ -55,7 +55,7 @@ function UploadMap {
 }
 
 $integrationAccount = Get-AzIntegrationAccount -ResourceGroupName $ResourceGroupName -Name $Name -ErrorAction SilentlyContinue
-if ($integrationAccount -eq $null) {
+if ($null -eq $integrationAccount) {
     Write-Error "Unable to find the Azure Integration Account with name '$Name' in resource group '$ResourceGroupName'"
 } else {
     if ($MapsFolder -ne '' -and $MapFilePath -eq '') {

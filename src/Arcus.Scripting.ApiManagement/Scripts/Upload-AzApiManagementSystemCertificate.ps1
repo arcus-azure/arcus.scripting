@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group is required"),
     [Parameter(Mandatory = $true)][string] $ServiceName = $(throw "API Management service name is required"),
     [Parameter(Mandatory = $true)][string] $CertificateFilePath = $(throw "Certificate file-path is required"),
@@ -12,7 +12,7 @@ Write-Host "Loaded public CA certificate '$CertificateFilePath' for the Azure AP
 
 Write-Verbose "Retrieving Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'..."
 $apimContext = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apimContext -eq $null) {
+if ($null -eq $apimContext) {
     throw "Unable to find the Azure API Management Instance '$ServiceName' in resource group $ResourceGroupName"
 }
 

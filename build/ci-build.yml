@@ -82,6 +82,8 @@ stages:
           vmImage: '$(Vm.Linux.Image)'
         steps:
           - template: 'templates/replace-tokens.yml'
+          - powershell: Invoke-ScriptAnalyzer -Path ./src -Recurse -Settings ./powershell-psscriptanalyzer.psd1 -ReportSummary -EnableExit
+            displayName: 'Analyze scripts'
           - task: CopyFiles@2
             displayName: 'Copy build artifacts'
             inputs:

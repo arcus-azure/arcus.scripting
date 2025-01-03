@@ -1,0 +1,15 @@
+@{
+    Severity=@('Error','Warning')
+    ExcludeRules=@('PSAvoidUsingWriteHost', 
+                   'PSUseToExportFieldsInManifest', 
+                   'PSAvoidDefaultValueForMandatoryParameter', 
+                   'PSUseApprovedVerbs',
+                   'PSUseSingularNouns',
+                   'PSUseShouldProcessForStateChangingFunctions',
+                   'PSUseDeclaredVarsMoreThanAssignments',
+                   'PSAvoidUsingPlainTextForPassword',
+                   'PSAvoidUsingUsernameAndPasswordParams',
+                   'PSReviewUnusedParameter',
+                   'PSAvoidUsingConvertToSecureStringWithPlainText'
+                   'PSAvoidGlobalVars')
+}

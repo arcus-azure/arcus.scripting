@@ -1,4 +1,4 @@
-Import-Module Az.Storage
+﻿Import-Module Az.Storage
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Storage.FileShare {
@@ -26,8 +26,8 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Assert
                 Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
-                % { $_.Name } |
+                Where-Object { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                ForEach-Object { $_.Name } |
                 Should -Contain $folderName
             }
             It "Doesn't create a new Azure FileShare storage folder when already exists" {
@@ -44,8 +44,8 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
 
                 # Assert
                 Get-AzStorageFile -ShareName $fileShareName -Context $storageAccount.Context |
-                where { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
-                % { $_.Name } |
+                Where-Object { $_.GetType().Name -eq "AzureStorageFileDirectory" } |
+                ForEach-Object { $_.Name } |
                 Should -Contain $folderName
             }
         }

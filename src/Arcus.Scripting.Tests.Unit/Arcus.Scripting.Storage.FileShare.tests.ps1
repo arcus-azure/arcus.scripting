@@ -1,4 +1,4 @@
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Storage.FileShare {
     Describe "Arcus Azure File Share unit tests" {
@@ -112,7 +112,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                 Mock Set-AzStorageFileContent {
                     $Context | Should -Be $psStorageAccount.Context
                     $ShareName | Should -Be $fileShareName
-                    $Source | Should -BeIn ($files | % { $_.FullName })
+                    $Source | Should -BeIn ($files | ForEach-Object { $_.FullName })
                     $Path | Should -Be $destinationFolderName } -Verifiable
 
                 # Act
@@ -197,7 +197,7 @@ InModuleScope Arcus.Scripting.Storage.FileShare {
                 Mock Set-AzStorageFileContent {
                     $Context | Should -Be $psStorageAccount.Context
                     $ShareName | Should -Be $fileShareName
-                    $Source | Should -BeIn ($files | % { $_.FullName })
+                    $Source | Should -BeIn ($files | ForEach-Object { $_.FullName })
                     $Path | Should -Be $destinationFolderName } -Verifiable
 
                 # Act

@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Resource group name is required"),
     [Parameter(Mandatory = $true)][string] $StorageAccountResourceGroupName = $(throw = "Resource group for storage account is required"),
     [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Storage account name is required"),
@@ -18,7 +18,7 @@ if ($AccessType -eq 'UserAssignedManagedIdentity' -and $IdentityClientId -eq "")
 Write-Verbose "Getting Azure storage account key for storage account '$($StorageAccountName)' in resource group '$($StorageAccountResourceGroupName)'..."
 $storageKeys = Get-AzStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -StorageAccountName $StorageAccountName
 
-if ($storageKeys -eq $null -or $storageKeys.count -eq 0) {
+if ($null -eq $storageKeys -or $storageKeys.count -eq 0) {
     Write-Error "Cannot backup API Management service because no access keys found for storage account '$StorageAccountName' in resource group '$($StorageAccountResourceGroupName)'"
 } else {
     Write-Host "Got Azure storage key for storage account '$($StorageAccountName)' in resource group '$($StorageAccountResourceGroupName)'!" -ForegroundColor Green

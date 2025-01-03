@@ -1,4 +1,4 @@
-param(
+﻿param(
   [string][Parameter(Mandatory = $true)] $ResourceGroupName = $(throw "Resource group name is required"),
   [string][parameter(Mandatory = $true)] $ServiceName = $(throw "API management service name is required"),
   [string][Parameter(Mandatory = $true)] $ConfigurationFile = $(throw "Path to the configuration file is required"),
@@ -11,7 +11,7 @@ param(
 if (-not (Test-Path -Path $ConfigurationFile)) {
   throw "Cannot apply user configuration to Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
-if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
+if ($null -eq (Get-Content -Path $ConfigurationFile -Raw)) {
   throw "Cannot apply user configuration to Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName' based on JSON configuration file because the file is empty."
 }
 
@@ -120,7 +120,7 @@ if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -Schema $schema 
 }
 
 $apim = Get-AzApiManagement -ResourceGroupName $ResourceGroupName -Name $ServiceName
-if ($apim -eq $null) {
+if ($null -eq $apim) {
   throw "Unable to find the Azure API Management instance '$ServiceName' in resource group '$ResourceGroupName'"
 }
 $apimContext = New-AzApiManagementContext -ResourceGroupName $ResourceGroupName -ServiceName $ServiceName

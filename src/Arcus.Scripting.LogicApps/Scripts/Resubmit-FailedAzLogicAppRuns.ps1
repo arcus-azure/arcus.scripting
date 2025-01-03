@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of the resource group is required"),
     [Parameter(Mandatory = $true)][string] $LogicAppName = $(throw "Name of the logic app is required"),
     [Parameter(Mandatory = $false)][string] $WorkflowName = "",
@@ -59,10 +59,10 @@ try {
         $failedRunsContent = $failedRuns.Content | ConvertFrom-Json
         $allFailedRuns = $failedRunsContent.value
 
-        if ($failedRunsContent.nextLink -ne $null) {
+        if ($null -ne $failedRunsContent.nextLink) {
             $nextPageCounter = 1
             $nextPageUrl = $failedRunsContent.nextLink
-            while ($nextPageUrl -ne $null -and $nextPageCounter -le $MaximumFollowNextPageLink) {
+            while ($null -ne $nextPageUrl -and $nextPageCounter -le $MaximumFollowNextPageLink) {
                 $nextPageCounter = $nextPageCounter + 1
                 $listFailedParams = @{
                     Method  = 'Get'

@@ -1,4 +1,4 @@
-param(
+﻿param(
   [Parameter(Mandatory = $true)][string] $ResourceGroupName = $(throw "Name of resource group is required"),
   [Parameter(Mandatory = $true)][string] $StorageAccountName = $(throw "Name of Azure storage account is required"),
   [Parameter(Mandatory = $true)][string] $TableName = $(throw "Name of Azure table is required"),
@@ -8,7 +8,7 @@ param(
 if (-not (Test-Path -Path $ConfigurationFile)) {
   throw "Cannot re-create entities based on JSON configuration file because no file was found at: '$ConfigurationFile'"
 }
-if ((Get-Content -Path $ConfigurationFile -Raw) -eq $null) {
+if ($null -eq (Get-Content -Path $ConfigurationFile -Raw)) {
   throw "Cannot re-create entities based on JSON configuration file because the file is empty."
 }
 
@@ -46,7 +46,7 @@ if (-not (Get-Content -Path $ConfigurationFile -Raw | Test-Json -Schema $schema 
 
 Write-Verbose "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
-if ($storageAccount -eq $null) {
+if ($null -eq $storageAccount) {
   throw "Retrieving Azure storage account context for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
 }
 $ctx = $storageAccount.Context
@@ -54,7 +54,7 @@ Write-Verbose "Azure storage account context has been retrieved for Azure storag
 
 Write-Verbose "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName'..."
 $storageTable = Get-AzStorageTable -Name $TableName -Context $ctx
-if ($storageTable -eq $null) {
+if ($null -eq $storageTable) {
   throw "Retrieving Azure storage table '$TableName' for Azure storage account '$StorageAccountName' in resource group '$ResourceGroupName' failed."
 }
 $cloudTable = ($storageTable).CloudTable
@@ -82,7 +82,7 @@ foreach ($entityToAdd in $configFile) {
   }
 
   $entityHash = @{}
-  $entityToAdd.PSObject.Properties | foreach { $entityHash[$_.Name] = $_.Value }
+  $entityToAdd.PSObject.Properties | ForEach-Object { $entityHash[$_.Name] = $_.Value }
 
   $addedRow = Add-AzTableRow `
     -table $cloudTable `
