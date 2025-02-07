@@ -87,6 +87,9 @@ class DatabaseVersion : System.IComparable {
 
  .Parameter DatabaseSchema
   The database schema to use when running SQL commands on the target database.
+
+ .Parameter DatabaseVersionTable
+  The name of the table in the database that keeps track of the applied database-migrations.
 #>
 function Invoke-AzSqlDatabaseMigration {
     param(
@@ -98,10 +101,11 @@ function Invoke-AzSqlDatabaseMigration {
         [Parameter(Mandatory = $false)][switch] $TrustServerCertificate,
         [Parameter(Mandatory = $false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
         [Parameter(Mandatory = $false)][string] $ScriptsFileFilter = "*.sql",
-        [Parameter(Mandatory = $false)][string] $DatabaseSchema = "dbo"
+        [Parameter(Mandatory = $false)][string] $DatabaseSchema = "dbo",
+        [Parameter(Mandatory = $false)][string] $DatabaseVersionTable = "DatabaseVersion"
     )
 
-    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -AccessToken $AccessToken -TrustServerCertificate $TrustServerCertificate -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
+    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -AccessToken $AccessToken -TrustServerCertificate $TrustServerCertificate -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema -DatabaseVersionTable $DatabaseVersionTable
 }
 
 Export-ModuleMember -Function Invoke-AzSqlDatabaseMigration
