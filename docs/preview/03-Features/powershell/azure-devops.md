@@ -120,7 +120,7 @@ In Azure DevOps, below permissions need to be set on your variable group in orde
 - Project Collection Build Service (`<your devops org name>`) - Administrator
 - `<your devops project name>` Build Service (`<your devops org name>`) - Administrator
 
-## Guideline
+### Guideline
 
 In ARM and Bicep templates it is possible to specify [output parameters](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/outputs), this enables you to return values from the deployed resources. 
 
@@ -128,8 +128,8 @@ To enable maximum re-use of these output parameters within your environment we d
 
 For example, think of a use-case where your vital infrastructure components are deployed in a separate Azure DevOps pipeline and need to be referenced from other components. Storing the necessary information such as identifiers, locations or names of these components in an Azure DevOps variable group allows you to easily use these values from other components.
 
-### Example
-#### Specify Output Parameters
+#### Example
+##### Specify Output Parameters
 So how does this work in practice? Let's take an example where we will deploy a very basic Application Insights instance and specify the `Id` and `ConnectionString` of the Application Insights instance as output parameters. 
 
 Our Bicep template looks like this:
@@ -151,7 +151,7 @@ output ApplicationInsights_ConnectionString string = reference(applicationInsigh
 
 This Bicep template will deploy the Application Insights instance and place the `Id` and `ConnectionString` in the output parameters. 
 
-#### Updating The Variable Group
+##### Updating The Variable Group
 Now all we need to do is execute our [script](#setting-arm-outputs-to-azure-devops-variable-group) which will update the Azure DevOps variable group.
 
 From an Azure DevOps pipeline this can be done like so:
@@ -162,7 +162,7 @@ Install-Module -Name Arcus.Scripting.DevOps -AllowClobber
 Set-AzDevOpsArmOutputsToVariableGroup -VariableGroupName 'myVariableGroup'
 ```
 
-#### Combining It All In A Pipeline
+##### Combining It All In A Pipeline
 Now that we have walked through both steps, let's take a look on how to combine all this into an Azure DevOps pipeline.
 For this we use YAML and define two tasks, the first will deploy our Application Insights instance and the second will update our Azure DevOps variable group.
 
@@ -197,7 +197,7 @@ Secondly we use `-UpdateVariablesForCurrentJob` as a parameter when calling the 
 
 Finally we use `system_accesstoken: $(System.AccessToken)` in the `Powershell@2` task, this is necessary because we need to use the security token used by the running build. 
 
-### Closing Up
+#### Closing Up
 Using this setup we are able to deploy a Bicep template and update an Azure DevOps variable group with the specified output parameters!
 
 > ⚠ Before running your pipeline, make sure the variable group already exists in Azure DevOps and the permissions below are set:
