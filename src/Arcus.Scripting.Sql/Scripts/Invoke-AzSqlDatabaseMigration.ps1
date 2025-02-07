@@ -42,8 +42,7 @@ function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [stri
         'AbortOnError'           = $true
     }
 
-    if ($UserName) {
-        Write-Host "username is specified $UserName"
+    if ($UserName) {        
         $params['UserName'] = $UserName
     }
 
