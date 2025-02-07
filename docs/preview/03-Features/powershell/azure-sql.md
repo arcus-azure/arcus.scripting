@@ -28,8 +28,9 @@ The current version is stored in a table "DatabaseVersion", which will be create
 | ------------------------| --------------------------------------- | ----------------------------------------------------------------------------------- |
 | `ServerName`            | yes                                     | The full name of the SQL Server that hosts the SQL Database.                        |
 | `DatabaseName`          | yes                                     | The name of the SQL Database                                                        |
-| `UserName`              | yes                                     | The UserName of the SQL Database                                                    |
-| `Password`              | yes                                     | The Password of the SQL Database                                                    |
+| `UserName`              | no                                      | The UserName of the user that must be used to login to the SQL Database. Prefer AccessToken instead |
+| `Password`              | no                                      | The Password of the user that must be used to login to the SQL Database. Prefer AccessToken instead |
+| `AccessToken`           | no                                      | The access token used to authenticate to SQL Server, as an alternative to user/password or Windows Authentication. Do not specify UserName/Password when using this parameter. |
 | `TrustServerCertificate`| no (default: `$false`)                  | Indicates whether the channel will be encrypted while bypassing walking the certificate chain to validate trust. |
 | `ScriptsFolder`         | no (default: `$PSScriptRoot/sqlScripts` | The directory folder where the SQL migration scripts are located on the file system |
 | `ScriptsFileFilter`     | no (default: `*.sql`)                   | The file filter to limit the SQL script files to use during the migrations          |
@@ -61,6 +62,20 @@ PS> Invoke-AzSqlDatabaseMigration `
 -ScriptsFolder "$PSScriptRoot/sql-scripts" `
 -ScriptsFileFilter "*.MyScript.sql" `
 -DatabaseSchema "custom"
+# DB migration 1.0.0 applied!
+# Done migrating database. Current Database version is 1.0.0
+```
+
+**Login using AccessToken**
+
+```powershell
+PS> Connect-AzAccount
+PS> $access_token = (Get-AzAccessToken -ResourceUrl https://database.windows.net).Token
+
+PS> Invoke-AzSqlDatabaseMigration `
+-ServerName "my-server-name.database.windows.net" `
+-DatabaseName "my-database-name" `
+-AccessToken $access_token
 # DB migration 1.0.0 applied!
 # Done migrating database. Current Database version is 1.0.0
 ```
