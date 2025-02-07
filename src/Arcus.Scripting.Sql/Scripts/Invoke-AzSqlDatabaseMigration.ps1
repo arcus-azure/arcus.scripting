@@ -6,7 +6,8 @@ param(
     [Parameter(Mandatory = $false)][bool] $TrustServerCertificate = $false,
     [Parameter(Mandatory = $false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
     [Parameter(Mandatory = $false)][string] $ScriptsFileFilter = "*.sql",
-    [Parameter(Mandatory = $false)][string] $DatabaseSchema = "dbo"
+    [Parameter(Mandatory = $false)][string] $DatabaseSchema = "dbo",
+    [Parameter(Mandatory = $false)][string] $DatabaseVersionTable = "DatabaseVersion"
 )
 
 Write-Verbose "Looking for SQL scripts in folder: $ScriptsFolder..."
@@ -51,41 +52,41 @@ function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName) {
 
 $params = Create-DbParams $DatabaseName $ServerName $UserName $Password $TrustServerCertificate
 
-$createDatabaseVersionTable = "IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DatabaseVersion' AND TABLE_SCHEMA = '$DatabaseSchema' ) " +
+$createDatabaseVersionTable = "IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$DatabaseVersionTable' AND TABLE_SCHEMA = '$DatabaseSchema' ) " +
 "BEGIN " +
-"CREATE TABLE [$DatabaseSchema].[DatabaseVersion] " +
+"CREATE TABLE [$DatabaseSchema].[$DatabaseVersionTable] " +
 "( " +
 "   [MajorVersionNumber] INT NOT NULL, " +
 "   [MinorVersionNumber] INT NOT NULL, " +
 "   [PatchVersionNumber] INT NOT NULL, " +
 "   [MigrationDescription] [nvarchar](256) NOT NULL, " +
 "   [MigrationDate] DATETIME NOT NULL " +
-"   CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
+"   CONSTRAINT [PK_$DatabaseVersionTable] PRIMARY KEY CLUSTERED  ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
 "                WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) " +
 ") " +
 "END " +
 "ELSE " +
 "BEGIN " +
-"   IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DatabaseVersion' AND COLUMN_NAME = 'CurrentVersionNumber' ) " +
+"   IF EXISTS ( SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$DatabaseVersionTable' AND COLUMN_NAME = 'CurrentVersionNumber' ) " +
 "   BEGIN " +
-"     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] " +
+"     ALTER TABLE [$DatabaseSchema].[$DatabaseVersionTable] " +
 "         ADD [MajorVersionNumber] INT NULL, " +
 "             [MinorVersionNumber] INT NULL, " +
 "             [PatchVersionNumber] INT NULL, " +
 "             [MigrationDate] DATETIME NULL " +                                                         
-"     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] DROP CONSTRAINT [PKDatabaseVersion] " +
-"     EXEC ('UPDATE [$DatabaseSchema].[DatabaseVersion] SET MajorVersionNumber = CurrentVersionNumber, MinorVersionNumber = 0, PatchVersionNumber = 0') " +
-"     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ALTER COLUMN [MajorVersionNumber] INT NOT NULL " +
-"     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ALTER COLUMN [MinorVersionNumber] INT NOT NULL " +
-"     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ALTER COLUMN [PatchVersionNumber] INT NOT NULL " +
-"     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] DROP COLUMN [CurrentVersionNumber] " +                              
-"     ALTER TABLE [$DatabaseSchema].[DatabaseVersion] ADD CONSTRAINT [PK_DatabaseVersion] PRIMARY KEY CLUSTERED ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
+"     ALTER TABLE [$DatabaseSchema].[$DatabaseVersionTable] DROP CONSTRAINT [PKDatabaseVersion] " +
+"     EXEC ('UPDATE [$DatabaseSchema].[$DatabaseVersionTable] SET MajorVersionNumber = CurrentVersionNumber, MinorVersionNumber = 0, PatchVersionNumber = 0') " +
+"     ALTER TABLE [$DatabaseSchema].[$DatabaseVersionTable] ALTER COLUMN [MajorVersionNumber] INT NOT NULL " +
+"     ALTER TABLE [$DatabaseSchema].[$DatabaseVersionTable] ALTER COLUMN [MinorVersionNumber] INT NOT NULL " +
+"     ALTER TABLE [$DatabaseSchema].[$DatabaseVersionTable] ALTER COLUMN [PatchVersionNumber] INT NOT NULL " +
+"     ALTER TABLE [$DatabaseSchema].[$DatabaseVersionTable] DROP COLUMN [CurrentVersionNumber] " +                              
+"     ALTER TABLE [$DatabaseSchema].[$DatabaseVersionTable] ADD CONSTRAINT [PK_$DatabaseVersionTable] PRIMARY KEY CLUSTERED ([MajorVersionNumber],[MinorVersionNumber],[PatchVersionNumber]) " +
 "   END " +
 "END"
 
 Execute-DbCommand $params $createDatabaseVersionTable
 
-$getCurrentDbVersionQuery = "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM [$DatabaseSchema].[DatabaseVersion] ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC"
+$getCurrentDbVersionQuery = "SELECT TOP 1 MajorVersionNumber, MinorVersionNumber, PatchVersionNumber FROM [$DatabaseSchema].[$DatabaseVersionTable] ORDER BY MajorVersionNumber DESC, MinorVersionNumber DESC, PatchVersionNumber DESC"
 
 $databaseVersionNumberDataRow = Execute-DbCommandWithResult $params $getCurrentDbVersionQuery
 
@@ -139,7 +140,7 @@ for ($i = 0; $i -lt $files.Count; $i++) {
         $migrationDescription = $migrationDescription.Substring(0, 256)
     }
     
-    $updateVersionQuery = "INSERT INTO [$DatabaseSchema].[DatabaseVersion] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) " +
+    $updateVersionQuery = "INSERT INTO [$DatabaseSchema].[$DatabaseVersionTable] ([MajorVersionNumber], [MinorVersionNumber], [PatchVersionNumber], [MigrationDescription], [MigrationDate]) " +
     "SELECT $($scriptVersionNumber.MajorVersionNumber), $($scriptVersionNumber.MinorVersionNumber), $($scriptVersionNumber.PatchVersionNumber), '$migrationDescription', getdate()"
     
     Execute-DbCommand $params $updateVersionQuery
