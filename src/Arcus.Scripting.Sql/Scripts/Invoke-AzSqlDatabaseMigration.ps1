@@ -29,7 +29,7 @@ function Execute-DbCommandWithResult($params, [string] $query) {
     return $result
 }
 
-function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName =$null, [string] $Password=$null, [string] $AccessToken=$null, [bool] $TrustServerCertificate) {
+function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName = $null, [string] $Password = $null, [string] $AccessToken = $null, [bool] $TrustServerCertificate) {
     Write-Debug "databasename = $DatabaseName"
     Write-Debug "serverinstance = $serverInstance"
     Write-Debug "username = $UserName"
