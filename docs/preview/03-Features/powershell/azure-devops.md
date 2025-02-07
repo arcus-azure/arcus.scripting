@@ -228,7 +228,7 @@ Example of how to use this function in an Azure DevOps pipeline:
 
       Save-AzDevOpsBuild -ProjectId $project -BuildId $buildId
 ```
-## Setting ARM outputs to Azure DevOps variable group
+## How To Set ARM outputs to an Azure DevOps Variable Group
 
 In ARM and Bicep templates it is possible to specify [output parameters](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/outputs), this enables you to return values from the deployed resources. 
 
