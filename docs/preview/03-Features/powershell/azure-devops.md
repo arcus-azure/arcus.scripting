@@ -232,7 +232,7 @@ Example of how to use this function in an Azure DevOps pipeline:
 
 In ARM and Bicep templates it is possible to specify [output parameters](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/outputs), this enables you to return values from the deployed resources. 
 
-To enable maximum re-use of these output parameters within your environment we developed [this script](https://scripting.arcus-azure.net/Features/powershell/azure-devops#setting-arm-outputs-to-azure-devops-variable-group) which is available in the `Arcus.Scripting.DevOps` PowerShell module. It allows you to store those output parameters in an Azure DevOps variable group. This helps you in making sure certain parameters are available throughout your Azure DevOps environment.
+To enable maximum re-use of these output parameters within your environment we developed [this script](#setting-arm-outputs-to-azure-devops-variable-group) which is available in the `Arcus.Scripting.DevOps` PowerShell module. It allows you to store those output parameters in an Azure DevOps variable group. This helps you in making sure certain parameters are available throughout your Azure DevOps environment.
 
 For example, think of a use-case where your vital infrastructure components are deployed in a separate Azure DevOps pipeline and need to be referenced from other components. Storing the necessary information such as identifiers, locations or names of these components in an Azure DevOps variable group allows you to easily use these values from other components.
 
@@ -260,7 +260,7 @@ output ApplicationInsights_ConnectionString string = reference(applicationInsigh
 This Bicep template will deploy the Application Insights instance and place the `Id` and `ConnectionString` in the output parameters. 
 
 #### Updating The Variable Group
-Now all we need to do is execute our [script](../03-Features/powershell/azure-devops.md#setting-arm-outputs-to-azure-devops-variable-group) which will update the Azure DevOps variable group.
+Now all we need to do is execute our [script](#setting-arm-outputs-to-azure-devops-variable-group) which will update the Azure DevOps variable group.
 
 From an Azure DevOps pipeline this can be done like so:
 ``` powershell
