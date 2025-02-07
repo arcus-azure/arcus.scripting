@@ -71,7 +71,10 @@ class DatabaseVersion : System.IComparable {
   The name of the user to be used to connect to the Azure SQL Database.
 
  .Parameter Password
-  The password to be used to connect to the Azure SQL Database.
+  The password to be used to connect to the Azure SQL Database for the specified UserName. Prefer connecting via AccessToken instead.
+
+ .Parameter AccessToken
+  The access token used to authenticate to SQL Server.  Do not specify UserName/Password when using this parameter.
 
  .Parameter TrustServerCertificate
   Indicates whether the channel will be encrypted while bypassing walking the certificate chain to validate trust.
@@ -89,15 +92,16 @@ function Invoke-AzSqlDatabaseMigration {
     param(
         [Parameter(Mandatory = $true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
         [Parameter(Mandatory = $true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
-        [Parameter(Mandatory = $true)][string] $UserName = $(throw "Please provide the UserName of the SQL Database"),
-        [Parameter(Mandatory = $true)][string] $Password = $(throw "Please provide the Password of the SQL Database"),
+        [Parameter(Mandatory = $false)][string] $UserName,
+        [Parameter(Mandatory = $false)][string] $Password,
+        [Parameter(Mandatory = $false)][string] $AccessToken,
         [Parameter(Mandatory = $false)][switch] $TrustServerCertificate,
         [Parameter(Mandatory = $false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
         [Parameter(Mandatory = $false)][string] $ScriptsFileFilter = "*.sql",
         [Parameter(Mandatory = $false)][string] $DatabaseSchema = "dbo"
     )
 
-    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -TrustServerCertificate $TrustServerCertificate -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
+    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -AccessToken $AccessToken -TrustServerCertificate $TrustServerCertificate -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
 }
 
 Export-ModuleMember -Function Invoke-AzSqlDatabaseMigration

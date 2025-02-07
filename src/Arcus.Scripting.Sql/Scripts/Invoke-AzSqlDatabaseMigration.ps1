@@ -1,8 +1,9 @@
 param(
     [Parameter(Mandatory = $true)][string] $ServerName = $(throw "Please provide the name of the SQL Server that hosts the SQL Database. (Do not include 'database.windows.net'"),
     [Parameter(Mandatory = $true)][string] $DatabaseName = $(throw "Please provide the name of the SQL Database"),
-    [Parameter(Mandatory = $true)][string] $UserName = $(throw "Please provide the user name of the user that must be used to perform the update"),
-    [Parameter(Mandatory = $true)][string] $Password = $(throw "Please provide the password of the user that must be used to perform the update"),
+    [Parameter(Mandatory = $false)][string] $UserName,
+    [Parameter(Mandatory = $false)][string] $Password,
+    [Parameter(Mandatory = $false)][string] $AccessToken,
     [Parameter(Mandatory = $false)][bool] $TrustServerCertificate = $false,
     [Parameter(Mandatory = $false)][string] $ScriptsFolder = "$PSScriptRoot/sqlScripts",
     [Parameter(Mandatory = $false)][string] $ScriptsFileFilter = "*.sql",
@@ -28,20 +29,33 @@ function Execute-DbCommandWithResult($params, [string] $query) {
     return $result
 }
 
-function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName, [string] $Password, [bool] $TrustServerCertificate) {
+function Create-DbParams([string] $DatabaseName, [string] $serverInstance, [string] $UserName =$null, [string] $Password=$null, [string] $AccessToken=$null, [bool] $TrustServerCertificate) {
     Write-Debug "databasename = $DatabaseName"
     Write-Debug "serverinstance = $serverInstance"
     Write-Debug "username = $UserName"
     
-    return $params = @{
+    $params = @{
         'Database'               = $DatabaseName
-        'ServerInstance'         = $serverInstance
-        'Username'               = $UserName
-        'Password'               = $Password
+        'ServerInstance'         = $serverInstance        
         'TrustServerCertificate' = $TrustServerCertificate
         'OutputSqlErrors'        = $true
         'AbortOnError'           = $true
     }
+
+    if ($UserName) {
+        Write-Host "username is specified $UserName"
+        $params['UserName'] = $UserName
+    }
+
+    if ($Password) {
+        $params['Password'] = $Password
+    }
+
+    if ($AccessToken) {
+        $params['AccessToken'] = $AccessToken
+    }
+
+    return $params
 }
 
 function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName) {
@@ -49,7 +63,7 @@ function Get-SqlScriptFileText([string] $scriptPath, [string] $fileName) {
     return $query = Get-Content $currentfilepath
 }
 
-$params = Create-DbParams $DatabaseName $ServerName $UserName $Password $TrustServerCertificate
+$params = Create-DbParams $DatabaseName $ServerName $UserName $Password $AccessToken $TrustServerCertificate
 
 $createDatabaseVersionTable = "IF NOT EXISTS ( SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DatabaseVersion' AND TABLE_SCHEMA = '$DatabaseSchema' ) " +
 "BEGIN " +
