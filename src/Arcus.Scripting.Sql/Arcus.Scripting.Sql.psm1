@@ -101,7 +101,7 @@ function Invoke-AzSqlDatabaseMigration {
         [Parameter(Mandatory = $false)][string] $DatabaseVersionTable = "DatabaseVersion"
     )
 
-    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -TrustServerCertificate $TrustServerCertificate -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema
+    . $PSScriptRoot\Scripts\Invoke-AzSqlDatabaseMigration.ps1 -ServerName $ServerName -DatabaseName $DatabaseName -UserName $UserName -Password $Password -TrustServerCertificate $TrustServerCertificate -ScriptsFolder $ScriptsFolder -ScriptsFileFilter $ScriptsFileFilter -DatabaseSchema $DatabaseSchema -DatabaseVersionTable $DatabaseVersionTable
 }
 
 Export-ModuleMember -Function Invoke-AzSqlDatabaseMigration
