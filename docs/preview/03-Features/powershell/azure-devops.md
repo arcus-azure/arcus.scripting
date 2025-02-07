@@ -182,6 +182,7 @@ For this we use YAML and define two tasks, the first will deploy our Application
   displayName: 'Update Variable Group'
   env:
     system_accesstoken: $(System.AccessToken)
+    ArmOutputs: $(ArmOutputs) # only needs to be set for Linux agents
   inputs:
     targetType: 'inline'
     script: |
