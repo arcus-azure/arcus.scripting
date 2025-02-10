@@ -197,7 +197,7 @@ There are a few things worth noting. First of all we define `deploymentOutputs: 
 Secondly we use `-UpdateVariablesForCurrentJob` as a parameter when calling the script. This means that the output parameters from the Bicep file are also available as pipeline variables in the current running job. While not necessary in our example here, if you need to deploy another Bicep template that needs output parameters from an earlier deployed Bicep template this is the way to do it.
 
 Finally we use `system_accesstoken: $(System.AccessToken)` in the `Powershell@2` task, this is necessary because we need to use the security token used by the running build. 
-
+> Please note that the `ArmOutputs` variable is not available 'as is' when executing the Powershell task on a Linux agent.  When using a Linux agent, you have to explicitly add that variable in the `env:` section of the Powershell task.
 #### Closing Up
 Using this setup we are able to deploy a Bicep template and update an Azure DevOps variable group with the specified output parameters!
 
