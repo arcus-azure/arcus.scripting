@@ -18,7 +18,7 @@ PS> Install-Module -Name Arcus.Scripting.SQL
 With this script, you can perform database upgrades by providing/adding specific SQL scripts with the right version number.
 Once a new version number is detected it will incrementally execute this.
 
-While doing so it will create a table "DatabaseVersion".
+While doing so it will create a table "DatabaseVersion" (unless overriden by specifying the `DatabaseVersionTable` parameter).
 If the DatabaseVersion table doesn't exist it will automatically create it.
 
 This function allows you to trigger a database migration, which will only execute the newly provided SQL scripts, based on the provided version number in each of the scripts. 
@@ -35,6 +35,7 @@ The current version is stored in a table "DatabaseVersion", which will be create
 | `ScriptsFolder`         | no (default: `$PSScriptRoot/sqlScripts` | The directory folder where the SQL migration scripts are located on the file system |
 | `ScriptsFileFilter`     | no (default: `*.sql`)                   | The file filter to limit the SQL script files to use during the migrations          |
 | `DatabaseSchema`        | no (default: `dbo`)                     | The database schema to use when running SQL commands on the target database         |
+| `DatabaseVersionTable`  | no (default: `DatabaseVersion`)         | The name of the table that keeps track of the migration scripts that have been applied |
 
 Make sure that the credentials that you provide can write tables to the database + any action that you specify in the SQL scripts. (If the user is a member of the `db_ddlamin` role, then that user should have the necessary rights)
 
@@ -61,7 +62,8 @@ PS> Invoke-AzSqlDatabaseMigration `
 -TrustServerCertificate `
 -ScriptsFolder "$PSScriptRoot/sql-scripts" `
 -ScriptsFileFilter "*.MyScript.sql" `
--DatabaseSchema "custom"
+-DatabaseSchema "custom" `
+-DatabaseVersionTable "MySpecificVersionTable"
 # DB migration 1.0.0 applied!
 # Done migrating database. Current Database version is 1.0.0
 ```
