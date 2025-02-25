@@ -56,6 +56,7 @@ resources:
       endpoint: arcus-azure
 
 variables:
+  - group: 'GitHub Configuration'
   - group: 'Build Configuration'
   - group: 'Arcus Scripting - Integration Testing'
   - group: 'Arcus.Scripting - Releasing PS Gallery'
@@ -205,3 +206,6 @@ stages:
             displayName: 'Push to PowerShell Gallery'
             env:
               ARTIFACT_DIR: '$(Build.ArtifactStagingDirectory)'
+          - template: templates/trigger-bump-docs-version.yml
+            parameters:
+              gitHubToken: $(GITHUB_TOKEN)
