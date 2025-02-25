@@ -16,5 +16,5 @@ steps:
       }
     displayName: 'Trigger new feature docs version PR'
     env:
-      GITHUB_TOKEN: $(gitHubToken)
+      GITHUB_TOKEN: ${{ parameters.gitHubToken }}
       VERSION: $(Build.BuildNumber)
