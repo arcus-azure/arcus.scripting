@@ -1,0 +1,45 @@
+name: Bump new docs version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Specify the new version to bump (e.g. v1.1.0)'
+        required: true
+
+jobs:
+  generate-new-version:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+
+      - name: Generate new version
+        run: |
+          cd docs
+          npm install
+          npm run docusaurus docs:version ${{ github.event.inputs.version }}
+
+      - name: Check for changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: "docs(${{ github.event.inputs.version }})/bump-docs-version"
+          title: "docs(${{ github.event.inputs.version }}): bump new docs version"
+          body: "This automatically generated PR bumps the docs version to ${{ github.event.inputs.version }}."
+          commit-message: "docs(${{ github.event.inputs.version }}): bump new docs version"
+          delete-branch: true
