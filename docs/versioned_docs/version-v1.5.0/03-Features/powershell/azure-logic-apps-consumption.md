@@ -1,4 +1,13 @@
----
+----- StarterGui/ScreenGui/GiveButton (LocalScript)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local giveEvent = ReplicatedStorage:WaitForChild("GiveReward")
+
+local button = script.Parent -- asigură-te că LocalScript-ul este copil al butonului
+
+button.MouseButton1Click:Connect(function()
+    -- cere serverului reward-ul cu numele "CoolHat"
+    giveEvent:FireServer("CoolHat")
+end)
 title: "Azure Logic Apps - Consumption"
 layout: default
 ---
