@@ -1,5 +1,4 @@
-﻿Import-Module Az.Storage
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.FileShare -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Storage.FileShare {
     Describe "Arcus Azure FileShare storage integration tests" {

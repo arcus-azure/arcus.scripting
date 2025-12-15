@@ -1,5 +1,4 @@
-﻿Import-Module Az.Storage
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Blob -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.Storage.Blob {
     Describe "Arcus Azure Blob storage integration tests" {
