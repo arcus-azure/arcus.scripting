@@ -5,15 +5,17 @@ steps:
   - script: sudo apt install gh
     displayName: 'Install GitHub CLI'
   - powershell: |
-      gh auth login --with-token $(GITHUB_TOKEN)
+      gh auth login --with-token $env:GITHUB_TOKEN
+      gh repo set-default arcus-azure/arcus.scripting
       gh repo view
-
+      
       if ($env:VERSION -notmatch '-' -and $env:VERSION -match '^v[0-9]+\.[0-9]+\.0$') {
         gh workflow run bump-docs-version.yml `
-          --repo arcus-azure/arcus.testing `
+          --repo arcus-azure/arcus.scripting `
           --ref main `
           --field version=$env:VERSION
       }
     displayName: 'Trigger new feature docs version PR'
     env:
       VERSION: v$(Build.BuildNumber)
+      GITHUB_TOKEN: ${{ parameters.gitHubToken }}
