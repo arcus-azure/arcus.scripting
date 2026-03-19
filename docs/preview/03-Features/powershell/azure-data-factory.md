@@ -1,5 +1,5 @@
 ---
-title: " Azure Data Factory"
+title: "Data Factory"
 layout: default
 ---
 

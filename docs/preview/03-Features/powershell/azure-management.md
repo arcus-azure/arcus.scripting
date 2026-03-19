@@ -1,9 +1,9 @@
 ---
-title: "Azure Management"
+title: "API Management"
 layout: default
 ---
 
-# Azure Management
+# Azure API Management
 
 ## Installation
 
@@ -18,15 +18,15 @@ PS> Install-Module -Name Arcus.Scripting.Management
 Removes a soft deleted API Management instance. 
 For more information on API Management and soft deletion see [here](https://docs.microsoft.com/en-us/azure/api-management/soft-delete#soft-delete-behavior).
 
-| Parameter        | Mandatory | Description                                                                                                |
-| ---------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| `Name`           | yes       | The name of the API Management instance that has been soft deleted.                                        |
-| `SubscriptionId` | no        | The Id of the subscription containing the Azure API Management instance.                                   |
-|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
-| `EnvironmentName`| no        | The name of the Azure environment where the Azure API Management instance resides. (default: `AzureCloud`) |
-| `AccessToken`    | no        | The access token to be used to remove the Azure API Management instance.                                   |
-|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
-| `ApiVersion `    | no        | The version of the management API to be used.  (default: `2022-08-01`)                                     |
+| Parameter         | Mandatory | Description                                                                                                |
+| ----------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| `Name`            | yes       | The name of the API Management instance that has been soft deleted.                                        |
+| `SubscriptionId`  | no        | The Id of the subscription containing the Azure API Management instance.                                   |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
+| `EnvironmentName` | no        | The name of the Azure environment where the Azure API Management instance resides. (default: `AzureCloud`) |
+| `AccessToken`     | no        | The access token to be used to remove the Azure API Management instance.                                   |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
+| `ApiVersion `     | no        | The version of the management API to be used.  (default: `2022-08-01`)                                     |
 
 > :bulb: The `ApiVersion` has successfully been tested with version `2021-08-01`.
 
@@ -41,15 +41,15 @@ PS> Remove-AzApiManagementSoftDeletedService -Name "my-apim"
 Restores a soft deleted API Management instance. 
 For more information on API Management and soft deletion see [here](https://docs.microsoft.com/en-us/azure/api-management/soft-delete#soft-delete-behavior).
 
-| Parameter        | Mandatory | Description                                                                                                |
-| ---------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| `Name`           | yes       | The name of the API Management instance that has been soft deleted.                                        |
-| `SubscriptionId` | no        | The Id of the subscription containing the Azure API Management instance.                                   |
-|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
-| `EnvironmentName`| no        | The name of the Azure environment where the Azure API Management instance resides. (default: `AzureCloud`) |
-| `AccessToken`    | no        | The access token to be used to restore the Azure API Management instance.                                  |
-|                  |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
-| `ApiVersion `    | no        | The version of the management API to be used.  (default: `2022-08-01`)                                     |
+| Parameter         | Mandatory | Description                                                                                                |
+| ----------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| `Name`            | yes       | The name of the API Management instance that has been soft deleted.                                        |
+| `SubscriptionId`  | no        | The Id of the subscription containing the Azure API Management instance.                                   |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
+| `EnvironmentName` | no        | The name of the Azure environment where the Azure API Management instance resides. (default: `AzureCloud`) |
+| `AccessToken`     | no        | The access token to be used to restore the Azure API Management instance.                                  |
+|                   |           | When not provided, it will be retrieved from the current context (Get-AzContext).                          |
+| `ApiVersion `     | no        | The version of the management API to be used.  (default: `2022-08-01`)                                     |
 
 > :bulb: The `ApiVersion` has successfully been tested with version `2021-08-01`.
 

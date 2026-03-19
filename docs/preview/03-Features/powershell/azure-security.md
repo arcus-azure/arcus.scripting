@@ -53,9 +53,9 @@ PS> Remove-AzResourceGroupLocks `
 
 When you want to make use of the REST-API's made available to manage Azure Resources, you can use this command to easily retrieve the access-token which is stored in your cache after performing the `Connect-AzAccount` command.  
 
-| Parameter               | Mandatory | Description                                                                                       |
-| ----------------------- | --------- | ------------------------------------------------------------------------------------------------- |
-| `AssignGlobalVariables` | no        | Indicator (switch - default value: false) whether you want the global variables `access_token` and `subscriptionId` assigned for easy access.  |
+| Parameter               | Mandatory | Description                                                                                                                                   |
+| ----------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AssignGlobalVariables` | no        | Indicator (switch - default value: false) whether you want the global variables `access_token` and `subscriptionId` assigned for easy access. |
 
 **Usage**
 
@@ -88,12 +88,12 @@ PS> Write-Host "Current AccessToken:" $Global:accessToken
 In some cases, a resource needs to be granted access to all resources present within a specific resource group.  
 This function allows you to assign an Azure built-in role to a resource upon a resource group.
 
-| Parameter                 | Mandatory  | Description                                                                                  |
-| ------------------------- | ---------- | -------------------------------------------------------------------------------------------- |
-| `TargetResourceGroupName` | yes        | The name of the resource group to which access should be granted.                            |
-| `ResourceGroupName`       | yes        | The name of the resource group where the resource is located which should be granted access. |
-| `ResourceName`            | yes        | The name of the resource which should be granted access.                                     |
-| `RoleDefinitionName`      | yes        | The name of the role to assign.                                                              |
+| Parameter                 | Mandatory | Description                                                                                  |
+| ------------------------- | --------- | -------------------------------------------------------------------------------------------- |
+| `TargetResourceGroupName` | yes       | The name of the resource group to which access should be granted.                            |
+| `ResourceGroupName`       | yes       | The name of the resource group where the resource is located which should be granted access. |
+| `ResourceName`            | yes       | The name of the resource which should be granted access.                                     |
+| `RoleDefinitionName`      | yes       | The name of the role to assign.                                                              |
 
 **Usage**
 

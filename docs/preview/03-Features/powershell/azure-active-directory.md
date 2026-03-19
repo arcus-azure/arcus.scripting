@@ -1,9 +1,9 @@
 ---
-title: "Azure Active Directory"
+title: "Microsoft Entra ID"
 layout: default
 ---
 
-# Azure Active Directory
+# Microsoft Entra ID
 
 ## Installation
 
@@ -13,9 +13,9 @@ To have access to the following features, you have to import the module:
 PS> Install-Module -Name Arcus.Scripting.ActiveDirectory
 ```
 
-## Access Rights to Azure Active Directory
+## Access Rights to Microsoft Entra ID
 
-To interact with Azure Active Directory these scripts use the [Microsoft.Graph.Applications](https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.applications/) module, import this module:
+To interact with Microsoft Entra ID these scripts use the [Microsoft.Graph.Applications](https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.applications/) module, import this module:
 
 ```powershell
 PS> Install-Module -Name Microsoft.Graph.Applications
@@ -27,14 +27,14 @@ After importing this module, make sure you are connected to Microsoft Graph with
 PS> Connect-MgGraph -Scopes "Application.ReadWrite.All,AppRoleAssignment.ReadWrite.All"
 ```
 
-## Listing the Roles and Role Assignments for an Azure Active Directory Application
+## Listing the Roles and Role Assignments for an Microsoft Entra ID Application
 
-Lists the roles and role assignments for an Azure Active Directory Application.
+Lists the roles and role assignments for an Microsoft Entra ID Application.
 
-| Parameter                 | Mandatory | Description                                                                                                                                                                                |
-| ------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ClientId`                | yes       | The client ID of the Azure Active Directory Application Registration for which the roles and assignments are retrieved.                                                                    |
-| `RolesAssignedToClientId` | no        | The client ID of the Azure Active Directory Application Registration to which roles have been assigned, used when you only want to retrieve the assignments for this specific application. |
+| Parameter                 | Mandatory | Description                                                                                                                                                                            |
+| ------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ClientId`                | yes       | The client ID of the Microsoft Entra ID Application Registration for which the roles and assignments are retrieved.                                                                    |
+| `RolesAssignedToClientId` | no        | The client ID of the Microsoft Entra ID Application Registration to which roles have been assigned, used when you only want to retrieve the assignments for this specific application. |
 
 **Example**
 
@@ -62,15 +62,15 @@ PS> List-AzADAppRoleAssignments `
 #Role 'SecondRole' is assigned to the Active Directory Application 'client-application-one' with id '6ea09bbd-c21c-460c-b58a-f4a720f51826'
 ```
 
-## Add a Role and Assignment for an Azure Active Directory Application
+## Add a Role and Assignment for an Microsoft Entra ID Application
 
-Adds a role assignment for an Azure Active Directory Application. The role will be added to the Azure Active Directory Application Registration defined by the `ClientId` parameter, and a role assignment for this role will be added to the Azure Active Directory Application Registration defined by the `AssignRoleToClientId` parameter.
+Adds a role assignment for an Microsoft Entra ID Application. The role will be added to the Microsoft Entra ID Application Registration defined by the `ClientId` parameter, and a role assignment for this role will be added to the Microsoft Entra ID Application Registration defined by the `AssignRoleToClientId` parameter.
 
-| Parameter              | Mandatory | Description                                                                                                                                                                                                                                                       |
-| ---------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ClientId`             | yes       | The client ID of the Azure Active Directory Application Registration to which the role will be added if not present.                                                                                                                                              |
-| `Role`                 | yes       | The name of the role.                                                                                                                                                                                                                                             |
-| `AssignRoleToClientId` | yes       | The client ID of the Azure Active Directory Application Registration for which the role assignment will be created. The role assignment will be created based on the role added to the Azure Active Directory Application Registration defined by the `ClientId`. |
+| Parameter              | Mandatory | Description                                                                                                                                                                                                                                               |
+| ---------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ClientId`             | yes       | The client ID of the Microsoft Entra ID Application Registration to which the role will be added if not present.                                                                                                                                          |
+| `Role`                 | yes       | The name of the role.                                                                                                                                                                                                                                     |
+| `AssignRoleToClientId` | yes       | The client ID of the Microsoft Entra ID Application Registration for which the role assignment will be created. The role assignment will be created based on the role added to the Microsoft Entra ID Application Registration defined by the `ClientId`. |
 
 **Example**
 
@@ -84,16 +84,16 @@ PS> Add-AzADAppRoleAssignment `
 #Role Assignment for the role 'DummyRole' added to the Active Directory Application 'client-application-one'
 ```
 
-## Remove a Role and Assignment from an Azure Active Directory Application
+## Remove a Role and Assignment from an Microsoft Entra ID Application
 
-Removes a role assignment for an Azure Active Directory Application.
+Removes a role assignment for an Microsoft Entra ID Application.
 
-| Parameter                          | Mandatory | Description                                                                                                                                                                         |
-| ---------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ClientId`                         | yes       | The client ID of the Azure Active Directory Application Registration containing the role for which the assignment must be removed.                                                  |
-| `Role`                             | yes       | The name of the role.                                                                                                                                                               |
-| `RemoveRoleFromClientId`           | yes       | The client ID of the Azure Active Directory Application Registration for which the role assignment will be removed.                                                                 |
-| `RemoveRoleIfNoAssignmentsAreLeft` | no        | Indicate whether to remove the role from the Azure Active Directory Application Registration defined by the `ClientId` parameter when no more role assignments remain for the role. |
+| Parameter                          | Mandatory | Description                                                                                                                                                                     |
+| ---------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ClientId`                         | yes       | The client ID of the Microsoft Entra ID Application Registration containing the role for which the assignment must be removed.                                                  |
+| `Role`                             | yes       | The name of the role.                                                                                                                                                           |
+| `RemoveRoleFromClientId`           | yes       | The client ID of the Microsoft Entra ID Application Registration for which the role assignment will be removed.                                                                 |
+| `RemoveRoleIfNoAssignmentsAreLeft` | no        | Indicate whether to remove the role from the Microsoft Entra ID Application Registration defined by the `ClientId` parameter when no more role assignments remain for the role. |
 
 **Example**
 

@@ -1,5 +1,5 @@
 ---
-title: " Azure DevOps"
+title: "DevOps"
 layout: default
 ---
 
@@ -18,11 +18,11 @@ PS> Install-Module -Name Arcus.Scripting.DevOps -Repository PSGallery -AllowClob
 
 Assign a value to a DevOps pipeline variable during the execution of this pipeline.
 
-| Parameter             | Mandatory | Description                                       |
-| --------------------- | --------- | ------------------------------------------------- |
-| `Name`                | yes       | The name of the variable to set in the pipeline   |
-| `Value`               | yes       | The value of the variable to set in the pipeline  |
-| `AsSecret`            | no        | The switch to set the variable as a secret        |
+| Parameter  | Mandatory | Description                                      |
+| ---------- | --------- | ------------------------------------------------ |
+| `Name`     | yes       | The name of the variable to set in the pipeline  |
+| `Value`    | yes       | The value of the variable to set in the pipeline |
+| `AsSecret` | no        | The switch to set the variable as a secret       |
 
 **Example**
 
@@ -261,11 +261,11 @@ Example of how to use this function in an Azure DevOps pipeline:
 
 Saves/retains a specific Azure DevOps pipeline run.
 
-| Parameter       | Mandatory | Description                                                                                                                        |
-| --------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `ProjectId`     | yes       | The Id of the project where the build that must be retained can be found                                                           |
-| `BuildId`       | yes       | The Id of the build that must be retained                                                                                          |
-| `DaysToKeep`    | no        | The number of days to keep the Azure DevOps pipeline run, if not supplied the Azure DevOps pipeline run will be saved indefinitely |
+| Parameter    | Mandatory | Description                                                                                                                        |
+| ------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `ProjectId`  | yes       | The Id of the project where the build that must be retained can be found                                                           |
+| `BuildId`    | yes       | The Id of the build that must be retained                                                                                          |
+| `DaysToKeep` | no        | The number of days to keep the Azure DevOps pipeline run, if not supplied the Azure DevOps pipeline run will be saved indefinitely |
 
 **Example**
 
