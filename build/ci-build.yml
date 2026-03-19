@@ -186,6 +186,10 @@ stages:
             displayName: 'Generate .nuspec file for each PowerShell module'
             env:
               SCRIPT_PATH: '$(Build.SourcesDirectory)\build\tools\psd1-to-nuspec.ps1'
+          - script: |
+              sudo apt update
+              sudo apt install -y mono-complete
+            displayName: Install Mono
           - task: NuGetCommand@2
             inputs:
               command: 'pack'

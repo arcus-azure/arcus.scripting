@@ -85,8 +85,10 @@ function InjectFile {
                 # Replace tabs with spaces
                 $newString = $newString -replace "`t", "    "
 
-                # Replace " with \"
-                $newString = $newString -replace """", "\"""
+                # Replace " with \". Not sure why this is done, but changing this might be a breaking change.
+                # I expect replacing unescaped double quotes is a compatible change.
+                # $newString = $newString -replace """", "\"""
+                $newString = $newString -replace '(?<!\\)"', '\"'
             }
 
             if ($optionParts.Contains("EscapeJson")) {

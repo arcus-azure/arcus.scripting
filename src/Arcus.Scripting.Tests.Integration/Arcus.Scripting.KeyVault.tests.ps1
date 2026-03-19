@@ -1,5 +1,4 @@
-﻿Import-Module Az.KeyVault
-Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
+﻿Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.KeyVault -ErrorAction Stop
 
 InModuleScope Arcus.Scripting.KeyVault {
     Describe "Arcus Azure Key Vault integration tests" {

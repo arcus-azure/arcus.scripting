@@ -1,5 +1,4 @@
-﻿Import-Module Az.Storage
-Import-Module AzTable
+﻿Import-Module AzTable
 Import-Module -Name $PSScriptRoot\..\Arcus.Scripting.Storage.Table -ErrorAction Stop
 
 function global:Retry-Func ($scriptBlock) {
