@@ -1,5 +1,5 @@
 ---
-title: "Azure Integration Account"
+title: "Integration Account"
 layout: default
 ---
 
@@ -17,14 +17,14 @@ PS> Install-Module -Name Arcus.Scripting.IntegrationAccount
 
 Upload/update a single, or multiple schemas into an Azure Integration Account.
 
-| Parameter              | Mandatory   | Description                                                                                                                            |
-| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
-| `Name`                 | yes         | The name of the Azure Integration Account into which the schemas are to be uploaded/updated.                                           |
-| `SchemaFilePath`       | conditional | The full path of a schema that should be uploaded/updated. (_Mandatory if SchemasFolder has not been specified_).                      |
-| `SchemasFolder`        | conditional | The path to a directory containing all schemas that should be uploaded/updated. (_Mandatory if SchemaFilePath has not been specified_).|
-| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the schemas before uploading/updating.                                                     |
-| `RemoveFileExtensions` | no          | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                    |
+| Parameter              | Mandatory   | Description                                                                                                                             |
+| ---------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                    |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the schemas are to be uploaded/updated.                                            |
+| `SchemaFilePath`       | conditional | The full path of a schema that should be uploaded/updated. (_Mandatory if SchemasFolder has not been specified_).                       |
+| `SchemasFolder`        | conditional | The path to a directory containing all schemas that should be uploaded/updated. (_Mandatory if SchemaFilePath has not been specified_). |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the schemas before uploading/updating.                                                      |
+| `RemoveFileExtensions` | no          | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                     |
 
 **Example**  
 
@@ -92,15 +92,15 @@ PS> Set-AzIntegrationAccountSchemas `
 
 Upload/update a single, or multiple maps into an Azure Integration Account.
 
-| Parameter              | Mandatory   | Description                                                                                                                            |
-| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                   |
-| `Name`                 | yes         | The name of the Azure Integration Account into which the maps are to be uploaded/updated.                                              |
-| `MapFilePath`          | conditional | The full path of a map that should be uploaded/updated. (_Mandatory if MapsFolder has not been specified_).                            |
-| `MapsFolder`           | conditional | The path to a directory containing all maps that should be uploaded/updated. (_Mandatory if MapFilePath has not been specified_).      |
-| `MapType`              | no          | The type of map to be created, default to 'Xslt'. See possible values [here](https://docs.microsoft.com/en-us/powershell/module/az.logicapp/get-azintegrationaccountmap?view=azps-6.2.1#parameters).  |
-| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the maps before uploading/updating.                                                        |
-| `RemoveFileExtensions` | no          | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                    |
+| Parameter              | Mandatory   | Description                                                                                                                                                                                          |
+| ---------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                                                                                 |
+| `Name`                 | yes         | The name of the Azure Integration Account into which the maps are to be uploaded/updated.                                                                                                            |
+| `MapFilePath`          | conditional | The full path of a map that should be uploaded/updated. (_Mandatory if MapsFolder has not been specified_).                                                                                          |
+| `MapsFolder`           | conditional | The path to a directory containing all maps that should be uploaded/updated. (_Mandatory if MapFilePath has not been specified_).                                                                    |
+| `MapType`              | no          | The type of map to be created, default to 'Xslt'. See possible values [here](https://docs.microsoft.com/en-us/powershell/module/az.logicapp/get-azintegrationaccountmap?view=azps-6.2.1#parameters). |
+| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the maps before uploading/updating.                                                                                                                      |
+| `RemoveFileExtensions` | no          | Indicator (switch) whether the extension should be removed from the name before uploading/updating.                                                                                                  |
 
 **Example**  
 
@@ -168,13 +168,13 @@ PS> Set-AzIntegrationAccountMaps `
 
 Upload/update a single, or multiple assemblies into an Azure Integration Account.
 
-| Parameter              | Mandatory   | Description                                                                                                                                  |
-| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
-| `Name`                 | yes         | The name of the Azure Integration Account into which the assemblies are to be uploaded/updated.                                              |
-| `AssemblyFilePath`     | conditional | The full path of an assembly that should be uploaded/updated. (_Mandatory if AssembliesFolder has not been specified_).                      |
-| `AssembliesFolder`     | conditional | The path to a directory containing all assemblies that should be uploaded/updated. (_Mandatory if AssemblyFilePath has not been specified_). |
-| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the assemblies before uploading/updating.                                                        |
+| Parameter           | Mandatory   | Description                                                                                                                                  |
+| ------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName` | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
+| `Name`              | yes         | The name of the Azure Integration Account into which the assemblies are to be uploaded/updated.                                              |
+| `AssemblyFilePath`  | conditional | The full path of an assembly that should be uploaded/updated. (_Mandatory if AssembliesFolder has not been specified_).                      |
+| `AssembliesFolder`  | conditional | The path to a directory containing all assemblies that should be uploaded/updated. (_Mandatory if AssemblyFilePath has not been specified_). |
+| `ArtifactsPrefix`   | no          | The prefix, if any, that should be added to the assemblies before uploading/updating.                                                        |
 
 **Example**  
 
@@ -222,17 +222,17 @@ PS> Set-AzIntegrationAccountAssemblies `
 
 Upload/update a single, or multiple certificates into an Azure Integration Account.
 
-| Parameter              | Mandatory   | Description                                                                                                                                                                                                            |
-| ---------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                                                                                                   |
-| `Name`                 | yes         | The name of the Azure Integration Account into which the certificates are to be uploaded/updated.                                                                                                                      |
-| `CertificateType`      | yes         | The type of certificate that will be uploaded, this can be either _Public_ or _Private_.                                                                                                                               |
-| `CertificateFilePath`  | conditional | The full path of a certificate that should be uploaded/updated. (_Mandatory if CertificatesFolder has not been specified_).                                                                                            |
-| `CertificatesFolder`   | conditional | The path to a directory containing all certificates that should be uploaded/updated. (_Mandatory if CertificateFilePath has not been specified_). This parameter is not supported when uploading Private certificates. |
-| `KeyName`              | no          | The name of the key in Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                             |
-| `KeyVersion`           | no          | The version of the key in Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                          |
-| `KeyVaultId`           | no          | The id of the Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                                      |
-| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the certificates before uploading/updating.                                                                                                                                |
+| Parameter             | Mandatory   | Description                                                                                                                                                                                                            |
+| --------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName`   | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                                                                                                   |
+| `Name`                | yes         | The name of the Azure Integration Account into which the certificates are to be uploaded/updated.                                                                                                                      |
+| `CertificateType`     | yes         | The type of certificate that will be uploaded, this can be either _Public_ or _Private_.                                                                                                                               |
+| `CertificateFilePath` | conditional | The full path of a certificate that should be uploaded/updated. (_Mandatory if CertificatesFolder has not been specified_).                                                                                            |
+| `CertificatesFolder`  | conditional | The path to a directory containing all certificates that should be uploaded/updated. (_Mandatory if CertificateFilePath has not been specified_). This parameter is not supported when uploading Private certificates. |
+| `KeyName`             | no          | The name of the key in Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                             |
+| `KeyVersion`          | no          | The version of the key in Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                          |
+| `KeyVaultId`          | no          | The id of the Azure KeyVault that is used when uploading Private certificates. (_Mandatory if CertificateType is set to Private_)                                                                                      |
+| `ArtifactsPrefix`     | no          | The prefix, if any, that should be added to the certificates before uploading/updating.                                                                                                                                |
 
 **Example**  
 
@@ -311,13 +311,13 @@ PS> Set-AzIntegrationAccountCertificates `
 
 Upload/update a single, or multiple partners into an Azure Integration Account.
 
-| Parameter              | Mandatory   | Description                                                                                                                                  |
-| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
-| `Name`                 | yes         | The name of the Azure Integration Account into which the partners are to be uploaded/updated.                                                |
-| `PartnerFilePath`      | conditional | The full path of a partner that should be uploaded/updated. (_Mandatory if `PartnersFolder` has not been specified_).                          |
-| `PartnersFolder`       | conditional | The path to a directory containing all partners that should be uploaded/updated. (_Mandatory if `PartnerFilePath` has not been specified_).    |
-| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the partners before uploading/updating.                                                          |
+| Parameter           | Mandatory   | Description                                                                                                                                 |
+| ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName` | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                        |
+| `Name`              | yes         | The name of the Azure Integration Account into which the partners are to be uploaded/updated.                                               |
+| `PartnerFilePath`   | conditional | The full path of a partner that should be uploaded/updated. (_Mandatory if `PartnersFolder` has not been specified_).                       |
+| `PartnersFolder`    | conditional | The path to a directory containing all partners that should be uploaded/updated. (_Mandatory if `PartnerFilePath` has not been specified_). |
+| `ArtifactsPrefix`   | no          | The prefix, if any, that should be added to the partners before uploading/updating.                                                         |
 
 **Example**  
 
@@ -398,13 +398,13 @@ The partner definition is the JSON representation of your partner, this JSON def
 
 Upload/update a single, or multiple agreements into an Azure Integration Account.
 
-| Parameter              | Mandatory   | Description                                                                                                                                  |
-| ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`    | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                         |
-| `Name`                 | yes         | The name of the Azure Integration Account into which the agreements are to be uploaded/updated.                                                |
-| `AgreementFilePath`    | conditional | The full path of a agreement that should be uploaded/updated. (_Mandatory if `AgreementsFolder` has not been specified_).                          |
-| `AgreementsFolder`     | conditional | The path to a directory containing all agreements that should be uploaded/updated. (_Mandatory if `AgreementFilePath` has not been specified_).    |
-| `ArtifactsPrefix`      | no          | The prefix, if any, that should be added to the agreements before uploading/updating.                                                          |
+| Parameter           | Mandatory   | Description                                                                                                                                     |
+| ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceGroupName` | yes         | The name of the Azure resource group where the Azure Integration Account is located.                                                            |
+| `Name`              | yes         | The name of the Azure Integration Account into which the agreements are to be uploaded/updated.                                                 |
+| `AgreementFilePath` | conditional | The full path of a agreement that should be uploaded/updated. (_Mandatory if `AgreementsFolder` has not been specified_).                       |
+| `AgreementsFolder`  | conditional | The path to a directory containing all agreements that should be uploaded/updated. (_Mandatory if `AgreementFilePath` has not been specified_). |
+| `ArtifactsPrefix`   | no          | The prefix, if any, that should be added to the agreements before uploading/updating.                                                           |
 
 **Example**  
 

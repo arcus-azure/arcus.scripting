@@ -1,5 +1,5 @@
 ---
-title: "Azure API Management"
+title: "API Management"
 layout: default
 ---
 
@@ -108,7 +108,7 @@ Sign-up or invite a new user in an existing Azure API Management instance.
 | `UserId`            | no        | The UserId that will be used to create the user                                                                                                                     |
 | `Password`          | no        | The password that the user will be able to login with                                                                                                               |
 | `Note`              | no        | A note that will be added to the user                                                                                                                               |
-| `SendNotification`  | no        | Whether or not a notification will be sent to the email address of the user                                                                                          |
+| `SendNotification`  | no        | Whether or not a notification will be sent to the email address of the user                                                                                         |
 | `ConfirmationType`  | no        | The confirmation type that will be used when creating the user, this can be `invite` (default) or `signup`                                                          |
 | `ApiVersion`        | no        | The version of the management API to be used. (default: `2021-08-01`)                                                                                               |
 | `SubscriptionId`    | no        | The Id of the subscription containing the Azure API Management instance. When not provided, it will be retrieved from the current context (Get-AzContext).          |
@@ -459,12 +459,12 @@ PS> Import-AzApiManagementProductPolicy `
 
 Imports a base-policy from a file to an API in Azure API Management.
 
-| Parameter           | Mandatory | Description                                                      |
-| ------------------- | --------- | ---------------------------------------------------------------- |
-| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance  |
-| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure   |
-| `ApiId`             | yes       | The ID to identify the API running in Azure API Management       |
-| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy        |
+| Parameter           | Mandatory | Description                                                     |
+| ------------------- | --------- | --------------------------------------------------------------- |
+| `ResourceGroupName` | yes       | The resource group containing the Azure API Management instance |
+| `ServiceName`       | yes       | The name of the Azure API Management instance located in Azure  |
+| `ApiId`             | yes       | The ID to identify the API running in Azure API Management      |
+| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |
 
 ```powershell
 PS> Import-AzApiManagementApiPolicy `
@@ -485,7 +485,7 @@ Imports a policy from a file to an API operation in Azure API Management.
 | `ServiceName`       | yes       | The name of the Azure API Management service located in Azure   |
 | `ApiId`             | yes       | The ID to identify the API running in Azure API Management      |
 | `OperationId`       | yes       | The ID to identify the operation for which to import the policy |
-| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |   
+| `PolicyFilePath`    | yes       | The path to the file containing the to-be-imported policy       |
 
 ```powershell
 PS> Import-AzApiManagementOperationPolicy `
@@ -582,12 +582,12 @@ PS> Set-AzApiManagementApiSubscriptionKey `
 
 Uploads a private certificate to the Azure API Management certificate store, allowing authentication against backend services.
 
-| Parameter             | Mandatory | Description                                                                                   |
-| --------------------- | --------- | --------------------------------------------------------------------------------------------- |
-| `ResourceGroupName`   | yes       | The resource group containing the Azure API Management instance                               |
-| `ServiceName`         | yes       | The name of the Azure API Management instance                                                 |
-| `CertificateFilePath` | yes       | The full file path to the location of the private certificate                                 |
-| `CertificatePassword` | yes       | The password for the private certificate                                                      |
+| Parameter             | Mandatory | Description                                                     |
+| --------------------- | --------- | --------------------------------------------------------------- |
+| `ResourceGroupName`   | yes       | The resource group containing the Azure API Management instance |
+| `ServiceName`         | yes       | The name of the Azure API Management instance                   |
+| `CertificateFilePath` | yes       | The full file path to the location of the private certificate   |
+| `CertificatePassword` | yes       | The password for the private certificate                        |
 
 **Example**
 
